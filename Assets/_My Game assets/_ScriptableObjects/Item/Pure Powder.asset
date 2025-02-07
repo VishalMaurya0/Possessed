@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e437092a0047d2f4688f2f414f3c9135, type: 3}
+  m_Name: Pure Powder
+  m_EditorClassIdentifier: 
+  itemName: Pure Powder
+  icon: {fileID: 0}
+  itemPrefab: {fileID: 6905787541895510452, guid: c4b352ebfa6aa3a44aae80f7c997a2b9, type: 3}
+  itemType: 4
+  isContainer: 1
+  noOfStates: 3
+  states:
+  - New
+  - Used 1 time
+  - Empty
+  statesPrefab: []
+  currentState: 0
+  isStackable: 1
+  maxStackSize: 5
+  inventorySlots: 1
+  weight: 0.1

@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e437092a0047d2f4688f2f414f3c9135, type: 3}
+  m_Name: Cursed Coin
+  m_EditorClassIdentifier: 
+  itemName: Cursed Coin
+  icon: {fileID: 0}
+  itemPrefab: {fileID: 6905787541895510452, guid: 3c7d448ad8357394f879265c6a30305a, type: 3}
+  itemType: 6
+  isContainer: 0
+  noOfStates: 2
+  states:
+  - Not Burned
+  - Burned
+  statesPrefab:
+  - {fileID: 0}
+  - {fileID: 0}
+  currentState: 0
+  isStackable: 1
+  maxStackSize: 16
+  inventorySlots: 0.75
+  weight: 0.01

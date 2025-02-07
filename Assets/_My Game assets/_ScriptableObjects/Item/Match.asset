@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e437092a0047d2f4688f2f414f3c9135, type: 3}
+  m_Name: Match
+  m_EditorClassIdentifier: 
+  itemName: Match
+  icon: {fileID: 0}
+  itemPrefab: {fileID: 6905787541895510452, guid: cd1f7cf1ad989e44aa83cfd950c5a8d6, type: 3}
+  itemType: 1
+  isContainer: 0
+  noOfStates: 4
+  states:
+  - Initial State
+  - After First Use
+  - After Second Use
+  - Empty State
+  statesPrefab: []
+  currentState: 0
+  isStackable: 1
+  maxStackSize: 10
+  inventorySlots: 0.3
+  weight: 0.01

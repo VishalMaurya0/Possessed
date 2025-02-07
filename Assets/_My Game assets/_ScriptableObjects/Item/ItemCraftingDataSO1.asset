@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b13d9394b369a748b5ffb8c486211b2, type: 3}
+  m_Name: ItemCraftingDataSO1
+  m_EditorClassIdentifier: 
+  itemStateCraftingRecipes:
+  - id: 0
+    ItemState1:
+      itemType: 0
+      isContainer: 0
+      currentState: 0
+      amount: 1
+    ItemState2:
+      itemType: 8
+      isContainer: 0
+      currentState: 0
+      amount: 1
+    CraftedItemState:
+      itemType: 0
+      isContainer: 0
+      currentState: 1
+      amount: 1
+  - id: 1
+    ItemState1:
+      itemType: 0
+      isContainer: 0
+      currentState: 1
+      amount: 1
+    ItemState2:
+      itemType: 4
+      isContainer: 1
+      currentState: 0
+      amount: 5
+    CraftedItemState:
+      itemType: 0
+      isContainer: 0
+      currentState: 2
+      amount: 1
