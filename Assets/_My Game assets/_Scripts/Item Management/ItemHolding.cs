@@ -46,10 +46,7 @@ public class ItemHolding : NetworkBehaviour
         if (Input.GetKeyDown(KeyCode.F) && heldItemData != null && !isZoomed)
         {
             isZoomed = true;
-            if (isZoomed)
-            {
-                SpawnItemInstanceServerRpc(heldItemData, 1, false);
-            }
+            SpawnItemInstanceServerRpc(heldItemData, 1, false);
         }
 
         if (Input.GetKeyDown(KeyCode.Q) && isZoomed)
@@ -64,7 +61,7 @@ public class ItemHolding : NetworkBehaviour
         SetEverythingNormal();
         if (spawnedObject != null)
         {
-            DespawnObjectServerRpc(new NetworkObjectReference(spawnedObject.GetComponent<NetworkObject>()));
+            //DespawnObjectServerRpc(new NetworkObjectReference(spawnedObject.GetComponent<NetworkObject>()));
         }
     }
 
@@ -76,8 +73,7 @@ public class ItemHolding : NetworkBehaviour
             if (isZoomed)
             {
                 spawnedObject.GetComponent<Inspection>().EndInspection();
-                ThrowOneItem();
-                isZoomed = false;
+                //ThrowOneItem();
             }
             else
                 ThrowEntireStack();
@@ -142,7 +138,7 @@ public class ItemHolding : NetworkBehaviour
         else
         {
             networkObject.ChangeOwnership(rpcParams.Receive.SenderClientId);
-            ZoomSpawnedClientRpc(new NetworkObjectReference(networkObject));
+            ZoomSpawnedClientRpc(new NetworkObjectReference(networkObject)); //========================== remove that from inventory  ======//
         }
     }
 
@@ -159,6 +155,7 @@ public class ItemHolding : NetworkBehaviour
         if (!IsOwner) { return; }
         spawnedObject = refe.TryGet(out NetworkObject networkObject) ? networkObject.gameObject : null;
         spawnedObject.GetComponent<Inspection>().StartInspection();
+        Inventory.RemoveSelectedItemServerRpc(false, 1);
     }
     
 
@@ -199,6 +196,7 @@ public class ItemHolding : NetworkBehaviour
     public void SetEverythingNormal()
     {
         GameManager.Instance.handlePlayerLookWithMouse = true;
+        GameManager.Instance.handleMovement = true;
         GameManager.Instance.lockCurser = true;
     }
 

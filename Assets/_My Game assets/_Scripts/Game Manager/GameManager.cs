@@ -18,6 +18,8 @@ public class GameManager : MonoBehaviour
 
     public bool lockCurser = false;
     public bool handlePlayerLookWithMouse = true;
+    public bool handleMovement = true;
+
     public ProcedureBase procedureBase;
     
 
@@ -32,6 +34,7 @@ public class GameManager : MonoBehaviour
         Instance = this;
 
         procedureBase = GetComponent<ProcedureBase>();
+        handleMovement = true;
     }
     private void Update()
     {

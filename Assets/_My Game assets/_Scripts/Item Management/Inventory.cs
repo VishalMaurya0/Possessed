@@ -231,7 +231,7 @@ public class Inventory : NetworkBehaviour
         }
     }
 
-    public void RemoveItemSelected(bool full, int quantity = 1)
+    private void RemoveItemSelected(bool full, int quantity = 1)
     {
         SelectInventorySlot(slotNo.Value);
         if (selectedInventorySlot.itemData == null)

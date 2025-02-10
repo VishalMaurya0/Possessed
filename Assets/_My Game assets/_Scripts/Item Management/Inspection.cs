@@ -24,7 +24,6 @@ public class Inspection : NetworkBehaviour
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 EndInspection();
-                GameManager.Instance.lockCurser = true;
             }
             if (Input.GetMouseButtonDown(1))
             {
@@ -72,6 +71,7 @@ public class Inspection : NetworkBehaviour
 
         this.GetComponent<Rigidbody>().isKinematic = true;
         GameManager.Instance.handlePlayerLookWithMouse = false;
+        GameManager.Instance.handleMovement = false;
 
         // Store original position and rotation
         originalParent = transform.parent;
@@ -103,6 +103,7 @@ public class Inspection : NetworkBehaviour
     public void EndInspection()
     {
         isInspecting = false;
+
 
         // Restore original position and rotation
         transform.SetParent(originalParent);

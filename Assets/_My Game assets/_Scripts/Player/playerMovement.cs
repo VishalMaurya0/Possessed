@@ -75,7 +75,10 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        HandleMovementInput();
+        if (GameManager.Instance.handleMovement)
+        {
+            HandleMovementInput();
+        }
         HandleTorchToggle();
         if (GameManager.Instance.handlePlayerLookWithMouse)
         {
