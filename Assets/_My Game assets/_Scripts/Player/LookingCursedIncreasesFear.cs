@@ -11,19 +11,25 @@ public class LookingCursedIncreasesFear : MonoBehaviour
     public Vector3[] allPos;
     [SerializeField] GhostAI ghostAI;
     [SerializeField] DollAI dollAI;
+    Collider dollCollider;
 
 
-
-    private void Start()
+    private void MyStart()
     {
         playerCamera = FindAnyObjectByType<Camera>();
         ghostAI = FindAnyObjectByType<GhostAI>();
         dollAI = FindAnyObjectByType<DollAI>();
         fearMeter = GetComponent<FearMeter>();
+
+        dollCollider = dollAI.GetComponent<Collider>();
     }
 
     private void Update()
     {
+        if (dollAI == null)
+        {
+            MyStart();
+        }
         if (CheckGhostVisibility())
         {
             fearMeter.isLookingGhost = true;
@@ -78,7 +84,6 @@ public class LookingCursedIncreasesFear : MonoBehaviour
     public bool CheckDollVisibility()
     {
         Plane[] cameraFrustum = GeometryUtility.CalculateFrustumPlanes(playerCamera);
-        Collider dollCollider = dollAI.GetComponent<Collider>();
 
         if (dollCollider != null && GeometryUtility.TestPlanesAABB(cameraFrustum, dollCollider.bounds))
         {

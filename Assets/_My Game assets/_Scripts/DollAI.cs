@@ -71,7 +71,6 @@ public class DollAI : NetworkBehaviour
         if (IsPlayerInSight())
         {
             posOfPlayer = playerInSight.transform.position;
-            Debug.Log(posOfPlayer);
         }
     }
 

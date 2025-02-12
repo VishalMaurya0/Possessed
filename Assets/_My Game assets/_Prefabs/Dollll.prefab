@@ -20,7 +20,7 @@ GameObject:
   - component: {fileID: 2855548933692059456}
   m_Layer: 0
   m_Name: Dollll
-  m_TagString: Untagged
+  m_TagString: Doll
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -108,7 +108,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -225,7 +225,7 @@ Rigidbody:
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &41746437960359427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -258,11 +258,9 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   player: []
   playerDataSO: []
-  playerMask:
-    serializedVersion: 2
-    m_Bits: 64
   playerDetectionRange: 500
   viewAngle: 45
   attackRange: 1.5
   patrolPoints: []
   playerInSight: {fileID: 0}
+  posOfPlayer: {x: 0, y: 0, z: 0}
