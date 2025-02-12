@@ -5,6 +5,7 @@ public class FearMeter : MonoBehaviour
 {
     [Header("Unchangable Data")]
     public PlayerDataSO playerDataSO;
+    public LookingCursedIncreasesFear lookingCursedIncreasesFear;
     public float normalFearRate;
     public float watchingGhostFearRate = 0f;
     public float watchingDollFearRate = 0f;
@@ -33,11 +34,16 @@ public class FearMeter : MonoBehaviour
     public bool revived;
     private bool freezing;
 
+    int noOfDollsVisible = 0;
+
     [Header("UI Elements")]
     public Slider fearBar;
 
     private void Start()
     {
+        lookingCursedIncreasesFear = FindAnyObjectByType<LookingCursedIncreasesFear>();
+
+
         normalFearRate = playerDataSO.normalFearRate;
         watchingGhostFearRate = playerDataSO.watchingGhostFearRate;
         watchingDollFearRate = playerDataSO.watchingDollFearRate;
@@ -53,6 +59,7 @@ public class FearMeter : MonoBehaviour
     {
         IncreaseFear();
         UpdateFearBarUI();
+        noOfDollsVisible = lookingCursedIncreasesFear.noOfDollsVisible;
     }
 
     private void Freeze()
@@ -82,7 +89,7 @@ public class FearMeter : MonoBehaviour
 
 
         normalFear += normalFearRate * Time.deltaTime;
-        if (isLookingDoll) { watchingDollFear += watchingDollFearRate * Time.deltaTime; }
+        if (isLookingDoll) { watchingDollFear += watchingDollFearRate * noOfDollsVisible * Time.deltaTime; }
         if (isLookingGhost) { watchingGhostFear += watchingGhostFearRate * Time.deltaTime; }
         if (isGhostLooking && !SAFE) { ghostWatchingFear += ghostWatchingFearRate * Time.deltaTime; }
         if (isGhostLooking && !SAFE) { Freeze(); }

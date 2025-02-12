@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class LookingCursedIncreasesFear : MonoBehaviour
@@ -10,23 +12,29 @@ public class LookingCursedIncreasesFear : MonoBehaviour
 
     public Vector3[] allPos;
     [SerializeField] GhostAI ghostAI;
-    [SerializeField] DollAI dollAI;
-    Collider dollCollider;
+    [SerializeField] List<DollAI> dollAI;
+    [SerializeField] List<Collider> dollCollider;
+    public int noOfDollsVisible = 0;
 
 
-    private void MyStart()
+    private void MyStart()    //=========== run when new doll spawned ==========//
     {
         playerCamera = FindAnyObjectByType<Camera>();
         ghostAI = FindAnyObjectByType<GhostAI>();
-        dollAI = FindAnyObjectByType<DollAI>();
+        dollAI.Clear();
+        dollAI.AddRange(FindObjectsByType<DollAI>(FindObjectsSortMode.None));
         fearMeter = GetComponent<FearMeter>();
 
-        dollCollider = dollAI.GetComponent<Collider>();
+        dollCollider.Clear();
+        foreach (var dollAi in dollAI)
+        {
+            dollCollider.Add(dollAi.gameObject.GetComponent<Collider>());
+        }
     }
 
     private void Update()
     {
-        if (dollAI == null)
+        if (dollAI == null || playerCamera == null || dollCollider == null)
         {
             MyStart();
         }
@@ -84,22 +92,29 @@ public class LookingCursedIncreasesFear : MonoBehaviour
     public bool CheckDollVisibility()
     {
         Plane[] cameraFrustum = GeometryUtility.CalculateFrustumPlanes(playerCamera);
+        noOfDollsVisible = 0;
 
-        if (dollCollider != null && GeometryUtility.TestPlanesAABB(cameraFrustum, dollCollider.bounds))
+        for (int i = 0; i < dollAI.Count; i++)
         {
-            Vector3 directionToDoll = dollAI.transform.position - playerCamera.transform.position;
-            float distanceToDoll = Vector3.Distance(playerCamera.transform.position, dollAI.transform.position);
-
-            if (Physics.Raycast(playerCamera.transform.position, directionToDoll, out RaycastHit hit, distanceToDoll + 5))
+            if (dollCollider != null && GeometryUtility.TestPlanesAABB(cameraFrustum, dollCollider.ElementAtOrDefault(i).bounds))
             {
-                if (hit.collider.transform == dollAI.transform)
+                Vector3 directionToDoll = dollAI.ElementAtOrDefault(i).transform.position - playerCamera.transform.position;
+                float distanceToDoll = Vector3.Distance(playerCamera.transform.position, dollAI.ElementAtOrDefault(i).transform.position);
+
+                if (Physics.Raycast(playerCamera.transform.position, directionToDoll, out RaycastHit hit, distanceToDoll + 5))
                 {
-                    Debug.DrawLine(playerCamera.transform.position, hit.point, Color.green);
-                    return true;
+                    if (hit.collider.transform == dollAI.ElementAtOrDefault(i).transform)
+                    {
+                        Debug.DrawLine(playerCamera.transform.position, hit.point, Color.green);
+                        noOfDollsVisible++;
+                    }
                 }
             }
         }
-
+        if (noOfDollsVisible > 0)
+        {
+            return true;
+        }
         return false;
     }
 }
