@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -17,14 +18,20 @@ public class LookingCursedIncreasesFear : MonoBehaviour
     public int noOfDollsVisible = 0;
 
 
-    private void MyStart()    //=========== run when new doll spawned ==========//
+    private void MyStart()    
     {
         playerCamera = FindAnyObjectByType<Camera>();
         ghostAI = FindAnyObjectByType<GhostAI>();
-        dollAI.Clear();
-        dollAI.AddRange(FindObjectsByType<DollAI>(FindObjectsSortMode.None));
         fearMeter = GetComponent<FearMeter>();
 
+        DollsAdded();
+        
+    }
+
+    private void DollsAdded()          //=========== run when new doll spawned ==========//
+    {
+        dollAI.Clear();
+        dollAI.AddRange(FindObjectsByType<DollAI>(FindObjectsSortMode.None));
         dollCollider.Clear();
         foreach (var dollAi in dollAI)
         {
