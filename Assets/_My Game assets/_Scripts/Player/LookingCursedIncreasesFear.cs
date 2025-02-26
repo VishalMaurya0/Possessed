@@ -35,7 +35,8 @@ public class LookingCursedIncreasesFear : MonoBehaviour
         dollCollider.Clear();
         foreach (var dollAi in dollAI)
         {
-            dollCollider.Add(dollAi.gameObject.GetComponent<Collider>());
+            if (dollAi != null)
+                dollCollider.Add(dollAi.gameObject.GetComponent<Collider>());
         }
     }
 
@@ -103,7 +104,7 @@ public class LookingCursedIncreasesFear : MonoBehaviour
 
         for (int i = 0; i < dollAI.Count; i++)
         {
-            if (dollCollider != null && GeometryUtility.TestPlanesAABB(cameraFrustum, dollCollider.ElementAtOrDefault(i).bounds))
+            if (dollCollider != null && dollCollider.ElementAtOrDefault(i) != null && GeometryUtility.TestPlanesAABB(cameraFrustum, dollCollider.ElementAtOrDefault(i).bounds))
             {
                 Vector3 directionToDoll = dollAI.ElementAtOrDefault(i).transform.position - playerCamera.transform.position;
                 float distanceToDoll = Vector3.Distance(playerCamera.transform.position, dollAI.ElementAtOrDefault(i).transform.position);
