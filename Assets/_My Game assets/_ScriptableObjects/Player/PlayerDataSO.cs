@@ -37,4 +37,8 @@ public class PlayerDataSO : ScriptableObject
     public float regenFearRate = 1f;
     public float maxFearDistance = 5f;
     public float revivedFear = 80;
+
+    [Header("Noise Settings")]
+    public float timeDurationForCalculatingFootNoise = 2f;
+    public float walkDist = 5f;
 }

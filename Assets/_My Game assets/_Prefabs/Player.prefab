@@ -338,6 +338,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerDataSO: {fileID: 11400000, guid: 90e601a80ebcdd34284ea39b4ff2a519, type: 2}
+  lookingCursedIncreasesFear: {fileID: 0}
   normalFearRate: 0
   watchingGhostFearRate: 0
   watchingDollFearRate: 0
@@ -380,6 +381,8 @@ MonoBehaviour:
   VoiceNoise: 0
   footNoiseData: {fileID: 11400000, guid: 61fa4987782fc0d46bdd4b9203a76f7f, type: 2}
   instrumentNoiseData: {fileID: 11400000, guid: 55bb9abc13e37cd4bb34a1d2b30a51fb, type: 2}
+  currentPos: {x: 0, y: 0, z: 0}
+  playerData: {fileID: 11400000, guid: 90e601a80ebcdd34284ea39b4ff2a519, type: 2}
 --- !u!114 &7843159073753838935
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -399,7 +402,10 @@ MonoBehaviour:
     m_Bits: 0
   allPos: []
   ghostAI: {fileID: 0}
-  dollAI: {fileID: 0}
+  dollAI:
+  - {fileID: 0}
+  dollCollider: []
+  noOfDollsVisible: 0
 --- !u!114 &43686642511051573
 MonoBehaviour:
   m_ObjectHideFlags: 0

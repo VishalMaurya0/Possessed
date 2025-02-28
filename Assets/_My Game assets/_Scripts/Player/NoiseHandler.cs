@@ -15,6 +15,10 @@ public class NoiseHandler : MonoBehaviour
     public NoiseData footNoiseData;
     public NoiseData instrumentNoiseData;
 
+    [Header("Foot Noise Calculation")]
+    private float timeDurationTimer;
+    Vector3 initianPos;
+    public Vector3 currentPos;  
 
 
     [Header("Ghost Data")]
@@ -23,6 +27,8 @@ public class NoiseHandler : MonoBehaviour
 
     [Header("References")]
     Inventory inventory;
+    public PlayerDataSO playerData;
+    
 
     private void Awake()
     {
@@ -45,14 +51,21 @@ public class NoiseHandler : MonoBehaviour
 
     private void CalculateFootNoise()
     {
-        Rigidbody rb = GetComponent<Rigidbody>();
-        float velocity = rb.linearVelocity.sqrMagnitude;
-        if (velocity < ghostData.thresholdVelocity * ghostData.thresholdVelocity)
+        timeDurationTimer += Time.deltaTime;
+        if (timeDurationTimer > playerData.timeDurationForCalculatingFootNoise)
         {
-            footNoise = 0;
-            return;
+            currentPos = transform.position;
+            if ((currentPos - initianPos).magnitude >= playerData.walkDist)
+            {
+                Debug.Log((currentPos-initianPos).magnitude);
+                footNoise = CalculateNoise(footNoiseData);
+            }else
+            {
+                footNoise = 0;
+            }
+            initianPos = transform.position;
+            timeDurationTimer = 0;
         }
-        footNoise = CalculateNoise(footNoiseData);
     }
 
 
@@ -69,6 +82,16 @@ public class NoiseHandler : MonoBehaviour
     }
 
 
+
+
+
+
+
+
+
+
+
+    
     float CalculateNoise(NoiseData noiseData)
     {
         float noise = 0;

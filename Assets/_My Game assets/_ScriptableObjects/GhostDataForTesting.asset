@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 96150003f91b1d34b969a1d1e7bc4671, type: 3}
-  m_Name: GhostData
+  m_Name: GhostDataForTesting
   m_EditorClassIdentifier: 
   ghostLookDistance: 500
   height: 2
   eyePosition: {x: 0, y: 0.5, z: 0}
   eyePositionFromGround: {x: 0, y: 4, z: 0}
-  timeBetweenHuntDuration: 250
-  timeBetweenHuntDurationRange: 100
+  timeBetweenHuntDuration: 1
+  timeBetweenHuntDurationRange: 1
   thresholdVelocity: 0.1
   showNearPPDuration: 300
   roamingRadius: 10
@@ -29,7 +29,7 @@ MonoBehaviour:
   shownPPDurationMax: 2
   spawnRadiusNearPP: 0
   spawnCooldownDuration: 5
-  averageHuntDuration: 30
+  averageHuntDuration: 500
   timeAfterWhichHuntHuntDurDoubles: 1200
   proceduresAfterWhichHuntHuntDurDoubles: 2
   huntRoamingRadius: 10

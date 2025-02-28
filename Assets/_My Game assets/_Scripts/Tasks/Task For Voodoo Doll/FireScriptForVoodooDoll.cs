@@ -4,13 +4,13 @@ using UnityEngine;
 public class FireScriptForVoodooDoll : NetworkBehaviour
 {
 
-    [SerializeField] TaskVoodooDoll taskVoodooDoll;
+    [SerializeField] TaskVoodooDoll taskVoodooDoll__parent;
     bool activated = true;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        taskVoodooDoll = GetComponentInParent<TaskVoodooDoll>();
+        taskVoodooDoll__parent = GetComponentInParent<TaskVoodooDoll>();
     }
 
     // Update is called once per frame
@@ -38,7 +38,7 @@ public class FireScriptForVoodooDoll : NetworkBehaviour
             {
                 Debug.LogError("NetworkObject missing on Doll!");
             }
-            taskVoodooDoll.dollsAdded++;
+            taskVoodooDoll__parent.dollsAdded++;
         }
     }
 

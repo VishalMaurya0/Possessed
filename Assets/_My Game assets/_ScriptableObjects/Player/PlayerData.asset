@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47149ed98877ee1418b46aaba953b5ce, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: 
+  eyePosition: {x: 0, y: 0.5, z: 0}
   walkSpeed: 3
   sprintSpeed: 6
   crouchSpeed: 1.5
@@ -23,8 +24,15 @@ MonoBehaviour:
   XfasterStaminaRecoveryRate: 1.5
   staminaDepletionRate: 2
   torchLight: {fileID: 0}
-  torchToggleSound: {fileID: 0}
   sprintKey: 304
   crouchKey: 306
   torchToggleKey: 102
-  playerCamera: {fileID: 0}
+  normalFearRate: 0.02
+  watchingGhostFearRate: 1
+  watchingDollFearRate: 0.5
+  ghostWatchingFearRate: 2.5
+  regenFearRate: 1
+  maxFearDistance: 5
+  revivedFear: 80
+  timeDurationForCalculatingFootNoise: 2
+  walkDist: 5

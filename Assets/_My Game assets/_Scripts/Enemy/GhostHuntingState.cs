@@ -31,7 +31,7 @@ public class GhostHuntingState : GhostState
 
     public float ignoreNoises = 10f;
     public int maxNoiseIndex = -1;
-    public Vector3 huntChasePosition = Vector3.zero;
+    public Vector3 huntChaseTheNoisePosition = Vector3.zero;
 
 
     public override void EnterState()
@@ -108,7 +108,7 @@ public class GhostHuntingState : GhostState
         clamped = 1 - clamped;
         positionPrecitionRadius = positionPrecitionRadius * clamped;
 
-        huntChasePosition = chasePosition + new Vector3(Random.Range(-positionPrecitionRadius, positionPrecitionRadius), 0, Random.Range(-positionPrecitionRadius, positionPrecitionRadius));
+        huntChaseTheNoisePosition = chasePosition + new Vector3(Random.Range(-positionPrecitionRadius, positionPrecitionRadius), 0, Random.Range(-positionPrecitionRadius, positionPrecitionRadius));
 
 
         //-------------------------- Set the max noise index and ignorance----------------------//
@@ -144,7 +144,7 @@ public class HuntWanderState : GhostState
 
     Vector3 centrePosToChase;
     bool atCentreOfPlayers;
-    bool againChaseCentre;
+    bool againChaseCentre;       //=======global one time var========//
     float againChaseCentreTimer;
 
     public override void EnterState()
@@ -154,7 +154,7 @@ public class HuntWanderState : GhostState
 
     public override void UpdateState()
     {
-        if (huntingState.huntChasePosition == Vector3.zero)
+        if (huntingState.huntChaseTheNoisePosition == Vector3.zero)
         {
             if (atCentreOfPlayers)
                 HuntRoam();
@@ -176,6 +176,10 @@ public class HuntWanderState : GhostState
         }
         if (!againChaseCentre)
             return;
+
+
+
+
         againChaseCentreTimer += Time.deltaTime;
         if (againChaseCentreTimer > ghostAI.ghostData.timeAfterWhichGhostStartWalkingToCentre)
         {
@@ -194,10 +198,10 @@ public class HuntWanderState : GhostState
 
     void HuntNoisePosition()
     {
-        ghostAI.navMeshAgent.SetDestination(huntingState.huntChasePosition);
+        ghostAI.navMeshAgent.SetDestination(huntingState.huntChaseTheNoisePosition);
         if (ghostAI.navMeshAgent.remainingDistance < 1)
         {
-            huntingState.huntChasePosition = Vector3.zero;
+            huntingState.huntChaseTheNoisePosition = Vector3.zero;
             huntingState.ignoreNoises = huntingState.baseIgnorance;
         }
     }
