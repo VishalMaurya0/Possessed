@@ -4,14 +4,18 @@ using UnityEngine;
 public class ChestUnlock_BloodBottleTask : NetworkBehaviour
 {
 
+    [SerializeField] GameObject spawnedObject;
     [SerializeField] StatueTask[] statues = new StatueTask[4];
     public int[] savedCode = new int[4];
     public int[] currentCode = new int[4];
     bool randomized = false;
 
+
+    CodeShowingScript codeShowingScript;
+
     void Start()
     {
-        
+        codeShowingScript = GetComponent<CodeShowingScript>();
     }
 
 
@@ -32,6 +36,7 @@ public class ChestUnlock_BloodBottleTask : NetworkBehaviour
         {
             savedCode[i] = Random.Range(0, 4);
         }
+        codeShowingScript.SetText();
     }
 
 
@@ -55,5 +60,12 @@ public class ChestUnlock_BloodBottleTask : NetworkBehaviour
         }
         //TODO TODO Unlock the chest here TODO TODO //
         Debug.LogWarning("Chest Unlock");
+
+        GameObject spawned = Instantiate(spawnedObject, this.transform.position, Quaternion.identity);
+        NetworkObject obj = spawned.GetComponent<NetworkObject>();
+        if (obj != null)
+        {
+            obj.Spawn();    
+        }
     }
 }

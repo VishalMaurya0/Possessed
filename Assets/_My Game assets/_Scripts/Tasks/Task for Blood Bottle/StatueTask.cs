@@ -5,6 +5,7 @@ public class StatueTask : NetworkBehaviour
 {
     [Header("References")]
     [SerializeField] ChestUnlock_BloodBottleTask chestUnlock_BloodBottleTask;
+    
 
     public NetworkVariable<int> value = new NetworkVariable<int>(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     [SerializeField] int rotationSpeed = 3;
@@ -12,7 +13,8 @@ public class StatueTask : NetworkBehaviour
     void Start()
     {
         value.Value = 0;
-        chestUnlock_BloodBottleTask = FindAnyObjectByType<ChestUnlock_BloodBottleTask>();
+        GameObject table = transform.parent.parent.gameObject;
+        chestUnlock_BloodBottleTask = table.GetComponentInChildren<ChestUnlock_BloodBottleTask>();
     }
 
 
