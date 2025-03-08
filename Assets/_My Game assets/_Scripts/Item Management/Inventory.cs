@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class Inventory : NetworkBehaviour
 {
-    public int maxSlots = 5;
-    public float maxWeight = 15;
+    public int maxSlots;
+    public float maxWeight;
     public List<InventorySlot> inventorySlots = new();
     public InventorySlot selectedInventorySlot;
     public ItemHolding itemHolding;
+    public InventorySlotTracker InventorySlotTracker;
 
 
     public NetworkVariable<int> slotNo = new (default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
@@ -28,6 +29,9 @@ public class Inventory : NetworkBehaviour
         if (GameManager.Instance.serverStarted)
         {
             itemHolding = GameManager.Instance.ownerPlayer.GetComponent<ItemHolding>();
+            maxSlots = GameManager.Instance.inventorySlots;
+            maxWeight = GameManager.Instance.maxWeight;
+            InventorySlotTracker = FindAnyObjectByType<InventorySlotTracker>();
         }
     }
 
@@ -48,23 +52,48 @@ public class Inventory : NetworkBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            slotNo.Value++;
-            if (slotNo.Value >= maxSlots)
-            {
-                slotNo.Value = 0;
-            }
-            SelectInventorySlot(slotNo.Value);
+            ScrollUp();
         }
 
-        for (int i = 0; i < maxSlots; i++)
+        float scroll = Input.GetAxis("Mouse ScrollWheel"); // Get scroll input
+
+        if (scroll < 0f) // Scroll up
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1 + i))
-            {
-                slotNo.Value = i;
-                SelectInventorySlot(slotNo.Value);
-            }
+            ScrollUp();
+        }
+        else if (scroll > 0f) // Scroll down
+        {
+            ScrollDown();
         }
     }
+
+
+    void ScrollUp()
+    {
+        slotNo.Value++;
+        if (slotNo.Value >= maxSlots)
+        {
+            slotNo.Value = 0;
+        }
+        SelectInventorySlot(slotNo.Value);
+
+        InventorySlotTracker.UpdateTracker(false);
+    }
+
+
+    void ScrollDown()
+    {
+        slotNo.Value--;
+        if (slotNo.Value < 0)
+        {
+            slotNo.Value = maxSlots - 1;
+        }
+        SelectInventorySlot(slotNo.Value);
+
+        InventorySlotTracker.UpdateTracker(false);
+    }
+
+
 
     public int AddItem(ItemData itemDataOriginal)
     {
@@ -236,7 +265,6 @@ public class Inventory : NetworkBehaviour
         SelectInventorySlot(slotNo.Value);
         if (selectedInventorySlot.itemData == null)
         {
-            Debug.Log("No item selected.");
             return;
         }
         ItemDataSO selectedItemDataSO = ScriptableObjectFinder.FindItemSO(selectedInventorySlot.itemData);
@@ -453,6 +481,6 @@ public class Inventory : NetworkBehaviour
 [System.Serializable]
 public class InventorySlot
 {
-    public ItemData itemData;
+    [SerializeReference] public ItemData itemData;
     public int quantity = 0;
 }

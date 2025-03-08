@@ -21,6 +21,9 @@ public class ItemHolding : NetworkBehaviour
     public GameObject spawnedObject;
     public GameObject itemPrefab;
 
+    [Header("UI")]
+    public InventoryUI inventoryUI;
+    public InventorySlotTracker inventorySlotTracker;
 
     [Header("Temporary Values For Throwing Specific No Of Items")]
     public ItemData temporaryItemData;
@@ -32,6 +35,8 @@ public class ItemHolding : NetworkBehaviour
     {
         Inventory = GetComponent<Inventory>();
         playerCamera = GameObject.FindAnyObjectByType<Camera>();
+        inventoryUI = FindAnyObjectByType<InventoryUI>();
+        inventorySlotTracker = FindAnyObjectByType<InventorySlotTracker>();
     }
 
     void Update()
@@ -99,8 +104,8 @@ public class ItemHolding : NetworkBehaviour
 
         SpawnItemInstanceServerRpc(heldItemData, heldItemData.amount, true);
         spawnedObject = null;
-        SetEverythingNormal();
         Inventory.RemoveSelectedItemServerRpc(true);
+        SetEverythingNormal();
     }
 
 
@@ -198,6 +203,7 @@ public class ItemHolding : NetworkBehaviour
         GameManager.Instance.handlePlayerLookWithMouse = true;
         GameManager.Instance.handleMovement = true;
         GameManager.Instance.lockCurser = true;
+        inventorySlotTracker.UpdateTracker(true);
     }
 
 }

@@ -72,7 +72,7 @@ public class NoiseHandler : MonoBehaviour
 
     private void CalculateInstrumentNoise()
     {
-        if (inventory.selectedInventorySlot.itemData != null && !inventory.selectedInventorySlot.itemData.isOn)
+        if (inventory.selectedInventorySlot != null && inventory.selectedInventorySlot.itemData != null && !inventory.selectedInventorySlot.itemData.isOn)
         {
             instrumentNoise = 0;
             return;

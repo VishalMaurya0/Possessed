@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +8,8 @@ public class GameManager : MonoBehaviour
     public GameObject ownerPlayer;
 
     public int noOfPlayers;             //----------maintained on server---------//
+    public int inventorySlots = 5;
+    public float maxWeight = 15;
     public bool serverStarted = false;
     public bool gameStarted = false;
 
@@ -23,7 +26,7 @@ public class GameManager : MonoBehaviour
     public ProcedureBase procedureBase;
     
 
-
+    public static event Action onServerStarted;
 
 
     public static GameManager Instance { get; set; }
@@ -45,4 +48,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void OnServerStarted()
+    {
+        onServerStarted?.Invoke();
+    }
 }

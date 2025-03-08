@@ -21,7 +21,6 @@ public class ItemCrafting : MonoBehaviour
         if (inventory != null && inventory.selectedInventorySlot != null)
         {
             currentItemData = inventory.selectedInventorySlot.itemData;
-            Debug.Log($"[ItemCrafting] Current item set to: {currentItemData.itemType}");
         }
     }
 

@@ -15,6 +15,13 @@ public class ProcedureCompletion : ProcedureBase
     public NetworkVariable<bool> isCompleted = new(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public NetworkVariable<float> timer = new(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
+    private bool isShuttingDown = false;
+
+    new private void OnDestroy()
+    {
+        isShuttingDown = true;
+    }
+
     void Start()
     {
         Debug.Log("Initializing procedure...");
@@ -39,6 +46,11 @@ public class ProcedureCompletion : ProcedureBase
 
     void Update()
     {
+        if (isShuttingDown || !IsOwner || !NetworkManager.Singleton.IsListening)
+        {
+            return; // Prevent modifying NetworkVariables after shutdown
+        }
+
         if (IsServer)
         {
             timer.Value -= Time.deltaTime;
