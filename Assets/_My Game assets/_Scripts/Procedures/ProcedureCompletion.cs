@@ -46,26 +46,45 @@ public class ProcedureCompletion : ProcedureBase
 
     void Update()
     {
-        if (isShuttingDown || !IsOwner || !NetworkManager.Singleton.IsListening)
+        if (isShuttingDown || !IsOwner || NetworkManager.Singleton == null || !NetworkManager.Singleton.IsListening)
         {
-            return; // Prevent modifying NetworkVariables after shutdown
+            return;
         }
+
 
         if (IsServer)
         {
             timer.Value -= Time.deltaTime;
         }
 
-        if (GetComponentInChildren<triggerProcedurePointScript>().inProgress && Input.GetMouseButtonDown(0) && timer.Value <= 0)
+        var triggerScript = GetComponentInChildren<triggerProcedurePointScript>();
+        if (triggerScript == null)
+        {
+            Debug.LogError("triggerProcedurePointScript is missing!");
+            return;
+        }
+
+        if (triggerScript.inProgress && Input.GetMouseButtonDown(0) && timer.Value <= 0)
         {
             Debug.Log("Input detected. Checking inventory...");
-            Inventory inventory = GameManager.Instance.ownerPlayer.GetComponent<Inventory>();
-            ItemHolding itemHolding = GameManager.Instance.ownerPlayer.GetComponent<ItemHolding>();
-            InventorySlot selectedInventorySlot = inventory.selectedInventorySlot;
 
-            if (selectedInventorySlot.itemData == null)
+            if (GameManager.Instance.ownerPlayer == null)
             {
-                Debug.Log("No item selected in the inventory.");
+                Debug.LogError("ownerPlayer is null in GameManager!");
+                return;
+            }
+
+            Inventory inventory = GameManager.Instance.ownerPlayer.GetComponent<Inventory>();
+            if (inventory == null)
+            {
+                Debug.LogError("Inventory component is missing!");
+                return;
+            }
+
+            InventorySlot selectedInventorySlot = inventory.selectedInventorySlot;
+            if (selectedInventorySlot == null || selectedInventorySlot.itemData == null)
+            {
+                Debug.LogError("No item selected in inventory!");
                 return;
             }
 
@@ -82,6 +101,7 @@ public class ProcedureCompletion : ProcedureBase
             }
         }
     }
+
 
     [ServerRpc(RequireOwnership = false)]
     private void CheckOrderCompletionServerRpc()

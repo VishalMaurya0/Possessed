@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -45,6 +46,7 @@ public class GhostHuntingState : GhostState
 
     public override void UpdateState()
     {
+        
         currentGhostHuntSubState.UpdateState();
         if (ghostAI.CheckPlayerVisibility(out KeyValuePair<ulong, GameObject> player) && !sightChasing)
         {
@@ -213,6 +215,10 @@ public class HuntWanderState : GhostState
 
     public Vector3 FindCentreOfPlayersPosition()
     {
+        if (GameManager.Instance.gameEnd)
+        {
+            return default;
+        }
         Vector3[] playersPosition = new Vector3[GameManager.Instance.connectedClients.Count];
         Vector3 addAll = Vector3.zero;
         for (int i = 0; i < playersPosition.Length; i++)

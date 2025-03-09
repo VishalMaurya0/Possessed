@@ -83,6 +83,7 @@ public class RoamWanderingState : GhostState
 
     public override void UpdateState()
     {
+        if (GameManager.Instance.gameEnd) return;
         if (ghostAI.navMeshAgent.remainingDistance < 1f)
         {
             idleTimer += Time.deltaTime;
@@ -192,7 +193,6 @@ public class RoamPossessingState : GhostState
 
     public override void UpdateState()
     {
-        Debug.Log("Possessing");
         CheckForPossessionStop();
         if (roamingState.stopPossession__Trigger)
         {

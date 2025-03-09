@@ -22,7 +22,7 @@ public class SpecialProcedure : NetworkBehaviour   //+++++++++THIS PROCEDURE IS 
         if (Input.GetMouseButtonDown(1) && IsOwner)
         {
             Debug.Log("button");
-            if (ownerInventory.selectedInventorySlot.itemData.itemType == ItemType.VoodooDoll)
+            if (ownerInventory.selectedInventorySlot.itemData?.itemType == ItemType.VoodooDoll)
             {
                 Debug.Log("doll");
                 if (ownerInventory.selectedInventorySlot.itemData.currentState == 2 && !isCompleted.Value)

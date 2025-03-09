@@ -6,6 +6,7 @@ public class InventoryUI : MonoBehaviour
 {
 
     InventorySlotTracker inventorySlotTracker;
+    public ItemFrameUI itemFrameUI;
     Inventory inventory;
 
 
@@ -17,6 +18,7 @@ public class InventoryUI : MonoBehaviour
 
     public bool resetIcons;
     public float animTime = 0.5f;
+    public float decreasedAlpha = 0.6f;
 
     void Start()
     {
@@ -32,7 +34,6 @@ public class InventoryUI : MonoBehaviour
         {
             inventory = inventorySlotTracker.inventory;
         }
-
     }
 
 
@@ -42,11 +43,13 @@ public class InventoryUI : MonoBehaviour
         for (int i = 0; i < positions.Length; i++)
         {
             positions[i] = transform.GetChild(i).GetComponent<RectTransform>();
+            iconPlaceholders[i] = Instantiate(iconPrefab, transform);
+            icons[i] = Instantiate(iconPlaceholders[i], transform);
         }
     }
 
 
-    public void InitializeIcon(bool spawnIcons)
+    public void InitializeIcon()
     {
         for (int i = 0; i < inventorySlotTracker.leftSlot.slots.Count; i++)
         {
@@ -54,91 +57,126 @@ public class InventoryUI : MonoBehaviour
             if (inventorySlotTracker.leftSlot.slots[i].isFull && inventorySlotTracker.leftSlot.slots[i].inventorySlot.itemData != null)        //=======if left slot is full =======//
             {
                 ItemDataSO itemDataSO = ScriptableObjectFinder.FindItemSO(inventorySlotTracker.leftSlot.slots[i].inventorySlot.itemData);
-                SetIconPlaceholders(positions[i], i, false, spawnIcons, itemDataSO.icon);
+                SetIconPlaceholders(positions[i], i, false, itemDataSO.icon);
             }
             if (inventorySlotTracker.rightSlot.slots[i].isFull && inventorySlotTracker.rightSlot.slots[i].inventorySlot.itemData != null)      //=======if right slot is full =======//
             {
                 ItemDataSO itemDataSO = ScriptableObjectFinder.FindItemSO(inventorySlotTracker.rightSlot.slots[i].inventorySlot.itemData);
-                SetIconPlaceholders(positions[j], j, false, spawnIcons, itemDataSO.icon);
+                SetIconPlaceholders(positions[j], j, false, itemDataSO.icon);
             }
             if (!inventorySlotTracker.leftSlot.slots[i].isFull)                                                                                //=======if left slot is not full =======//
             {
-                SetIconPlaceholders(positions[i], i, true, spawnIcons);
+                SetIconPlaceholders(positions[i], i, true);
             }
             if (!inventorySlotTracker.rightSlot.slots[i].isFull)                                                                               //=======if right slot is not full =======//
             {
-                SetIconPlaceholders(positions[j], j, true, spawnIcons);
+                SetIconPlaceholders(positions[j], j, true);
             }
         }
 
         int k = inventorySlotTracker.leftSlot.slots.Count;
         if (!inventorySlotTracker.currentSlot.slot.isFull)
         {
-            SetIconPlaceholders(positions[k], k, true, spawnIcons);
+            SetIconPlaceholders(positions[k], k, true);
         }
         else if (inventorySlotTracker.currentSlot.slot.inventorySlot.itemData != null)
         {
             ItemDataSO itemDataSO = ScriptableObjectFinder.FindItemSO(inventorySlotTracker.currentSlot.slot.inventorySlot.itemData);
-            SetIconPlaceholders(positions[k], k, false, spawnIcons, itemDataSO.icon);
+            SetIconPlaceholders(positions[k], k, false, itemDataSO.icon);
         }
     }
 
-    private void SetIconPlaceholders(RectTransform rectTransform, int i, bool toDestroy, bool spawnIcons, Sprite icon = null)
+    private void SetIconPlaceholders(RectTransform rectTransform, int i, bool toDestroy, Sprite icon = null)
     {
         if (!toDestroy)
         {
-            if (iconPlaceholders[i] == null)           //////=============== if no gameobj spawn it ===================//
+            if (!iconPlaceholders[i].activeSelf)           //////=============== if no gameobj spawn it ===================//
             {
-                GameObject itemIcon = Instantiate(iconPrefab, transform);
-                Image img = itemIcon.GetComponent<Image>();
-                itemIcon.GetComponent<RectTransform>().anchoredPosition = rectTransform.anchoredPosition;
-                itemIcon.GetComponent<RectTransform>().sizeDelta = rectTransform.sizeDelta;
-                itemIcon.name = "IconPlaceholder_" + i;
-                itemIcon.GetComponent<Image>().sprite = icon;
-                itemIcon.SetActive(true);
-                iconPlaceholders[i] = itemIcon;
+                iconPlaceholders[i].SetActive(true);
+                Image img = iconPlaceholders[i].GetComponent<Image>();
+                iconPlaceholders[i].GetComponent<RectTransform>().anchoredPosition = rectTransform.anchoredPosition;
+                iconPlaceholders[i].GetComponent<RectTransform>().sizeDelta = rectTransform.sizeDelta;
+                iconPlaceholders[i].name = "IconPlaceholder_" + i;
+                iconPlaceholders[i].GetComponent<Image>().sprite = icon;
+                iconPlaceholders[i].SetActive(true);
             }
             iconPlaceholders[i].GetComponent<RectTransform>().anchoredPosition = positions[i].anchoredPosition;
+            iconPlaceholders[i].GetComponent<Image>().sprite = icon;
         }
         else
         {
-            Destroy(iconPlaceholders[i]);
-            iconPlaceholders[i] = null;
+            iconPlaceholders[i].SetActive(false);
         }
 
 
     }
 
-    public void SetIcon(bool spawnIcons)
+    public void SetIcon(bool toAnimate)
     {
 
-        if (spawnIcons)
+        if (toAnimate)
         {
             for (int i = 0; i < icons.Length; i++)
             {
-                Destroy(icons[i]);
-                icons[i] = null;
+                icons[i].SetActive(false);
+                //Destroy(backgroundIcons[i]);
+                //backgroundIcons[i] = null;
             }
             for (int j = 0; j < icons.Length; j++)
             {
-                if (iconPlaceholders[j] != null && icons[j] == null)
+                if (iconPlaceholders[j].activeSelf && !icons[j].activeSelf)
                 {
-                    GameObject itemIcon = Instantiate(iconPlaceholders[j], transform);
-                    itemIcon.GetComponent<Image>().color = Color.white;
-                    itemIcon.name = "Icon_" + j;
-                    icons[j] = itemIcon;
+                    icons[j].SetActive(true);
+                    icons[j].GetComponent<RectTransform>().anchoredPosition = iconPlaceholders[j].GetComponent<RectTransform>().anchoredPosition;
+                    icons[j].GetComponent<RectTransform>().sizeDelta = iconPlaceholders[j].GetComponent<RectTransform>().sizeDelta;
+                    icons[j].GetComponent<Image>().sprite = iconPlaceholders[j].GetComponent<Image>().sprite;
+                    icons[j].GetComponent<Image>().color = Color.white;
+                    icons[j].name = "Icon_" + j;
+                    if (j != inventorySlotTracker.leftSlot.slots.Count)
+                    {
+                        icons[j].GetComponent<CanvasGroup>().alpha = decreasedAlpha;
+                    }
+                    if (j == inventorySlotTracker.leftSlot.slots.Count)
+                    {
+                        icons[j].GetComponent<CanvasGroup>().alpha = 1;
+                    }
+                    //backgroundIcons[j] = Instantiate(itemIcon, transform);
+                    //backgroundIcons[j].GetComponent<Image>().sprite = iconBackgroundPrefab.GetComponent<Image>().sprite;
+                    //backgroundIcons[j].GetComponent<Image>().color = iconBackgroundPrefab.GetComponent<Image>().color;
                 }
-                else if (iconPlaceholders[j] != null && icons[j] != null)
+                else if (iconPlaceholders[j].activeSelf && icons[j].activeSelf)
                 {
                     icons[j].GetComponent<Image>().sprite = iconPlaceholders[j].GetComponent<Image>().sprite;
                 }
-                else if (iconPlaceholders[j] == null)
+                else if (!iconPlaceholders[j].activeSelf)
                 {
-                    Destroy(icons[j]);
-                    icons[j] = null;
-                }
+                    icons[j].SetActive(false);
+                    //Destroy(backgroundIcons[j]);
+                    //backgroundIcons[j] = null;
 
+                }
             }
+
+            ///====== Aimate the Frame Icon =======//
+            bool showIcon = false;
+
+            foreach (var icon in iconPlaceholders)
+            {
+                if (icon.activeSelf)
+                {
+                    showIcon = true;
+                    break;
+                }
+            }
+
+            if (showIcon)
+            {
+                itemFrameUI.Activate();
+            }else
+            {
+                itemFrameUI.Deactivate();
+            }
+
         }
         else
         {
@@ -156,7 +194,7 @@ public class InventoryUI : MonoBehaviour
         // Find the first valid placeholder index
         for (int i = 0; i < iconPlaceholders.Length; i++)
         {
-            if (iconPlaceholders[i] != null)
+            if (iconPlaceholders[i].activeSelf)
             {
                 firstPlaceholderIndex = i;
                 break;
@@ -166,7 +204,7 @@ public class InventoryUI : MonoBehaviour
         // Find the first valid icon index
         for (int i = 0; i < icons.Length; i++)
         {
-            if (icons[i] != null)
+            if (icons[i].activeSelf)
             {
                 firstIconIndex = i;
                 break;
@@ -182,30 +220,46 @@ public class InventoryUI : MonoBehaviour
         // Start animation
         for (int i = firstIconIndex, j = firstPlaceholderIndex; i < icons.Length && j < iconPlaceholders.Length; i++, j++)
         {
-            if (icons[i] != null && iconPlaceholders[j] != null)
+            if (icons[i].activeSelf && iconPlaceholders[j].activeSelf)
             {
-                LeanTween.cancel(icons[i]); // Cancel any existing tween to prevent stacking
+                LeanTween.cancel(icons[i]); // Cancel any existing tween
+
+                RectTransform iconTransform = icons[i].GetComponent<RectTransform>();
+                CanvasGroup canvasGroup = icons[i].GetComponent<CanvasGroup>();
+
+                if (canvasGroup == null)
+                {
+                    canvasGroup = icons[i].AddComponent<CanvasGroup>(); // Ensure CanvasGroup exists
+                }
 
                 // Move animation
-                LeanTween.move(icons[i].GetComponent<RectTransform>(), iconPlaceholders[j].GetComponent<RectTransform>().anchoredPosition3D, animTime)
+                LeanTween.move(iconTransform, iconPlaceholders[j].GetComponent<RectTransform>().anchoredPosition3D, animTime)
                     .setEase(LeanTweenType.easeOutExpo);
 
                 // Scale animation
-                LeanTween.size(icons[i].GetComponent<RectTransform>(), iconPlaceholders[j].GetComponent<RectTransform>().sizeDelta, animTime)
+                LeanTween.size(iconTransform, iconPlaceholders[j].GetComponent<RectTransform>().sizeDelta, animTime)
                     .setEase(LeanTweenType.easeOutExpo);
+
+                // Alpha animation (Ensures it plays every time)
+                float targetAlpha = (j == inventorySlotTracker.leftSlot.slots.Count) ? 1f : decreasedAlpha;
+                LeanTween.alphaCanvas(canvasGroup, targetAlpha, animTime / 5);
             }
+
         }
 
         LeanTween.delayedCall(animTime, () =>
         {
-            SetIcon(true);
+            if (!LeanTween.isTweening())
+            {
+                SetIcon(true);
+            }
         });
     }
 
 
 
 
-public void ScrollUp___UIImage()
+    public void ScrollUp___UIImage()
     {
         //if (inventory.slotNo.Value != 4)           //============ when slot has to go left only ========//
         //{

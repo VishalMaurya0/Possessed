@@ -16,16 +16,37 @@ public class ItemCrafting : MonoBehaviour
 
     private void MyStart()
     {
-        Debug.Log("[ItemCrafting] MyStart called.");
+
+        if (GameManager.Instance == null || GameManager.Instance.ownerPlayer == null)
+        {
+            Debug.LogWarning("ItemCrafting GameManager or ownerPlayer is null. Cannot initialize inventory.");
+            return;
+        }
+
         inventory = GameManager.Instance.ownerPlayer.GetComponent<Inventory>();
-        if (inventory != null && inventory.selectedInventorySlot != null)
+
+        if (inventory == null)
+        {
+            Debug.LogWarning("[ItemCrafting] Inventory component not found on ownerPlayer.");
+            return;
+        }
+
+        if (inventory.selectedInventorySlot != null)
         {
             currentItemData = inventory.selectedInventorySlot.itemData;
         }
     }
 
+
     private void Update()
     {
+        if (GameManager.Instance == null || GameManager.Instance.ownerPlayer == null || inventory == null)
+        {
+            Debug.LogWarning("[ItemCrafting] GameManager, ownerPlayer, or inventory is null. Trying to reinitialize.");
+            MyStart();
+            return;
+        }
+
         if (GameManager.Instance.serverStarted && inventory == null)
         {
             Debug.LogWarning("[ItemCrafting] Inventory is null on server start. Calling MyStart again.");
@@ -34,8 +55,15 @@ public class ItemCrafting : MonoBehaviour
 
         if (Input.GetMouseButtonDown(1)) // Right Mouse Button
         {
+            if (inventory.selectedInventorySlot == null)
+            {
+                Debug.LogWarning("[ItemCrafting] No selected inventory slot. Cannot proceed.");
+                return;
+            }
+
             currentItemData = inventory.selectedInventorySlot.itemData;
             Debug.Log("[ItemCrafting] Right mouse button pressed. Checking craftability...");
+
             if (IsItemCraftable(out List<int> ids))
             {
                 Debug.Log($"[ItemCrafting] Item is craftable. Valid Recipe IDs: {string.Join(", ", ids)}");
@@ -58,13 +86,14 @@ public class ItemCrafting : MonoBehaviour
         }
     }
 
+
     public bool IsItemCraftable(out List<int> ids)
     {
         ids = new List<int>();
 
         if (currentItemData == null)
         {
-            Debug.LogError("[ItemCrafting] Current Item Data is null. Cannot proceed with crafting.");
+            Debug.LogWarning("[ItemCrafting] Current Item Data is null. Cannot proceed with crafting.");
             return false;
         }
 

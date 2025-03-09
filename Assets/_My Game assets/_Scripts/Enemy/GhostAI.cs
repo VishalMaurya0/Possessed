@@ -71,6 +71,10 @@ public class GhostAI : NetworkBehaviour
         int index = 0;
         foreach (var player in GameManager.Instance.connectedClients)
         {
+            if (player.Value == null)
+            {
+                return default;
+            }
             pos[index] = player.Value.transform.position;
             index++;
         }
@@ -79,42 +83,64 @@ public class GhostAI : NetworkBehaviour
 
     public bool CheckPlayerVisibility(out KeyValuePair<ulong, GameObject> player)
     {
+        player = default;
+
+        if (GameManager.Instance == null || GameManager.Instance.gameEnd || ghostData == null)
+            return false;
+
         Vector3[] allPlayersPositions = FindPlayersPosition();
+        if (allPlayersPositions == null || allPlayersPositions.Length == 0)
+            return false;
+
         Dictionary<ulong, GameObject> players = new();
+
         foreach (var pos in allPlayersPositions)
         {
             Vector3 targetDir = pos - transform.position;
-            Vector3 targetPos = pos - (transform.position + ghostData.eyePosition) + Vector3.down * 0.25f;
+            Vector3 targetPos = pos - (transform.position + (ghostData?.eyePosition ?? Vector3.zero)) + Vector3.down * 0.25f;
             Vector3 lookDir = transform.forward;
+
             targetDir.Normalize();
             lookDir.Normalize();
 
             float angle = Vector3.Angle(lookDir, targetDir);
             if (angle < 60)
             {
-                if (RaycastCheckIfPlayerIsVisible(targetDir, targetPos, out player) && !players.ContainsKey(player.Key))
+                if (RaycastCheckIfPlayerIsVisible(targetDir, targetPos, out player) && player.Value != null && !players.ContainsKey(player.Key))
+                {
                     players.Add(player.Key, player.Value);
+                }
             }
         }
 
-        if (players.Count > 0)                                 //--------------find min distance----------------//
+        if (players.Count > 0)
         {
-            float minDis = (players.ElementAtOrDefault(0).Value.transform.position - transform.position).sqrMagnitude;
-            KeyValuePair<ulong, GameObject> finalPlayer = players.ElementAtOrDefault(0);
+            KeyValuePair<ulong, GameObject> finalPlayer = default;
+            float minDis = float.MaxValue;
+
             foreach (var playerr in players)
             {
-                if ((playerr.Value.transform.position - transform.position).sqrMagnitude < minDis)
+                if (playerr.Value != null)
                 {
-                    minDis = (playerr.Value.transform.position - transform.position).sqrMagnitude;
-                    finalPlayer = playerr;
+                    float distance = (playerr.Value.transform.position - transform.position).sqrMagnitude;
+                    if (distance < minDis)
+                    {
+                        minDis = distance;
+                        finalPlayer = playerr;
+                    }
                 }
             }
-            player = finalPlayer;
-            return true;
+
+            if (finalPlayer.Value != null)
+            {
+                player = finalPlayer;
+                return true;
+            }
         }
-        player = default;
+
         return false;
     }
+
 
     public bool RaycastCheckIfPlayerIsVisible(Vector3 targetDir, Vector3 targetPos, out KeyValuePair<ulong, GameObject> player)
     {

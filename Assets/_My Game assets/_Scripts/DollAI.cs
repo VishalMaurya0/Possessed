@@ -138,6 +138,10 @@ public class DollAI : NetworkBehaviour
     {
         foreach (var playerr in player)
         {
+            if (playerr == null)
+            {
+                return false;
+            }
             Vector3 directionToPlayer = (playerr.position - transform.position).normalized;
             float distanceToPlayer = Vector3.Distance(transform.position, playerr.position);
 

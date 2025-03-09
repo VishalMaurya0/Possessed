@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public float maxWeight = 15;
     public bool serverStarted = false;
     public bool gameStarted = false;
+    public bool gameEnd = false;
 
     public Dictionary<ulong, GameObject> connectedClients = new();
     public Dictionary<int, float> noiseValues = new();
@@ -39,12 +40,23 @@ public class GameManager : MonoBehaviour
         procedureBase = GetComponent<ProcedureBase>();
         handleMovement = true;
     }
+
+    private void Start()
+    {
+        LeanTween.reset();
+    }
+
+
     private void Update()
     {
         timeInSecElapsed += Time.deltaTime;
         if (Input.GetKeyUp(KeyCode.Escape))
         {
             lockCurser = !lockCurser;
+        }
+        if (gameStarted && ownerPlayer == null)
+        {
+            gameEnd = true;
         }
     }
 

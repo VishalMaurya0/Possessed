@@ -57,7 +57,9 @@ public class ItemPickup : NetworkBehaviour
             }
             else
             {
+                itemData.amount = remainingItem;
                 ReduceItemCountClientRPC(itemData, remainingItem);
+                it.SetEverythingNormal();
             }
         }
     }

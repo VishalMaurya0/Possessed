@@ -120,7 +120,7 @@ public class InventorySlotTracker : MonoBehaviour
         currentSlot.slot.inventorySlot = inventory.inventorySlots[inventory.slotNo.Value];
         currentSlot.slot.isFull = (inventory.inventorySlots[inventory.slotNo.Value].itemData != null);
 
-        inventoryUI.InitializeIcon(spawnIcons);
+        inventoryUI.InitializeIcon();
         inventoryUI.SetIcon(spawnIcons);
     }
 }
@@ -142,7 +142,7 @@ public class LeftSlot
         {
             for (int i = 0; i < GameManager.Instance.inventorySlots - 1; i++)
             {
-                slots.Add(new SlotItem(-1, i));
+                slots.Add(new SlotItem());
             }
         }
     }
@@ -156,7 +156,7 @@ public class LeftSlot
 [System.Serializable]
 public class CurrentSlot
 {
-    public SlotItem slot = new SlotItem(0, 0);
+    public SlotItem slot = new SlotItem();
 }
 
 
@@ -176,7 +176,7 @@ public class RightSlot
         {
             for (int i = 0; i < GameManager.Instance.inventorySlots - 1; i++)
             {
-                slots.Add(new SlotItem(1, i));
+                slots.Add(new SlotItem());
             }
         }
     }
@@ -193,16 +193,11 @@ public class SlotItem
 {
     public InventorySlot inventorySlot;
     public bool isFull;
-    public int posOfSlot;                 //(((((((((((((((((-1,0,+1)))))))))))))))//
-    public int slotIndex;                 //(((((((((((((((((0,1,2,3)))))))))))))))//
 
-    public SlotItem(int posOfSlot, int slotIndex)
+    public SlotItem()
     {
-        this.posOfSlot = posOfSlot;
-        this.slotIndex = slotIndex;
         this.inventorySlot = null;
         isFull = false;
     }
 
-    public SlotItem() { }
 }

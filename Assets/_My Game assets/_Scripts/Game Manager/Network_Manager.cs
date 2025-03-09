@@ -3,21 +3,36 @@ using Unity.Netcode;
 
 public class Network_Manager : NetworkBehaviour
 {
-    public cameraMovement cameraMovement;
+    public CameraMovement cameraMovement;  // Fixed naming convention
     public GameObject ownerPlayer;
-    bool runOnce = true;
+    private bool runOnce = true;
 
-    
-    void Start()
+    private void Start()
     {
-        
-        NetworkManager.Singleton.OnClientConnectedCallback += Singleton_OnClientConnectedCallback;
-        NetworkManager.Singleton.OnClientDisconnectCallback += Singleton_OnClientDisconnectCallback;
+        if (NetworkManager.Singleton != null)
+        {
+            NetworkManager.Singleton.OnClientConnectedCallback += Singleton_OnClientConnectedCallback;
+            NetworkManager.Singleton.OnClientDisconnectCallback += Singleton_OnClientDisconnectCallback;
+        }
+        else
+        {
+            Debug.LogError("NetworkManager.Singleton is null!");
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (NetworkManager.Singleton != null)
+        {
+            NetworkManager.Singleton.OnClientConnectedCallback -= Singleton_OnClientConnectedCallback;
+            NetworkManager.Singleton.OnClientDisconnectCallback -= Singleton_OnClientDisconnectCallback;
+        }
     }
 
     private void Singleton_OnClientDisconnectCallback(ulong obj)
     {
-        if (!IsServer) return;
+        if (!IsServer || GameManager.Instance == null) return;
+
         GameManager.Instance.noOfPlayers--;
         GetAllConnectedClients();
     }
@@ -32,19 +47,31 @@ public class Network_Manager : NetworkBehaviour
 
     private void Singleton_OnClientConnectedCallback(ulong obj)
     {
-        if (NetworkManager.Singleton.ConnectedClients.TryGetValue(obj, out var client)) 
+        if (NetworkManager.Singleton == null || GameManager.Instance == null) return;
+
+        if (NetworkManager.Singleton.ConnectedClients.TryGetValue(obj, out var client) && client.PlayerObject != null)
         {
             GameObject player = client.PlayerObject.gameObject;
             GameManager.Instance.noOfPlayers++;
-            GameManager.Instance.noiseValues.Add(GameManager.Instance.noOfPlayers - 1, 0);
-            if (runOnce)
+            GameManager.Instance.noiseValues[GameManager.Instance.noOfPlayers - 1] = 0;
+
+            if (runOnce && cameraMovement != null)
             {
                 runOnce = false;
-                cameraMovement.cameraTransform = player.transform.GetChild(0).transform;
-                ownerPlayer = player;
-                GameManager.Instance.ownerPlayer = player;
-                GameManager.Instance.serverStarted = true;
-                GameManager.Instance.OnServerStarted();
+                Transform cameraTransform = player.transform.childCount > 0 ? player.transform.GetChild(0) : null;
+
+                if (cameraTransform != null)
+                {
+                    cameraMovement.cameraTransform = cameraTransform;
+                    ownerPlayer = player;
+                    GameManager.Instance.ownerPlayer = player;
+                    GameManager.Instance.serverStarted = true;
+                    GameManager.Instance.OnServerStarted();
+                }
+                else
+                {
+                    Debug.LogError("Player does not have a child transform for the camera!");
+                }
             }
         }
         GetAllConnectedClients();
@@ -52,6 +79,8 @@ public class Network_Manager : NetworkBehaviour
 
     public void GetAllConnectedClients()
     {
+        if (NetworkManager.Singleton == null || GameManager.Instance == null) return;
+
         foreach (var client in NetworkManager.Singleton.ConnectedClients)
         {
             ulong clientId = client.Key;
@@ -62,13 +91,7 @@ public class Network_Manager : NetworkBehaviour
                 Vector3 position = playerObject.transform.position;
                 Debug.Log($"Client ID: {clientId}, Position: {position}");
 
-                bool alreadyThere = false;
-                foreach (var clientt in GameManager.Instance.connectedClients)
-                {
-                    if (clientt.Key == clientId)
-                    { alreadyThere = true; }
-                }
-                if (!alreadyThere)
+                if (!GameManager.Instance.connectedClients.ContainsKey(clientId))
                 {
                     GameManager.Instance.connectedClients.Add(clientId, playerObject.gameObject);
                 }
@@ -78,12 +101,19 @@ public class Network_Manager : NetworkBehaviour
 
     public void GetAllNoiseValue()
     {
+        if (GameManager.Instance == null) return;
+
         int i = 0;
         foreach (var client in GameManager.Instance.connectedClients)
         {
-            GameObject player = client.Value;
-            float noiseValue = player.GetComponent<NoiseHandler>().noiseValue;
-            GameManager.Instance.noiseValues[i] = noiseValue;
+            if (client.Value != null)
+            {
+                NoiseHandler noiseHandler = client.Value.GetComponent<NoiseHandler>();
+                if (noiseHandler != null)
+                {
+                    GameManager.Instance.noiseValues[i] = noiseHandler.noiseValue;
+                }
+            }
             i++;
         }
     }
