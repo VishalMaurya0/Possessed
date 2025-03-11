@@ -72,6 +72,7 @@ public class Inspection : NetworkBehaviour
         this.GetComponent<Rigidbody>().isKinematic = true;
         GameManager.Instance.handlePlayerLookWithMouse = false;
         GameManager.Instance.handleMovement = false;
+        GameManager.Instance.itemScrollingLock = true;
 
         // Store original position and rotation
         originalParent = transform.parent;
@@ -106,11 +107,18 @@ public class Inspection : NetworkBehaviour
 
 
         // Restore original position and rotation
-        transform.SetParent(originalParent);
+        if (originalParent?.GetComponent<NetworkObject>() != null)
+        {
+            transform.transform.SetParent(originalParent);
+        }
+        else
+        {
+            Debug.LogWarning("Attempted to parent a NetworkObject under a non-NetworkObject. Parenting aborted.");
+        }
         transform.position = originalPosition;
         transform.rotation = originalRotation;
         this.GetComponent<Rigidbody>().isKinematic = false;
-        ItemHolding.SetEverythingNormal();
+        ItemHolding.SetEverythingNormal(false);
         ItemHolding.HandleUnZoom();
 
         StartCoroutine(RetrievePermission());

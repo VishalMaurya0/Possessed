@@ -20,7 +20,7 @@ public class Network_Manager : NetworkBehaviour
         }
     }
 
-    private void OnDestroy()
+    new private void OnDestroy()
     {
         if (NetworkManager.Singleton != null)
         {

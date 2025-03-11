@@ -63,7 +63,7 @@ public class ItemHolding : NetworkBehaviour
     public void HandleUnZoom()         //---------dont call directly ------//
     {
         isZoomed = false;
-        SetEverythingNormal();
+        SetEverythingNormal(false);
         if (spawnedObject != null)
         {
             //DespawnObjectServerRpc(new NetworkObjectReference(spawnedObject.GetComponent<NetworkObject>()));
@@ -94,7 +94,7 @@ public class ItemHolding : NetworkBehaviour
             heldItemData.amount--;
             Debug.Log("removing 1");
             Inventory.RemoveSelectedItemServerRpc(false);             //remove one item from inventory slot//
-            SetEverythingNormal();
+            SetEverythingNormal(false);
             
         }
     }
@@ -105,7 +105,7 @@ public class ItemHolding : NetworkBehaviour
         SpawnItemInstanceServerRpc(heldItemData, heldItemData.amount, true);
         spawnedObject = null;
         Inventory.RemoveSelectedItemServerRpc(true);
-        SetEverythingNormal();
+        SetEverythingNormal(false);
     }
 
 
@@ -160,7 +160,7 @@ public class ItemHolding : NetworkBehaviour
         if (!IsOwner) { return; }
         spawnedObject = refe.TryGet(out NetworkObject networkObject) ? networkObject.gameObject : null;
         spawnedObject.GetComponent<Inspection>().StartInspection();
-        Inventory.RemoveSelectedItemServerRpc(false, 1);
+        Inventory.RemoveSelectedItemServerRpc(false, 1, true);
     }
     
 
@@ -180,7 +180,7 @@ public class ItemHolding : NetworkBehaviour
     
 
 
-    public void HoldingItem(ItemData itemData, int quant, int currentState)
+    public void HoldingItem(ItemData itemData, int quant, int currentState, bool animateInventory, bool lockMovement)
     {
         heldItemData = itemData;
         if (itemData != null)
@@ -196,14 +196,22 @@ public class ItemHolding : NetworkBehaviour
             heldItemData.amount = quant;
             heldItemData.currentState = currentState;
         }
+
+        if (!lockMovement)
+            SetEverythingNormal(animateInventory);
     }
 
-    public void SetEverythingNormal()
+    public void SetEverythingNormal(bool animateInventory)
     {
+        Debug.LogWarning("who run this");
         GameManager.Instance.handlePlayerLookWithMouse = true;
         GameManager.Instance.handleMovement = true;
         GameManager.Instance.lockCurser = true;
-        inventorySlotTracker.UpdateTracker(true);
+        GameManager.Instance.itemScrollingLock = false;
+        if (animateInventory)
+            inventorySlotTracker.UpdateTracker(false);
+        else 
+            inventorySlotTracker.UpdateTracker(true);
     }
 
 }

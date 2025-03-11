@@ -158,6 +158,7 @@ public class DollAI : NetworkBehaviour
 
     bool IsPlayerLookingAtDoll()
     {
+        if (GameManager.Instance.gameEnd) return false;
         foreach (var playerr in player)
         {
             Vector3 eyePosition = playerr.position + playerDataSO[playerr.GetComponentIndex()].eyePosition;

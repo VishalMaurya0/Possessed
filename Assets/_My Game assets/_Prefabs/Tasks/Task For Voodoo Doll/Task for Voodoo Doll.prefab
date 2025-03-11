@@ -50,7 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3110665038
+  GlobalObjectIdHash: 3778284837
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -142,9 +142,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9223251744832177282}
-  - component: {fileID: 2041011351821248526}
   - component: {fileID: 4337043680275957871}
   - component: {fileID: 2877226330016543473}
+  - component: {fileID: 2041011351821248526}
   m_Layer: 0
   m_Name: 'Fire2[1]'
   m_TagString: Untagged
@@ -167,20 +167,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4096875090670776254}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2041011351821248526
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2903728683384521444}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30f8bb6c0a2b2ce4b84250007e20d7b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  taskVoodooDoll__parent: {fileID: 0}
 --- !u!65 &4337043680275957871
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -229,6 +215,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!114 &2041011351821248526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2903728683384521444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30f8bb6c0a2b2ce4b84250007e20d7b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  taskVoodooDoll__parent: {fileID: 0}
 --- !u!1 &3094399409489972021
 GameObject:
   m_ObjectHideFlags: 0
@@ -238,9 +238,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5140794828786208802}
-  - component: {fileID: 5061501247730230976}
   - component: {fileID: 2606408018056781935}
   - component: {fileID: 5660195039797525585}
+  - component: {fileID: 5061501247730230976}
   m_Layer: 0
   m_Name: 'Fire1[0]'
   m_TagString: Untagged
@@ -263,20 +263,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4096875090670776254}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5061501247730230976
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3094399409489972021}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30f8bb6c0a2b2ce4b84250007e20d7b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  taskVoodooDoll__parent: {fileID: 0}
 --- !u!65 &2606408018056781935
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -325,6 +311,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!114 &5061501247730230976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3094399409489972021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30f8bb6c0a2b2ce4b84250007e20d7b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  taskVoodooDoll__parent: {fileID: 0}
 --- !u!1 &7329263223599290936
 GameObject:
   m_ObjectHideFlags: 0
@@ -334,9 +334,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1435868158360767501}
-  - component: {fileID: 5815998966185475466}
   - component: {fileID: 3693787476471109986}
   - component: {fileID: 5668834988808315217}
+  - component: {fileID: 5815998966185475466}
   m_Layer: 0
   m_Name: 'Fire3[2]'
   m_TagString: Untagged
@@ -359,20 +359,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4096875090670776254}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5815998966185475466
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7329263223599290936}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30f8bb6c0a2b2ce4b84250007e20d7b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  taskVoodooDoll__parent: {fileID: 0}
 --- !u!65 &3693787476471109986
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -421,3 +407,17 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!114 &5815998966185475466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7329263223599290936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30f8bb6c0a2b2ce4b84250007e20d7b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  taskVoodooDoll__parent: {fileID: 0}

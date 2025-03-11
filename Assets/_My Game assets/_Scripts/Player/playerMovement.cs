@@ -89,7 +89,10 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        MovePlayerFU();
+        if (GameManager.Instance.handleMovement)
+        {
+            MovePlayerFU();
+        }
     }
 
     private void HandleMovementInput()

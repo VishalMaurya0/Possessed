@@ -42,7 +42,7 @@ public class Inventory : NetworkBehaviour
             itemHolding = GameManager.Instance.ownerPlayer.GetComponent<ItemHolding>();
         }
 
-        if (IsOwner)
+        if (IsOwner && !GameManager.Instance.itemScrollingLock)
         {
             HandleSlotSelection();
         }
@@ -75,7 +75,7 @@ public class Inventory : NetworkBehaviour
         {
             slotNo.Value = 0;
         }
-        SelectInventorySlot(slotNo.Value);
+        SelectInventorySlot(slotNo.Value, true);
 
         InventorySlotTracker.UpdateTracker(false);
     }
@@ -88,7 +88,7 @@ public class Inventory : NetworkBehaviour
         {
             slotNo.Value = maxSlots - 1;
         }
-        SelectInventorySlot(slotNo.Value);
+        SelectInventorySlot(slotNo.Value, true);
 
         InventorySlotTracker.UpdateTracker(false);
     }
@@ -127,7 +127,7 @@ public class Inventory : NetworkBehaviour
                         while (itemData.amount > 0)
                         {
                             slot.quantity++;
-                            SelectInventorySlot(slotNo.Value);
+                            SelectInventorySlot(slotNo.Value, false);
                             weight.Value += itemDataSO.weight;
                             itemData.amount--;
 
@@ -188,7 +188,7 @@ public class Inventory : NetworkBehaviour
                 weight.Value += itemDataSO.weight;
                 slots.Value += itemDataSO.inventorySlots;
                 itemData.amount--;
-                SelectInventorySlot(slotNo.Value);
+                SelectInventorySlot(slotNo.Value, false);
                 if (itemData.amount <= 0)
                 { return itemData.amount; }
 
@@ -201,7 +201,7 @@ public class Inventory : NetworkBehaviour
                     }
 
                     slot.quantity++;
-                    SelectInventorySlot(slotNo.Value);
+                    SelectInventorySlot(slotNo.Value, false);
                     weight.Value += itemDataSO.weight;
                     itemData.amount--;
                     Debug.Log(itemData.amount);
@@ -248,21 +248,21 @@ public class Inventory : NetworkBehaviour
 
 
     [ServerRpc(RequireOwnership = false)]
-    public void RemoveSelectedItemServerRpc(bool full, int quantity = 1)
+    public void RemoveSelectedItemServerRpc(bool full, int quantity = 1, bool lockMovement = false)
     {
         if (full)
         {
-            RemoveItemSelected(full);
+            RemoveItemSelected(full, 1, lockMovement);
         }
         else
         {
-            RemoveItemSelected(full, quantity);
+            RemoveItemSelected(full, quantity, lockMovement);
         }
     }
 
-    private void RemoveItemSelected(bool full, int quantity = 1)
+    private void RemoveItemSelected(bool full, int quantity = 1, bool lockMovement = false)
     {
-        SelectInventorySlot(slotNo.Value);
+        SelectInventorySlot(slotNo.Value, false, lockMovement);
         if (selectedInventorySlot.itemData == null)
         {
             return;
@@ -279,8 +279,8 @@ public class Inventory : NetworkBehaviour
                 selectedInventorySlot.quantity = 0;
                 slots.Value -= selectedItemDataSO.inventorySlots;
             }
-            UpdateInventoryToClient();
-            SelectInventorySlot(slotNo.Value);
+            UpdateInventoryToClient(lockMovement);
+            SelectInventorySlot(slotNo.Value, false, lockMovement);
         }
         else
         {
@@ -289,8 +289,8 @@ public class Inventory : NetworkBehaviour
 
             selectedInventorySlot.itemData = null;
             selectedInventorySlot.quantity = 0;
-            UpdateInventoryToClient();
-            SelectInventorySlot(slotNo.Value);
+            UpdateInventoryToClient(lockMovement);
+            SelectInventorySlot(slotNo.Value, false, lockMovement);
         }
     }
 
@@ -350,77 +350,99 @@ public class Inventory : NetworkBehaviour
             return;
         }
 
-        if (slot.quantity > 1)
-        {
-            Debug.Log($"Slot contains multiple items ({slot.quantity}). Computing state changes.");
-            int change = changeInState;
-            int noOfEmptyItems = change / (totalAmountInItem - currentState);
-            int changeOnFinal = change - (noOfEmptyItems) * (totalAmountInItem - currentState);
-            int noOfChangingItems = changeOnFinal > 0 ? 1 : 0;
-            int noOfUnchangedItems = Mathf.Max(0, slot.quantity - noOfEmptyItems - noOfChangingItems);
+        //if (slot.quantity > 1)
+        //{
+        Debug.Log($"Slot contains multiple items ({slot.quantity}). Computing state changes.");
+        int change = changeInState;
+        int noOfEmptyItems = change / (totalAmountInItem - currentState);
+        int changeOnFinal = change - (noOfEmptyItems) * (totalAmountInItem - currentState);
+        int noOfChangingItems = changeOnFinal > 0 ? 1 : 0;
+        int noOfUnchangedItems = Mathf.Max(0, slot.quantity - noOfEmptyItems - noOfChangingItems);
 
-            Debug.Log($"Change: {change}, Empty items: {noOfEmptyItems}, Change on final: {changeOnFinal}, Unchanged items: {noOfUnchangedItems}.");
+        Debug.Log($"Change: {change}, Empty items: {noOfEmptyItems}, Change on final: {changeOnFinal}, Unchanged items: {noOfUnchangedItems}.");
 
-            if (noOfChangingItems > 0)
-            {
-                if (noOfUnchangedItems > 0)
-                {
-                    Debug.Log($"Adding {noOfUnchangedItems} unchanged items.");
-                    slot.itemData.amount = noOfUnchangedItems;
-                    int remainn = AddItem(slot.itemData);
-                    if (remainn > 0)
-                    {
-                        itemHolding.ThrowSpecificNoOfItems___InventoryNotUpdated(remainn, slot.itemData);
-                    }
-                }
-                Debug.Log($"Changing final item state to max: {totalAmountInItem} and updating empty items.");
-                slot.itemData.currentState = totalAmountInItem;
-                slot.itemData.amount = noOfEmptyItems;
-                int remain = AddItem(slot.itemData);
-                if (remain > 0)
-                {
-                    itemHolding.ThrowSpecificNoOfItems___InventoryNotUpdated(remain, slot.itemData);
-                }
-                Debug.Log($"Setting remaining item state to: {changeOnFinal}.");
-                slot.itemData.currentState = changeOnFinal;
-                slot.quantity = 1;
-            }
-            else
-            {
-                if (noOfUnchangedItems > 0)
-                {
-                    Debug.Log($"Changing final item state to max: {totalAmountInItem} for unchanged items.");
-                    slot.itemData.currentState = totalAmountInItem;
-                    slot.itemData.amount = noOfEmptyItems;
-                    int remain = AddItem(slot.itemData);
-                    if (remain > 0)
-                    {
-                        itemHolding.ThrowSpecificNoOfItems___InventoryNotUpdated(remain, slot.itemData);
-                    }
-                    slot.itemData.currentState = currentState;
-                    slot.quantity = noOfUnchangedItems;
-                }
-                else
-                {
-                    Debug.Log($"Changing final item state to max: {totalAmountInItem} with no unchanged items.");
-                    slot.itemData.currentState = totalAmountInItem;
-                }
-            }
-        }
-        else if (slot.quantity == 1)
-        {
-            Debug.Log("Slot contains only one item. Checking state change feasibility.");
-            if (changeInState <= totalAmountInItem)
-            {
-                Debug.Log($"Changing single item's state to {changeInState}.");
-                slot.itemData.currentState = currentState + changeInState;
-            }
-            else
-            {
-                Debug.Log("Not enough amount in container to change state.");
-                return;
-            }
-        }
+        RemoveItemServerRpc(slotNumber, inventorySlots[slotNumber].quantity);
+
+
+        List<ItemData> itemsToAdd = new(); 
+        itemsToAdd.Add (new ItemData(itemDataSO, noOfChangingItems, changeOnFinal));
+        itemsToAdd.Add (new ItemData(itemDataSO, noOfUnchangedItems, currentState));
+        itemsToAdd.Add (new ItemData(itemDataSO, noOfEmptyItems, totalAmountInItem));
+
+
+        // Add all
+
+        int remainUnchangeItems = AddItem(itemsToAdd[1]);
+        int remainChangingItems = AddItem(itemsToAdd[0]);
+        int remainEmptyItems = AddItem(itemsToAdd[2]);
+
+        if (remainChangingItems > 0)
+            itemHolding.ThrowSpecificNoOfItems___InventoryNotUpdated(remainChangingItems, itemsToAdd[0]);
+        if (remainUnchangeItems > 0)
+            itemHolding.ThrowSpecificNoOfItems___InventoryNotUpdated(remainUnchangeItems, itemsToAdd[1]);
+        if (remainEmptyItems > 0)
+            itemHolding.ThrowSpecificNoOfItems___InventoryNotUpdated(remainEmptyItems, itemsToAdd[2]);
+            
+        //    if (noOfChangingItems > 0)
+        //    {
+        //        if (noOfUnchangedItems > 0)
+        //        {
+        //            Debug.Log($"Adding {noOfUnchangedItems} unchanged items.");
+        //            slot.itemData.amount = noOfUnchangedItems;
+        //            int remainn = AddItem(slot.itemData);
+        //            if (remainn > 0)
+        //            {
+        //                itemHolding.ThrowSpecificNoOfItems___InventoryNotUpdated(remainn, slot.itemData);
+        //            }
+        //        }
+        //        Debug.Log($"Changing final item state to max: {totalAmountInItem} and updating empty items.");
+        //        slot.itemData.currentState = totalAmountInItem;
+        //        slot.itemData.amount = noOfEmptyItems;
+        //        int remain = AddItem(slot.itemData);
+        //        if (remain > 0)
+        //        {
+        //            itemHolding.ThrowSpecificNoOfItems___InventoryNotUpdated(remain, slot.itemData);
+        //        }
+        //        Debug.Log($"Setting remaining item state to: {changeOnFinal}.");
+        //        slot.itemData.currentState = changeOnFinal;
+        //        slot.quantity = 1;
+        //    }
+        //    else
+        //    {
+        //        if (noOfUnchangedItems > 0)
+        //        {
+        //            Debug.Log($"Changing final item state to max: {totalAmountInItem} for unchanged items.");
+        //            slot.itemData.currentState = totalAmountInItem;
+        //            slot.itemData.amount = noOfEmptyItems;
+        //            int remain = AddItem(slot.itemData);
+        //            if (remain > 0)
+        //            {
+        //                itemHolding.ThrowSpecificNoOfItems___InventoryNotUpdated(remain, slot.itemData);
+        //            }
+        //            slot.itemData.currentState = currentState;
+        //            slot.quantity = noOfUnchangedItems;
+        //        }
+        //        else
+        //        {
+        //            Debug.Log($"Changing final item state to max: {totalAmountInItem} with no unchanged items.");
+        //            slot.itemData.currentState = totalAmountInItem;
+        //        }
+        //    }
+        //}
+        //else if (slot.quantity == 1)
+        //{
+        //    Debug.Log("Slot contains only one item. Checking state change feasibility.");
+        //    if (changeInState <= totalAmountInItem)
+        //    {
+        //        Debug.Log($"Changing single item's state to {changeInState}.");
+        //        slot.itemData.currentState = currentState + changeInState;
+        //    }
+        //    else
+        //    {
+        //        Debug.Log("Not enough amount in container to change state.");
+        //        return;
+        //    }
+        //}
         UpdateInventoryToClient();                       //=====================================update the inventory to client when the item get updated to inventory====================================//
     }
 
@@ -434,7 +456,7 @@ public class Inventory : NetworkBehaviour
 
 
 
-    public void SelectInventorySlot(int slotNo)
+    public void SelectInventorySlot(int slotNo, bool animateInventory, bool lockMovement = false)
     {
         selectedInventorySlot = inventorySlots[slotNo];
 
@@ -443,32 +465,33 @@ public class Inventory : NetworkBehaviour
 
         if (selectedInventorySlot.itemData != null)
         {
-            itemHolding.HoldingItem(selectedInventorySlot.itemData, selectedInventorySlot.quantity, selectedInventorySlot.itemData.currentState);
+            itemHolding.HoldingItem(selectedInventorySlot.itemData, selectedInventorySlot.quantity, selectedInventorySlot.itemData.currentState, animateInventory, lockMovement);
         }
         else
         {
-            itemHolding.HoldingItem(null, 0, 0);
+            itemHolding.HoldingItem(null, 0, 0, animateInventory, lockMovement);
         }
 
     }
 
-    public void UpdateInventoryToClient()
+    public void UpdateInventoryToClient(bool lockMovement = false)
     {
         Debug.Log("[Inventory] Updating inventory to all clients...");
         for (int i = 0; i < inventorySlots.Count; i++)
         {
-            UpdateSlotClientRpc(inventorySlots[i].itemData, inventorySlots[i].quantity, i);
+            UpdateSlotClientRpc(inventorySlots[i].itemData, inventorySlots[i].quantity, i, lockMovement);
         }
     }
 
     [ClientRpc]
-    public void UpdateSlotClientRpc(ItemData itemData, int quantity, int i)
+    public void UpdateSlotClientRpc(ItemData itemData, int quantity, int i, bool lockMovement = false)
     {
         if (!IsOwner) { return; }
         Debug.Log($"[Inventory] Updating slot {i} on client. Item: {itemData?.itemType}, Quantity: {quantity}");
         inventorySlots[i].itemData = itemData;
         inventorySlots[i].quantity = quantity;
-        SelectInventorySlot(slotNo.Value);
+        if (!lockMovement)
+            SelectInventorySlot(slotNo.Value, false);
     }
 }
 

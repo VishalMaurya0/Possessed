@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemStateCraftingRecipes:
   - id: 0
+    name: Clothed Wood
     ItemState1:
       itemType: 0
       isContainer: 0
@@ -30,18 +31,36 @@ MonoBehaviour:
       currentState: 1
       amount: 1
   - id: 1
+    name: Burning Wood
     ItemState1:
       itemType: 0
       isContainer: 0
       currentState: 1
       amount: 1
     ItemState2:
-      itemType: 4
+      itemType: 1
       isContainer: 1
       currentState: 0
-      amount: 5
+      amount: 1
     CraftedItemState:
       itemType: 0
       isContainer: 0
       currentState: 2
+      amount: 1
+  - id: 2
+    name: Burning Candle
+    ItemState1:
+      itemType: 5
+      isContainer: 0
+      currentState: 0
+      amount: 1
+    ItemState2:
+      itemType: 1
+      isContainer: 1
+      currentState: 0
+      amount: 1
+    CraftedItemState:
+      itemType: 5
+      isContainer: 0
+      currentState: 1
       amount: 1

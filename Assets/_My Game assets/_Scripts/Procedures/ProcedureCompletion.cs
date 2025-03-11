@@ -1,23 +1,30 @@
 using System;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 
 public class ProcedureCompletion : ProcedureBase
 {
+    [Header("References")]
     ProcedureBase procedureBase;
     public ProcedureData procedureData;
 
+    [Header("Procedure Specific Variables")]
     public TotalItemsNeeded totalItemsNeeded = new();
     int totalItems;
 
-    [Header("Procedure Variables")]
+    [Header("Procedure Network Variables")]
     public NetworkVariable<int> currentOrder = new(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public NetworkVariable<bool> isCompleted = new(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public NetworkVariable<float> timer = new(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
+    [Header("UI References")]
+    public TMP_Text timerText;
+
+    [Header("Champt GPT")]
     private bool isShuttingDown = false;
 
-    new private void OnDestroy()
+    new private void OnDestroy()          //===========CHAMPT GPT=============//
     {
         isShuttingDown = true;
     }
@@ -54,13 +61,16 @@ public class ProcedureCompletion : ProcedureBase
 
         if (IsServer)
         {
-            timer.Value -= Time.deltaTime;
+            if (timer.Value > 0)
+            {
+                timer.Value -= Time.deltaTime;
+            }
         }
 
         var triggerScript = GetComponentInChildren<triggerProcedurePointScript>();
         if (triggerScript == null)
         {
-            Debug.LogError("triggerProcedurePointScript is missing!");
+            Debug.LogWarning("triggerProcedurePointScript is missing!");
             return;
         }
 
@@ -70,21 +80,21 @@ public class ProcedureCompletion : ProcedureBase
 
             if (GameManager.Instance.ownerPlayer == null)
             {
-                Debug.LogError("ownerPlayer is null in GameManager!");
+                Debug.LogWarning("ownerPlayer is null in GameManager!");
                 return;
             }
 
             Inventory inventory = GameManager.Instance.ownerPlayer.GetComponent<Inventory>();
             if (inventory == null)
             {
-                Debug.LogError("Inventory component is missing!");
+                Debug.LogWarning("Inventory component is missing!");
                 return;
             }
 
             InventorySlot selectedInventorySlot = inventory.selectedInventorySlot;
             if (selectedInventorySlot == null || selectedInventorySlot.itemData == null)
             {
-                Debug.LogError("No item selected in inventory!");
+                Debug.LogWarning("No item selected in inventory!");
                 return;
             }
 
@@ -100,8 +110,18 @@ public class ProcedureCompletion : ProcedureBase
                 }
             }
         }
+
+        TimerTextUI();
     }
 
+    private void TimerTextUI()
+    {
+        if (timer.Value <= 0)
+        {
+            timer.Value = 0;
+        }
+        timerText?.SetText($"{timer.Value} secs");
+    }
 
     [ServerRpc(RequireOwnership = false)]
     private void CheckOrderCompletionServerRpc()
@@ -134,7 +154,7 @@ public class ProcedureCompletion : ProcedureBase
 
     private void CheckIfItemMatchedWithInventorySlot(ItemNeeded itemToCheckAndAdd, ItemData itemDataInInventory, Inventory inventory, int i)
     {
-        Debug.Log($"Matching item: {itemDataInInventory.itemType} with required item: {itemToCheckAndAdd.ItemType}");
+        Debug.Log($"Matching item: {itemDataInInventory?.itemType} with required item: {itemToCheckAndAdd?.ItemType}");
 
         if (itemToCheckAndAdd.ItemType == itemDataInInventory?.itemType)
         {

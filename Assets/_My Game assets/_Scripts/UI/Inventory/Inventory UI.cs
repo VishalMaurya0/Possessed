@@ -8,6 +8,7 @@ public class InventoryUI : MonoBehaviour
     InventorySlotTracker inventorySlotTracker;
     public ItemFrameUI itemFrameUI;
     Inventory inventory;
+    public ItemAmountUI ItemAmountUI;
 
 
     public RectTransform[] positions = new RectTransform[9];
@@ -111,38 +112,37 @@ public class InventoryUI : MonoBehaviour
 
     }
 
-    public void SetIcon(bool toAnimate)
+    public void SetIcon(bool notToAnimate)
     {
 
-        if (toAnimate)
+        if (notToAnimate)
         {
+
             for (int i = 0; i < icons.Length; i++)
             {
                 icons[i].SetActive(false);
-                //Destroy(backgroundIcons[i]);
-                //backgroundIcons[i] = null;
             }
+
             for (int j = 0; j < icons.Length; j++)
             {
+
                 if (iconPlaceholders[j].activeSelf && !icons[j].activeSelf)
                 {
                     icons[j].SetActive(true);
-                    icons[j].GetComponent<RectTransform>().anchoredPosition = iconPlaceholders[j].GetComponent<RectTransform>().anchoredPosition;
-                    icons[j].GetComponent<RectTransform>().sizeDelta = iconPlaceholders[j].GetComponent<RectTransform>().sizeDelta;
-                    icons[j].GetComponent<Image>().sprite = iconPlaceholders[j].GetComponent<Image>().sprite;
-                    icons[j].GetComponent<Image>().color = Color.white;
+                    RectTransform iconTransform = icons[j].GetComponent<RectTransform>();
+                    RectTransform placeholderTransform = iconPlaceholders[j].GetComponent<RectTransform>();
+                    Image iconImage = icons[j].GetComponent<Image>();
+                    Image placeholderImage = iconPlaceholders[j].GetComponent<Image>();
+
+                    iconTransform.anchoredPosition = placeholderTransform.anchoredPosition;
+                    iconTransform.sizeDelta = placeholderTransform.sizeDelta;
+                    iconImage.sprite = placeholderImage.sprite;
+                    iconImage.color = Color.white;
                     icons[j].name = "Icon_" + j;
-                    if (j != inventorySlotTracker.leftSlot.slots.Count)
-                    {
-                        icons[j].GetComponent<CanvasGroup>().alpha = decreasedAlpha;
-                    }
-                    if (j == inventorySlotTracker.leftSlot.slots.Count)
-                    {
-                        icons[j].GetComponent<CanvasGroup>().alpha = 1;
-                    }
-                    //backgroundIcons[j] = Instantiate(itemIcon, transform);
-                    //backgroundIcons[j].GetComponent<Image>().sprite = iconBackgroundPrefab.GetComponent<Image>().sprite;
-                    //backgroundIcons[j].GetComponent<Image>().color = iconBackgroundPrefab.GetComponent<Image>().color;
+
+                    float alphaValue = (j != inventorySlotTracker.leftSlot.slots.Count) ? decreasedAlpha : 1f;
+                    icons[j].GetComponent<CanvasGroup>().alpha = alphaValue;
+
                 }
                 else if (iconPlaceholders[j].activeSelf && icons[j].activeSelf)
                 {
@@ -151,13 +151,10 @@ public class InventoryUI : MonoBehaviour
                 else if (!iconPlaceholders[j].activeSelf)
                 {
                     icons[j].SetActive(false);
-                    //Destroy(backgroundIcons[j]);
-                    //backgroundIcons[j] = null;
-
                 }
             }
 
-            ///====== Aimate the Frame Icon =======//
+            ///====== Animate the Frame Icon =======//
             bool showIcon = false;
 
             foreach (var icon in iconPlaceholders)
@@ -172,22 +169,23 @@ public class InventoryUI : MonoBehaviour
             if (showIcon)
             {
                 itemFrameUI.Activate();
-            }else
+            }
+            else
             {
                 itemFrameUI.Deactivate();
             }
-
         }
         else
         {
             AnimateIcon___UIImage();
         }
+
+        ItemAmountUI.UpdateTotalAmountAndNameUI();
     }
-
-
 
     public void AnimateIcon___UIImage()
     {
+
         int firstPlaceholderIndex = -1;
         int firstIconIndex = -1;
 
@@ -211,20 +209,19 @@ public class InventoryUI : MonoBehaviour
             }
         }
 
-        // Check if we found valid indices before proceeding
+
         if (firstPlaceholderIndex == -1 || firstIconIndex == -1)
         {
             return;
         }
 
-        // Start animation
         for (int i = firstIconIndex, j = firstPlaceholderIndex; i < icons.Length && j < iconPlaceholders.Length; i++, j++)
         {
             if (icons[i].activeSelf && iconPlaceholders[j].activeSelf)
             {
-                LeanTween.cancel(icons[i]); // Cancel any existing tween
 
                 RectTransform iconTransform = icons[i].GetComponent<RectTransform>();
+                RectTransform placeholderTransform = iconPlaceholders[j].GetComponent<RectTransform>();
                 CanvasGroup canvasGroup = icons[i].GetComponent<CanvasGroup>();
 
                 if (canvasGroup == null)
@@ -232,19 +229,16 @@ public class InventoryUI : MonoBehaviour
                     canvasGroup = icons[i].AddComponent<CanvasGroup>(); // Ensure CanvasGroup exists
                 }
 
-                // Move animation
-                LeanTween.move(iconTransform, iconPlaceholders[j].GetComponent<RectTransform>().anchoredPosition3D, animTime)
+                LeanTween.move(iconTransform, placeholderTransform.anchoredPosition3D, animTime)
                     .setEase(LeanTweenType.easeOutExpo);
 
-                // Scale animation
-                LeanTween.size(iconTransform, iconPlaceholders[j].GetComponent<RectTransform>().sizeDelta, animTime)
+                LeanTween.size(iconTransform, placeholderTransform.sizeDelta, animTime)
                     .setEase(LeanTweenType.easeOutExpo);
 
-                // Alpha animation (Ensures it plays every time)
                 float targetAlpha = (j == inventorySlotTracker.leftSlot.slots.Count) ? 1f : decreasedAlpha;
                 LeanTween.alphaCanvas(canvasGroup, targetAlpha, animTime / 5);
-            }
 
+            }
         }
 
         LeanTween.delayedCall(animTime, () =>
@@ -255,6 +249,7 @@ public class InventoryUI : MonoBehaviour
             }
         });
     }
+
 
 
 

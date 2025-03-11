@@ -12,6 +12,7 @@ public class ItemCraftingDataSO : ScriptableObject
 public struct ItemStateCraftingRecipe
 {
     public int id;
+    public string name;
     public ItemState ItemState1;
     public ItemState ItemState2;
     public ItemState CraftedItemState;

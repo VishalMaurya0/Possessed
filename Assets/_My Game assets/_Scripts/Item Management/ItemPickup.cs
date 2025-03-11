@@ -20,7 +20,8 @@ public class ItemPickup : NetworkBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && (GetComponent<NetworkObject>().OwnerClientId == NetworkManager.ServerClientId || GetComponent<NetworkObject>().OwnerClientId == NetworkManager.Singleton.LocalClientId) )
+        if (Input.GetKeyDown(KeyCode.E) 
+            && (GetComponent<NetworkObject>().OwnerClientId == NetworkManager.ServerClientId || GetComponent<NetworkObject>().OwnerClientId == NetworkManager.Singleton.LocalClientId) )
         {
             TryPickupItem();
         }
@@ -53,13 +54,13 @@ public class ItemPickup : NetworkBehaviour
             if (remainingItem == 0)
             {
                 networkObject.Despawn();
-                it.SetEverythingNormal();
+                it.SetEverythingNormal(false);
             }
             else
             {
                 itemData.amount = remainingItem;
                 ReduceItemCountClientRPC(itemData, remainingItem);
-                it.SetEverythingNormal();
+                it.SetEverythingNormal(false);
             }
         }
     }

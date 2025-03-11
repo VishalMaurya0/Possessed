@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     public bool lockCurser = false;
     public bool handlePlayerLookWithMouse = true;
     public bool handleMovement = true;
+    public bool itemScrollingLock = false;
 
     public ProcedureBase procedureBase;
     
@@ -44,6 +45,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         LeanTween.reset();
+        LeanTween.cancelAll();
     }
 
 

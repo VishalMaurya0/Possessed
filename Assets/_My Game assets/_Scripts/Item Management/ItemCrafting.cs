@@ -19,7 +19,6 @@ public class ItemCrafting : MonoBehaviour
 
         if (GameManager.Instance == null || GameManager.Instance.ownerPlayer == null)
         {
-            Debug.LogWarning("ItemCrafting GameManager or ownerPlayer is null. Cannot initialize inventory.");
             return;
         }
 
@@ -27,7 +26,6 @@ public class ItemCrafting : MonoBehaviour
 
         if (inventory == null)
         {
-            Debug.LogWarning("[ItemCrafting] Inventory component not found on ownerPlayer.");
             return;
         }
 
@@ -42,14 +40,12 @@ public class ItemCrafting : MonoBehaviour
     {
         if (GameManager.Instance == null || GameManager.Instance.ownerPlayer == null || inventory == null)
         {
-            Debug.LogWarning("[ItemCrafting] GameManager, ownerPlayer, or inventory is null. Trying to reinitialize.");
             MyStart();
             return;
         }
 
         if (GameManager.Instance.serverStarted && inventory == null)
         {
-            Debug.LogWarning("[ItemCrafting] Inventory is null on server start. Calling MyStart again.");
             MyStart();
         }
 
@@ -148,6 +144,10 @@ public class ItemCrafting : MonoBehaviour
 
             foreach (var slot in inventory.inventorySlots)
             {
+                if (slot.itemData == null)
+                {
+                    continue;
+                }
                 ItemDataSO itemDataSO = ScriptableObjectFinder.FindItemSO(slot.itemData);
                 if (slot.itemData != null &&
                     slot.itemData.itemType == requiredType &&
@@ -199,6 +199,16 @@ public class ItemCrafting : MonoBehaviour
 
 
         ItemData craftedItem = new ItemData(idso, C.amount, C.currentState);
+        
+        
+        if (!B.isContainer)
+        {
+            inventory.RemoveItemServerRpc(inventory.inventorySlots.IndexOf(itemState2InventorySlot), B.amount);
+        }
+        else
+        {
+            inventory.ChangeStateOfItemServerRpc(inventory.inventorySlots.IndexOf(itemState2InventorySlot),  B.amount);
+        }
 
         if (!A.isContainer)
         {
@@ -222,14 +232,7 @@ public class ItemCrafting : MonoBehaviour
 
         
 
-        if (!B.isContainer)
-        {
-            inventory.RemoveItemServerRpc(inventory.inventorySlots.IndexOf(itemState2InventorySlot), B.amount);
-        }
-        else
-        {
-            inventory.ChangeStateOfItemServerRpc(inventory.inventorySlots.IndexOf(itemState2InventorySlot),  B.amount);
-        }
+        
 
 
 
