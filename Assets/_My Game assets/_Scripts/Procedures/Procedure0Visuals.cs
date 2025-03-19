@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class Procedure0Visuals : MonoBehaviour
+public class Procedure0Visuals : NetworkBehaviour
 {
     
     public ProcedureCompletion procedureCompletion;
@@ -16,12 +18,14 @@ public class Procedure0Visuals : MonoBehaviour
     {
         if (procedureCompletion.showVisual.Key)
         {
-            CompleteVisuals(procedureCompletion.showVisual.Value);
+            //CompleteVisualsServerRpc(procedureCompletion.showVisual.Value);
+            CompleteVisualsClientRpc(procedureCompletion.showVisual.Value);
             procedureCompletion.showVisual = new();
         }
     }
 
-    private void CompleteVisuals(int i)
+    [ClientRpc]
+    private void CompleteVisualsClientRpc(int i)
     {
         if (i == 0)
         {
@@ -32,7 +36,7 @@ public class Procedure0Visuals : MonoBehaviour
         }
         if (i == 1)
         {
-            transform.GetChild(procedureCompletion.totalItemsNeeded.addedAmount[i-1]).gameObject.SetActive(true);
+            transform.GetChild(procedureCompletion.totalItemsNeeded.itemNeeded[i-1].requiredAmount).gameObject.SetActive(true);
         }
     }
 

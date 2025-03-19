@@ -190,7 +190,6 @@ public class ProcedureCompletion : ProcedureBase
                     if (totalItemsNeeded.addedAmount[i] < totalItemsNeeded.itemNeeded[i].requiredAmount)
                     {
                         AddNonContainerItem(itemDataInInventory, inventory, i);
-                        SetVisualTrigger(i);
                     }
                 }
             }
@@ -200,7 +199,6 @@ public class ProcedureCompletion : ProcedureBase
                 if (totalItemsNeeded.addedAmount[i] < totalItemsNeeded.itemNeeded[i].requiredAmount)
                 {
                     AddContainerItem(inventory, itemDataInInventory, i);
-                    SetVisualTrigger(i);
                 }
             }
         }
@@ -238,6 +236,7 @@ public class ProcedureCompletion : ProcedureBase
     private void InformClientsAboutChangeClientRpc(int i)
     {
         totalItemsNeeded.addedAmount[i]++;
+        SetVisualTrigger(i);
     }
     
     
