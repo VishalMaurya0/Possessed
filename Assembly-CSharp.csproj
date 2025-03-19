@@ -122,6 +122,7 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextMeshSpawner.cs" />
     <Compile Include="Assets\_My Game assets\_ScriptableObjects\GhostData.cs" />
     <Compile Include="Assets\_My Game assets\_ScriptableObjects\Item\ItemDataSO.cs" />
+    <Compile Include="Assets\_My Game assets\_Scripts\Procedures\Procedure0Visuals.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\CameraController.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark03.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Item Management\ItemStatePrefabSelection.cs" />
@@ -139,6 +140,7 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventCheck.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Procedures\ProcedureBase.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Procedures\Procedure6.cs" />
+    <Compile Include="Assets\ParrelSync-master\Examples\CustomArgumentExample.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextMeshProFloatingText.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Item Management\itemClass.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Tasks\Task For Voodoo Doll\TaskVoodooDoll.cs" />
@@ -164,6 +166,7 @@
     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
+    <None Include="Assets\ParrelSync-master\VERSION.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
@@ -1415,6 +1418,10 @@
     <ProjectReference Include="OutsideAssets.csproj">
       <Project>{D4F68138-4C86-A611-BA2A-E4FFED7330D5}</Project>
       <Name>OutsideAssets</Name>
+    </ProjectReference>
+    <ProjectReference Include="ParrelSync.csproj">
+      <Project>{ADB64EBC-CF4A-1438-944A-AF6F3704F41B}</Project>
+      <Name>ParrelSync</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

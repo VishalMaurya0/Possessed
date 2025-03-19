@@ -1379,6 +1379,10 @@
       <Project>{D4F68138-4C86-A611-BA2A-E4FFED7330D5}</Project>
       <Name>OutsideAssets</Name>
     </ProjectReference>
+    <ProjectReference Include="ParrelSync.csproj">
+      <Project>{ADB64EBC-CF4A-1438-944A-AF6F3704F41B}</Project>
+      <Name>ParrelSync</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

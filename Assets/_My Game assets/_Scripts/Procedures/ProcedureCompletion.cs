@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
@@ -12,6 +13,10 @@ public class ProcedureCompletion : ProcedureBase
     [Header("Procedure Specific Variables")]
     public TotalItemsNeeded totalItemsNeeded = new();
     int totalItems;
+
+    [Header("Visuals")]
+    public List<VisualsTrigger> visualsTrigger = new();
+    public KeyValuePair<bool, int> showVisual = new();
 
     [Header("Procedure Network Variables")]
     public NetworkVariable<int> currentOrder = new(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
@@ -49,14 +54,30 @@ public class ProcedureCompletion : ProcedureBase
             procedureBase.position[procedureData.procedureIndex] = transform.position;
             Debug.Log($"Procedure registered at index {procedureData.procedureIndex}");
         }
+
+        InitializeVisuals();
+    }
+
+    private void InitializeVisuals()
+    {
+        visualsTrigger.Clear();
+        for (int i = 0; i < totalItemsNeeded.itemNeeded.Count; i++)
+        {
+            visualsTrigger.Add(new VisualsTrigger());
+            for (int j = 0; j < totalItemsNeeded.itemNeeded[i].requiredAmount; j++)
+            {
+                visualsTrigger[i].trigger.Add(false);
+            }
+        }
     }
 
     void Update()
     {
-        if (isShuttingDown || !IsOwner || NetworkManager.Singleton == null || !NetworkManager.Singleton.IsListening)
+        if (isShuttingDown || NetworkManager.Singleton == null || !NetworkManager.Singleton.IsListening)
         {
             return;
         }
+
 
 
         if (IsServer)
@@ -64,6 +85,10 @@ public class ProcedureCompletion : ProcedureBase
             if (timer.Value > 0)
             {
                 timer.Value -= Time.deltaTime;
+            }
+            if (timer.Value <= 0)
+            {
+                timer.Value = 0;
             }
         }
 
@@ -116,10 +141,6 @@ public class ProcedureCompletion : ProcedureBase
 
     private void TimerTextUI()
     {
-        if (timer.Value <= 0)
-        {
-            timer.Value = 0;
-        }
         timerText?.SetText($"{timer.Value} secs");
     }
 
@@ -169,6 +190,7 @@ public class ProcedureCompletion : ProcedureBase
                     if (totalItemsNeeded.addedAmount[i] < totalItemsNeeded.itemNeeded[i].requiredAmount)
                     {
                         AddNonContainerItem(itemDataInInventory, inventory, i);
+                        SetVisualTrigger(i);
                     }
                 }
             }
@@ -178,10 +200,12 @@ public class ProcedureCompletion : ProcedureBase
                 if (totalItemsNeeded.addedAmount[i] < totalItemsNeeded.itemNeeded[i].requiredAmount)
                 {
                     AddContainerItem(inventory, itemDataInInventory, i);
+                    SetVisualTrigger(i);
                 }
             }
         }
     }
+
 
     private void AddContainerItem(Inventory inventory, ItemData itemDataInInventory, int i)
     {
@@ -215,4 +239,23 @@ public class ProcedureCompletion : ProcedureBase
     {
         totalItemsNeeded.addedAmount[i]++;
     }
+    
+    
+
+    private void SetVisualTrigger(int i)
+    {
+        for (int j = 0; j < totalItemsNeeded.addedAmount[i]; j++)
+        {
+            visualsTrigger[i].trigger[j] = true;
+        }
+        showVisual = new KeyValuePair<bool, int> (true, i);
+    }
+}
+    
+            
+
+[System.Serializable]
+public class VisualsTrigger
+{
+    public List<bool> trigger = new();
 }

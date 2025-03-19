@@ -203,7 +203,7 @@ public class ItemHolding : NetworkBehaviour
 
     public void SetEverythingNormal(bool animateInventory)
     {
-        Debug.LogWarning("who run this");
+        isZoomed = false;
         GameManager.Instance.handlePlayerLookWithMouse = true;
         GameManager.Instance.handleMovement = true;
         GameManager.Instance.lockCurser = true;
