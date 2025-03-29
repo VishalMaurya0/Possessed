@@ -13,7 +13,6 @@ public class GenerateMap : MonoBehaviour
     public List<GameObject> walls;
 
     [Header("Map Properties")]
-    public List<RowCell> mapCells = new List<RowCell>();
     private MapCell[,] mapGrid;
     public MapCell centreMapCell;
 
@@ -24,12 +23,6 @@ public class GenerateMap : MonoBehaviour
         grid = GetComponent<Grid>();
         CreateInitialMap();
         ReferenceAdjacentCells();
-        //StartGeneration();
-
-        //Debug.Log(mapCells[2].rowCells[0].leftCell);
-        //Debug.Log(mapCells[2].rowCells[0].rightCell.position);
-        //Debug.Log(mapCells[2].rowCells[0].topCell.position);
-        //Debug.Log(mapCells[2].rowCells[0].bottomCell.position);
     }
 
     private void Update()
@@ -59,60 +52,6 @@ public class GenerateMap : MonoBehaviour
         }
     }
 
-
-    private void UpdateVisual()
-    {
-        updateVisual = false;
-
-        int rowCount = mapCells.Count;
-        int columnCount = mapCells[0].rowCells.Count;
-
-        for (int i = 0; i < rowCount; i++)
-        {
-            for (int j = 0; j < columnCount; j++)
-            {
-                GameObject obj = Instantiate(CellObj, transform);
-                obj.transform.position = mapCells[i].rowCells[j].position;
-                obj.transform.localScale = Vector3.one * (grid.cellLength - 0.2f);
-                obj.name = $"Cell ({j}, {i})";
-                mapCells[i].rowCells[j].cellObject = obj;
-            }
-        }
-
-        //Wall Visual
-
-        for (int i = 0; i < rowCount; i++)
-        {
-            for (int j = 0; j < columnCount; j++)
-            {
-                MapCell cell = mapCells[i].rowCells[j];
-
-                for (int k = 0; k < cell.wall.Length; k++)
-                {
-                    if (cell.wallG[k] == null && cell.wall[k] != WallType.noWall)
-                    {
-                        // Get the wall prefab from the list based on wall type
-                        GameObject wallPrefab = walls[(int)cell.wall[k]];
-
-                        if (wallPrefab != null)
-                        {
-                            // Instantiate the wall at the appropriate position & rotation
-                            GameObject newWall = GameObject.Instantiate(wallPrefab, cell.GetWallPosition(k, cell), cell.GetWallRotation(k));
-
-                            // Store the reference
-                            cell.wallG[k] = newWall;
-                            int oppositeIndex = (k + 2) % 4; // 0↔2 (right-left), 1↔3 (top-bottom)
-                            cell.adjCell[k].wallG[oppositeIndex] = newWall;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-
-
-
     private void CreateInitialMap()
     {
         int rows = grid.length / grid.cellLength;
@@ -129,57 +68,6 @@ public class GenerateMap : MonoBehaviour
         }
     }
 
-
-    void RemoveWalls(MapCell cell, int right, int top, int left, int bottom)
-    {
-        int[] directions = { right, top, left, bottom };
-
-        for (int i = 0; i < 4; i++)
-        {
-            if (directions[i] > -1)
-            {
-                switch (directions[i])
-                {
-                    case 0: cell.wall[i] = WallType.noWall; break;
-                    case 1: cell.wall[i] = WallType.wall; break;
-                    case 2: cell.wall[i] = WallType.gate; break;
-                    case 3: cell.wall[i] = WallType.window; break;
-                }
-
-                // Update adjacent cell's corresponding wall
-                if (cell.adjCell[i] != null)
-                {
-                    int oppositeIndex = (i + 2) % 4; // 0↔2 (right-left), 1↔3 (top-bottom)
-                    cell.adjCell[i].wall[oppositeIndex] = cell.wall[i];
-                }
-            }
-        }
-    }
-
-
-
-
-    private void StartGeneration()
-    {
-        CentreGeneration();
-        ChooseGate();
-        GeneratePath();
-    }
-
-    private void GeneratePath()
-    {
-        List<MapCell> startCells = new List<MapCell>();
-        //startCells.Add(centreMapCell.leftCell.leftCell);
-        //startCells.Add(centreMapCell.rightCell.rightCell);
-        //startCells.Add(centreMapCell.topCell.topCell);
-        //startCells.Add(centreMapCell.bottomCell.bottomCell);
-
-        foreach (var cell in startCells)
-        {
-
-        }
-    }
-
     private void ChooseGate()
     {
         int centerRow = grid.length / grid.cellLength / 2;
@@ -190,25 +78,24 @@ public class GenerateMap : MonoBehaviour
 
         // North Gate
         int northGateCol = centerCol + gateOffsets[rand.Next(0, 3)];
-        mapCells[centerRow - 2].rowCells[northGateCol].wall[3] = WallType.gate;
-        mapCells[centerRow - 1].rowCells[northGateCol].wall[1] = WallType.gate;
+        mapGrid[centerRow - 2, northGateCol].wall[3] = WallType.gate;
+        mapGrid[centerRow - 1, northGateCol].wall[1] = WallType.gate;
 
         // South Gate
         int southGateCol = centerCol + gateOffsets[rand.Next(0, 3)];
-        mapCells[centerRow + 2].rowCells[southGateCol].wall[1] = WallType.gate;
-        mapCells[centerRow + 1].rowCells[southGateCol].wall[3] = WallType.gate;
+        mapGrid[centerRow + 2, southGateCol].wall[1] = WallType.gate;
+        mapGrid[centerRow + 1, southGateCol].wall[3] = WallType.gate;
 
         // East Gate
         int eastGateRow = centerRow + gateOffsets[rand.Next(0, 3)];
-        mapCells[eastGateRow].rowCells[centerCol + 2].wall[2] = WallType.gate;
-        mapCells[eastGateRow].rowCells[centerCol + 1].wall[0] = WallType.gate;
+        mapGrid[eastGateRow, centerCol + 2].wall[2] = WallType.gate;
+        mapGrid[eastGateRow, centerCol + 1].wall[0] = WallType.gate;
 
         // West Gate
         int westGateRow = centerRow + gateOffsets[rand.Next(0, 3)];
-        mapCells[westGateRow].rowCells[centerCol - 2].wall[0] = WallType.gate;
-        mapCells[westGateRow].rowCells[centerCol - 1].wall[2] = WallType.gate;
+        mapGrid[westGateRow, centerCol - 2].wall[0] = WallType.gate;
+        mapGrid[westGateRow, centerCol - 1].wall[2] = WallType.gate;
     }
-
 
     private void CentreGeneration()
     {
@@ -219,7 +106,7 @@ public class GenerateMap : MonoBehaviour
         {
             for (int j = -1; j <= 1; j++)
             {
-                MapCell cell = mapCells[centerRow + i].rowCells[centerCol + j];
+                MapCell cell = mapGrid[centerRow + i, centerCol + j];
 
                 if (j < 1) cell.wall[0] = WallType.noWall; // Right
                 if (j > -1) cell.wall[2] = WallType.noWall; // Left
@@ -230,14 +117,13 @@ public class GenerateMap : MonoBehaviour
     }
 }
 
-
 [System.Serializable]
 public class MapCell
 {
     public Vector3 position;
     public int width;
     public Vector2 id;
-    
+
     // 0 => right , 1 => top , 2 => left , 3 => bottom
 
     public MapCell[] adjCell = new MapCell[4];
@@ -263,18 +149,17 @@ public class MapCell
         this.cellObject = cellObject;
     }
 
-
     public Vector3 GetWallPosition(int wallIndex, MapCell cell)
     {
-        Vector3 position = cell.position; // Assuming 'position' is the cell's center
-        float halfSize = cell.width / 2f; // Adjust for correct wall placement
+        Vector3 position = cell.position;
+        float halfSize = cell.width / 2f;
 
         switch (wallIndex)
         {
-            case 0: return position + new Vector3(halfSize, 0, 0); // Right
-            case 1: return position + new Vector3(0, 0, halfSize); // Top
-            case 2: return position - new Vector3(halfSize, 0, 0); // Left
-            case 3: return position - new Vector3(0, 0, halfSize); // Bottom
+            case 0: return position + new Vector3(halfSize, 0, 0);
+            case 1: return position + new Vector3(0, 0, halfSize);
+            case 2: return position - new Vector3(halfSize, 0, 0);
+            case 3: return position - new Vector3(0, 0, halfSize);
             default: return position;
         }
     }
@@ -283,10 +168,10 @@ public class MapCell
     {
         switch (wallIndex)
         {
-            case 0: return Quaternion.Euler(0, 90, 0); // Right wall
-            case 1: return Quaternion.identity; // Top wall
-            case 2: return Quaternion.Euler(0, -90, 0); // Left wall
-            case 3: return Quaternion.Euler(0, 180, 0); // Bottom wall
+            case 0: return Quaternion.Euler(0, 90, 0);
+            case 1: return Quaternion.identity;
+            case 2: return Quaternion.Euler(0, -90, 0);
+            case 3: return Quaternion.Euler(0, 180, 0);
             default: return Quaternion.identity;
         }
     }
@@ -298,10 +183,4 @@ public enum WallType
     wall,
     gate,
     window,
-}
-
-[System.Serializable]
-public class RowCell
-{
-    public List<MapCell> rowCells = new List<MapCell>();
 }
