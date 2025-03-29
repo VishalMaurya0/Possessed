@@ -16,7 +16,7 @@ public class GenerateMap : MonoBehaviour
     [Header("Map Properties")]
     public MapCell[,] mapCells;
     private MapCell centreMapCell;
-    private List<MapCell> InitialGateRooms;
+    private List<MapCell> InitialGateRooms = new List<MapCell>();
 
     public bool updateVisual;
 
@@ -70,7 +70,6 @@ public class GenerateMap : MonoBehaviour
         ChooseGate();
         GenerateRooms(roomMinLength, roomMaxLength, totalRooms);
         GeneratePath();
-        Debug.Log(mapCells[0, 1].wall[2]);
     }
 
     private void Update()
@@ -243,11 +242,17 @@ public class GenerateMap : MonoBehaviour
         Vector2 start = new Vector2(Random.Range(0, grid.length), Random.Range(0, grid.width));
 
         bool flag = false;
-        int i = (int)start.x;
-        int j = (int)start.y;
-        for (i = (int)start.x; i < (int)start.x + length; i++)
+
+        // Ensure the room fits within the grid
+        if (start.x + length > mapCells.GetLength(0) || start.y + width > mapCells.GetLength(1))
         {
-            for (j = (int)start.y; j < (int)start.y + width; j++)
+            return; // Room would go out of bounds, so we skip it
+        }
+
+        // Check if any cell in the room is already occupied
+        for (int i = (int)start.x; i < (int)start.x + length; i++)
+        {
+            for (int j = (int)start.y; j < (int)start.y + width; j++)
             {
                 if (mapCells[i, j].inRoom)
                 {
@@ -258,15 +263,64 @@ public class GenerateMap : MonoBehaviour
             if (flag) break;
         }
 
-        if (flag)
-        {
-            //CreateARoom(roomMinLength, roomMaxLength);
-        }
-
+        if (flag) return; // Skip room generation if it's overlapping
 
         //========Create the room=======//
 
+        for (int i = (int)start.x; i < (int)start.x + length; i++)
+        {
+            for (int j = (int)start.y; j < (int)start.y + width; j++)
+            {
+                mapCells[i, j].inRoom = true; // Mark cell as part of the room
+            }
+        }
+
+        // Removing walls to create the room structure
+        int x = (int)start.x;
+        int y = (int)start.y;
+
+        //========remove walls for bootom cells
+        for (int l = x; l < x + length; l++)
+        {
+            RemoveWalls(mapCells[l, y], 0, 0, 0, 1);
+        }
+        for (int w = y; w < y + width; w++)
+        {
+            RemoveWalls(mapCells[x, w], 0, 0, 1, 0);
+        }
+        x = (int)start.x;
+        y = (int)start.y + width - 1;
+        for (int l = x; l < x + length; l++)
+        {
+            RemoveWalls(mapCells[l, y], 0, 1, 0, 0);
+        }
+        x = (int)start.x + length - 1;
+        y = (int)start.y;
+        for (int w = y; w < y + width; w++)
+        {
+            RemoveWalls(mapCells[x, w], 1, 0, 0, 0);
+        }
+
+
+        //========= remove centre walls ====//
+        x = (int)start.x;
+        y = (int)start.y;
+        for (int l = x + 1; l < x + length - 1; l++)
+        {
+            for (int w = y + 1; w < y + width - 1; w++)
+            {
+                RemoveWalls(mapCells[l, w], 0, 0, 0, 0);
+            }
+        }
+
+
+        //========= add corner walls ========//
+        RemoveWalls(mapCells[x, y], 0, 0, 1, 1);
+        RemoveWalls(mapCells[x + length - 1, y], 1, 0, 0, 1);
+        RemoveWalls(mapCells[x, y + width - 1], 0, 1, 1, 0);
+        RemoveWalls(mapCells[x + length - 1, y + width - 1], 1, 1, 0, 0);
     }
+
 
 
 
