@@ -319,6 +319,19 @@ public class GenerateMap : MonoBehaviour
         RemoveWalls(mapCells[x + length - 1, y], 1, 0, 0, 1);
         RemoveWalls(mapCells[x, y + width - 1], 0, 1, 1, 0);
         RemoveWalls(mapCells[x + length - 1, y + width - 1], 1, 1, 0, 0);
+
+        //===========Make A Random Gate==========//
+
+        int gateIndexX = Random.Range(x, x + length);
+        int gateIndexY = Random.Range(y, y + width);
+
+        switch (Random.Range(0, 4))
+        {
+            case 0: RemoveWalls(mapCells[x + length - 1, gateIndexY], 2, -1, -1, -1); break;
+            case 1: RemoveWalls(mapCells[gateIndexX, y + width - 1], -1, 2, -1, -1); break;
+            case 2: RemoveWalls(mapCells[x, gateIndexY], -1, -1, 2, -1); break;
+            case 3: RemoveWalls(mapCells[gateIndexX, y], -1, -1, -1, 2); break;
+        }
     }
 
 
