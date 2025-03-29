@@ -17,6 +17,7 @@ public class GenerateMap : MonoBehaviour
     public MapCell[,] mapCells;
     private MapCell centreMapCell;
     private List<MapCell> InitialGateRooms = new List<MapCell>();
+    public List<Room> rooms = new List<Room>();
 
     public bool updateVisual;
 
@@ -233,6 +234,13 @@ public class GenerateMap : MonoBehaviour
         {
             CreateARoom(roomMinLength, roomMaxLength);
         }
+
+
+        //===== Removing boundaries ====//
+        foreach (MapCell cell in InitialGateRooms)
+        {
+            cell.inRoom = false;
+        }
     }
     private void CreateARoom(int roomMinLength, int roomMaxLength)
     {
@@ -263,7 +271,11 @@ public class GenerateMap : MonoBehaviour
             if (flag) break;
         }
 
-        if (flag) return; // Skip room generation if it's overlapping
+        if (flag)
+        {
+            // TODO Generate Room
+            return; // Skip room generation if it's overlapping
+        }
 
         //========Create the room=======//
 
@@ -332,6 +344,7 @@ public class GenerateMap : MonoBehaviour
             case 2: RemoveWalls(mapCells[x, gateIndexY], -1, -1, 2, -1); break;
             case 3: RemoveWalls(mapCells[gateIndexX, y], -1, -1, -1, 2); break;
         }
+
     }
 
 
@@ -340,21 +353,58 @@ public class GenerateMap : MonoBehaviour
 
     private void GeneratePath()
     {
+        Increment(InitialGateRooms[0]);
         foreach (var cell in InitialGateRooms)
         {
-            Increment(cell);
         }
     }
     private void Increment(MapCell cell)
     {
+        if (cell == null) return;
+        int initialDir = -1;
         List<int> incrementDir = new List<int>();
         for (int i = 0; i < cell.wall.Length; i++)
         {
             if (cell.wall[i] == WallType.wall) 
                 incrementDir.Add(i);
+            if (cell.wall[i] == WallType.noWall && initialDir == -1)
+            {
+                initialDir = (i + 2) % 4;
+                continue;
+            }
+            if (cell.wall[i] == WallType.gate)
+                initialDir = (i + 2) % 4;
+        }
+        if (incrementDir.Count == 0) return;
+
+        int SelectRandomDir()
+        {
+            if (incrementDir.Count <= 0)
+                return -1;
+            int randomIndex = Random.Range(0, incrementDir.Count);
+            int randomDir = incrementDir[randomIndex];
+            incrementDir.RemoveAt(randomIndex);
+            return randomDir;
         }
 
+        int randomDir = SelectRandomDir();
+        if (cell.adjCell[randomDir] == null || cell.adjCell[randomDir].visited)
+            randomDir = SelectRandomDir();
 
+        if (randomDir == -1)
+        {
+            return;
+            //TODO==== Check for Rooms and Add gate===//
+        }
+        cell.wall[randomDir] = WallType.noWall;
+        cell.visited = true;
+        Increment(cell.adjCell[randomDir]);
+
+        //TODO==== Save Cell if Turned =====//
+        if (initialDir != randomDir)
+        {
+
+        }
     }
 }
 
@@ -417,6 +467,20 @@ public class MapCell
             default: return Quaternion.identity;
         }
     }
+}
+
+public class Room
+{
+    Vector2 start;
+    int length;
+    int width;
+
+    public Room(Vector2 start, int length, int width)
+    {
+        this.start = start;
+        this.length = length;
+        this.width = width;
+    }   
 }
 
 public enum WallType
