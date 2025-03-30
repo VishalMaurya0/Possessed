@@ -18,6 +18,7 @@ public class GenerateMap : MonoBehaviour
     private MapCell centreMapCell;
     private List<MapCell> InitialGateRooms = new List<MapCell>();
     public List<Room> rooms = new List<Room>();
+    List<MapCell> newIncrements = new List<MapCell>();
 
     public bool updateVisual;
 
@@ -227,7 +228,7 @@ public class GenerateMap : MonoBehaviour
 
     private void GenerateRooms(int roomMinLength, int roomMaxLength, int totalRooms)
     {
-        for (int i = 0; i < totalRooms; i++)
+        while (rooms.Count < totalRooms)
         {
             CreateARoom(roomMinLength, roomMaxLength);
         }
@@ -270,7 +271,6 @@ public class GenerateMap : MonoBehaviour
 
         if (flag)
         {
-            // TODO Generate Room
             return; // Skip room generation if it's overlapping
         }
 
@@ -342,6 +342,10 @@ public class GenerateMap : MonoBehaviour
             case 3: RemoveWalls(mapCells[gateIndexX, y], -1, -1, -1, 2); break;
         }
 
+
+        // ========= Store It =====//
+        Room newRoom = new Room(start, length, width);
+        rooms.Add(newRoom);
     }
 
 
@@ -350,20 +354,17 @@ public class GenerateMap : MonoBehaviour
 
     private void GeneratePath()
     {
-        Debug.Log("Generating Path...");
-
         if (InitialGateRooms == null || InitialGateRooms.Count == 0)
         {
-            Debug.LogError("InitialGateRooms is empty or null!");
             return;
         }
 
-        Debug.Log($"Starting Increment from InitialGateRooms[0]: {InitialGateRooms[0]}");
         Increment(InitialGateRooms[0]);
 
-        foreach (var cell in InitialGateRooms)
+        while (newIncrements.Count > 0)
         {
-            Debug.Log($"Processing cell in InitialGateRooms: {cell}");
+            MapCell cell = newIncrements[Random.Range(0, newIncrements.Count)];
+            Increment(cell);
         }
     }
 
@@ -371,11 +372,9 @@ public class GenerateMap : MonoBehaviour
     {
         if (cell == null)
         {
-            Debug.LogWarning("Increment called with a null cell. Exiting...");
             return;
         }
 
-        Debug.Log($"Incrementing cell at position ({cell.position.x}, {cell.position.z})");
 
         int initialDir = -1;
         List<int> incrementDir = new List<int>();
@@ -385,25 +384,25 @@ public class GenerateMap : MonoBehaviour
             if (cell.wall[i] == WallType.wall)
             {
                 incrementDir.Add(i);
-                Debug.Log($"Wall found at direction {i}, adding to incrementDir.");
             }
 
             if (cell.wall[i] == WallType.noWall && initialDir == -1)
             {
                 initialDir = (i + 2) % 4;
-                Debug.Log($"Initial direction set to {initialDir} (opposite of {i}).");
             }
 
             if (cell.wall[i] == WallType.gate && initialDir == -1)
             {
                 initialDir = (i + 2) % 4;
-                Debug.Log($"Gate found, initial direction set to {initialDir} (opposite of {i}).");
             }
         }
 
         if (incrementDir.Count == 0)
         {
-            Debug.Log("No available walls to remove. Returning...");
+            if (newIncrements.Contains(cell))
+            {
+                newIncrements.Remove(cell);
+            }
             return;
         }
 
@@ -411,7 +410,10 @@ public class GenerateMap : MonoBehaviour
         {
             if (incrementDir.Count <= 0)
             {
-                Debug.LogError("No valid directions left to select!");
+                if (newIncrements.Contains(cell))
+                {
+                    newIncrements.Remove(cell);
+                }
                 return -1;
             }
 
@@ -419,7 +421,6 @@ public class GenerateMap : MonoBehaviour
             int randomDir = incrementDir[randomIndex];
             incrementDir.RemoveAt(randomIndex);
 
-            Debug.Log($"Randomly selected direction: {randomDir}");
             return randomDir;
         }
 
@@ -430,38 +431,59 @@ public class GenerateMap : MonoBehaviour
             || cell.adjCell[randomDir].visited 
             || cell.adjCell[randomDir].inRoom)
         {
-            Debug.LogWarning($"Invalid direction {randomDir} (either null, visited, or in a room). Selecting a new one...");
             randomDir = SelectRandomDir();
             if (randomDir == -1)
             {
-                Debug.Log("No valid direction found. Returning...");
+                if (newIncrements.Contains(cell))
+                {
+                    newIncrements.Remove(cell);
+                }
                 return;
             }
         }
 
-        Debug.Log($"Removing wall at direction {randomDir} for cell ({cell.position.x}, {cell.position.z}).");
         cell.wall[randomDir] = WallType.noWall;
 
         int oppositeDir = (randomDir + 2) % 4;
 
         if (cell.adjCell[randomDir] != null)
         {
-            Debug.Log($"Removing wall at opposite direction {oppositeDir} for adjacent cell ({cell.adjCell[randomDir].position.x}, {cell.adjCell[randomDir].position.z}).");
             cell.adjCell[randomDir].wall[oppositeDir] = WallType.noWall;
+            cell.adjCell[randomDir].visited = true;
             cell.visited = true;
 
-            Debug.Log($"Moving to adjacent cell ({cell.adjCell[randomDir].position.x}, {cell.adjCell[randomDir].position.z}) for further increment.");
+
+
+            //==== Save Cell if Turned =====//
+            if (initialDir != randomDir && !newIncrements.Contains(cell))
+            {
+                bool addCell = false;
+
+                for (int i = 0; i < cell.wall.Length; i++)
+                {
+                    // Ensure adjCell is valid before accessing
+                    if (cell.adjCell != null && i < cell.adjCell.Length && cell.adjCell[i] != null)
+                    {
+                        if (!cell.adjCell[i].visited)
+                        {
+                            addCell = true;
+                            break;
+                        }
+                    }
+                }
+                if (addCell)
+                {
+                    newIncrements.Add(cell);
+                }
+            }
+
+
+
+
+
             Increment(cell.adjCell[randomDir]);
         }
-        
-
-        //TODO==== Save Cell if Turned =====//
-        if (initialDir != randomDir)
-        {
-            Debug.Log($"Turn detected! InitialDir: {initialDir}, RandomDir: {randomDir}");
-        }
     }
-
 }
 
 [System.Serializable]
