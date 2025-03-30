@@ -426,20 +426,17 @@ public class GenerateMap : MonoBehaviour
         int randomDir = SelectRandomDir();
 
         while
-            (randomDir == -1 
-            || cell.adjCell[randomDir] == null
+            (cell.adjCell[randomDir] == null
             || cell.adjCell[randomDir].visited 
             || cell.adjCell[randomDir].inRoom)
         {
             Debug.LogWarning($"Invalid direction {randomDir} (either null, visited, or in a room). Selecting a new one...");
             randomDir = SelectRandomDir();
-        }
-        
-
-        if (randomDir == -1)
-        {
-            Debug.Log("No valid direction found. Returning...");
-            return;
+            if (randomDir == -1)
+            {
+                Debug.Log("No valid direction found. Returning...");
+                return;
+            }
         }
 
         Debug.Log($"Removing wall at direction {randomDir} for cell ({cell.position.x}, {cell.position.z}).");
