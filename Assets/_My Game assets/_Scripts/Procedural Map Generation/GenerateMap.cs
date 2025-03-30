@@ -18,9 +18,15 @@ public class GenerateMap : MonoBehaviour
     private MapCell centreMapCell;
     private List<MapCell> InitialGateRooms = new List<MapCell>();
     public List<Room> rooms = new List<Room>();
+    List<MapCell> roomGates = new List<MapCell>();
     List<MapCell> newIncrements = new List<MapCell>();
 
-    public bool updateVisual;
+    [Header("Pool Objects")]
+    public List<GameObject> wallPool = new List<GameObject>();
+
+
+    public bool generateAgain;
+    public bool generatePathAlso = true;
 
     private void Start()
     {
@@ -71,19 +77,76 @@ public class GenerateMap : MonoBehaviour
         CentreGeneration();
         ChooseGate();
         GenerateRooms(roomMinLength, roomMaxLength, totalRooms);
-        GeneratePath();
+        if (generatePathAlso)
+        {
+            GeneratePath();
+        }
+        UpdateVisual();
+    }
+
+
+    void GenerateAgain()
+    {
+        InitialGateRooms.Clear();
+        rooms.Clear();
+        newIncrements.Clear();
+
+
+        //======== hide Walls =======//
+        for (int i = 0; i < transform.GetChild(0).childCount; i++)
+        {
+            Transform child = transform.GetChild(0).GetChild(i);
+            if (!wallPool.Contains(child.gameObject))
+            {
+                child.gameObject.SetActive(false);
+                wallPool.Add(child.gameObject);
+            }
+        }
+        
+
+        //======== Remove Walls From cells =======//
+        int rows = mapCells.GetLength(0);
+        int cols = mapCells.GetLength(1);
+
+        for (int i = 0; i < rows; i++)
+        {
+            int walls = mapCells[i, 0].wallG.Length;
+            for (int j = 0; j < cols; j++)
+            {
+                for (int k = 0; k < walls; k++)
+                {
+                    mapCells[i, j].wallG[k] = null;
+                    mapCells[i, j].wall[k] = WallType.wall;
+                    mapCells[i, j].inRoom = false;
+                    mapCells[i, j].visited = false;
+                }
+            }
+        }
+
+
+        //CreateInitialMap();
+        ////ReferenceAdjacentCells();
+        CentreGeneration();
+        ChooseGate();
+        GenerateRooms(roomMinLength, roomMaxLength, totalRooms);
+        if (generatePathAlso)
+        {
+            GeneratePath();
+        }
+        UpdateVisual();
     }
 
     private void Update()
     {
-        if (updateVisual)
+        if (generateAgain)
         {
-            UpdateVisual();
+            generateAgain = false;
+            GenerateAgain();
         }
     }
     private void UpdateVisual()
     {
-        updateVisual = false;
+        generateAgain = false;
 
         int rowCount = mapCells.GetLength(0);
         int columnCount = mapCells.GetLength(1);
@@ -92,13 +155,18 @@ public class GenerateMap : MonoBehaviour
         {
             for (int j = 0; j < columnCount; j++)
             {
-                GameObject obj = Instantiate(CellObj, transform);
-                obj.transform.position = mapCells[i, j].position;
-                obj.transform.localScale = Vector3.one * (grid.cellLength - 0.2f);
-                obj.name = $"Cell ({j}, {i})";
-                mapCells[i, j].cellObject = obj;
+                if (mapCells[i, j].cellObject == null)
+                {
+                    GameObject obj;
+                    obj = Instantiate(CellObj, transform);
+                    obj.transform.position = mapCells[i, j].position;
+                    obj.transform.localScale = Vector3.one * (grid.cellLength - 0.2f);
+                    obj.name = $"Cell ({j}, {i})";
+                    mapCells[i, j].cellObject = obj;
+                }
             }
         }
+
 
         //Wall Visual
         for (int i = 0; i < rowCount; i++)
@@ -111,7 +179,7 @@ public class GenerateMap : MonoBehaviour
                 {
                     if (cell.wall[k] == WallType.noWall) Destroy(cell.wallG[k]);
 
-                    if (cell.wallG[k] == null && cell.wall[k] != WallType.noWall)
+                    if ((cell.wallG[k] == null) && cell.wall[k] != WallType.noWall)
                     {
                         // Get the wall prefab from the list based on wall type
                         GameObject wallPrefab = walls[(int)cell.wall[k]];
@@ -119,7 +187,23 @@ public class GenerateMap : MonoBehaviour
                         if (wallPrefab != null)
                         {
                             // Instantiate the wall at the appropriate position & rotation
-                            GameObject newWall = Instantiate(wallPrefab, cell.GetWallPosition(k, cell), cell.GetWallRotation(k));
+                            GameObject newWall = null;
+                            for (int w = 0; w < wallPool.Count; w++)
+                            {
+                                if (wallPool[w].gameObject.name == wallPrefab.name)
+                                {
+                                    newWall = wallPool[w];
+                                    newWall.transform.position = cell.GetWallPosition(k, cell);
+                                    newWall.transform.rotation = cell.GetWallRotation(k);
+                                    newWall.SetActive(true);
+                                    wallPool.RemoveAt(w);
+                                }
+                            }
+                            if (newWall == null)
+                            {
+                                newWall = Instantiate(wallPrefab, cell.GetWallPosition(k, cell), cell.GetWallRotation(k), transform.GetChild(0));
+                                newWall.name = wallPrefab.name;
+                            }
 
                             // Store the reference
                             cell.wallG[k] = newWall;
@@ -228,9 +312,12 @@ public class GenerateMap : MonoBehaviour
 
     private void GenerateRooms(int roomMinLength, int roomMaxLength, int totalRooms)
     {
-        while (rooms.Count < totalRooms)
+        int totalLoops = totalRooms * 100;
+        int currentLoop = 0;
+        while (rooms.Count < totalRooms && currentLoop < totalLoops)
         {
             CreateARoom(roomMinLength, roomMaxLength);
+            currentLoop++;
         }
 
 
@@ -238,6 +325,22 @@ public class GenerateMap : MonoBehaviour
         foreach (MapCell cell in InitialGateRooms)
         {
             cell.inRoom = false;
+        }
+
+        //======== Removing Outer boundary for MapCells grid where room should not spawn ======//
+        int rows = mapCells.GetLength(0);
+        int cols = mapCells.GetLength(1);
+
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < cols; j++)
+            {
+                // Check if it's an outer cell (first/last row or first/last column)
+                if (i == 0 || i == rows - 1 || j == 0 || j == cols - 1)
+                {
+                    mapCells[i, j].inRoom = false;
+                }
+            }
         }
     }
     private void CreateARoom(int roomMinLength, int roomMaxLength)
@@ -255,15 +358,35 @@ public class GenerateMap : MonoBehaviour
             return; // Room would go out of bounds, so we skip it
         }
 
-        // Check if any cell in the room is already occupied
-        for (int i = (int)start.x; i < (int)start.x + length; i++)
+        //======== Create Outer boundary for MapCells grid where room should not spawn ======//
+        int rows = mapCells.GetLength(0);
+        int cols = mapCells.GetLength(1);
+
+        for (int i = 0; i < rows; i++)
         {
-            for (int j = (int)start.y; j < (int)start.y + width; j++)
+            for (int j = 0; j < cols; j++)
             {
-                if (mapCells[i, j].inRoom)
+                // Check if it's an outer cell (first/last row or first/last column)
+                if (i == 0 || i == rows - 1 || j == 0 || j == cols - 1)
                 {
-                    flag = true;
-                    break;
+                    mapCells[i, j].inRoom = true;
+                }
+            }
+        }
+
+
+        // Check if any cell in the room is already occupied
+        for (int i = (int)start.x - 1; i < (int)start.x + length + 1; i++)
+        {
+            for (int j = (int)start.y - 1; j < (int)start.y + width + 1; j++)
+            {
+                if (i >= 0 && i < mapCells.GetLength(0) && j >= 0 && j < mapCells.GetLength(1))
+                {
+                    if (mapCells[i, j].inRoom)
+                    {
+                        flag = true;
+                        break;
+                    }
                 }
             }
             if (flag) break;
@@ -333,18 +456,20 @@ public class GenerateMap : MonoBehaviour
 
         int gateIndexX = Random.Range(x, x + length);
         int gateIndexY = Random.Range(y, y + width);
+        MapCell gateCell = null;
+        int gateDir = -1;
 
         switch (Random.Range(0, 4))
         {
-            case 0: RemoveWalls(mapCells[x + length - 1, gateIndexY], 2, -1, -1, -1); break;
-            case 1: RemoveWalls(mapCells[gateIndexX, y + width - 1], -1, 2, -1, -1); break;
-            case 2: RemoveWalls(mapCells[x, gateIndexY], -1, -1, 2, -1); break;
-            case 3: RemoveWalls(mapCells[gateIndexX, y], -1, -1, -1, 2); break;
+            case 0: RemoveWalls(mapCells[x + length - 1, gateIndexY], 2, -1, -1, -1); gateCell = mapCells[x + length - 1, gateIndexY]; gateDir = 0; break;
+            case 1: RemoveWalls(mapCells[gateIndexX, y + width - 1], -1, 2, -1, -1); gateCell = mapCells[gateIndexX, y + width - 1]; gateDir = 1; break;
+            case 2: RemoveWalls(mapCells[x, gateIndexY], -1, -1, 2, -1); gateCell = mapCells[x, gateIndexY]; gateDir = 2; break;
+            case 3: RemoveWalls(mapCells[gateIndexX, y], -1, -1, -1, 2); gateCell = mapCells[gateIndexX, y]; gateDir = 3; break;
         }
 
 
         // ========= Store It =====//
-        Room newRoom = new Room(start, length, width);
+        Room newRoom = new Room(start, length, width, gateCell, gateDir);
         rooms.Add(newRoom);
     }
 
@@ -361,24 +486,39 @@ public class GenerateMap : MonoBehaviour
 
         Increment(InitialGateRooms[0]);
 
+
         while (newIncrements.Count > 0)
         {
             MapCell cell = newIncrements[Random.Range(0, newIncrements.Count)];
             Increment(cell);
         }
+        
+        foreach (Room room in rooms)
+        {
+            roomGates.Add(room.gateCell.adjCell[room.gateDir]);
+        }
+
+        //while (roomGates.Count > 0)
+        //{
+        //    MapCell mapCell = roomGates[Random.Range(0, roomGates.Count)];
+        //    Increment(mapCell, roomGates, true);
+        //}
     }
 
-    private void Increment(MapCell cell)
+    private void Increment(MapCell cell, List<MapCell> newIncrementsInside = null, bool forced = false)
     {
         if (cell == null)
         {
             return;
         }
+        if (newIncrementsInside == null) 
+            newIncrementsInside = newIncrements;
 
 
         int initialDir = -1;
         List<int> incrementDir = new List<int>();
 
+        //====== Get all Wall Directions =====//
         for (int i = 0; i < cell.wall.Length; i++)
         {
             if (cell.wall[i] == WallType.wall)
@@ -397,52 +537,78 @@ public class GenerateMap : MonoBehaviour
             }
         }
 
+        //============ if no wall direction found =======//
         if (incrementDir.Count == 0)
         {
-            if (newIncrements.Contains(cell))
+            if (newIncrementsInside.Contains(cell))
             {
-                newIncrements.Remove(cell);
+                newIncrementsInside.Remove(cell);
             }
             return;
         }
 
-        int SelectRandomDir()
+        //////////============= select a random dir all found directions ==============////////////////
+        int SelectRandomDir()                   
         {
-            if (incrementDir.Count <= 0)
+            // ======= if no direction left ===========//
+            if (incrementDir.Count == 0)
             {
-                if (newIncrements.Contains(cell))
+
+                if (newIncrementsInside.Contains(cell))
                 {
-                    newIncrements.Remove(cell);
+                    newIncrementsInside.Remove(cell);
                 }
+
                 return -1;
-            }
+            }    
+
 
             int randomIndex = Random.Range(0, incrementDir.Count);
             int randomDir = incrementDir[randomIndex];
             incrementDir.RemoveAt(randomIndex);
 
             return randomDir;
-        }
+        }           
 
         int randomDir = SelectRandomDir();
 
-        while
-            (cell.adjCell[randomDir] == null
-            || cell.adjCell[randomDir].visited 
-            || cell.adjCell[randomDir].inRoom)
+        if (!forced)
         {
-            randomDir = SelectRandomDir();
-            if (randomDir == -1)
+            while
+                (cell.adjCell[randomDir] == null
+                || cell.adjCell[randomDir].visited
+                || cell.adjCell[randomDir].inRoom)
             {
-                if (newIncrements.Contains(cell))
+                randomDir = SelectRandomDir();
+                if (randomDir == -1)
                 {
-                    newIncrements.Remove(cell);
+                    if (newIncrementsInside.Contains(cell))
+                    {
+                        newIncrementsInside.Remove(cell);
+                    }
+                    return;
                 }
-                return;
+            }
+        }else
+        {
+            while
+                (cell.adjCell[randomDir] == null
+                || cell.adjCell[randomDir].visited)
+            {
+                randomDir = SelectRandomDir();
+                if (randomDir == -1)
+                {
+                    if (newIncrementsInside.Contains(cell))
+                    {
+                        newIncrementsInside.Remove(cell);
+                    }
+                    return;
+                }
             }
         }
 
         cell.wall[randomDir] = WallType.noWall;
+        //if (forced && ran)
 
         int oppositeDir = (randomDir + 2) % 4;
 
@@ -455,7 +621,7 @@ public class GenerateMap : MonoBehaviour
 
 
             //==== Save Cell if Turned =====//
-            if (initialDir != randomDir && !newIncrements.Contains(cell))
+            if (initialDir != randomDir && !newIncrementsInside.Contains(cell))
             {
                 bool addCell = false;
 
@@ -473,15 +639,16 @@ public class GenerateMap : MonoBehaviour
                 }
                 if (addCell)
                 {
-                    newIncrements.Add(cell);
+                    newIncrementsInside.Add(cell);
                 }
             }
 
 
 
 
-
-            Increment(cell.adjCell[randomDir]);
+            Increment(cell.adjCell[randomDir], newIncrementsInside, forced);
+            
+            
         }
     }
 }
@@ -549,16 +716,20 @@ public class MapCell
 
 public class Room
 {
-    Vector2 start;
-    int length;
-    int width;
+    public Vector2 start;
+    public int length;
+    public int width;
+    public MapCell gateCell;
+    public int gateDir;
 
-    public Room(Vector2 start, int length, int width)
+    public Room(Vector2 start, int length, int width, MapCell gateCell, int gateDir)
     {
         this.start = start;
         this.length = length;
         this.width = width;
-    }   
+        this.gateCell = gateCell;
+        this.gateDir = gateDir;
+    }
 }
 
 public enum WallType
