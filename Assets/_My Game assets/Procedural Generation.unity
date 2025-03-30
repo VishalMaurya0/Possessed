@@ -272,8 +272,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 075d9d1e41806214582fc025919e08b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  length: 50
-  width: 50
+  length: 60
+  width: 60
   cellLength: 2
   cells: []
 --- !u!4 &1218258850
@@ -311,11 +311,12 @@ MonoBehaviour:
   - {fileID: 6172254224933744502, guid: 6e534410cc348b345b9eb286aefcd6b9, type: 3}
   - {fileID: 5678895698159435932, guid: 2ef50959e3b0c914d9a6e899e2c1dd0d, type: 3}
   - {fileID: 2888231960360639592, guid: e511d4d8bf6cf75449fb130c85a38de0, type: 3}
-  roomMinLength: 3
-  roomMaxLength: 6
-  totalRooms: 5
-  wallPool: []
-  generateAgain: 0
+  totalRooms: 0
+  roomMinLength: 2
+  roomMaxLength: 2
+  wallsContainer: {fileID: 17174510}
+  generateAgain: 1
+  generatePathAlso: 0
 --- !u!4 &1436988011 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5009319039566731814, guid: 2ef50959e3b0c914d9a6e899e2c1dd0d, type: 3}

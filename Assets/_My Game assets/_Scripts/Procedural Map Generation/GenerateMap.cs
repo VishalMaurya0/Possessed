@@ -9,9 +9,11 @@ public class GenerateMap : MonoBehaviour
     [Header("Inputs")]
     public GameObject CellObj;
     public List<GameObject> walls;
+
+    public int totalRooms;
     public int roomMinLength;
     public int roomMaxLength;
-    public int totalRooms;
+
 
     [Header("Map Properties")]
     public MapCell[,] mapCells;
@@ -21,15 +23,33 @@ public class GenerateMap : MonoBehaviour
     List<MapCell> roomGates = new List<MapCell>();
     List<MapCell> newIncrements = new List<MapCell>();
 
+
     [Header("Pool Objects")]
-    public List<GameObject> wallPool = new List<GameObject>();
+    public Transform wallsContainer;
+    private Dictionary<string, Queue<GameObject>> wallPool = new Dictionary<string, Queue<GameObject>>();
 
 
     public bool generateAgain;
     public bool generatePathAlso = true;
 
+    private void OnValidate()
+    {
+        generateAgain = true;
+    }
+
+    private void InitializeWallPool()
+    {
+        wallPool.Clear();
+        foreach (GameObject wallPrefab in walls)
+        {
+            if (wallPrefab != null)
+                wallPool[wallPrefab.name] = new Queue<GameObject>();
+        }
+    }
+
     private void Start()
     {
+        InitializeWallPool();
         grid = GetComponent<Grid>();
         CreateInitialMap();
         ReferenceAdjacentCells();
@@ -87,53 +107,97 @@ public class GenerateMap : MonoBehaviour
 
     void GenerateAgain()
     {
+        // Clear data structures
         InitialGateRooms.Clear();
         rooms.Clear();
         newIncrements.Clear();
+        roomGates.Clear();
 
-
-        //======== hide Walls =======//
-        for (int i = 0; i < transform.GetChild(0).childCount; i++)
-        {
-            Transform child = transform.GetChild(0).GetChild(i);
-            if (!wallPool.Contains(child.gameObject))
-            {
-                child.gameObject.SetActive(false);
-                wallPool.Add(child.gameObject);
-            }
-        }
-        
-
-        //======== Remove Walls From cells =======//
+        // Return all walls to pool and reset cell references
         int rows = mapCells.GetLength(0);
         int cols = mapCells.GetLength(1);
 
         for (int i = 0; i < rows; i++)
         {
-            int walls = mapCells[i, 0].wallG.Length;
             for (int j = 0; j < cols; j++)
             {
-                for (int k = 0; k < walls; k++)
+                MapCell cell = mapCells[i, j];
+                // Return walls to pool
+                for (int k = 0; k < mapCells[i, j].wallG.Length; k++)
                 {
-                    mapCells[i, j].wallG[k] = null;
-                    mapCells[i, j].wall[k] = WallType.wall;
-                    mapCells[i, j].inRoom = false;
-                    mapCells[i, j].visited = false;
+                    cell.wall[k] = WallType.wall;
+                    if (cell.wallG[k] != null)
+                    {
+                        ReturnWallToPool(cell.wallG[k]);
+                        cell.wallG[k] = null;
+
+
+                        int oppositeIndex = (k + 2) % 4; // 0↔2 (right-left), 1↔3 (top-bottom)
+                        if (cell.adjCell[k] != null)
+                            cell.adjCell[k].wallG[oppositeIndex] = null;
+                    }
                 }
+                // Reset cell state
+                cell.inRoom = false;
+                cell.visited = false;
             }
         }
+                        
+
+                        
 
 
-        //CreateInitialMap();
-        ////ReferenceAdjacentCells();
+        // Reinitialize the map
         CentreGeneration();
         ChooseGate();
         GenerateRooms(roomMinLength, roomMaxLength, totalRooms);
+
         if (generatePathAlso)
         {
             GeneratePath();
         }
+
         UpdateVisual();
+    }
+
+
+    private GameObject GetWallFromPool(GameObject wallPrefab)
+    {
+        string wallName = wallPrefab.name;
+
+        if (wallPool.ContainsKey(wallName))
+        {
+            if (wallPool[wallName].Count > 0)
+            {
+                GameObject wall = wallPool[wallName].Dequeue();
+                wall.SetActive(true);
+                return wall;
+            }
+        }
+        else
+        {
+            wallPool[wallName] = new Queue<GameObject>();
+        }
+
+        // Create new wall if pool is empty
+        GameObject newWall = Instantiate(wallPrefab, wallsContainer);
+        newWall.name = wallName;
+        return newWall;
+    }
+
+    private void ReturnWallToPool(GameObject wall)
+    {
+        if (wall == null) return;
+
+        wall.SetActive(false);
+        string wallName = wall.name.Split('(')[0].Trim(); // Remove any "(Clone)" suffix
+
+        if (!wallPool.ContainsKey(wallName))
+        {
+            wallPool[wallName] = new Queue<GameObject>();
+        }
+
+        wallPool[wallName].Enqueue(wall);
     }
 
     private void Update()
@@ -167,8 +231,7 @@ public class GenerateMap : MonoBehaviour
             }
         }
 
-
-        //Wall Visual
+        // Wall Visual
         for (int i = 0; i < rowCount; i++)
         {
             for (int j = 0; j < columnCount; j++)
@@ -177,48 +240,45 @@ public class GenerateMap : MonoBehaviour
 
                 for (int k = 0; k < cell.wall.Length; k++)
                 {
-                    if (cell.wall[k] == WallType.noWall) Destroy(cell.wallG[k]);
-
-                    if ((cell.wallG[k] == null) && cell.wall[k] != WallType.noWall)
+                    if (cell.wall[k] == WallType.noWall)
                     {
-                        // Get the wall prefab from the list based on wall type
-                        GameObject wallPrefab = walls[(int)cell.wall[k]];
-
-                        if (wallPrefab != null)
+                        if (cell.wallG[k] != null)
                         {
-                            // Instantiate the wall at the appropriate position & rotation
-                            GameObject newWall = null;
-                            for (int w = 0; w < wallPool.Count; w++)
-                            {
-                                if (wallPool[w].gameObject.name == wallPrefab.name)
-                                {
-                                    newWall = wallPool[w];
-                                    newWall.transform.position = cell.GetWallPosition(k, cell);
-                                    newWall.transform.rotation = cell.GetWallRotation(k);
-                                    newWall.SetActive(true);
-                                    wallPool.RemoveAt(w);
-                                }
-                            }
-                            if (newWall == null)
-                            {
-                                newWall = Instantiate(wallPrefab, cell.GetWallPosition(k, cell), cell.GetWallRotation(k), transform.GetChild(0));
-                                newWall.name = wallPrefab.name;
-                            }
+                            ReturnWallToPool(cell.wallG[k]);
+                            cell.wallG[k] = null;
+                        }
+                        continue;
+                    }
 
-                            // Store the reference
-                            cell.wallG[k] = newWall;
-                            int oppositeIndex = (k + 2) % 4; // 0↔2 (right-left), 1↔3 (top-bottom)
+                    // Ensure wallPrefab is correctly selected
+                    GameObject wallPrefab = walls[(int)cell.wall[k]];
+                    if (wallPrefab == null)
+                    {
+                        continue;
+                    }
 
-                            if (cell.adjCell[k] != null)
-                            {
-                                cell.adjCell[k].wallG[oppositeIndex] = newWall;
-                            }
+                    // Get wall from pool only if it doesn't exist
+                    if (cell.wallG[k] == null)
+                    {
+                        GameObject newWall = GetWallFromPool(wallPrefab);
+                        newWall.transform.position = cell.GetWallPosition(k, cell);
+                        newWall.transform.rotation = cell.GetWallRotation(k);
+                        newWall.SetActive(true); // Ensure it's visible
+
+                        cell.wallG[k] = newWall;
+
+                        // Sync opposite wall
+                        int oppositeIndex = (k + 2) % 4;
+                        if (cell.adjCell[k] != null && cell.adjCell[k].wallG[oppositeIndex] == null)
+                        {
+                            cell.adjCell[k].wallG[oppositeIndex] = newWall;
                         }
                     }
                 }
             }
         }
     }
+
 
 
 
@@ -358,7 +418,7 @@ public class GenerateMap : MonoBehaviour
             return; // Room would go out of bounds, so we skip it
         }
 
-        //======== Create Outer boundary for MapCells grid where room should not spawn ======//
+        //======== Create Outer boundary for MapCells grid where rooms should not spawn ======//
         int rows = mapCells.GetLength(0);
         int cols = mapCells.GetLength(1);
 
@@ -366,7 +426,7 @@ public class GenerateMap : MonoBehaviour
         {
             for (int j = 0; j < cols; j++)
             {
-                // Check if it's an outer cell (first/last row or first/last column)
+                // Mark only the outermost layer (one row/column on each side)
                 if (i == 0 || i == rows - 1 || j == 0 || j == cols - 1)
                 {
                     mapCells[i, j].inRoom = true;
