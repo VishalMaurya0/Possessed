@@ -204,11 +204,10 @@ public class GenerateMap : MonoBehaviour
             MapCell cell = mapCells[i + centerRow, j + centerCol];
             switch(i)
             {
-                case -1: RemoveWalls(cell, -1, -1, 2, -1); break;
-                case 1: RemoveWalls(cell, 2, -1, -1, -1); break;
-            }
-            InitialGateRooms.Add(cell);
-            cell.inRoom = true;
+                case -1: RemoveWalls(cell, -1, -1, 2, -1); InitialGateRooms.Add(cell.adjCell[2]); cell.adjCell[2].inRoom = true; break;
+                case 1: RemoveWalls(cell, 2, -1, -1, -1); InitialGateRooms.Add(cell.adjCell[0]); cell.adjCell[0].inRoom = true; break;
+            }            
+            
         }
         
         for (int i = -1; i < 2; i += 2)   ///choosing direction North and south
@@ -217,11 +216,9 @@ public class GenerateMap : MonoBehaviour
             MapCell cell = mapCells[j + centerRow, i + centerCol];
             switch(i)
             {
-                case -1: RemoveWalls(cell, -1, -1, -1, 2); break;
-                case 1: RemoveWalls(cell, -1, 2, -1, -1); break;
+                case -1: RemoveWalls(cell, -1, -1, -1, 2); InitialGateRooms.Add(cell.adjCell[3]); cell.adjCell[3].inRoom = true; break;
+                case 1: RemoveWalls(cell, -1, 2, -1, -1); InitialGateRooms.Add(cell.adjCell[1]); cell.adjCell[1].inRoom = true; break;
             }
-            InitialGateRooms.Add(cell);
-            cell.inRoom = true;
         }
     }
 
@@ -353,59 +350,121 @@ public class GenerateMap : MonoBehaviour
 
     private void GeneratePath()
     {
+        Debug.Log("Generating Path...");
+
+        if (InitialGateRooms == null || InitialGateRooms.Count == 0)
+        {
+            Debug.LogError("InitialGateRooms is empty or null!");
+            return;
+        }
+
+        Debug.Log($"Starting Increment from InitialGateRooms[0]: {InitialGateRooms[0]}");
         Increment(InitialGateRooms[0]);
+
         foreach (var cell in InitialGateRooms)
         {
+            Debug.Log($"Processing cell in InitialGateRooms: {cell}");
         }
     }
+
     private void Increment(MapCell cell)
     {
-        if (cell == null) return;
+        if (cell == null)
+        {
+            Debug.LogWarning("Increment called with a null cell. Exiting...");
+            return;
+        }
+
+        Debug.Log($"Incrementing cell at position ({cell.position.x}, {cell.position.z})");
+
         int initialDir = -1;
         List<int> incrementDir = new List<int>();
+
         for (int i = 0; i < cell.wall.Length; i++)
         {
-            if (cell.wall[i] == WallType.wall) 
+            if (cell.wall[i] == WallType.wall)
+            {
                 incrementDir.Add(i);
+                Debug.Log($"Wall found at direction {i}, adding to incrementDir.");
+            }
+
             if (cell.wall[i] == WallType.noWall && initialDir == -1)
             {
                 initialDir = (i + 2) % 4;
-                continue;
+                Debug.Log($"Initial direction set to {initialDir} (opposite of {i}).");
             }
-            if (cell.wall[i] == WallType.gate)
+
+            if (cell.wall[i] == WallType.gate && initialDir == -1)
+            {
                 initialDir = (i + 2) % 4;
+                Debug.Log($"Gate found, initial direction set to {initialDir} (opposite of {i}).");
+            }
         }
-        if (incrementDir.Count == 0) return;
+
+        if (incrementDir.Count == 0)
+        {
+            Debug.Log("No available walls to remove. Returning...");
+            return;
+        }
 
         int SelectRandomDir()
         {
             if (incrementDir.Count <= 0)
+            {
+                Debug.LogError("No valid directions left to select!");
                 return -1;
+            }
+
             int randomIndex = Random.Range(0, incrementDir.Count);
             int randomDir = incrementDir[randomIndex];
             incrementDir.RemoveAt(randomIndex);
+
+            Debug.Log($"Randomly selected direction: {randomDir}");
             return randomDir;
         }
 
         int randomDir = SelectRandomDir();
-        if (cell.adjCell[randomDir] == null || cell.adjCell[randomDir].visited)
+
+        while
+            (randomDir == -1 
+            || cell.adjCell[randomDir] == null
+            || cell.adjCell[randomDir].visited 
+            || cell.adjCell[randomDir].inRoom)
+        {
+            Debug.LogWarning($"Invalid direction {randomDir} (either null, visited, or in a room). Selecting a new one...");
             randomDir = SelectRandomDir();
+        }
+        
 
         if (randomDir == -1)
         {
+            Debug.Log("No valid direction found. Returning...");
             return;
-            //TODO==== Check for Rooms and Add gate===//
         }
+
+        Debug.Log($"Removing wall at direction {randomDir} for cell ({cell.position.x}, {cell.position.z}).");
         cell.wall[randomDir] = WallType.noWall;
-        cell.visited = true;
-        Increment(cell.adjCell[randomDir]);
+
+        int oppositeDir = (randomDir + 2) % 4;
+
+        if (cell.adjCell[randomDir] != null)
+        {
+            Debug.Log($"Removing wall at opposite direction {oppositeDir} for adjacent cell ({cell.adjCell[randomDir].position.x}, {cell.adjCell[randomDir].position.z}).");
+            cell.adjCell[randomDir].wall[oppositeDir] = WallType.noWall;
+            cell.visited = true;
+
+            Debug.Log($"Moving to adjacent cell ({cell.adjCell[randomDir].position.x}, {cell.adjCell[randomDir].position.z}) for further increment.");
+            Increment(cell.adjCell[randomDir]);
+        }
+        
 
         //TODO==== Save Cell if Turned =====//
         if (initialDir != randomDir)
         {
-
+            Debug.Log($"Turn detected! InitialDir: {initialDir}, RandomDir: {randomDir}");
         }
     }
+
 }
 
 [System.Serializable]
