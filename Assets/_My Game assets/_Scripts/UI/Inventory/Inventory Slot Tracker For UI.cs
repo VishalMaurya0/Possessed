@@ -67,13 +67,12 @@ public class InventorySlotTracker : MonoBehaviour
     public void UpdateTracker(bool spawnIcons)
     {
         int currentIndex = inventory.slotNo.Value;
-        Debug.Log(currentIndex);
 
-        for (int i = leftSlot.slots.Count - 1, a = 0; i >= 0; i--)        //======= LOOP STARTS (o)ooo ===========//
+        for (int i = leftSlot.slots.Count - 1, a = 0; i >= 0; i--)        //======= LOOP STARTS (o)ooo (((starts as 3,2,1,0 but set the value of 0,1,2,3))) ===========//  i = no of elements right of (0,1,2,3)
         {
-            if (currentIndex > i)        //========= if no of left elements in inventory > no of elements rightward of ith element ====//
+            if (currentIndex > i)        //========= if no of left elements in inventory > no of elements rightward of (0,1,2,3)th element ====//
             {
-                if (inventory.inventorySlots[a].itemData == null)   //========== if it is null then null it and add a by 1 ==========//
+                if (inventory.inventorySlots[a].itemData == null)   //========== if it is null then null it and add a by 1 ==========//   a = inventory's ath element
                 {
                     leftSlot.slots[leftSlot.slots.Count - 1 - i].isFull = false;
                     leftSlot.slots[leftSlot.slots.Count - 1 - i].inventorySlot = null;
@@ -86,7 +85,7 @@ public class InventorySlotTracker : MonoBehaviour
                     a++;
                 }
             }
-            else      //============ null the rest ============//
+            else      //============ null the rest ============// a does not increment
             {
                 leftSlot.slots[leftSlot.slots.Count - 1 - i].isFull = false;
                 leftSlot.slots[leftSlot.slots.Count - 1 - i].inventorySlot = null;

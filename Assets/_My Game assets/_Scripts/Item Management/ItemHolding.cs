@@ -209,9 +209,9 @@ public class ItemHolding : NetworkBehaviour
         GameManager.Instance.lockCurser = true;
         GameManager.Instance.itemScrollingLock = false;
         if (animateInventory)
-            inventorySlotTracker.UpdateTracker(false);
+            inventorySlotTracker.UpdateTracker(false);       //============== Update The Tracker which tracks inventory and store left, centre and right slots ===========//
         else 
-            inventorySlotTracker.UpdateTracker(true);
+            inventorySlotTracker.UpdateTracker(true);        //============== Update The Tracker without animating ===========//
     }
 
 }

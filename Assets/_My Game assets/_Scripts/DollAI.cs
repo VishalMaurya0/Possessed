@@ -9,6 +9,7 @@ public class DollAI : NetworkBehaviour
     public Transform[] player;
     public PlayerDataSO[] playerDataSO;
     private NavMeshAgent agent;
+    Animator animator;
 
     [Header("Settings")]
     public float playerDetectionRange = 500f;
@@ -41,11 +42,11 @@ public class DollAI : NetworkBehaviour
 
     void Update()
     {
-        
         if (!GameManager.Instance.serverStarted || !IsServer) return;
-        if (agent == null)
+        if (agent == null || animator == null)  
         {
             agent = GetComponent<NavMeshAgent>();
+            animator = GetComponentInChildren<Animator>();
         }
         if (player.Length < GameManager.Instance.connectedClients.Count)
         {
@@ -97,6 +98,7 @@ public class DollAI : NetworkBehaviour
             return;
         }
 
+        animator.speed = 0.6f;
         agent.isStopped = false;
         agent.SetDestination(posOfPlayer);
 
@@ -130,6 +132,7 @@ public class DollAI : NetworkBehaviour
     
     void Freeze()
     {
+        animator.speed = 0;
         agent.isStopped = true;
         currentState = DollState.Frozen;
     }
@@ -142,14 +145,25 @@ public class DollAI : NetworkBehaviour
             {
                 return false;
             }
-            Vector3 directionToPlayer = (playerr.position - transform.position).normalized;
-            float distanceToPlayer = Vector3.Distance(transform.position, playerr.position);
 
-            if (Physics.Raycast(transform.position, directionToPlayer, out RaycastHit hit, distanceToPlayer + 5) && hit.collider.gameObject == playerr.gameObject)
+            Vector3 origin = transform.position + Vector3.up * 0.5f;
+            Vector3 directionToPlayer = (playerr.transform.position - origin).normalized;
+            float distanceToPlayer = Vector3.Distance(origin, playerr.transform.position);
+
+            // Include all layers except "IgnoreRaycast"
+            int layerMask = ~(1 << LayerMask.NameToLayer("IgnoreRaycast"));    ////Champt Gpt////
+
+            Debug.DrawRay(origin, directionToPlayer * (distanceToPlayer + 5f), Color.yellow);
+
+            if (Physics.Raycast(origin, directionToPlayer, out RaycastHit hit, distanceToPlayer + 5f, layerMask, QueryTriggerInteraction.Ignore))
             {
-                Debug.DrawRay(transform.position, directionToPlayer * (distanceToPlayer + 5), Color.green);
-                playerInSight = playerr.gameObject;
-                return true;
+                Debug.Log($"Raycast hit: {hit.collider.name} (layer: {LayerMask.LayerToName(hit.collider.gameObject.layer)})");
+
+                if (hit.collider.gameObject == playerr.gameObject)
+                {
+                    playerInSight = playerr.gameObject;
+                    return true;
+                }
             }
         }
         playerInSight = null;

@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
     public bool handlePlayerLookWithMouse = true;
     public bool handleMovement = true;
     public bool itemScrollingLock = false;
+    public bool bakeNavMeshAgain = false;
 
     public ProcedureBase procedureBase;
     

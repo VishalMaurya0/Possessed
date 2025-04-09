@@ -99,6 +99,7 @@
     <Compile Include="Assets\_My Game assets\_Scripts\ClientNetworkTransform.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ShaderPropAnimator.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\UI\Inventory\ItemAmountUI.cs" />
+    <Compile Include="Assets\_My Game assets\_ScriptableObjects\Procedural Map Generation\ProceduralMapDataSO.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextInfoDebugTool.cs" />
     <Compile Include="Assets\_My Game assets\_ScriptableObjects\Procedures\ProcedureData.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeA.cs" />
@@ -119,14 +120,16 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_DigitValidator.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_FrameRateCounter.cs" />
     <Compile Include="Assets\TutorialInfo\Scripts\Readme.cs" />
+    <Compile Include="Assets\_My Game assets\_Scripts\Procedural Map Generation\NavMeshBake.cs" />
     <Compile Include="Assets\_My Game assets\_ScriptableObjects\Item\ItemCraftingDataSO.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextMeshSpawner.cs" />
-    <Compile Include="Assets\_My Game assets\_ScriptableObjects\GhostData.cs" />
     <Compile Include="Assets\_My Game assets\_ScriptableObjects\Item\ItemDataSO.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Procedures\Procedure0Visuals.cs" />
+    <Compile Include="Assets\_My Game assets\_Scripts\Procedural Map Generation\MapVisual.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\CameraController.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark03.cs" />
+    <Compile Include="Assets\_My Game assets\_Scripts\Procedural Map Generation\MapVisualTemp.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Item Management\ItemStatePrefabSelection.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Tasks\Task for Blood Bottle\CodeShowingScript.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\DropdownSample.cs" />
@@ -142,12 +145,14 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventCheck.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Procedures\ProcedureBase.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Procedures\Procedure6.cs" />
+    <Compile Include="Assets\WallDetection.cs" />
     <Compile Include="Assets\ParrelSync-master\Examples\CustomArgumentExample.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextMeshProFloatingText.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Item Management\itemClass.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Tasks\Task For Voodoo Doll\TaskVoodooDoll.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Item Management\Inspection.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Enemy\GhostDyingState.cs" />
+    <Compile Include="Assets\_My Game assets\_ScriptableObjects\Ghost\GhostData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

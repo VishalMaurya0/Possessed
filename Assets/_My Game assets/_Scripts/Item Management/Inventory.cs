@@ -77,7 +77,7 @@ public class Inventory : NetworkBehaviour
         }
         SelectInventorySlot(slotNo.Value, true);
 
-        InventorySlotTracker.UpdateTracker(false);
+        InventorySlotTracker.UpdateTracker(false);   //============== Update The Tracker which tracks inventory and store left, centre and right slots ===========//
     }
 
 
@@ -90,7 +90,7 @@ public class Inventory : NetworkBehaviour
         }
         SelectInventorySlot(slotNo.Value, true);
 
-        InventorySlotTracker.UpdateTracker(false);
+        InventorySlotTracker.UpdateTracker(false);   //============== Update The Tracker which tracks inventory and store left, centre and right slots ===========//
     }
 
 

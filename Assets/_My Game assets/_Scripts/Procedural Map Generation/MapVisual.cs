@@ -1,0 +1,181 @@
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Rendering;
+
+public class MapVisual : MonoBehaviour
+{
+    [Header("References")]
+    public GenerateMap generateMap;
+    public ProceduralMapDataSO proceduralMapDataSO;
+    public GameObject wallContainer;
+    public GameObject pillarContainer;
+
+    [Header("Extracted Values")]
+    int rowCells;
+    int columnCells;
+
+    private void Start()
+    {
+        
+    }
+
+    ////======== For Building Blocks =======//
+
+    public void GenerateBuildingBlocks()
+    {
+        rowCells = generateMap.mapCells.GetLength(0);
+        columnCells = generateMap.mapCells.GetLength(1);
+        
+        for (int i = 0; i < rowCells; i++)
+        {
+            for (int j = 0; j < columnCells; j++)
+            {
+                MapCell cell = generateMap.mapCells[i, j];
+
+                //======= wall spawning ======//
+                for (int k = 0; k < cell.wall.Length; k++)
+                {
+                    if (cell.wall[k] == Type.NoWall)
+                    {
+                        if (cell.wallGTemporary[k] != null)
+                        {
+                            Destroy(cell.WallGameobject[k]);
+                            cell.wallGTemporary[k] = null;
+                        }
+                        continue;
+                    }
+
+                    // ==== making Gameobjects of wall, tile ==== //
+                    List<PropsProbablity> wallPrefabsList = GetBuildingBlock(cell.wall[k]);
+
+                    GameObject prefab = FindPrefabWithTheirProbablity(wallPrefabsList);
+
+
+
+                    if (prefab == null)
+                    {
+                        continue;
+                    }
+
+                    if (cell.WallGameobject[k] == null)
+                    {
+                        GameObject newWall = Instantiate(prefab, wallContainer.transform);
+                        newWall.transform.position = cell.GetWallPosition(k, cell);
+                        newWall.transform.rotation = cell.GetWallRotation(k);
+                        newWall.SetActive(true); // Ensure it's visible
+
+                        cell.WallGameobject[k] = newWall;
+
+                        // Sync opposite wall
+                        int oppositeIndex = (k + 2) % 4;
+                        if (cell.adjCell[k] != null && cell.adjCell[k].WallGameobject[oppositeIndex] == null)
+                        {
+                            cell.adjCell[k].WallGameobject[oppositeIndex] = newWall;
+                        }
+                    }
+                }
+
+                //======= pillars spawning ======//
+                for (int k = 0; k < cell.wall.Length; k++)
+                {
+                    if (cell.pillar[k] == Type.NoPillar)
+                    {
+                        if (cell.PillarGameobject[k] != null)
+                        {
+                            Destroy(cell.PillarGameobject[k]);
+                            cell.PillarGameobject[k] = null;
+                        }
+                        continue;
+                    }
+
+                    List<PropsProbablity> pillarPrefabsList = GetBuildingBlock(cell.pillar[k]);
+
+                    GameObject prefab = FindPrefabWithTheirProbablity(pillarPrefabsList);
+
+
+
+                    if (prefab == null)
+                    {
+                        continue;
+                    }
+
+                    if (cell.PillarGameobject[k] == null)
+                    {
+                        GameObject newPillar = Instantiate(prefab, pillarContainer.transform);
+                        newPillar.transform.position = cell.GetPillarPosition(k, cell);
+                        newPillar.transform.rotation = cell.GetPillarRotation(k);
+                        newPillar.SetActive(true); // Ensure it's visible
+
+                        cell.PillarGameobject[k] = newPillar;
+
+                        // Sync opposite pillars
+                        int adjIndex = k;
+                        int oppositeIndex = (k + 1) % 4;
+                        if (cell.adjCell[adjIndex] != null && cell.adjCell[adjIndex].PillarGameobject[oppositeIndex] == null)
+                        {
+                            cell.adjCell[adjIndex].PillarGameobject[oppositeIndex] = newPillar;
+                        }
+
+                        adjIndex = (k + 1) % 4;
+                        oppositeIndex = (k + 3) % 4;
+                        if (cell.adjCell[adjIndex] != null && cell.adjCell[adjIndex].PillarGameobject[oppositeIndex] == null)
+                        {
+                            cell.adjCell[adjIndex].PillarGameobject[oppositeIndex] = newPillar;
+                        }
+
+                        oppositeIndex = (k + 2) % 4;
+                        if (cell.adjCell[adjIndex] != null && cell.adjCell[adjIndex].adjCell[k] != null && cell.adjCell[adjIndex].adjCell[k].PillarGameobject[oppositeIndex] == null)
+                        {
+                            cell.adjCell[adjIndex].adjCell[k].PillarGameobject[oppositeIndex] = newPillar;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private GameObject FindPrefabWithTheirProbablity(List<PropsProbablity> PrefabsList)
+    {
+        if (PrefabsList == null || PrefabsList.Count <= 0)
+        {
+            return null;
+        }
+
+
+        int totalChances = 0;
+        foreach (var prefab in PrefabsList)
+        {
+            totalChances += prefab.chancesIn100;
+        }
+
+        int random = Random.Range(0, totalChances);
+
+        foreach (var prefab in PrefabsList)
+        {
+            random -= prefab.chancesIn100;
+            if (random <= 0)
+            {
+                return prefab.prop;
+            }
+        }
+
+        return null;
+    }
+
+    public List<PropsProbablity> GetBuildingBlock(Type type)
+    {
+        BuildingBlocks blocks = proceduralMapDataSO.MapMakingPrefabs.BuildingBlocks;
+
+        switch (type)
+        {
+            case Type.Walls: return blocks.Walls;
+            case Type.Windows: return blocks.Windows;
+            case Type.Gates: return blocks.Gates;
+            case Type.FloorTiles: return blocks.FloorTiles;
+            case Type.RoofTiles: return blocks.RoofTiles;
+            case Type.Pillar: return blocks.Pillars;
+            default: return null;
+        }
+    }
+
+}

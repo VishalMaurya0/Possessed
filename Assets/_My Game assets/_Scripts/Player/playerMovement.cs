@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("--References--")]
     public Transform playerCamera;
-
+    public WallDetection wallDetection;
 
     private Rigidbody rb;
     public Vector3 collisionNormal;
@@ -66,7 +66,8 @@ public class PlayerController : MonoBehaviour
         torchToggleKey = playerData.torchToggleKey;
 
 
-    rb = GetComponent<Rigidbody>();
+        wallDetection = transform.GetChild(2).GetComponent<WallDetection>();
+        rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         currentStamina = maxStamina;
 
@@ -148,6 +149,12 @@ public class PlayerController : MonoBehaviour
 
         Vector3 movement = (transform.forward * movementInput.z + transform.right * movementInput.x).normalized;
 
+        collisionNormal = wallDetection.wallNormal;
+        
+
+
+
+
         if (movement != Vector3.zero)
         {
             // Check if we're colliding
@@ -158,27 +165,37 @@ public class PlayerController : MonoBehaviour
                 movement = slideDirection.normalized;
             }
         }
-
+        //Debug.DrawRay(transform.position, collisionNormal * 10f, Color.green);
         // Apply movement
 
         rb.linearVelocity = new Vector3(movement.x * speed, rb.linearVelocity.y, movement.z * speed);
-    }
-    private void OnCollisionStay(Collision collision)
-    {
-        // Average all contact points' normals
-        collisionNormal = Vector3.zero;
-        foreach (ContactPoint contact in collision.contacts)
-        {
-            collisionNormal += contact.normal;
-        }
-        collisionNormal.Normalize();
-    }
 
-    // Called when collision stops
-    private void OnCollisionExit(Collision collision)
-    {
-        collisionNormal = Vector3.zero;
     }
+    //private void OnCollisionStay(Collision collision)
+    //{
+    //    // Average all contact point normals
+    //    collisionNormal = Vector3.zero;
+    //    foreach (ContactPoint contact in collision.contacts)
+    //    {
+    //        if (contact.normal )
+    //        collisionNormal += contact.normal;
+    //        Debug.DrawRay(collision.contacts[0].point, collisionNormal * 10f, Color.red);
+    //    }
+
+    //    if (collision.contacts.Length > 0)
+    //    {
+    //        collisionNormal.Normalize();
+
+    //        // Visualize the average normal at the first contact point
+    //    }
+    //}
+
+
+    //// Called when collision stops
+    //private void OnCollisionExit(Collision collision)
+    //{
+    //    collisionNormal = Vector3.zero;
+    //}
 
 
     private void HandleTorchToggle()

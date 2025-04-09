@@ -147,7 +147,11 @@ public class GhostAI : NetworkBehaviour
         Vector3 rayOrigin = transform.position + ghostData.eyePosition;
         Debug.DrawRay(rayOrigin, targetDir * ghostData.ghostLookDistance, Color.red, 1f);
 
-        if (Physics.Raycast(rayOrigin, targetDir, out RaycastHit hit, ghostData.ghostLookDistance))
+
+        // Include all layers except "IgnoreRaycast"
+        int layerMask = ~(1 << LayerMask.NameToLayer("IgnoreRaycast"));    ////Champt Gpt////
+
+        if (Physics.Raycast(rayOrigin, targetDir, out RaycastHit hit, ghostData.ghostLookDistance, layerMask, QueryTriggerInteraction.Ignore))
         {
             Debug.DrawRay(rayOrigin, targetDir * hit.distance, Color.green, 1f);  // Green ray to hit point
             Debug.DrawRay(hit.point, Vector3.up * 1f, Color.blue, 1f);

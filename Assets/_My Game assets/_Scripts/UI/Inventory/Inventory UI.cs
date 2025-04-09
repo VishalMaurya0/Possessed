@@ -10,7 +10,7 @@ public class InventoryUI : MonoBehaviour
     Inventory inventory;
     public ItemAmountUI ItemAmountUI;
 
-
+    [Header("Generated")]
     public RectTransform[] positions = new RectTransform[9];
     public GameObject[] iconPlaceholders = new GameObject[9];
     public GameObject[] icons = new GameObject[9];
@@ -38,9 +38,10 @@ public class InventoryUI : MonoBehaviour
     }
 
 
-
-    private void InitializePostions()
+    // Initialize the 8 icon placeholders and 8 icons=====//
+    private void InitializePostions()       
     {
+        //==========  ==========//
         for (int i = 0; i < positions.Length; i++)
         {
             positions[i] = transform.GetChild(i).GetComponent<RectTransform>();
@@ -50,6 +51,7 @@ public class InventoryUI : MonoBehaviour
     }
 
 
+    // Set the icon placeholders and icons with the given item data, and adjust their position and opacity=====//
     public void InitializeIcon()
     {
         for (int i = 0; i < inventorySlotTracker.leftSlot.slots.Count; i++)
@@ -112,6 +114,9 @@ public class InventoryUI : MonoBehaviour
 
     }
 
+
+    // ACtives the icon same as iconplaceholders but only if not to animate
+    // while animation it animates then set again
     public void SetIcon(bool notToAnimate)
     {
 
