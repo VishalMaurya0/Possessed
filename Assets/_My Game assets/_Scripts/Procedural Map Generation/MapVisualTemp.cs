@@ -94,7 +94,7 @@ public class MapVisualTemp : MonoBehaviour
                     obj = Instantiate(generateMap.CellObj, transform);
                     obj.transform.position = generateMap.mapCells[i, j].position;
                     obj.transform.localScale = obj.transform.localScale * generateMap.mapCells[i, j].width;
-                    obj.name = $"Cell ({j}, {i})";
+                    obj.name = $"Cell ({i}, {j})";
                     generateMap.mapCells[i, j].cellObjectTemporary = obj;
                 }
             }

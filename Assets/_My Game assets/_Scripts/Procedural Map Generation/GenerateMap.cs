@@ -604,6 +604,7 @@ public class GenerateMap : MonoBehaviour
     {
         for (int i = 0; i < rooms.Count; i++)
         {
+
             //==Room==//
             for (int j = 0; j < rooms[i].BoundaryCells.Count; j++)
             {
@@ -616,30 +617,40 @@ public class GenerateMap : MonoBehaviour
                 {
                     if (boundaryCell[k].wall[rooms[i].gateDir] == Type.Gates)
                     {
-                        flag = true; break;
+                        flag = true;
+                        break;
                     }
                 }
 
                 if (flag)
+                {
                     continue;
+                }
 
                 //======= if Gate is Not Present =======//
-
-                int windowIndex = Random.Range(1, boundaryCell.Length - 1);   //==== not chosing corner cells =====//
-                int windowDir;
-
-                for (int k = 0; k < boundaryCell[windowIndex].wall.Length; k++)
+                if (boundaryCell.Length <= 2)
                 {
-                    if (boundaryCell[windowIndex].wall[k] != Type.NoWall)
+                    continue;
+                }
+
+                int windowIndex = Random.Range(1, boundaryCell.Length - 1);   //==== not choosing corner cells =====//
+                MapCell targetCell = boundaryCell[windowIndex];
+                
+                for (int k = 0; k < targetCell.wall.Length; k++)
+                {
+                    if (targetCell.wall[k] != Type.NoWall)
                     {
-                        windowDir = k;
-                        boundaryCell[windowIndex].wall[k] = Type.Windows;
+                        Debug.LogWarning($"Room {i}, Boundary {j}: Placing window at cell {windowIndex}, direction {k}");
+                        targetCell.wall[k] = Type.Windows;
+                        int oppIndex = (k + 2) % 4;
+                        targetCell.adjCell[k].wall[oppIndex] = Type.Windows;
+                        break;
                     }
                 }
             }
-
         }
     }
+
 
 
 

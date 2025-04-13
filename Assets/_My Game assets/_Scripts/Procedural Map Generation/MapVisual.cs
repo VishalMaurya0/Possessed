@@ -141,7 +141,7 @@ public class MapVisual : MonoBehaviour
                 {
                     GameObject obj = Instantiate(newPrefab, tileContainer.transform);
                     obj.transform.position = cell.position;
-                    obj.name = $"Cell ({j}, {i})";
+                    obj.name = $"Cell ({i}, {j})";
                     cell.FloorTileGameobject = obj;
                 }
             }
