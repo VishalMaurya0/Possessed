@@ -604,12 +604,38 @@ public class GenerateMap : MonoBehaviour
     {
         for (int i = 0; i < rooms.Count; i++)
         {
+            //==Room==//
             for (int j = 0; j < rooms[i].BoundaryCells.Count; j++)
             {
+                //==BoundaryWall==//
                 MapCell[] boundaryCell = rooms[i].BoundaryCells[j];
 
                 //=========== check for Gates Presence =======//
+                bool flag = false;
+                for (int k = 0; k < boundaryCell.Length; k++)
+                {
+                    if (boundaryCell[k].wall[rooms[i].gateDir] == Type.Gates)
+                    {
+                        flag = true; break;
+                    }
+                }
 
+                if (flag)
+                    continue;
+
+                //======= if Gate is Not Present =======//
+
+                int windowIndex = Random.Range(1, boundaryCell.Length - 1);   //==== not chosing corner cells =====//
+                int windowDir;
+
+                for (int k = 0; k < boundaryCell[windowIndex].wall.Length; k++)
+                {
+                    if (boundaryCell[windowIndex].wall[k] != Type.NoWall)
+                    {
+                        windowDir = k;
+                        boundaryCell[windowIndex].wall[k] = Type.Windows;
+                    }
+                }
             }
 
         }
