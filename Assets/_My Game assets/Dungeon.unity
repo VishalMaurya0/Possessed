@@ -992,11 +992,13 @@ MonoBehaviour:
     amount: 0
   itemState2InventorySlot:
     itemData:
-      itemType: 0
-      currentState: 0
-      amount: 0
-      isOn: 0
+      rid: -2
     quantity: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!114 &415538026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1058,14 +1060,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ownerPlayer: {fileID: 0}
   noOfPlayers: 0
+  inventorySlots: 5
+  maxWeight: 15
   serverStarted: 0
   gameStarted: 0
+  gameEnd: 0
   selectedProceduresIndex: 
   completedProcedures: 
   timeInSecElapsed: 0
   lockCurser: 1
   handlePlayerLookWithMouse: 1
   handleMovement: 1
+  itemScrollingLock: 0
+  bakeNavMeshAgain: 0
   procedureBase: {fileID: 0}
 --- !u!114 &415538030
 MonoBehaviour:
@@ -7861,7 +7868,7 @@ MonoBehaviour:
   NetworkConfig:
     ProtocolVersion: 0
     NetworkTransport: {fileID: 2049244148}
-    PlayerPrefab: {fileID: 8596613677294679421, guid: 07c66a54e4094834f839607e3a242eea, type: 3}
+    PlayerPrefab: {fileID: 8596613677294679421, guid: 9381a5b89870b5947802a981bdc9214c, type: 3}
     Prefabs:
       NetworkPrefabsLists:
       - {fileID: 11400000, guid: 954fbdd788efb984fa393e1066f14462, type: 2}

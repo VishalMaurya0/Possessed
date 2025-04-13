@@ -9,6 +9,7 @@ public class MapVisual : MonoBehaviour
     public ProceduralMapDataSO proceduralMapDataSO;
     public GameObject wallContainer;
     public GameObject pillarContainer;
+    public GameObject tileContainer;
 
     [Header("Extracted Values")]
     int rowCells;
@@ -25,7 +26,7 @@ public class MapVisual : MonoBehaviour
     {
         rowCells = generateMap.mapCells.GetLength(0);
         columnCells = generateMap.mapCells.GetLength(1);
-        
+
         for (int i = 0; i < rowCells; i++)
         {
             for (int j = 0; j < columnCells; j++)
@@ -130,9 +131,24 @@ public class MapVisual : MonoBehaviour
                         }
                     }
                 }
+
+                //======= Tile Spawning ======//
+                List<PropsProbablity> floorTilePrefabsList = GetBuildingBlock(cell.floorTile);
+
+                GameObject newPrefab = FindPrefabWithTheirProbablity(floorTilePrefabsList);
+
+                if (newPrefab != null)
+                {
+                    GameObject obj = Instantiate(newPrefab, tileContainer.transform);
+                    obj.transform.position = cell.position;
+                    obj.name = $"Cell ({j}, {i})";
+                    cell.FloorTileGameobject = obj;
+                }
             }
         }
     }
+
+
 
     private GameObject FindPrefabWithTheirProbablity(List<PropsProbablity> PrefabsList)
     {
@@ -161,7 +177,6 @@ public class MapVisual : MonoBehaviour
 
         return null;
     }
-
     public List<PropsProbablity> GetBuildingBlock(Type type)
     {
         BuildingBlocks blocks = proceduralMapDataSO.MapMakingPrefabs.BuildingBlocks;
@@ -172,10 +187,13 @@ public class MapVisual : MonoBehaviour
             case Type.Windows: return blocks.Windows;
             case Type.Gates: return blocks.Gates;
             case Type.FloorTiles: return blocks.FloorTiles;
+            case Type.RoomFloorTiles: return blocks.RoomFloorTiles;
             case Type.RoofTiles: return blocks.RoofTiles;
+            case Type.RoomRoofTiles: return blocks.RoomRoofTiles;
             case Type.Pillar: return blocks.Pillars;
             default: return null;
         }
     }
-
 }
+
+

@@ -14,7 +14,7 @@ public class GenerateMap : MonoBehaviour
     public int totalRooms;
     public int roomMinLength;
     public int roomMaxLength;
-    public bool generateAgain;
+    public bool generateAgain = false;
     public bool generatePathAlso = true;
     public bool generateActual;
     public bool generateTemp;
@@ -40,6 +40,7 @@ public class GenerateMap : MonoBehaviour
 
     private void Start()
     {
+        generateAgain = false;
         mapVisualTemp = GetComponent<MapVisualTemp>();
         mapVisual = GetComponent<MapVisual>();
         mapVisualTemp.InitializeWallPool();        //Pooling the wallls Genereated==//
@@ -47,6 +48,14 @@ public class GenerateMap : MonoBehaviour
         CreateInitialMap();          //===== generates the mapCells according to grid ======//
         ReferenceAdjacentCells();    
         StartGeneration();           
+    }
+    private void Update()
+    {
+        if (generateAgain)
+        {
+            generateAgain = false;
+            GenerateAgain();
+        }
     }
 
     private void CreateInitialMap()
@@ -64,7 +73,6 @@ public class GenerateMap : MonoBehaviour
             }
         }
     }
-
     private void ReferenceAdjacentCells()
     {
         int rowCount = mapCells.GetLength(0);
@@ -83,19 +91,22 @@ public class GenerateMap : MonoBehaviour
             }
         }
     }
-
-
     private void StartGeneration()
     {
         CentreGeneration();               //======= 3x3 centre generated =====//
         ChooseGate();                        //======= gate are chosen in all direction in the center randomly ========//
         GenerateRooms(roomMinLength, roomMaxLength, totalRooms);    //======= generate the rooms =========//
-
-
         if (generatePathAlso)
         {
             GeneratePath();
         }
+        CreatePillars();
+        CreateTiles();
+        CreateWindows();
+
+
+
+        ////======== Visuals & NavMesh ========////
         if (generateTemp)
         {
             mapVisualTemp.UpdateVisual();
@@ -106,156 +117,6 @@ public class GenerateMap : MonoBehaviour
         }
         GameManager.Instance.bakeNavMeshAgain = true;
     }
-
-
-
-    void GenerateAgain()
-    {
-        // Clear data structures
-        InitialGateRooms.Clear();
-        rooms.Clear();
-        newIncrements.Clear();
-        roomGates.Clear();
-
-        // Return all walls to pool and reset cell references
-        int rows = mapCells.GetLength(0);
-        int cols = mapCells.GetLength(1);
-
-        for (int i = 0; i < rows; i++)
-        {
-            for (int j = 0; j < cols; j++)
-            {
-                MapCell cell = mapCells[i, j];
-                // Return walls to pool
-                for (int k = 0; k < mapCells[i, j].wallGTemporary.Length; k++)
-                {
-                    cell.wall[k] = Type.Walls;
-                    if (cell.wallGTemporary[k] != null)
-                    {
-                        mapVisualTemp.ReturnWallToPool(cell.wallGTemporary[k]);
-                        cell.wallGTemporary[k] = null;
-
-
-                        int oppositeIndex = (k + 2) % 4; // 0↔2 (right-left), 1↔3 (top-bottom)
-                        if (cell.adjCell[k] != null)
-                            cell.adjCell[k].wallGTemporary[oppositeIndex] = null;
-                    }
-                }
-                // Reset cell state
-                cell.inRoom = false;
-                cell.visited = false;
-            }
-        }
-                        
-
-                        
-
-
-        // Reinitialize the map
-        CentreGeneration();
-        ChooseGate();
-        GenerateRooms(roomMinLength, roomMaxLength, totalRooms);
-
-        if (generatePathAlso)
-        {
-            GeneratePath();
-        }
-
-        if (generateTemp)
-        {
-            mapVisualTemp.UpdateVisual();
-        }
-        if (generateActual)
-        {
-            mapVisual.GenerateBuildingBlocks();
-        }
-    }
-    private void Update()
-    {
-        if (generateAgain)
-        {
-            generateAgain = false;
-            GenerateAgain();
-        }
-    }
-
-    //private void UpdateVisual()
-    //{
-    //    generateAgain = false;
-
-    //    int rowCount = mapCells.GetLength(0);
-    //    int columnCount = mapCells.GetLength(1);
-
-    //    for (int i = 0; i < rowCount; i++)
-    //    {
-    //        for (int j = 0; j < columnCount; j++)
-    //        {
-    //            if (mapCells[i, j].cellObject == null)
-    //            {
-    //                GameObject obj;
-    //                obj = Instantiate(CellObj, transform);
-    //                obj.transform.position = mapCells[i, j].position;
-    //                obj.transform.localScale = obj.transform.localScale * mapCells[i, j].width;
-    //                obj.name = $"Cell ({j}, {i})";
-    //                mapCells[i, j].cellObject = obj;
-    //            }
-    //        }
-    //    }
-
-    //    // Wall Visual
-    //    for (int i = 0; i < rowCount; i++)
-    //    {
-    //        for (int j = 0; j < columnCount; j++)
-    //        {
-    //            MapCell cell = mapCells[i, j];
-
-    //            for (int k = 0; k < cell.wall.Length; k++)
-    //            {
-    //                if (cell.wall[k] == WallType.noWall)
-    //                {
-    //                    if (cell.wallG[k] != null)
-    //                    {
-    //                        ReturnWallToPool(cell.wallG[k]);
-    //                        cell.wallG[k] = null;
-    //                    }
-    //                    continue;
-    //                }
-
-    //                // Ensure wallPrefab is correctly selected
-    //                GameObject wallPrefab = walls[(int)cell.wall[k]];
-    //                if (wallPrefab == null)
-    //                {
-    //                    continue;
-    //                }
-
-    //                // Get wall from pool only if it doesn't exist
-    //                if (cell.wallG[k] == null)
-    //                {
-    //                    GameObject newWall = GetWallFromPool(wallPrefab);
-    //                    newWall.transform.position = cell.GetWallPosition(k, cell);
-    //                    newWall.transform.rotation = cell.GetWallRotation(k);
-    //                    newWall.SetActive(true); // Ensure it's visible
-
-    //                    cell.wallG[k] = newWall;
-
-    //                    // Sync opposite wall
-    //                    int oppositeIndex = (k + 2) % 4;
-    //                    if (cell.adjCell[k] != null && cell.adjCell[k].wallG[oppositeIndex] == null)
-    //                    {
-    //                        cell.adjCell[k].wallG[oppositeIndex] = newWall;
-    //                    }
-    //                }
-    //            }
-    //        }
-    //    }
-    //}
-
-
-
-
-
-
-
     private void CentreGeneration()
     {
         int centerRow = grid.length / grid.cellLength / 2;
@@ -475,7 +336,7 @@ public class GenerateMap : MonoBehaviour
 
 
         // ========= Store It =====//
-        Room newRoom = new Room(start, length, width, gateCell, gateDir);
+        Room newRoom = new Room(start, length, width, gateCell, gateDir, this);
         rooms.Add(newRoom);
     }
 
@@ -504,15 +365,12 @@ public class GenerateMap : MonoBehaviour
             roomGates.Add(room.gateCell.adjCell[room.gateDir]);
         }
 
-        CreatePillars();
-
         //while (roomGates.Count > 0)
         //{
         //    MapCell mapCell = roomGates[Random.Range(0, roomGates.Count)];
         //    Increment(mapCell, roomGates, true);
         //}
     }
-
     private void Increment(MapCell cell, List<MapCell> newIncrementsInside = null, bool forced = false)
     {
         if (cell == null)
@@ -659,7 +517,6 @@ public class GenerateMap : MonoBehaviour
             
         }
     }
-
     private void CreatePillars()
     {
         int rowCells = mapCells.GetLength(0);
@@ -716,7 +573,108 @@ public class GenerateMap : MonoBehaviour
             }
         }
     }
+    private void CreateTiles()
+    {
+        int rowCells = mapCells.GetLength(0);
+        int columnCells = mapCells.GetLength(1);
 
+        for (int i = 0; i < rowCells; i++)
+        {
+            for (int j = 0; j < columnCells; j++)
+            {
+                // ======= every Cell =-=====//
+                MapCell cell = mapCells[i, j];
+                if (cell == null) continue;
+
+                if (cell.inRoom)
+                {
+                    cell.floorTile = Type.RoomFloorTiles;
+                    cell.roofTile = Type.RoomRoofTiles;
+                }
+                else
+                {
+                    cell.floorTile = Type.FloorTiles;
+                    cell.roofTile = Type.RoofTiles;
+                }
+            }
+        }
+
+    }
+    private void CreateWindows()
+    {
+        for (int i = 0; i < rooms.Count; i++)
+        {
+            for (int j = 0; j < rooms[i].BoundaryCells.Count; j++)
+            {
+                MapCell[] boundaryCell = rooms[i].BoundaryCells[j];
+
+                //=========== check for Gates Presence =======//
+
+            }
+
+        }
+    }
+
+
+
+
+    void GenerateAgain()
+    {
+        // Clear data structures
+        InitialGateRooms.Clear();
+        rooms.Clear();
+        newIncrements.Clear();
+        roomGates.Clear();
+
+        // Return all walls to pool and reset cell references
+        int rows = mapCells.GetLength(0);
+        int cols = mapCells.GetLength(1);
+
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < cols; j++)
+            {
+                MapCell cell = mapCells[i, j];
+                // Return walls to pool
+                for (int k = 0; k < mapCells[i, j].wallGTemporary.Length; k++)
+                {
+                    cell.wall[k] = Type.Walls;
+                    if (cell.wallGTemporary[k] != null)
+                    {
+                        mapVisualTemp.ReturnWallToPool(cell.wallGTemporary[k]);
+                        cell.wallGTemporary[k] = null;
+
+
+                        int oppositeIndex = (k + 2) % 4; // 0↔2 (right-left), 1↔3 (top-bottom)
+                        if (cell.adjCell[k] != null)
+                            cell.adjCell[k].wallGTemporary[oppositeIndex] = null;
+                    }
+                }
+                // Reset cell state
+                cell.inRoom = false;
+                cell.visited = false;
+            }
+        }
+                        
+
+
+        // Reinitialize the map
+        CentreGeneration();
+        ChooseGate();
+        GenerateRooms(roomMinLength, roomMaxLength, totalRooms);
+
+        if (generatePathAlso)
+        {
+            GeneratePath();
+        }
+
+        if (generateTemp)
+        {
+            mapVisualTemp.UpdateVisual();
+        }
+
+        GameManager.Instance.bakeNavMeshAgain = true;
+    }
 
 
 
@@ -766,6 +724,10 @@ public class MapCell
 
     public Type[] pillar = new Type[4];
 
+    public Type floorTile;
+
+    public Type roofTile;
+
     /// <summary>
     /// /========== All GameObjects In A Cell ============= ///
     /// </summary>
@@ -774,14 +736,18 @@ public class MapCell
 
     public GameObject[] PillarGameobject = new GameObject[4];
 
-    public GameObject[] FloorTileGameobject = new GameObject[4];
+    public GameObject FloorTileGameobject;
 
-    public GameObject[] RoofTileGameobject = new GameObject[4];
+    public GameObject RoofTileGameobject;
     
-    //**********************************************//
+    //********************** Temporary ************************//
 
     public GameObject cellObjectTemporary;
     public GameObject[] wallGTemporary = new GameObject[4];
+    
+    //********************** Temporary ************************//
+
+
     public MapCell(Cell cell, GameObject cellObject = null)
     {
         position = cell.position;
@@ -852,13 +818,45 @@ public class Room
     public int width;
     public MapCell gateCell;
     public int gateDir;
+    public MapCell[] RightCells;
+    public MapCell[] TopCells;
+    public MapCell[] LeftCells;
+    public MapCell[] BottomCells;
+    public List<MapCell[]> BoundaryCells = new List<MapCell[]>();
 
-    public Room(Vector2 start, int length, int width, MapCell gateCell, int gateDir)
+    public Room(Vector2 start, int length, int width, MapCell gateCell, int gateDir, GenerateMap generateMap)
     {
         this.start = start;
         this.length = length;
         this.width = width;
         this.gateCell = gateCell;
         this.gateDir = gateDir;
+        RightCells = new MapCell[width];
+        TopCells = new MapCell[length];
+        LeftCells = new MapCell[width];
+        BottomCells = new MapCell[length];
+
+        InitializeCells(generateMap);
+    }
+
+    private void InitializeCells(GenerateMap generateMap)
+    {
+        for (int i = 0; i < RightCells.Length; i++)
+        {
+            RightCells[i] = generateMap.mapCells[(int)start.x + length - 1, (int)start.y + i];
+            LeftCells[i] = generateMap.mapCells[(int)start.x, (int)start.y + i];
+        }
+        
+        for (int i = 0; i < TopCells.Length; i++)
+        {
+            TopCells[i] = generateMap.mapCells[(int)start.x + i, (int)start.y + width - 1];
+            BottomCells[i] = generateMap.mapCells[(int)start.x + i, (int)start.y];
+        }
+
+        BoundaryCells.Add(RightCells);
+        BoundaryCells.Add(TopCells);
+        BoundaryCells.Add(LeftCells);
+        BoundaryCells.Add(BottomCells);
+        
     }
 }

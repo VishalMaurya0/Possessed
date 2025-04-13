@@ -21,7 +21,9 @@ public struct BuildingBlocks
     public List<PropsProbablity> Windows;
     public List<PropsProbablity> Gates;
     public List<PropsProbablity> FloorTiles;
+    public List<PropsProbablity> RoomFloorTiles;
     public List<PropsProbablity> RoofTiles;
+    public List<PropsProbablity> RoomRoofTiles;
     public List<PropsProbablity> Pillars;
 }
 
@@ -36,7 +38,6 @@ public struct RoomProps
 [System.Serializable]
 public struct PropsProbablity
 {
-    public Type type; 
     public GameObject prop;
     public int chancesIn100;
 }
@@ -48,7 +49,9 @@ public enum Type
     Windows,
     Gates,
     FloorTiles,
+    RoomFloorTiles,
     RoofTiles,
+    RoomRoofTiles,
     NoPillar,
     Pillar,
     WallSideProps,

@@ -15,22 +15,26 @@ MonoBehaviour:
   MapMakingPrefabs:
     BuildingBlocks:
       Walls:
-      - type: 0
-        prop: {fileID: 6172254224933744502, guid: 6e534410cc348b345b9eb286aefcd6b9, type: 3}
+      - prop: {fileID: 3111189146848355103, guid: 94491ea30b1afd54b901f4e268ca55ca, type: 3}
         chancesIn100: 100
+      - prop: {fileID: 2888231960360639592, guid: e511d4d8bf6cf75449fb130c85a38de0, type: 3}
+        chancesIn100: 50
       Windows:
-      - type: 0
-        prop: {fileID: 2888231960360639592, guid: e511d4d8bf6cf75449fb130c85a38de0, type: 3}
+      - prop: {fileID: 2888231960360639592, guid: e511d4d8bf6cf75449fb130c85a38de0, type: 3}
         chancesIn100: 100
       Gates:
-      - type: 0
-        prop: {fileID: 5678895698159435932, guid: 2ef50959e3b0c914d9a6e899e2c1dd0d, type: 3}
+      - prop: {fileID: 5678895698159435932, guid: 2ef50959e3b0c914d9a6e899e2c1dd0d, type: 3}
         chancesIn100: 100
-      FloorTiles: []
+      FloorTiles:
+      - prop: {fileID: 6613996105818949032, guid: c065f9592642ef8448e646e2cba0a3d0, type: 3}
+        chancesIn100: 100
+      RoomFloorTiles:
+      - prop: {fileID: 6613996105818949032, guid: c065f9592642ef8448e646e2cba0a3d0, type: 3}
+        chancesIn100: 100
       RoofTiles: []
+      RoomRoofTiles: []
       Pillars:
-      - type: 0
-        prop: {fileID: 6172254224933744502, guid: c09094a737e132349a2f64e812921d7c, type: 3}
+      - prop: {fileID: 6172254224933744502, guid: c09094a737e132349a2f64e812921d7c, type: 3}
         chancesIn100: 100
     RoomProps:
       WallSideProps: []
