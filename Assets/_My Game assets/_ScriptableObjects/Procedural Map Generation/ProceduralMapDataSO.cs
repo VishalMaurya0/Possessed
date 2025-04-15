@@ -4,6 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ProceduralMapDataSO", menuName = "Scriptable Objects/ProceduralMapDataSO")]
 public class ProceduralMapDataSO : ScriptableObject
 {
+    public int typeOfRooms;
     public MapMakingPrefabs MapMakingPrefabs;
 }
 
@@ -30,9 +31,16 @@ public struct BuildingBlocks
 [System.Serializable]
 public struct RoomProps
 {
-    public List<PropsProbablity> WallSideProps;
-    public List<PropsProbablity> RoomCenterProps;
-    public List<PropsProbablity> CeilingProps;
+    public List<RoomPropsOfAType> RoomTypes;
+}
+
+[System.Serializable]
+public struct RoomPropsOfAType
+{
+    public AllProps WallSideProps;
+    public AllProps RoomCenterProps;
+    public AllProps RoomCornerProps;
+    public AllProps CeilingProps;
 }
 
 [System.Serializable]
@@ -40,6 +48,26 @@ public struct PropsProbablity
 {
     public GameObject prop;
     public int chancesIn100;
+}
+
+[System.Serializable]
+public struct PropsVariation
+{
+    public string propName;
+    public List<PropsProbablity> Prop;
+}
+
+[System.Serializable]
+public struct AllProps
+{
+    public string propLocation;
+    public List<PropsVariation> Props;
+}
+
+[System.Serializable]
+public struct PropsType
+{
+    public List<PropsVariation> Type;
 }
 
 public enum Type
@@ -56,5 +84,6 @@ public enum Type
     Pillar,
     WallSideProps,
     RoomCenterProps,
+    RoomCornerProps,
     CeilingProps,
 }

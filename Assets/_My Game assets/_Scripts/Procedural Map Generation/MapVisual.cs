@@ -194,6 +194,22 @@ public class MapVisual : MonoBehaviour
             default: return null;
         }
     }
+
+    public AllProps RoomProps(int roomType, Type type)
+    {
+        RoomProps roomProps = proceduralMapDataSO.MapMakingPrefabs.RoomProps;
+
+        switch (type)
+        {
+            case Type.WallSideProps: return roomProps.RoomTypes[roomType].WallSideProps;
+            case Type.RoomCenterProps: return roomProps.RoomTypes[roomType].RoomCenterProps;
+            case Type.RoomCornerProps: return roomProps.RoomTypes[roomType].RoomCornerProps;
+            case Type.CeilingProps: return roomProps.RoomTypes[roomType].CeilingProps;
+            default:
+                Debug.LogError("type not found");
+                return default;
+        }
+    }
 }
 
 

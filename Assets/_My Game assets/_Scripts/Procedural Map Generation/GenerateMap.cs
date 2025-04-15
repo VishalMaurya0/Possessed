@@ -7,6 +7,7 @@ public class GenerateMap : MonoBehaviour
     public Grid grid;
     public MapVisualTemp mapVisualTemp;
     public MapVisual mapVisual;
+    public ProceduralMapDataSO mapVisualDataSO;
 
 
     [Header("Inputs")]
@@ -14,6 +15,7 @@ public class GenerateMap : MonoBehaviour
     public int totalRooms;
     public int roomMinLength;
     public int roomMaxLength;
+    public int typeOfRooms;
     public bool generateAgain = false;
     public bool generatePathAlso = true;
     public bool generateActual;
@@ -40,6 +42,7 @@ public class GenerateMap : MonoBehaviour
 
     private void Start()
     {
+        typeOfRooms = mapVisualDataSO.typeOfRooms;
         generateAgain = false;
         mapVisualTemp = GetComponent<MapVisualTemp>();
         mapVisual = GetComponent<MapVisual>();
@@ -103,6 +106,8 @@ public class GenerateMap : MonoBehaviour
         CreatePillars();
         CreateTiles();
         CreateWindows();
+        SpawnProcedures();
+        GenerateProps();
 
 
 
@@ -117,6 +122,8 @@ public class GenerateMap : MonoBehaviour
         }
         GameManager.Instance.bakeNavMeshAgain = true;
     }
+
+
     private void CentreGeneration()
     {
         int centerRow = grid.length / grid.cellLength / 2;
@@ -337,6 +344,15 @@ public class GenerateMap : MonoBehaviour
 
         // ========= Store It =====//
         Room newRoom = new Room(start, length, width, gateCell, gateDir, this);
+        newRoom.roomType = Random.Range(0, typeOfRooms);
+
+        // ======== store corner cells =======//
+        newRoom.cornercells[0] = mapCells[x + length - 1, y + width - 1];
+        newRoom.cornercells[1] = mapCells[x, y + width - 1];
+        newRoom.cornercells[2] = mapCells[x, y];
+        newRoom.cornercells[3] = mapCells[x + length - 1, y];
+
+
         rooms.Add(newRoom);
     }
 
@@ -517,6 +533,10 @@ public class GenerateMap : MonoBehaviour
             
         }
     }
+
+
+
+
     private void CreatePillars()
     {
         int rowCells = mapCells.GetLength(0);
@@ -653,6 +673,33 @@ public class GenerateMap : MonoBehaviour
 
 
 
+    private void SpawnProcedures()
+    {
+        
+    }
+    
+    
+    
+    
+    private void GenerateProps()
+    {
+        for (int i = 0; i < rooms.Count; i++)
+        {
+            Room room = rooms[i];
+            //====== Generate at corners =====//
+            for (int j = 0; j < room.cornercells.Length; j++)
+            {
+                MapCell cell = room.cornercells[j];
+                if (0 != Random.Range(0, 3))
+                {
+                    cell.prop = Type.RoomCornerProps;
+                }
+            }
+
+            //
+        }
+    }
+
 
 
     void GenerateAgain()
@@ -765,6 +812,8 @@ public class MapCell
 
     public Type roofTile;
 
+    public Type prop;
+
     /// <summary>
     /// /========== All GameObjects In A Cell ============= ///
     /// </summary>
@@ -855,11 +904,16 @@ public class Room
     public int width;
     public MapCell gateCell;
     public int gateDir;
-    public MapCell[] RightCells;
-    public MapCell[] TopCells;
-    public MapCell[] LeftCells;
-    public MapCell[] BottomCells;
+    public int roomType;
+
+
+    public MapCell[] rightCells;
+    public MapCell[] topCells;
+    public MapCell[] leftCells;
+    public MapCell[] bottomCells;
     public List<MapCell[]> BoundaryCells = new List<MapCell[]>();
+
+    public MapCell[] cornercells = new MapCell[4];
 
     public Room(Vector2 start, int length, int width, MapCell gateCell, int gateDir, GenerateMap generateMap)
     {
@@ -868,32 +922,32 @@ public class Room
         this.width = width;
         this.gateCell = gateCell;
         this.gateDir = gateDir;
-        RightCells = new MapCell[width];
-        TopCells = new MapCell[length];
-        LeftCells = new MapCell[width];
-        BottomCells = new MapCell[length];
+        rightCells = new MapCell[width];
+        topCells = new MapCell[length];
+        leftCells = new MapCell[width];
+        bottomCells = new MapCell[length];
 
         InitializeCells(generateMap);
     }
 
     private void InitializeCells(GenerateMap generateMap)
     {
-        for (int i = 0; i < RightCells.Length; i++)
+        for (int i = 0; i < rightCells.Length; i++)
         {
-            RightCells[i] = generateMap.mapCells[(int)start.x + length - 1, (int)start.y + i];
-            LeftCells[i] = generateMap.mapCells[(int)start.x, (int)start.y + i];
+            rightCells[i] = generateMap.mapCells[(int)start.x + length - 1, (int)start.y + i];
+            leftCells[i] = generateMap.mapCells[(int)start.x, (int)start.y + i];
         }
         
-        for (int i = 0; i < TopCells.Length; i++)
+        for (int i = 0; i < topCells.Length; i++)
         {
-            TopCells[i] = generateMap.mapCells[(int)start.x + i, (int)start.y + width - 1];
-            BottomCells[i] = generateMap.mapCells[(int)start.x + i, (int)start.y];
+            topCells[i] = generateMap.mapCells[(int)start.x + i, (int)start.y + width - 1];
+            bottomCells[i] = generateMap.mapCells[(int)start.x + i, (int)start.y];
         }
 
-        BoundaryCells.Add(RightCells);
-        BoundaryCells.Add(TopCells);
-        BoundaryCells.Add(LeftCells);
-        BoundaryCells.Add(BottomCells);
+        BoundaryCells.Add(rightCells);
+        BoundaryCells.Add(topCells);
+        BoundaryCells.Add(leftCells);
+        BoundaryCells.Add(bottomCells);
         
     }
 }

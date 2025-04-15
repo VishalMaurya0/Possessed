@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30d528296684be644afb6a6781a204ce, type: 3}
   m_Name: ProceduralMapDataSO
   m_EditorClassIdentifier: 
+  typeOfRooms: 1
   MapMakingPrefabs:
     BuildingBlocks:
       Walls:
@@ -27,7 +28,7 @@ MonoBehaviour:
       - prop: {fileID: 6613996105818949032, guid: c065f9592642ef8448e646e2cba0a3d0, type: 3}
         chancesIn100: 100
       RoomFloorTiles:
-      - prop: {fileID: 6613996105818949032, guid: c065f9592642ef8448e646e2cba0a3d0, type: 3}
+      - prop: {fileID: 6613996105818949032, guid: f1d7cc25e830be345ae5da398a3ca906, type: 3}
         chancesIn100: 100
       RoofTiles: []
       RoomRoofTiles: []
@@ -35,6 +36,26 @@ MonoBehaviour:
       - prop: {fileID: 6172254224933744502, guid: c09094a737e132349a2f64e812921d7c, type: 3}
         chancesIn100: 100
     RoomProps:
-      WallSideProps: []
-      RoomCenterProps: []
-      CeilingProps: []
+      RoomTypes:
+      - WallSideProps:
+          propLocation: Wall Sided
+          Props:
+          - propName: 
+            Prop:
+            - prop: {fileID: 0}
+              chancesIn100: 0
+            - prop: {fileID: 0}
+              chancesIn100: 0
+          - propName: 
+            Prop: []
+          - propName: 
+            Prop: []
+        RoomCenterProps:
+          propLocation: 
+          Props: []
+        RoomCornerProps:
+          propLocation: 
+          Props: []
+        CeilingProps:
+          propLocation: 
+          Props: []
