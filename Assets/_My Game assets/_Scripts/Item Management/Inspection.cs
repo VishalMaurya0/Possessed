@@ -12,7 +12,7 @@ public class Inspection : NetworkBehaviour
     private Quaternion originalRotation;
     private bool isInspecting = false;
 
-    private float rotationSpeed = 5f;
+    private readonly float rotationSpeed = 5f;
     private ItemHolding ItemHolding;
 
     void Update()
@@ -94,7 +94,7 @@ public class Inspection : NetworkBehaviour
         float mouseX = Input.GetAxis("Mouse X") * rotationSpeed;
         float mouseY = Input.GetAxis("Mouse Y") * rotationSpeed;
 
-        Vector3 dir = new Vector3(inspectPoint.transform.position.z - player.transform.position.z, 0f, player.transform.position.x - inspectPoint.transform.position.x);
+        Vector3 dir = new (inspectPoint.transform.position.z - player.transform.position.z, 0f, player.transform.position.x - inspectPoint.transform.position.x);
 
         // Apply rotation based on mouse movement
         transform.Rotate(Vector3.up, -mouseX, Space.World); // Horizontal rotation

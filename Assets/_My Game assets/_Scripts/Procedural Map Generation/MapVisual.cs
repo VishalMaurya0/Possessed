@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class MapVisual : MonoBehaviour
 {
@@ -147,6 +146,18 @@ public class MapVisual : MonoBehaviour
             }
         }
     }
+    public void SpawnProcedures()
+    {
+        foreach (var procedure in GameManager.Instance.procedureBase.allProcedures)
+        {
+            if (procedure == null)
+            {
+                continue;
+            }
+
+
+        }
+    }
 
 
 
@@ -211,5 +222,3 @@ public class MapVisual : MonoBehaviour
         }
     }
 }
-
-

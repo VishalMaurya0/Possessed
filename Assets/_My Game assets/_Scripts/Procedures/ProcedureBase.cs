@@ -7,7 +7,6 @@ public class ProcedureBase : NetworkBehaviour
     public List<ProcedureBase> allProcedures = new();
 
 
-
     public List<Vector3> position = new();
     public List<Vector3> rotation = new();
 
@@ -23,17 +22,6 @@ public class ProcedureBase : NetworkBehaviour
     }
 }
 
-
-
-[System.Serializable]
-public class ItemNeeded
-{
-    public int orderId;
-    public ItemType ItemType;
-    public int currentState;
-    public int requiredAmount;
-    public int timeToWaitAfterAddingAAmount;
-}
 
 [System.Serializable]
 public struct TotalItemsNeeded

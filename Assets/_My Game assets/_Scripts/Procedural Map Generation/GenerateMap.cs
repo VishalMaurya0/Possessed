@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using static Room;
 
 public class GenerateMap : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class GenerateMap : MonoBehaviour
     public MapVisualTemp mapVisualTemp;
     public MapVisual mapVisual;
     public ProceduralMapDataSO mapVisualDataSO;
+    public GameObject aslk;
 
 
     [Header("Inputs")]
@@ -15,6 +17,8 @@ public class GenerateMap : MonoBehaviour
     public int totalRooms;
     public int roomMinLength;
     public int roomMaxLength;
+    public int max3X3Rooms;
+    public int current3X3Rooms;
     public int typeOfRooms;
     public bool generateAgain = false;
     public bool generatePathAlso = true;
@@ -24,11 +28,11 @@ public class GenerateMap : MonoBehaviour
 
     [Header("Map Properties")]
     public MapCell[,] mapCells;
-    private MapCell centreMapCell;
-    private List<MapCell> InitialGateRooms = new List<MapCell>();
-    public List<Room> rooms = new List<Room>();
-    List<MapCell> roomGates = new List<MapCell>();
-    List<MapCell> newIncrements = new List<MapCell>();
+    public MapCell centreMapCell;
+    public List<MapCell> InitialGateRooms = new ();
+    public List<Room> rooms = new ();
+    readonly List<MapCell> roomGates = new ();
+    readonly List<MapCell> newIncrements = new ();
 
 
 
@@ -47,10 +51,10 @@ public class GenerateMap : MonoBehaviour
         mapVisualTemp = GetComponent<MapVisualTemp>();
         mapVisual = GetComponent<MapVisual>();
         mapVisualTemp.InitializeWallPool();        //Pooling the wallls Genereated==//
-        grid = GetComponent<Grid>(); 
+        grid = GetComponent<Grid>();
         CreateInitialMap();          //===== generates the mapCells according to grid ======//
-        ReferenceAdjacentCells();    
-        StartGeneration();           
+        ReferenceAdjacentCells();
+        StartGeneration();
     }
     private void Update()
     {
@@ -154,25 +158,25 @@ public class GenerateMap : MonoBehaviour
         int centerRow = rowCount / 2;
         int centerCol = colCount / 2;
 
-        System.Random rand = new System.Random();
+        System.Random rand = new ();
 
         for (int i = -1; i < 2; i += 2)   ///choosing direction Left and Right
         {
             int j = rand.Next(-1, 2);   // -1 , 0, 1 
             MapCell cell = mapCells[i + centerRow, j + centerCol];
-            switch(i)
+            switch (i)
             {
                 case -1: RemoveWalls(cell, -1, -1, 2, -1); InitialGateRooms.Add(cell.adjCell[2]); cell.adjCell[2].inRoom = true; break;
                 case 1: RemoveWalls(cell, 2, -1, -1, -1); InitialGateRooms.Add(cell.adjCell[0]); cell.adjCell[0].inRoom = true; break;
-            }            
-            
+            }
+
         }
-        
+
         for (int i = -1; i < 2; i += 2)   ///choosing direction North and south
         {
             int j = rand.Next(-1, 2);   // -1 , 0, 1 
             MapCell cell = mapCells[j + centerRow, i + centerCol];
-            switch(i)
+            switch (i)
             {
                 case -1: RemoveWalls(cell, -1, -1, -1, 2); InitialGateRooms.Add(cell.adjCell[3]); cell.adjCell[3].inRoom = true; break;
                 case 1: RemoveWalls(cell, -1, 2, -1, -1); InitialGateRooms.Add(cell.adjCell[1]); cell.adjCell[1].inRoom = true; break;
@@ -216,13 +220,29 @@ public class GenerateMap : MonoBehaviour
                 }
             }
         }
+
+        Debug.LogWarning($"totalRooms = {rooms.Count}");
     }
     private void CreateARoom(int roomMinLength, int roomMaxLength)
     {
         int length = Random.Range(roomMinLength, roomMaxLength + 1);
         int width = Random.Range(roomMinLength, roomMaxLength + 1);
 
-        Vector2 start = new Vector2(Random.Range(0, grid.length), Random.Range(0, grid.width));
+
+        //======= check for no of 3x3 rooms =========//
+        if (current3X3Rooms >= max3X3Rooms)
+        {
+            if (length <= 3)
+            {
+                length++;
+            }
+            if (width <= 3)
+            {
+                width++;
+            }
+        }
+
+        Vector2 start = new (Random.Range(0, grid.length), Random.Range(0, grid.width));
 
         bool flag = false;
 
@@ -272,6 +292,12 @@ public class GenerateMap : MonoBehaviour
         }
 
         //========Create the room=======//
+
+
+        if (length <= 3 || width <= 3)
+        {
+            current3X3Rooms++;
+        }
 
         for (int i = (int)start.x; i < (int)start.x + length; i++)
         {
@@ -343,7 +369,7 @@ public class GenerateMap : MonoBehaviour
 
 
         // ========= Store It =====//
-        Room newRoom = new Room(start, length, width, gateCell, gateDir, this);
+        Room newRoom = new (start, length, width, gateCell, gateDir, this);
         newRoom.roomType = Random.Range(0, typeOfRooms);
 
         // ======== store corner cells =======//
@@ -398,7 +424,7 @@ public class GenerateMap : MonoBehaviour
 
 
         int initialDir = -1;
-        List<int> incrementDir = new List<int>();
+        List<int> incrementDir = new ();
 
         //====== Get all Wall Directions =====//
         for (int i = 0; i < cell.wall.Length; i++)
@@ -553,8 +579,7 @@ public class GenerateMap : MonoBehaviour
                 for (int k = 0; k < cell.wall.Length; k ++)
                 {
                     // ========= every wall ========//
-                    GameObject WallGameobject = cell.WallGameobject[k];
-
+                    
                     Type wallType = cell.wall[k];
 
                     if (wallType != Type.NoWall)
@@ -660,7 +685,6 @@ public class GenerateMap : MonoBehaviour
                 {
                     if (targetCell.wall[k] != Type.NoWall)
                     {
-                        Debug.LogWarning($"Room {i}, Boundary {j}: Placing window at cell {windowIndex}, direction {k}");
                         targetCell.wall[k] = Type.Windows;
                         int oppIndex = (k + 2) % 4;
                         targetCell.adjCell[k].wall[oppIndex] = Type.Windows;
@@ -675,12 +699,145 @@ public class GenerateMap : MonoBehaviour
 
     private void SpawnProcedures()
     {
-        
+        //========= All Rooms =========//
+
+        List<Room> allRooms = new ();
+        foreach (Room room in rooms)
+        {
+            allRooms.Add(room);
+        }
+
+        //========= selected 8 rooms =========//
+
+        List<Room> selectedRooms = new List<Room>();
+        int noOfTrials = 0;
+        int totalTrials = 1000;
+        while (selectedRooms.Count < 8 && noOfTrials < totalTrials)
+        {
+            noOfTrials++;
+            int index = Random.Range(0, allRooms.Count);
+            if (allRooms[index].length <= 3 || allRooms[index].width <= 3)
+            {
+                continue;
+            }
+            selectedRooms.Add(allRooms[index]);
+            allRooms.RemoveAt(index);
+        }
+
+        //========= all procedures =========//
+
+        List<Procedures> procedures = new ();                                  //TODO champt Gpt//
+        foreach (string name in System.Enum.GetNames(typeof(Procedures)))
+        {
+            procedures.Add((Procedures)System.Enum.Parse(typeof(Procedures), name));
+        }
+
+        //========= Assign each procedure to a room =========//
+
+        int maxAttempts = 1000;
+        int attempts = 0;
+
+        while (procedures.Count > 0 && attempts < maxAttempts)
+        {
+            attempts++;
+
+            int roomIndex = Random.Range(0, selectedRooms.Count);
+            int procedureIndex = Random.Range(0, procedures.Count);
+
+            if (IsCompatibleToSpawnAProcedureAndSpawnIt(selectedRooms[roomIndex], procedureIndex))
+            {
+                procedures.RemoveAt(procedureIndex);
+            }
+        }
+
+        if (attempts >= maxAttempts)
+        {
+            Debug.LogError("Failed to place all procedures after maximum attempts.");
+        }
+
+
+        if (procedures.Count > 0)
+        {
+            foreach (Room room in selectedRooms)
+            {
+                if (room.Procedures.Count > 0)
+                {
+                    foreach (ProcedureLocation procedure in room.Procedures)
+                    {
+                        foreach (MapCell cell in procedure.cell)
+                        {
+                            cell.spawnNoProcedures = false;
+                            cell.spaceOccupied = false;
+                        }
+                        room.Procedures.Remove(procedure);
+                    }
+                }
+            }
+
+            SpawnProcedures();
+        }
+
+
+
+        bool IsCompatibleToSpawnAProcedureAndSpawnIt(Room room, int procedureIndex)
+        {
+            int i = 5000;
+            bool posFound = false;
+            Vector2 pos = new ();
+
+
+            while (i > 0 && !posFound)
+            {
+                i--;
+                pos = new Vector2(Random.Range((int)room.start.x, (int)room.start.x + room.length), Random.Range((int)room.start.y, (int)room.start.y + room.width));
+
+                bool flag = false;
+                if (mapCells[(int)pos.x, (int)pos.y].spawnNoProcedures) flag = true;
+                if (mapCells[(int)pos.x + 1, (int)pos.y].spawnNoProcedures) flag = true;
+                if (mapCells[(int)pos.x + 1, (int)pos.y + 1].spawnNoProcedures) flag = true;
+                if (mapCells[(int)pos.x, (int)pos.y + 1].spawnNoProcedures) flag = true; 
+
+                if (!flag)
+                {
+                    posFound = true;
+                }
+
+            }
+
+            if (!posFound)
+            {
+                return false;
+            }
+
+
+            Room.ProcedureLocation procedureLocation = new ();
+            procedureLocation.Procedure = procedures[procedureIndex];
+            procedureLocation.cell = new ();
+            procedureLocation.cell.Add(mapCells[(int)pos.x, (int)pos.y]);
+            procedureLocation.cell.Add(mapCells[(int)pos.x + 1, (int)pos.y]);
+            procedureLocation.cell.Add(mapCells[(int)pos.x + 1, (int)pos.y + 1]);
+            procedureLocation.cell.Add(mapCells[(int)pos.x, (int)pos.y + 1]);
+
+            foreach (var cell in procedureLocation.cell)
+            {
+                cell.spawnNoProcedures = true;
+                cell.spaceOccupied = true;
+                Instantiate(aslk, cell.position, Quaternion.identity);
+            }
+
+            foreach (var procedure in GameManager.Instance.procedureBase.allProcedures)
+            {
+                if ()
+            }
+
+            room.Procedures.Add(procedureLocation);
+
+
+            return true;
+        }
     }
-    
-    
-    
-    
+
+
     private void GenerateProps()
     {
         for (int i = 0; i < rooms.Count; i++)
@@ -801,7 +958,7 @@ public class MapCell
 
 
     // 0 => right , 1 => top , 2 => left , 3 => bottom
-
+    [System.NonSerialized]
     public MapCell[] adjCell = new MapCell[4];
 
     public Type[] wall = new Type[4];
@@ -813,6 +970,9 @@ public class MapCell
     public Type roofTile;
 
     public Type prop;
+
+    public bool spawnNoProcedures;
+    public bool spaceOccupied;
 
     /// <summary>
     /// /========== All GameObjects In A Cell ============= ///
@@ -851,14 +1011,14 @@ public class MapCell
         Vector3 position = cell.position;
         float halfSize = cell.width / 2f;
 
-        switch (wallIndex)
+        return (wallIndex) switch
         {
-            case 0: return position + new Vector3(halfSize, 0, 0);
-            case 1: return position + new Vector3(0, 0, halfSize);
-            case 2: return position - new Vector3(halfSize, 0, 0);
-            case 3: return position - new Vector3(0, 0, halfSize);
-            default: return position;
-        }
+            0 => position + new Vector3(halfSize, 0, 0),
+            1 => position + new Vector3(0, 0, halfSize),
+            2 => position - new Vector3(halfSize, 0, 0),
+            3 => position - new Vector3(0, 0, halfSize),
+            _ => position,
+        };
     }
     public Quaternion GetWallRotation(int wallIndex)
     {
@@ -897,6 +1057,7 @@ public class MapCell
     }
 }
 
+[System.Serializable]
 public class Room
 {
     public Vector2 start;
@@ -913,7 +1074,12 @@ public class Room
     public MapCell[] bottomCells;
     public List<MapCell[]> BoundaryCells = new List<MapCell[]>();
 
+
     public MapCell[] cornercells = new MapCell[4];
+
+
+    public List<ProcedureLocation> Procedures = new List<ProcedureLocation>();
+
 
     public Room(Vector2 start, int length, int width, MapCell gateCell, int gateDir, GenerateMap generateMap)
     {
@@ -928,6 +1094,23 @@ public class Room
         bottomCells = new MapCell[length];
 
         InitializeCells(generateMap);
+
+        MarkSpawnProofArea(generateMap);
+    }
+
+    private void MarkSpawnProofArea(GenerateMap generateMap)
+    {
+        for (int i = (int)start.x; i < (int)start.x + length; i++)
+        {
+            generateMap.mapCells[i, (int)start.y].spawnNoProcedures = true;
+            generateMap.mapCells[i, (int)start.y + width - 1].spawnNoProcedures = true;
+        }
+        
+        for (int i = (int)start.y; i < (int)start.y + width; i++)
+        {
+            generateMap.mapCells[(int)start.x, i].spawnNoProcedures = true;
+            generateMap.mapCells[(int)start.x + length - 1, i].spawnNoProcedures = true;
+        }
     }
 
     private void InitializeCells(GenerateMap generateMap)
@@ -949,5 +1132,13 @@ public class Room
         BoundaryCells.Add(leftCells);
         BoundaryCells.Add(bottomCells);
         
+    }
+
+    [System.Serializable]
+    public struct ProcedureLocation
+    {
+        public Procedures Procedure;
+        public ProcedureCompletion ProcedureCompletion; //TODO//
+        public List<MapCell> cell;
     }
 }

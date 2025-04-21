@@ -64,12 +64,6 @@ public struct AllProps
     public List<PropsVariation> Props;
 }
 
-[System.Serializable]
-public struct PropsType
-{
-    public List<PropsVariation> Type;
-}
-
 public enum Type
 {
     NoWall,
