@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
     public bool bakeNavMeshAgain = false;
 
     public ProcedureBase procedureBase;
+    public List<ProcedureCompletion> AllProcedures = new();
     
 
     public static event Action onServerStarted;

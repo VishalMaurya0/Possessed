@@ -825,9 +825,14 @@ public class GenerateMap : MonoBehaviour
                 Instantiate(aslk, cell.position, Quaternion.identity);
             }
 
-            foreach (var procedure in GameManager.Instance.procedureBase.allProcedures)
+            foreach (var procedure in GameManager.Instance.AllProcedures)
             {
-                if ()
+                if (procedure.procedureData.procedure == procedureLocation.Procedure)
+                {
+                    procedureLocation.ProcedureCompletion = procedure;
+                    procedureLocation.ProcedureCompletion.procedurePrefab = procedure.gameObject;
+                    SpawnProcedure(procedureLocation);
+                }
             }
 
             room.Procedures.Add(procedureLocation);
@@ -835,8 +840,21 @@ public class GenerateMap : MonoBehaviour
 
             return true;
         }
-    }
 
+        void SpawnProcedure(ProcedureLocation procedureLocation)
+        {
+            Vector3 pos = Vector3.zero;
+            for (int i = 0; i < procedureLocation.cell.Count; i++)
+            {
+                pos.x += procedureLocation.cell[i].position.x;
+                pos.z += procedureLocation.cell[i].position.z;
+            }
+            pos = pos / 4;
+
+            procedureLocation.ProcedureCompletion.procedurePrefab.transform.position = pos;
+            //TODO Rotation//
+        }
+    }
 
     private void GenerateProps()
     {
@@ -1138,7 +1156,7 @@ public class Room
     public struct ProcedureLocation
     {
         public Procedures Procedure;
-        public ProcedureCompletion ProcedureCompletion; //TODO//
+        public ProcedureCompletion ProcedureCompletion;
         public List<MapCell> cell;
     }
 }

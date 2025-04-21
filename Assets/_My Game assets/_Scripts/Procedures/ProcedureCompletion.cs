@@ -8,6 +8,7 @@ public class ProcedureCompletion : ProcedureBase
     [Header("References")]
     ProcedureBase procedureBase;
     public ProcedureData procedureData;
+    public GameObject procedurePrefab;
 
     [Header("Procedure Specific Variables")]
     public TotalItemsNeeded totalItemsNeeded = new();
@@ -46,6 +47,7 @@ public class ProcedureCompletion : ProcedureBase
         Debug.Log($"Total items needed: {totalItems}");
 
         procedureBase = GameManager.Instance.procedureBase;
+        GameManager.Instance.AllProcedures.Add(this);
 
         if (procedureBase != null)
         {
