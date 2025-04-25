@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using static Room;
 
@@ -697,7 +698,7 @@ public class GenerateMap : MonoBehaviour
 
 
 
-    private void SpawnProcedures()
+    private void SpawnProcedures(int spawnAttempts = 0)
     {
         //========= All Rooms =========//
 
@@ -753,28 +754,30 @@ public class GenerateMap : MonoBehaviour
         if (attempts >= maxAttempts)
         {
             Debug.LogError("Failed to place all procedures after maximum attempts.");
-        }
+        
 
 
-        if (procedures.Count > 0)
-        {
-            foreach (Room room in selectedRooms)
+            if (procedures.Count > 0)
             {
-                if (room.Procedures.Count > 0)
+                foreach (Room room in selectedRooms)
                 {
-                    foreach (ProcedureLocation procedure in room.Procedures)
+                    if (room.Procedures.Count > 0)
                     {
-                        foreach (MapCell cell in procedure.cell)
+                        foreach (ProcedureLocation procedure in room.Procedures.ToList())
                         {
-                            cell.spawnNoProcedures = false;
-                            cell.spaceOccupied = false;
+                            foreach (MapCell cell in procedure.cell)
+                            {
+                                cell.spawnNoProcedures = false;
+                                cell.spaceOccupied = false;
+                            }
+                            room.Procedures.Remove(procedure);
                         }
-                        room.Procedures.Remove(procedure);
                     }
                 }
-            }
 
-            SpawnProcedures();
+                if (spawnAttempts < 5)
+                    SpawnProcedures(spawnAttempts + 1);
+            }
         }
 
 
