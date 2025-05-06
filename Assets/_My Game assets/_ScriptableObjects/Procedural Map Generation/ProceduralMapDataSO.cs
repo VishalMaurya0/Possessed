@@ -44,10 +44,10 @@ public struct RoomPropsOfAType
 }
 
 [System.Serializable]
-public struct PropsProbablity
+public struct AllProps
 {
-    public GameObject prop;
-    public int chancesIn100;
+    public string propLocation;
+    public List<PropsVariation> Props;
 }
 
 [System.Serializable]
@@ -58,14 +58,15 @@ public struct PropsVariation
 }
 
 [System.Serializable]
-public struct AllProps
+public struct PropsProbablity
 {
-    public string propLocation;
-    public List<PropsVariation> Props;
+    public GameObject prop;
+    public int chancesIn100;
 }
 
 public enum Type
 {
+    NoProp,
     NoWall,
     Walls,
     Windows,

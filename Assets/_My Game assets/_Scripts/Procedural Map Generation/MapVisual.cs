@@ -9,6 +9,7 @@ public class MapVisual : MonoBehaviour
     public GameObject wallContainer;
     public GameObject pillarContainer;
     public GameObject tileContainer;
+    public GameObject propContainer;
 
     [Header("Extracted Values")]
     int rowCells;
@@ -146,20 +147,63 @@ public class MapVisual : MonoBehaviour
             }
         }
     }
-    public void SpawnProcedures()
+
+
+
+    ////======== For Room Props =======//
+    public void GenerateRoomProps()
     {
-        foreach (var procedure in GameManager.Instance.procedureBase.allProcedures)
+        rowCells = generateMap.mapCells.GetLength(0);
+        columnCells = generateMap.mapCells.GetLength(1);
+
+        for (int i = 0; i < rowCells; i++)
         {
-            if (procedure == null)
+            for (int j = 0; j < columnCells; j++)
             {
-                continue;
+                MapCell cell = generateMap.mapCells[i, j];
+
+                if (!cell.inRoom)
+                    continue;
+
+                GameObject propPrefab = FindPropGameObj(cell);
+                if (propPrefab == null) continue;
+                GameObject propGameobject = Instantiate(propPrefab, propContainer.transform);
+                cell.PropGameobject = propGameobject;
+                propGameobject.transform.position = cell.position;
+                //TODO Rotation
+                int iter = 0;
+                for (int k = 0; k < cell.wall.Length; k++)
+                {
+                    if (cell.wall[k] == Type.Walls)
+                    {
+                        propGameobject.transform.Rotate(new Vector3(0, (k-iter)*(-90f), 0)); 
+                        if (Random.Range(0, 2) == 0)
+                        {
+                            iter = 0;
+                            break;
+                        }
+                        iter += k;
+                    }
+                }
             }
-
-
         }
     }
 
+    private GameObject FindPropGameObj(MapCell cell)
+    {
+        Type prop = cell.prop;
+        int roomType = generateMap.rooms[cell.roomID].roomType;
 
+        if (prop == Type.NoProp)
+            return null;
+
+
+        AllProps allProps = GetRoomProps(roomType, prop);
+        Debug.LogError(allProps.propLocation);
+        PropsVariation propsVariation = allProps.Props[Random.Range(0, allProps.Props.Count)];
+        Debug.LogError(propsVariation.propName);
+        return FindPrefabWithTheirProbablity(propsVariation.Prop);
+    }
 
     private GameObject FindPrefabWithTheirProbablity(List<PropsProbablity> PrefabsList)
     {
@@ -188,6 +232,10 @@ public class MapVisual : MonoBehaviour
 
         return null;
     }
+
+
+
+
     public List<PropsProbablity> GetBuildingBlock(Type type)
     {
         BuildingBlocks blocks = proceduralMapDataSO.MapMakingPrefabs.BuildingBlocks;
@@ -205,8 +253,7 @@ public class MapVisual : MonoBehaviour
             default: return null;
         }
     }
-
-    public AllProps RoomProps(int roomType, Type type)
+    public AllProps GetRoomProps(int roomType, Type type)
     {
         RoomProps roomProps = proceduralMapDataSO.MapMakingPrefabs.RoomProps;
 

@@ -10,7 +10,6 @@ public class GenerateMap : MonoBehaviour
     public MapVisualTemp mapVisualTemp;
     public MapVisual mapVisual;
     public ProceduralMapDataSO mapVisualDataSO;
-    public GameObject aslk;
 
 
     [Header("Inputs")]
@@ -124,10 +123,10 @@ public class GenerateMap : MonoBehaviour
         if (generateActual)
         {
             mapVisual.GenerateBuildingBlocks();
+            mapVisual.GenerateRoomProps();
         }
         GameManager.Instance.bakeNavMeshAgain = true;
     }
-
 
     private void CentreGeneration()
     {
@@ -379,8 +378,15 @@ public class GenerateMap : MonoBehaviour
         newRoom.cornercells[2] = mapCells[x, y];
         newRoom.cornercells[3] = mapCells[x + length - 1, y];
 
-
         rooms.Add(newRoom);
+
+        for (int i = (int)start.x; i < (int)start.x + length; i++)
+        {
+            for (int j = (int)start.y; j < (int)start.y + width; j++)
+            {
+                mapCells[i, j].roomID = rooms.Count - 1; // Reference room to the cells
+            }
+        }
     }
 
 
@@ -564,6 +570,8 @@ public class GenerateMap : MonoBehaviour
 
 
 
+
+
     private void CreatePillars()
     {
         int rowCells = mapCells.GetLength(0);
@@ -698,6 +706,10 @@ public class GenerateMap : MonoBehaviour
 
 
 
+
+
+
+
     private void SpawnProcedures(int spawnAttempts = 0)
     {
         //========= All Rooms =========//
@@ -825,7 +837,6 @@ public class GenerateMap : MonoBehaviour
             {
                 cell.spawnNoProcedures = true;
                 cell.spaceOccupied = true;
-                Instantiate(aslk, cell.position, Quaternion.identity);
             }
 
             foreach (var procedure in GameManager.Instance.AllProcedures)
@@ -858,23 +869,41 @@ public class GenerateMap : MonoBehaviour
             //TODO Rotation//
         }
     }
-
     private void GenerateProps()
+    {
+        GenerateCornerProps();
+    }
+
+    private void GenerateCornerProps()
     {
         for (int i = 0; i < rooms.Count; i++)
         {
             Room room = rooms[i];
             //====== Generate at corners =====//
+
+            List<MapCell> selectedCornerCells = new();
             for (int j = 0; j < room.cornercells.Length; j++)
             {
-                MapCell cell = room.cornercells[j];
-                if (0 != Random.Range(0, 3))
-                {
-                    cell.prop = Type.RoomCornerProps;
-                }
+                selectedCornerCells.Add(room.cornercells[j]);
             }
 
-            //
+            //====select only 2-4 of them===//
+
+            int remove = Random.Range(0, 3);
+            for (int j = 0; j < remove; j++)
+            {
+                selectedCornerCells.RemoveAt(Random.Range(0, selectedCornerCells.Count));
+            }
+
+            //====== Now Spawn =========//
+            foreach (var cell in selectedCornerCells)
+            {
+                if (cell.spaceOccupied)
+                    continue;
+
+                cell.prop = Type.RoomCornerProps;
+                cell.spaceOccupied = true;
+            }
         }
     }
 
@@ -976,6 +1005,7 @@ public class MapCell
     public Vector2 id;
     public bool visited;
     public bool inRoom;
+    public int roomID;
 
 
     // 0 => right , 1 => top , 2 => left , 3 => bottom
@@ -1006,6 +1036,8 @@ public class MapCell
     public GameObject FloorTileGameobject;
 
     public GameObject RoofTileGameobject;
+
+    public GameObject PropGameobject;
     
     //********************** Temporary ************************//
 
@@ -1084,19 +1116,19 @@ public class Room
     public Vector2 start;
     public int length;
     public int width;
-    public MapCell gateCell;
+    [System.NonSerialized] public MapCell gateCell;
     public int gateDir;
     public int roomType;
 
 
-    public MapCell[] rightCells;
-    public MapCell[] topCells;
-    public MapCell[] leftCells;
-    public MapCell[] bottomCells;
-    public List<MapCell[]> BoundaryCells = new List<MapCell[]>();
+    [System.NonSerialized] public MapCell[] rightCells;
+    [System.NonSerialized] public MapCell[] topCells;
+    [System.NonSerialized] public MapCell[] leftCells;
+    [System.NonSerialized] public MapCell[] bottomCells;
+    [System.NonSerialized] public List<MapCell[]> BoundaryCells = new List<MapCell[]>();
 
 
-    public MapCell[] cornercells = new MapCell[4];
+    [System.NonSerialized] public MapCell[] cornercells = new MapCell[4];
 
 
     public List<ProcedureLocation> Procedures = new List<ProcedureLocation>();
@@ -1160,6 +1192,6 @@ public class Room
     {
         public Procedures Procedure;
         public ProcedureCompletion ProcedureCompletion;
-        public List<MapCell> cell;
+        [System.NonSerialized] public List<MapCell> cell;
     }
 }
