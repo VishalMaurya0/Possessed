@@ -872,6 +872,8 @@ public class GenerateMap : MonoBehaviour
     private void GenerateProps()
     {
         GenerateCornerProps();
+        GenerateWallSideProps();
+        GenerateWindowSideProps();
     }
 
     private void GenerateCornerProps()
@@ -895,6 +897,32 @@ public class GenerateMap : MonoBehaviour
                 selectedCornerCells.RemoveAt(Random.Range(0, selectedCornerCells.Count));
             }
 
+
+
+            //========= Check for Gate or Window Cell ========//
+            HashSet<int> removeCell = new();
+            for (int a = 0; a < selectedCornerCells.Count; a++)
+            {
+                for (int j = 0; j < selectedCornerCells[a].wall.Length; j++)
+                {
+                    if (selectedCornerCells[a].wall[j] != Type.NoWall && selectedCornerCells[a].wall[j] != Type.Walls)
+                    {
+                        removeCell.Add(a);
+                        break; // No need to check other walls for this cell
+                    }
+                }
+            }
+
+            // Remove from the end to avoid shifting issues
+            List<int> sortedRemove = removeCell.OrderByDescending(i => i).ToList();
+            foreach (int index in sortedRemove)
+            {
+                selectedCornerCells.RemoveAt(index);
+            }
+
+
+
+
             //====== Now Spawn =========//
             foreach (var cell in selectedCornerCells)
             {
@@ -906,6 +934,135 @@ public class GenerateMap : MonoBehaviour
             }
         }
     }
+    private void GenerateWallSideProps()
+    {
+        for (int i = 0; i < rooms.Count; i++)
+        {
+            Room room = rooms[i];
+            List<MapCell> selectedEdgeCells = new();
+
+
+            //====== Generate at edges =====//
+            for (int j = 0; j < room.BoundaryCells.Count; j++)
+            {
+                for (int k = 0; k < room.BoundaryCells[j].Length; k++)
+                {
+                    MapCell cell = room.BoundaryCells[j][k];
+                    selectedEdgeCells.Add(cell);
+                }
+            }
+
+
+            if (selectedEdgeCells.Count == 0)
+            {
+                Debug.LogWarning($"Room {i} has no edge cells selected. Skipping wall prop generation.");
+                continue;
+            }
+
+            //========= Check for Gate or Window Cell, Corner Cell, or Occupied Cell ========//
+            HashSet<int> removeCell = new();
+            for (int a = 0; a < selectedEdgeCells.Count; a++)
+            {
+                for (int j = 0; j < selectedEdgeCells[a].wall.Length; j++)
+                {
+                    if (selectedEdgeCells[a].wall[j] != Type.NoWall && selectedEdgeCells[a].wall[j] != Type.Walls)
+                    {
+                        removeCell.Add(a);
+                        break;
+                    }
+                }
+
+                if (room.cornercells.Contains(selectedEdgeCells[a]))
+                {
+                    removeCell.Add(a);
+                }
+
+                if (selectedEdgeCells[a].spaceOccupied)
+                {
+                    removeCell.Add(a);
+                }
+            }
+
+            // Sort in descending order to safely remove
+            List<int> sortedIndices = removeCell.OrderByDescending(i => i).ToList();
+            foreach (int index in sortedIndices)
+            {
+                selectedEdgeCells.RemoveAt(index);
+            }
+
+            if (selectedEdgeCells.Count == 0)
+            {
+                Debug.LogWarning($"Room {i} has no valid edge cells after filtering. No props placed.");
+                continue;
+            }
+
+
+            //====== Randomly deselect 1/3rd ========//
+            int removeCells = selectedEdgeCells.Count / 3;
+            for (int j = 0; j < removeCells; j++)
+            {
+                selectedEdgeCells.RemoveAt(Random.Range(0, selectedEdgeCells.Count));
+            }
+
+            //========= Assign Props =========//
+            foreach (var cell in selectedEdgeCells)
+            {
+                cell.prop = Type.WallSideProps;
+                cell.spaceOccupied = true;
+            }
+        }
+    }
+    private void GenerateWindowSideProps()
+    {
+        for (int i = 0; i < rooms.Count; i++)
+        {
+            Room room = rooms[i];
+            List<MapCell> selectedCells = new();
+
+
+            for (int j = (int)room.start.x; j < room.start.x + room.length; j++)
+            {
+                for (int k = (int)room.start.y; k < room.start.y + room.width; k++)
+                {
+                    MapCell cell = mapCells[j, k];
+
+                    for (int l = 0; l < cell.wall.Length; l++)
+                    {
+                        if (cell.wall[l] == Type.Windows)
+                        {
+                            selectedCells.Add(cell);
+                            break;
+                        }
+                    }
+                }
+            }
+
+
+            if (selectedCells.Count == 0)
+            {
+                Debug.LogWarning($"Room {i} has no cells selected. Skipping window prop generation.");
+                continue;
+            }
+
+
+            //====== Randomly deselect 1 in a 50% chance ========//
+            if (Random.Range(0, 2) == 0)
+                selectedCells.RemoveAt(Random.Range(0, selectedCells.Count));
+
+
+            //========= Assign Props =========//
+            foreach (var cell in selectedCells)
+            {
+                cell.prop = Type.WindowSideProp;
+                cell.spaceOccupied = true;
+            }
+        }
+    }
+
+
+
+
+
 
 
 
@@ -1125,7 +1282,7 @@ public class Room
     [System.NonSerialized] public MapCell[] topCells;
     [System.NonSerialized] public MapCell[] leftCells;
     [System.NonSerialized] public MapCell[] bottomCells;
-    [System.NonSerialized] public List<MapCell[]> BoundaryCells = new List<MapCell[]>();
+    [System.NonSerialized] public List<MapCell[]> BoundaryCells = new();
 
 
     [System.NonSerialized] public MapCell[] cornercells = new MapCell[4];

@@ -40,6 +40,7 @@ public struct RoomPropsOfAType
     public AllProps WallSideProps;
     public AllProps RoomCenterProps;
     public AllProps RoomCornerProps;
+    public AllProps WindowSideProp;
     public AllProps CeilingProps;
 }
 
@@ -80,5 +81,6 @@ public enum Type
     WallSideProps,
     RoomCenterProps,
     RoomCornerProps,
+    WindowSideProp,
     CeilingProps,
 }

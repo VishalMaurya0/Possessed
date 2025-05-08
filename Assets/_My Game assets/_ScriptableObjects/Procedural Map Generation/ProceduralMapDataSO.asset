@@ -42,14 +42,12 @@ MonoBehaviour:
           Props:
           - propName: almirah
             Prop:
-            - prop: {fileID: 0}
-              chancesIn100: 0
-            - prop: {fileID: 0}
-              chancesIn100: 0
-          - propName: lamp
-            Prop: []
+            - prop: {fileID: 3227288110940223800, guid: aa8f14857d12ffc4bb6e8b5a4a583725, type: 3}
+              chancesIn100: 100
           - propName: AC
-            Prop: []
+            Prop:
+            - prop: {fileID: 1266574246903019829, guid: 88c105ceb43093e489b07f9126d01ab3, type: 3}
+              chancesIn100: 10
         RoomCenterProps:
           propLocation: 
           Props: []
@@ -59,6 +57,8 @@ MonoBehaviour:
           - propName: Almirah
             Prop:
             - prop: {fileID: 1266574246903019829, guid: 88c105ceb43093e489b07f9126d01ab3, type: 3}
+              chancesIn100: 100
+            - prop: {fileID: 3227288110940223800, guid: aa8f14857d12ffc4bb6e8b5a4a583725, type: 3}
               chancesIn100: 100
           - propName: Boxes
             Prop:
