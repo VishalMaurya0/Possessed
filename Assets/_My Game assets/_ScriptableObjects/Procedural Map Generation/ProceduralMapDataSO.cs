@@ -5,6 +5,8 @@ using UnityEngine;
 public class ProceduralMapDataSO : ScriptableObject
 {
     public int typeOfRooms;
+    public int MinChanceoOfFillingCenterCells;
+    public int MaxChanceoOfFillingCenterCells;
     public MapMakingPrefabs MapMakingPrefabs;
 }
 

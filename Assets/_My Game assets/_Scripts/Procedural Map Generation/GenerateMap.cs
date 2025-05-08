@@ -9,7 +9,7 @@ public class GenerateMap : MonoBehaviour
     public Grid grid;
     public MapVisualTemp mapVisualTemp;
     public MapVisual mapVisual;
-    public ProceduralMapDataSO mapVisualDataSO;
+    public ProceduralMapDataSO proceduralMapDataSO;
 
 
     [Header("Inputs")]
@@ -46,7 +46,7 @@ public class GenerateMap : MonoBehaviour
 
     private void Start()
     {
-        typeOfRooms = mapVisualDataSO.typeOfRooms;
+        typeOfRooms = proceduralMapDataSO.typeOfRooms;
         generateAgain = false;
         mapVisualTemp = GetComponent<MapVisualTemp>();
         mapVisual = GetComponent<MapVisual>();
@@ -874,7 +874,10 @@ public class GenerateMap : MonoBehaviour
         GenerateCornerProps();
         GenerateWallSideProps();
         GenerateWindowSideProps();
+        //TODO : Spawn tasks //
+        GenerateRoomCenterProps();
     }
+
 
     private void GenerateCornerProps()
     {
@@ -1054,6 +1057,77 @@ public class GenerateMap : MonoBehaviour
             foreach (var cell in selectedCells)
             {
                 cell.prop = Type.WindowSideProp;
+                cell.spaceOccupied = true;
+            }
+        }
+    }
+    private void GenerateRoomCenterProps()
+    {
+        for(int i = 0; i < rooms.Count; i++)
+        {
+            Room room = rooms[i];
+            List<MapCell> selectedCells = new();
+
+
+            for (int j = (int)room.start.x; j < room.start.x + room.length; j++)
+            {
+                for (int k = (int)room.start.y; k < room.start.y + room.width; k++)
+                {
+                    MapCell cell = mapCells[j, k];
+                    selectedCells.Add(cell);
+                }
+            }
+
+            HashSet<int> removeCell = new();
+
+            for (int j = 0; j < selectedCells.Count; j++)
+            {
+                MapCell cell = selectedCells[j];
+                for (int l = 0; l < cell.wall.Length; l++)
+                {
+                    if (cell.wall[l] != Type.NoWall)
+                    {
+                        removeCell.Add(j);
+                        break;
+                    }
+
+                    if (selectedCells[j].spaceOccupied)
+                    {
+                        removeCell.Add(j);
+                    }
+                }
+            }
+
+            // Sort in descending order to safely remove
+            List<int> sortedIndices = removeCell.OrderByDescending(i => i).ToList();
+            foreach (int index in sortedIndices)
+            {
+                selectedCells.RemoveAt(index);
+            }
+
+
+            if (selectedCells.Count == 0)
+            {
+                Debug.LogWarning($"Room {i} has no cells selected. Skipping window prop generation.");
+                continue;
+            }
+
+
+            //====== Randomly deselect 60% to 20% ========//
+            int total = selectedCells.Count;
+            int toFillPercent = Random.Range(proceduralMapDataSO.MinChanceoOfFillingCenterCells, proceduralMapDataSO.MaxChanceoOfFillingCenterCells);
+            int toRemove = total * (100 - toFillPercent) / 100;
+
+            for (int j = 0; j < toRemove; j++)
+            {
+                selectedCells.RemoveAt(Random.Range(0, selectedCells.Count));
+            }
+
+
+            //========= Assign Props =========//
+            foreach (var cell in selectedCells)
+            {
+                cell.prop = Type.RoomCenterProps;
                 cell.spaceOccupied = true;
             }
         }

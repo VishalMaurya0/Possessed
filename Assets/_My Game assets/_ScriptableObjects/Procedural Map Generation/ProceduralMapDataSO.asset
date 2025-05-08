@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: ProceduralMapDataSO
   m_EditorClassIdentifier: 
   typeOfRooms: 1
+  MinChanceoOfFillingCenterCells: 50
+  MaxChanceoOfFillingCenterCells: 80
   MapMakingPrefabs:
     BuildingBlocks:
       Walls:
@@ -49,8 +51,12 @@ MonoBehaviour:
             - prop: {fileID: 1266574246903019829, guid: 88c105ceb43093e489b07f9126d01ab3, type: 3}
               chancesIn100: 10
         RoomCenterProps:
-          propLocation: 
-          Props: []
+          propLocation: Center
+          Props:
+          - propName: Chair
+            Prop:
+            - prop: {fileID: 6547347815485227204, guid: 11e8ed413f15dd94a97c1a510bb96638, type: 3}
+              chancesIn100: 10
         RoomCornerProps:
           propLocation: Corner
           Props:
@@ -72,6 +78,13 @@ MonoBehaviour:
             Prop:
             - prop: {fileID: 4003108327577988371, guid: 76106429ea8bad146a829ff6f7d0536c, type: 3}
               chancesIn100: 100
+        WindowSideProp:
+          propLocation: Window Side
+          Props:
+          - propName: Window Table
+            Prop:
+            - prop: {fileID: 6023205666420529499, guid: 8987d516fd564f8429078ea8c28caf72, type: 3}
+              chancesIn100: 10
         CeilingProps:
           propLocation: 
           Props: []
