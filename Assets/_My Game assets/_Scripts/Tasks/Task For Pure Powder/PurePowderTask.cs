@@ -22,9 +22,10 @@ public class PurePowderTask : MonoBehaviour
     [SerializeField] Material wrongAnsMaterial;
     [SerializeField] MeshRenderer ScreenColour;
 
-    [Header("Task Settings")]
+    [Header("Task Settings & References")]
     [SerializeField] GameObject PurePowderPrefab;
     [SerializeField] GameObject PurePowder;
+    Animator animator;
 
     [Header("Code Settings")]
     public float totalTime;
@@ -33,9 +34,14 @@ public class PurePowderTask : MonoBehaviour
     public bool timeUp = true;
     public bool showColour;
 
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
+
     private void OnMouseUp()
     {
-        if (!gameSatrted)
+        if (!gameSatrted && animator.GetCurrentAnimatorStateInfo(0).IsName("idle"))
         {
             Debug.LogWarning("Game Started!");
             gameSatrted = true;
@@ -137,7 +143,13 @@ public class PurePowderTask : MonoBehaviour
             currentColour = 0;
             time = 0;
             timeUp = true;
+            ShowCorrectVisual();
         }
+    }
+
+    private void ShowCorrectVisual()
+    {
+        animator.SetTrigger("correct");
     }
 
     private void Wrong()
@@ -156,6 +168,6 @@ public class PurePowderTask : MonoBehaviour
 
     private void ShowWrongVisual()
     {
-        // TODO: Add visual feedback
+        animator.SetTrigger("wrong");
     }
 }

@@ -115,6 +115,7 @@ GameObject:
   - component: {fileID: 7655173856233488100}
   - component: {fileID: 3817644871899467318}
   - component: {fileID: 4647251477304811622}
+  - component: {fileID: 1046741373178316389}
   m_Layer: 0
   m_Name: Colour Task
   m_TagString: Untagged
@@ -201,6 +202,28 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.246322, y: 1.2139997, z: 0.63999987}
   m_Center: {x: 0.12316114, y: 2.13, z: 3.1}
+--- !u!95 &1046741373178316389
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8466913808835182807}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b7825ed7e2f6d5b48af17239229d9555, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &2311319558314592623
 PrefabInstance:
   m_ObjectHideFlags: 0
