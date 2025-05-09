@@ -48,8 +48,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1670689733
-  InScenePlacedSourceGlobalObjectIdHash: 0
+  GlobalObjectIdHash: 2269215820
+  InScenePlacedSourceGlobalObjectIdHash: 1670689733
   DeferredDespawnTick: 0
   Ownership: 1
   AlwaysReplicateAsRoot: 0
@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 4337043680275957871}
   - component: {fileID: 2877226330016543473}
   - component: {fileID: 2041011351821248526}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: 'Fire2[1]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -174,7 +174,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  dollPrefab: {fileID: 6295269428804838718, guid: 326da29e49b4eb440afa67f3e353a3d7, type: 3}
+  spawnRadius: 70
   taskVoodooDoll__parent: {fileID: 0}
+  fire: {fileID: 9029341290185784679}
+  activated: 1
 --- !u!1 &3094399409489972021
 GameObject:
   m_ObjectHideFlags: 0
@@ -187,7 +191,7 @@ GameObject:
   - component: {fileID: 2606408018056781935}
   - component: {fileID: 5660195039797525585}
   - component: {fileID: 5061501247730230976}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: 'Fire1[0]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -271,7 +275,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  dollPrefab: {fileID: 6295269428804838718, guid: 326da29e49b4eb440afa67f3e353a3d7, type: 3}
+  spawnRadius: 70
   taskVoodooDoll__parent: {fileID: 0}
+  fire: {fileID: 7271845108643864267}
+  activated: 1
 --- !u!1 &7329263223599290936
 GameObject:
   m_ObjectHideFlags: 0
@@ -284,7 +292,7 @@ GameObject:
   - component: {fileID: 3693787476471109986}
   - component: {fileID: 5668834988808315217}
   - component: {fileID: 5815998966185475466}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: 'Fire3[2]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -368,7 +376,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  dollPrefab: {fileID: 6295269428804838718, guid: 326da29e49b4eb440afa67f3e353a3d7, type: 3}
+  spawnRadius: 70
   taskVoodooDoll__parent: {fileID: 0}
+  fire: {fileID: 3893745868577730869}
+  activated: 1
 --- !u!1001 &420144959920316313
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -426,6 +438,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 18f184432bc18d4419e141a87c573f85, type: 3}
+--- !u!198 &7271845108643864267 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 7007160134285230418, guid: 18f184432bc18d4419e141a87c573f85, type: 3}
+  m_PrefabInstance: {fileID: 420144959920316313}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8718966195546824154 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9019401713102979651, guid: 18f184432bc18d4419e141a87c573f85, type: 3}
@@ -617,6 +634,11 @@ PrefabInstance:
 --- !u!4 &7015375693233946230 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9019401713102979651, guid: 18f184432bc18d4419e141a87c573f85, type: 3}
+  m_PrefabInstance: {fileID: 2049354520631442485}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &9029341290185784679 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 7007160134285230418, guid: 18f184432bc18d4419e141a87c573f85, type: 3}
   m_PrefabInstance: {fileID: 2049354520631442485}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2953889033240165983
@@ -1111,5 +1133,10 @@ PrefabInstance:
 --- !u!4 &3034414781532238372 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9019401713102979651, guid: 18f184432bc18d4419e141a87c573f85, type: 3}
+  m_PrefabInstance: {fileID: 6284547023507157095}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &3893745868577730869 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 7007160134285230418, guid: 18f184432bc18d4419e141a87c573f85, type: 3}
   m_PrefabInstance: {fileID: 6284547023507157095}
   m_PrefabAsset: {fileID: 0}

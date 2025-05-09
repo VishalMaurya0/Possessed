@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
 
     public ProcedureBase procedureBase;
     public List<ProcedureCompletion> AllProcedures = new();
+    public TaskManager taskManager;
     
 
     public static event Action onServerStarted;

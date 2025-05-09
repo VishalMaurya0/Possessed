@@ -199,9 +199,7 @@ public class MapVisual : MonoBehaviour
 
 
         AllProps allProps = GetRoomProps(roomType, prop);
-        Debug.LogError(allProps.propLocation);
         PropsVariation propsVariation = allProps.Props[Random.Range(0, allProps.Props.Count)];
-        Debug.LogError(propsVariation.propName);
         return FindPrefabWithTheirProbablity(propsVariation.Prop);
     }
 

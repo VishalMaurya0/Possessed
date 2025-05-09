@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ChestUnlock_BloodBottleTask : NetworkBehaviour
 {
-
+    public Tasks task;
     [SerializeField] GameObject spawnedObject;
     [SerializeField] StatueTask[] statues = new StatueTask[4];
     public int[] savedCode = new int[4];
@@ -16,6 +16,10 @@ public class ChestUnlock_BloodBottleTask : NetworkBehaviour
     void Start()
     {
         codeShowingScript = GetComponent<CodeShowingScript>();
+        if (GameManager.Instance.serverStarted)
+        {
+            GameManager.Instance.taskManager.TasksGameobjcts.Add(new System.Collections.Generic.KeyValuePair<Tasks, GameObject>(task, this.gameObject));
+        }
     }
 
 
