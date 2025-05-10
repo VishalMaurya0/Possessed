@@ -43,7 +43,6 @@ public class PurePowderTask : MonoBehaviour
     {
         if (!gameSatrted && animator.GetCurrentAnimatorStateInfo(0).IsName("idle"))
         {
-            Debug.LogWarning("Game Started!");
             gameSatrted = true;
             iterationLeft = totalIteration;
             StartIteration();

@@ -16,7 +16,6 @@ public class PurePowderTaskButton : MonoBehaviour
         currentMaterial = GetComponent<MeshRenderer>();
         buttonMaterial = currentMaterial.sharedMaterial;    //TODO Champt GPT TODO//
 
-        Debug.LogWarning($"Button '{gameObject.name}' initialized with material: {buttonMaterial.name}");
     }
 
     private void Update()
@@ -29,7 +28,6 @@ public class PurePowderTaskButton : MonoBehaviour
                 time = 0;
                 buttonClick = false;
                 currentMaterial.material = buttonMaterial;
-                Debug.LogWarning($"Button '{gameObject.name}' material reset to original: {buttonMaterial.name}");
             }
         }
     }
@@ -38,7 +36,6 @@ public class PurePowderTaskButton : MonoBehaviour
     {
         buttonClick = true;
         currentMaterial.material = purePowderTask.neutralColourMaterial;
-        Debug.LogWarning($"Button '{gameObject.name}' clicked. Temp material set to: {purePowderTask.neutralColourMaterial.name}");
 
         purePowderTask.AddColour(buttonMaterial);
     }
