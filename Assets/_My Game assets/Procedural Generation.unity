@@ -772,8 +772,10 @@ GameObject:
   - component: {fileID: 80759388}
   - component: {fileID: 80759390}
   - component: {fileID: 80759389}
-  m_Layer: 0
-  m_Name: Cup1_2
+  - component: {fileID: 80759391}
+  - component: {fileID: 80759392}
+  m_Layer: 16
+  m_Name: Cup3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -789,8 +791,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.72425425, y: 0.72425425, z: 0.72425425}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1510324170}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -817,9 +819,9 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -8758516011385734968, guid: 2826b5602b4c68d40ad2c667a9a4270b, type: 3}
-  - {fileID: -3073059540518960674, guid: 2826b5602b4c68d40ad2c667a9a4270b, type: 3}
-  - {fileID: -3078713701230745093, guid: 2826b5602b4c68d40ad2c667a9a4270b, type: 3}
+  - {fileID: 2100000, guid: 979e22a6447bf9b44a24b2b01d34d82a, type: 2}
+  - {fileID: 2100000, guid: 979e22a6447bf9b44a24b2b01d34d82a, type: 2}
+  - {fileID: 2100000, guid: 979e22a6447bf9b44a24b2b01d34d82a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -849,6 +851,97 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 80759387}
   m_Mesh: {fileID: -2346428509227581198, guid: 2826b5602b4c68d40ad2c667a9a4270b, type: 3}
+--- !u!65 &80759391
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 80759387}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.22383994, y: 0.24640535, z: 0.22375618}
+  m_Center: {x: -0.00016135721, y: 0.07067966, z: 0.0007427334}
+--- !u!114 &80759392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 80759387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27ead25f1fb0eb7439d0ad08030286fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  taskForCoins: {fileID: 0}
+  coinPrefab: {fileID: 6905787541895510452, guid: 3c7d448ad8357394f879265c6a30305a, type: 3}
+  newCoin: {fileID: 0}
+  glowMat: {fileID: 2100000, guid: 5eb0a8ee0e19c0f44b4182d750e279ad, type: 2}
+  clickedMat: {fileID: 2100000, guid: 7f24a1c4cb4088a4198d9c28d807437f, type: 2}
+  normalMat: {fileID: 2100000, guid: 979e22a6447bf9b44a24b2b01d34d82a, type: 2}
+  renderar: {fileID: 0}
+  clickable: 1
+  getCoin: 0
+  containsCoin: 0
+  startTime: 1
+  timeForClickedState: 0.2
+  time: 0
+  start: 0
+  showCup: 0
+  yCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0.0073511396
+      outSlope: 0.0073511396
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.31949753
+    - serializedVersion: 3
+      time: 0.4
+      value: 0.3
+      inSlope: 0.001887831
+      outSlope: 0.001887831
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.6
+      value: 0.3
+      inSlope: 0.0021453097
+      outSlope: 0.0021453097
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.96875006
+      outWeight: 1
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0.010044739
+      outSlope: 0.010044739
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.737999
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  showingTime: 1
 --- !u!1001 &213690364
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2308,8 +2401,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1192783761}
   - component: {fileID: 1192783762}
-  - component: {fileID: 1192783763}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Task for Coins
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2325,11 +2417,12 @@ Transform:
   m_GameObject: {fileID: 1192783760}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 92, y: 0, z: 81.06}
+  m_LocalPosition: {x: 87.6, y: 0, z: 85.14}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2516332823538404944}
+  - {fileID: 1426308899}
   m_Father: {fileID: 307705105}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1192783762
@@ -2344,8 +2437,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed96c40a77c190c4db19574cefed399d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingIterationDifficulty: 5
+  startingIterationDifficulty: 2
   startingGlassNoDifficulty: 3
+  gameStarted: 0
+  endTheGame: 0
+  gameEndsAfetrLastIter: 1
+  InitialPos: []
+  restart: 0
+  restartTime: 1
+  time: 0
+  iterationLeft: 15
   currentIterationDifficulty: 6
   currentGlassNoDifficulty: 1
   movingGlasses: []
@@ -2355,28 +2456,8 @@ MonoBehaviour:
   glassContainer: {fileID: 1510324169}
   glasses: []
   places: []
-  iterationLeft: 15
---- !u!65 &1192783763
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1192783760}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.6625519, y: 0.5898486, z: 1}
-  m_Center: {x: -0.007888794, y: 1.0648165, z: 0}
+  lastIterWasWrong: 0
+  cupForCoinTasks: []
 --- !u!1001 &1195743332
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3338,8 +3419,10 @@ GameObject:
   - component: {fileID: 1301939019}
   - component: {fileID: 1301939021}
   - component: {fileID: 1301939020}
-  m_Layer: 0
-  m_Name: Cup1_3
+  - component: {fileID: 1301939022}
+  - component: {fileID: 1301939023}
+  m_Layer: 16
+  m_Name: Cup4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3354,9 +3437,9 @@ Transform:
   m_GameObject: {fileID: 1301939018}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.25, y: 0, z: 0}
-  m_LocalScale: {x: 0.72425425, y: 0.72425425, z: 0.72425425}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0.2, y: 0, z: 0}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1510324170}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3383,9 +3466,9 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -8758516011385734968, guid: 2826b5602b4c68d40ad2c667a9a4270b, type: 3}
-  - {fileID: -3073059540518960674, guid: 2826b5602b4c68d40ad2c667a9a4270b, type: 3}
-  - {fileID: -3078713701230745093, guid: 2826b5602b4c68d40ad2c667a9a4270b, type: 3}
+  - {fileID: 2100000, guid: 979e22a6447bf9b44a24b2b01d34d82a, type: 2}
+  - {fileID: 2100000, guid: 979e22a6447bf9b44a24b2b01d34d82a, type: 2}
+  - {fileID: 2100000, guid: 979e22a6447bf9b44a24b2b01d34d82a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3415,6 +3498,97 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1301939018}
   m_Mesh: {fileID: -2346428509227581198, guid: 2826b5602b4c68d40ad2c667a9a4270b, type: 3}
+--- !u!65 &1301939022
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1301939018}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.22383994, y: 0.24640535, z: 0.22375618}
+  m_Center: {x: -0.00016135721, y: 0.07067966, z: 0.0007427334}
+--- !u!114 &1301939023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1301939018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27ead25f1fb0eb7439d0ad08030286fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  taskForCoins: {fileID: 0}
+  coinPrefab: {fileID: 6905787541895510452, guid: 3c7d448ad8357394f879265c6a30305a, type: 3}
+  newCoin: {fileID: 0}
+  glowMat: {fileID: 2100000, guid: 5eb0a8ee0e19c0f44b4182d750e279ad, type: 2}
+  clickedMat: {fileID: 2100000, guid: 7f24a1c4cb4088a4198d9c28d807437f, type: 2}
+  normalMat: {fileID: 2100000, guid: 979e22a6447bf9b44a24b2b01d34d82a, type: 2}
+  renderar: {fileID: 0}
+  clickable: 1
+  getCoin: 0
+  containsCoin: 0
+  startTime: 1
+  timeForClickedState: 0.2
+  time: 0
+  start: 0
+  showCup: 0
+  yCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0.0073511396
+      outSlope: 0.0073511396
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.31949753
+    - serializedVersion: 3
+      time: 0.4
+      value: 0.3
+      inSlope: 0.001887831
+      outSlope: 0.001887831
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.6
+      value: 0.3
+      inSlope: 0.0021453097
+      outSlope: 0.0021453097
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.96875006
+      outWeight: 1
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0.010044739
+      outSlope: 0.010044739
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.737999
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  showingTime: 1
 --- !u!1 &1382248608
 GameObject:
   m_ObjectHideFlags: 0
@@ -3426,8 +3600,10 @@ GameObject:
   - component: {fileID: 1382248609}
   - component: {fileID: 1382248611}
   - component: {fileID: 1382248610}
-  m_Layer: 0
-  m_Name: Cup1_5
+  - component: {fileID: 1382248612}
+  - component: {fileID: 1382248613}
+  m_Layer: 16
+  m_Name: Cup6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3442,9 +3618,9 @@ Transform:
   m_GameObject: {fileID: 1382248608}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.75, y: 0, z: 0}
-  m_LocalScale: {x: 0.72425425, y: 0.72425425, z: 0.72425425}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0.6, y: 0, z: 0}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1510324170}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3471,9 +3647,9 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -8758516011385734968, guid: 2826b5602b4c68d40ad2c667a9a4270b, type: 3}
-  - {fileID: -3073059540518960674, guid: 2826b5602b4c68d40ad2c667a9a4270b, type: 3}
-  - {fileID: -3078713701230745093, guid: 2826b5602b4c68d40ad2c667a9a4270b, type: 3}
+  - {fileID: 2100000, guid: 979e22a6447bf9b44a24b2b01d34d82a, type: 2}
+  - {fileID: 2100000, guid: 979e22a6447bf9b44a24b2b01d34d82a, type: 2}
+  - {fileID: 2100000, guid: 979e22a6447bf9b44a24b2b01d34d82a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3503,11 +3679,173 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1382248608}
   m_Mesh: {fileID: -2346428509227581198, guid: 2826b5602b4c68d40ad2c667a9a4270b, type: 3}
+--- !u!65 &1382248612
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1382248608}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.22383994, y: 0.24640535, z: 0.22375618}
+  m_Center: {x: -0.00016135721, y: 0.07067966, z: 0.0007427334}
+--- !u!114 &1382248613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1382248608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27ead25f1fb0eb7439d0ad08030286fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  taskForCoins: {fileID: 0}
+  coinPrefab: {fileID: 6905787541895510452, guid: 3c7d448ad8357394f879265c6a30305a, type: 3}
+  newCoin: {fileID: 0}
+  glowMat: {fileID: 2100000, guid: 5eb0a8ee0e19c0f44b4182d750e279ad, type: 2}
+  clickedMat: {fileID: 2100000, guid: 7f24a1c4cb4088a4198d9c28d807437f, type: 2}
+  normalMat: {fileID: 2100000, guid: 979e22a6447bf9b44a24b2b01d34d82a, type: 2}
+  renderar: {fileID: 0}
+  clickable: 1
+  getCoin: 0
+  containsCoin: 0
+  startTime: 1
+  timeForClickedState: 0.2
+  time: 0
+  start: 0
+  showCup: 0
+  yCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0.0073511396
+      outSlope: 0.0073511396
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.31949753
+    - serializedVersion: 3
+      time: 0.4
+      value: 0.3
+      inSlope: 0.001887831
+      outSlope: 0.001887831
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.6
+      value: 0.3
+      inSlope: 0.0021453097
+      outSlope: 0.0021453097
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.96875006
+      outWeight: 1
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0.010044739
+      outSlope: 0.010044739
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.737999
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  showingTime: 1
 --- !u!4 &1409028603 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2457617054049644487, guid: 88c105ceb43093e489b07f9126d01ab3, type: 3}
   m_PrefabInstance: {fileID: 3964903349248020749}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1426308898
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1426308899}
+  - component: {fileID: 1426308901}
+  - component: {fileID: 1426308900}
+  m_Layer: 14
+  m_Name: Box Volume
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1426308899
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1426308898}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1192783761}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1426308900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1426308898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IsGlobal: 0
+  priority: 0
+  blendDistance: 3.15
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: 350998d2a3d4e6b4186c6cae43df7189, type: 2}
+--- !u!65 &1426308901
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1426308898}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1437701823
 GameObject:
   m_ObjectHideFlags: 0
@@ -3640,8 +3978,10 @@ GameObject:
   - component: {fileID: 1489952293}
   - component: {fileID: 1489952295}
   - component: {fileID: 1489952294}
-  m_Layer: 0
-  m_Name: Cup1_4
+  - component: {fileID: 1489952296}
+  - component: {fileID: 1489952297}
+  m_Layer: 16
+  m_Name: Cup5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3656,9 +3996,9 @@ Transform:
   m_GameObject: {fileID: 1489952292}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 0, z: 0}
-  m_LocalScale: {x: 0.72425425, y: 0.72425425, z: 0.72425425}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0.4, y: 0, z: 0}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1510324170}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3685,9 +4025,9 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -8758516011385734968, guid: 2826b5602b4c68d40ad2c667a9a4270b, type: 3}
-  - {fileID: -3073059540518960674, guid: 2826b5602b4c68d40ad2c667a9a4270b, type: 3}
-  - {fileID: -3078713701230745093, guid: 2826b5602b4c68d40ad2c667a9a4270b, type: 3}
+  - {fileID: 2100000, guid: 979e22a6447bf9b44a24b2b01d34d82a, type: 2}
+  - {fileID: 2100000, guid: 979e22a6447bf9b44a24b2b01d34d82a, type: 2}
+  - {fileID: 2100000, guid: 979e22a6447bf9b44a24b2b01d34d82a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3717,6 +4057,97 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1489952292}
   m_Mesh: {fileID: -2346428509227581198, guid: 2826b5602b4c68d40ad2c667a9a4270b, type: 3}
+--- !u!65 &1489952296
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1489952292}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.22383994, y: 0.24640535, z: 0.22375618}
+  m_Center: {x: -0.00016135721, y: 0.07067966, z: 0.0007427334}
+--- !u!114 &1489952297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1489952292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27ead25f1fb0eb7439d0ad08030286fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  taskForCoins: {fileID: 0}
+  coinPrefab: {fileID: 6905787541895510452, guid: 3c7d448ad8357394f879265c6a30305a, type: 3}
+  newCoin: {fileID: 0}
+  glowMat: {fileID: 2100000, guid: 5eb0a8ee0e19c0f44b4182d750e279ad, type: 2}
+  clickedMat: {fileID: 2100000, guid: 7f24a1c4cb4088a4198d9c28d807437f, type: 2}
+  normalMat: {fileID: 2100000, guid: 979e22a6447bf9b44a24b2b01d34d82a, type: 2}
+  renderar: {fileID: 0}
+  clickable: 1
+  getCoin: 0
+  containsCoin: 0
+  startTime: 1
+  timeForClickedState: 0.2
+  time: 0
+  start: 0
+  showCup: 0
+  yCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0.0073511396
+      outSlope: 0.0073511396
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.31949753
+    - serializedVersion: 3
+      time: 0.4
+      value: 0.3
+      inSlope: 0.001887831
+      outSlope: 0.001887831
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.6
+      value: 0.3
+      inSlope: 0.0021453097
+      outSlope: 0.0021453097
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.96875006
+      outWeight: 1
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0.010044739
+      outSlope: 0.010044739
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.737999
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  showingTime: 1
 --- !u!1 &1491493258
 GameObject:
   m_ObjectHideFlags: 0
@@ -3798,7 +4229,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1510324170}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cups
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4413,8 +4844,10 @@ GameObject:
   - component: {fileID: 1863376541}
   - component: {fileID: 1863376543}
   - component: {fileID: 1863376542}
-  m_Layer: 0
-  m_Name: Cup1_6
+  - component: {fileID: 1863376544}
+  - component: {fileID: 1863376545}
+  m_Layer: 16
+  m_Name: Cup0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4429,9 +4862,9 @@ Transform:
   m_GameObject: {fileID: 1863376540}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.75, y: 0, z: 0}
-  m_LocalScale: {x: 0.72425425, y: 0.72425425, z: 0.72425425}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: -0.6, y: 0, z: 0}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1510324170}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4458,9 +4891,9 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -8758516011385734968, guid: 2826b5602b4c68d40ad2c667a9a4270b, type: 3}
-  - {fileID: -3073059540518960674, guid: 2826b5602b4c68d40ad2c667a9a4270b, type: 3}
-  - {fileID: -3078713701230745093, guid: 2826b5602b4c68d40ad2c667a9a4270b, type: 3}
+  - {fileID: 2100000, guid: 979e22a6447bf9b44a24b2b01d34d82a, type: 2}
+  - {fileID: 2100000, guid: 979e22a6447bf9b44a24b2b01d34d82a, type: 2}
+  - {fileID: 2100000, guid: 979e22a6447bf9b44a24b2b01d34d82a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4490,6 +4923,97 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1863376540}
   m_Mesh: {fileID: -2346428509227581198, guid: 2826b5602b4c68d40ad2c667a9a4270b, type: 3}
+--- !u!65 &1863376544
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1863376540}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.22383994, y: 0.24640535, z: 0.22375618}
+  m_Center: {x: -0.00014609842, y: 0.07067966, z: 0.0007427334}
+--- !u!114 &1863376545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1863376540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27ead25f1fb0eb7439d0ad08030286fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  taskForCoins: {fileID: 0}
+  coinPrefab: {fileID: 6905787541895510452, guid: 3c7d448ad8357394f879265c6a30305a, type: 3}
+  newCoin: {fileID: 0}
+  glowMat: {fileID: 2100000, guid: 5eb0a8ee0e19c0f44b4182d750e279ad, type: 2}
+  clickedMat: {fileID: 2100000, guid: 7f24a1c4cb4088a4198d9c28d807437f, type: 2}
+  normalMat: {fileID: 2100000, guid: 979e22a6447bf9b44a24b2b01d34d82a, type: 2}
+  renderar: {fileID: 0}
+  clickable: 1
+  getCoin: 0
+  containsCoin: 0
+  startTime: 1
+  timeForClickedState: 0.2
+  time: 0
+  start: 0
+  showCup: 0
+  yCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0.0073511396
+      outSlope: 0.0073511396
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.31949753
+    - serializedVersion: 3
+      time: 0.4
+      value: 0.3
+      inSlope: 0.001887831
+      outSlope: 0.001887831
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.6
+      value: 0.3
+      inSlope: 0.0021453097
+      outSlope: 0.0021453097
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.96875006
+      outWeight: 1
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0.010044739
+      outSlope: 0.010044739
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.737999
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  showingTime: 1
 --- !u!1001 &1947174665
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4571,8 +5095,10 @@ GameObject:
   - component: {fileID: 1947498642}
   - component: {fileID: 1947498644}
   - component: {fileID: 1947498643}
-  m_Layer: 0
-  m_Name: Cup1_1
+  - component: {fileID: 1947498645}
+  - component: {fileID: 1947498646}
+  m_Layer: 16
+  m_Name: Cup2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4587,9 +5113,9 @@ Transform:
   m_GameObject: {fileID: 1947498641}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.25, y: 0, z: 0}
-  m_LocalScale: {x: 0.72425425, y: 0.72425425, z: 0.72425425}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: -0.2, y: 0, z: 0}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1510324170}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4616,9 +5142,9 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -8758516011385734968, guid: 2826b5602b4c68d40ad2c667a9a4270b, type: 3}
-  - {fileID: -3073059540518960674, guid: 2826b5602b4c68d40ad2c667a9a4270b, type: 3}
-  - {fileID: -3078713701230745093, guid: 2826b5602b4c68d40ad2c667a9a4270b, type: 3}
+  - {fileID: 2100000, guid: 979e22a6447bf9b44a24b2b01d34d82a, type: 2}
+  - {fileID: 2100000, guid: 979e22a6447bf9b44a24b2b01d34d82a, type: 2}
+  - {fileID: 2100000, guid: 979e22a6447bf9b44a24b2b01d34d82a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4648,6 +5174,97 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1947498641}
   m_Mesh: {fileID: -2346428509227581198, guid: 2826b5602b4c68d40ad2c667a9a4270b, type: 3}
+--- !u!65 &1947498645
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1947498641}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.22383994, y: 0.24640535, z: 0.22375618}
+  m_Center: {x: -0.00016135721, y: 0.07067966, z: 0.0007427334}
+--- !u!114 &1947498646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1947498641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27ead25f1fb0eb7439d0ad08030286fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  taskForCoins: {fileID: 0}
+  coinPrefab: {fileID: 6905787541895510452, guid: 3c7d448ad8357394f879265c6a30305a, type: 3}
+  newCoin: {fileID: 0}
+  glowMat: {fileID: 2100000, guid: 5eb0a8ee0e19c0f44b4182d750e279ad, type: 2}
+  clickedMat: {fileID: 2100000, guid: 7f24a1c4cb4088a4198d9c28d807437f, type: 2}
+  normalMat: {fileID: 2100000, guid: 979e22a6447bf9b44a24b2b01d34d82a, type: 2}
+  renderar: {fileID: 0}
+  clickable: 1
+  getCoin: 0
+  containsCoin: 0
+  startTime: 1
+  timeForClickedState: 0.2
+  time: 0
+  start: 0
+  showCup: 0
+  yCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0.0073511396
+      outSlope: 0.0073511396
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.31949753
+    - serializedVersion: 3
+      time: 0.4
+      value: 0.3
+      inSlope: 0.001887831
+      outSlope: 0.001887831
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.6
+      value: 0.3
+      inSlope: 0.0021453097
+      outSlope: 0.0021453097
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.96875006
+      outWeight: 1
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0.010044739
+      outSlope: 0.010044739
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.737999
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  showingTime: 1
 --- !u!1 &1989780934
 GameObject:
   m_ObjectHideFlags: 0
@@ -5276,7 +5893,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -5605289326131794027, guid: 2826b5602b4c68d40ad2c667a9a4270b, type: 3}
+  - {fileID: 2100000, guid: 5bb1a8be4f16dd244b593d4d8656470f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5309,7 +5926,7 @@ GameObject:
   - component: {fileID: 4589783628074187245}
   - component: {fileID: 8990263290160101108}
   - component: {fileID: 2689781158674063355}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Plane.027
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5325,7 +5942,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2516332823538404944}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: CoinTask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5355,7 +5972,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 94eadc7e149d7554e8df505809214588, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5694,9 +6311,9 @@ Transform:
   m_GameObject: {fileID: 7471304814509671340}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 0, z: 0}
-  m_LocalScale: {x: 0.72425425, y: 0.72425425, z: 0.72425425}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: -0.4, y: 0, z: 0}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1510324170}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5711,7 +6328,7 @@ GameObject:
   - component: {fileID: 6931277220150089840}
   - component: {fileID: 7783837790466881508}
   - component: {fileID: 3044400576390861584}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Plane.028
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5741,9 +6358,9 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -8758516011385734968, guid: 2826b5602b4c68d40ad2c667a9a4270b, type: 3}
-  - {fileID: -3073059540518960674, guid: 2826b5602b4c68d40ad2c667a9a4270b, type: 3}
-  - {fileID: -3078713701230745093, guid: 2826b5602b4c68d40ad2c667a9a4270b, type: 3}
+  - {fileID: 2100000, guid: 979e22a6447bf9b44a24b2b01d34d82a, type: 2}
+  - {fileID: 2100000, guid: 979e22a6447bf9b44a24b2b01d34d82a, type: 2}
+  - {fileID: 2100000, guid: 979e22a6447bf9b44a24b2b01d34d82a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5918,13 +6535,106 @@ GameObject:
   - component: {fileID: 5269327597997597200}
   - component: {fileID: 7405333371409646010}
   - component: {fileID: 6525870939208086978}
-  m_Layer: 0
+  - component: {fileID: 7471304814509671341}
+  - component: {fileID: 7471304814509671342}
+  m_Layer: 16
   m_Name: Cup1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!65 &7471304814509671341
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7471304814509671340}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.22383994, y: 0.24640535, z: 0.22375618}
+  m_Center: {x: -0.00014609842, y: 0.07067966, z: 0.0007427334}
+--- !u!114 &7471304814509671342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7471304814509671340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27ead25f1fb0eb7439d0ad08030286fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  taskForCoins: {fileID: 0}
+  coinPrefab: {fileID: 6905787541895510452, guid: 3c7d448ad8357394f879265c6a30305a, type: 3}
+  newCoin: {fileID: 0}
+  glowMat: {fileID: 2100000, guid: 5eb0a8ee0e19c0f44b4182d750e279ad, type: 2}
+  clickedMat: {fileID: 2100000, guid: 7f24a1c4cb4088a4198d9c28d807437f, type: 2}
+  normalMat: {fileID: 2100000, guid: 979e22a6447bf9b44a24b2b01d34d82a, type: 2}
+  renderar: {fileID: 0}
+  clickable: 1
+  getCoin: 0
+  containsCoin: 0
+  startTime: 1
+  timeForClickedState: 0.2
+  time: 0
+  start: 0
+  showCup: 0
+  yCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0.0073511396
+      outSlope: 0.0073511396
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.31949753
+    - serializedVersion: 3
+      time: 0.4
+      value: 0.3
+      inSlope: 0.001887831
+      outSlope: 0.001887831
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.6
+      value: 0.3
+      inSlope: 0.0021453097
+      outSlope: 0.0021453097
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.96875006
+      outWeight: 1
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0.010044739
+      outSlope: 0.010044739
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.737999
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  showingTime: 1
 --- !u!33 &7783837790466881508
 MeshFilter:
   m_ObjectHideFlags: 0

@@ -63,7 +63,11 @@ public class ChestUnlock_BloodBottleTask : NetworkBehaviour
             }
         }
         //TODO TODO Unlock the chest here TODO TODO //
-        Debug.LogWarning("Chest Unlock");
+        Debug.Log
+            
+            
+            
+            ("Chest Unlock");
 
         GameObject spawned = Instantiate(spawnedObject, this.transform.position, Quaternion.identity);
         NetworkObject obj = spawned.GetComponent<NetworkObject>();

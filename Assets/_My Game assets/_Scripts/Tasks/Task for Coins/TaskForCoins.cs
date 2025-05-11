@@ -8,10 +8,19 @@ public class TaskForCoins : MonoBehaviour
     [Header("Task Settings")]
     [SerializeField] int startingIterationDifficulty = 6;
     [SerializeField] int startingGlassNoDifficulty = 1;
-    bool gameStarted = false;
-    bool gameEnd = false;
+    [SerializeField] bool gameStarted = false;
+    [SerializeField] bool endTheGame = false;
+    [SerializeField] public int gameEndsAfetrLastIter = 1;
+    [SerializeField] List<Vector3> InitialPos = new();
+
+    [Header("Restart Time Settings")]
+    public bool restart = false;
+    public float restartTime = 1;
+    public float time = 0;
+
 
     [Header("Each Iteration Settings")]
+    [SerializeField] int iterationLeft;
     [SerializeField] int currentIterationDifficulty = 6;
     [SerializeField] int currentGlassNoDifficulty = 1;
     [SerializeField] List<Glass> movingGlasses = new();
@@ -21,30 +30,20 @@ public class TaskForCoins : MonoBehaviour
     [SerializeField] GameObject glassContainer;
     [SerializeField] List<Glass> glasses = new();
     [SerializeField] List<Place> places = new();
-    [SerializeField] int iterationLeft;
     bool hasStartedNextIteration = false;
+    [SerializeField] bool lastIterWasWrong = false;
+
+    [Header("References")]
+    [SerializeField] public List<CupForCoinTask> cupForCoinTasks = new();
 
     private void Start()
     {
-        Debug.LogError("Start: Initializing Glasses and Places...");
-        glasses.Clear();
+        currentIterationDifficulty = startingIterationDifficulty;
+        currentGlassNoDifficulty = startingGlassNoDifficulty;
         for (int i = 0; i < glassContainer.transform.childCount; i++)
         {
-            Glass glass = new Glass(glassContainer.transform.GetChild(i).gameObject, i);
-            glasses.Add(glass);
-            places.Add(new Place(i, glasses[i]));
-        }
-        Debug.LogError($"Start: Initialized {glasses.Count} glasses and places.");
-
-        if (!gameStarted)
-        {
-            Debug.LogError("Start: Game Started!");
-            gameStarted = true;
-            currentIterationDifficulty = startingIterationDifficulty;
-            iterationLeft = currentIterationDifficulty;
-            currentGlassNoDifficulty = startingGlassNoDifficulty;
-            Debug.LogError($"Start: Starting first iteration with {currentGlassNoDifficulty} glasses to move.");
-            StartIteration();
+            InitialPos.Add(glassContainer.transform.GetChild(i).localPosition);
+            cupForCoinTasks.Add(glassContainer.transform.GetChild(i).GetComponent<CupForCoinTask>());
         }
     }
 
@@ -54,17 +53,61 @@ public class TaskForCoins : MonoBehaviour
         {
             Move(i);
         }
+
+        if (restart)
+        {
+            time += Time.deltaTime;
+
+            if (time > restartTime)
+            {
+                time = 0;
+                restart = false;
+                ResetGame();
+            }
+        }
+    }
+
+    private void ResetGame()
+    {
+        gameStarted = false;
+        endTheGame = false;
+        gameEndsAfetrLastIter = 1;
+
+        currentIterationDifficulty++;
+        //currentGlassNoDifficulty = 1; //TODO
+        movingGlasses.Clear();
+        savedMovingGlasses.Clear();
+        nextPlaces.Clear();
+        savedPlaces.Clear();
+        glasses.Clear();
+        places.Clear();
+        hasStartedNextIteration = false;
+
+        //===== New Glasses Instances =====//
+        glasses.Clear();
+        for (int i = 0; i < glassContainer.transform.childCount; i++)
+        {
+            Glass glass = new Glass(glassContainer.transform.GetChild(i).gameObject, i, InitialPos[i], lastIterWasWrong);
+            glasses.Add(glass);
+            places.Add(new Place(i, glasses[i]));
+        }
+        lastIterWasWrong = false;
+
+        // ============== Start =============//
+        if (!gameStarted)
+        {
+            gameStarted = true;
+            iterationLeft = currentIterationDifficulty;
+            StartIteration();
+        }
     }
 
     private void OnMouseUp()
     {
         if (!gameStarted)
         {
-            Debug.LogError("OnMouseUp: Game manually started via mouse.");
             gameStarted = true;
-            currentIterationDifficulty = startingIterationDifficulty;
             iterationLeft = currentIterationDifficulty;
-            currentGlassNoDifficulty = startingGlassNoDifficulty;
             StartIteration();
         }
     }
@@ -79,13 +122,12 @@ public class TaskForCoins : MonoBehaviour
         }
         else if (iterationLeft <= 0)
         {
-            Debug.LogError("StartIteration: No more iterations left.");
             return;
         }
         
         iterationLeft--;
         
-        Debug.LogError($"StartIteration: Iteration {startingIterationDifficulty - iterationLeft}/{startingIterationDifficulty}");
+        Debug.Log($"StartIteration: Iteration {startingIterationDifficulty - iterationLeft}/{startingIterationDifficulty}");
 
         for (int i = 0; i < currentGlassNoDifficulty; i++)
         {
@@ -111,12 +153,12 @@ public class TaskForCoins : MonoBehaviour
 
     private void LastIteration()
     {
-        gameEnd = true;
-        Debug.LogError($"[LastIteration] Moving Glasses Count: {movingGlasses.Count}");
+        endTheGame = true;
+        movingGlasses.Clear(); //  Prevent accumulation
+
         while (nextPlaces.Count > 0)
         {
             int ID = nextPlaces[0].ID;
-            Debug.LogError($"[LastIteration] Processing ID from nextPlaces: {ID}");
 
             if (ID < 0 || ID >= places.Count)
             {
@@ -126,39 +168,32 @@ public class TaskForCoins : MonoBehaviour
 
             if (places[ID].filled)
             {
-                if (places[ID].currentGlass == null)
-                {
-                    Debug.LogError($"[LastIteration] ERROR: Place {ID} is marked filled, but currentGlass is null.");
-                }
-                else
-                {
-                    Debug.LogError($"[LastIteration] Adding currentGlass from place {ID} to movingGlasses.");
-                    movingGlasses.Add(places[ID].currentGlass);
-                }
+                movingGlasses.Add(places[ID].currentGlass);
             }
             nextPlaces.RemoveAt(0);
-            Debug.LogError($"[LastIteration] Removed processed place from nextPlaces. Remaining: {nextPlaces.Count}");
         }
 
+        //  Improved null check
         for (int i = 0; i < places.Count; i++)
         {
-            if (places[i].currentGlass.glassG == null && places[i].comingGlass.glassG == null)
+            if ((places[i].currentGlass == null || places[i].currentGlass.glassG == null) &&
+                (places[i].comingGlass == null || places[i].comingGlass.glassG == null))
             {
-                Debug.LogError($"[LastIteration] Place {i} is empty. Adding to nextPlaces.");
                 nextPlaces.Add(places[i]);
             }
         }
 
-
         if (movingGlasses.Count > nextPlaces.Count)
         {
+            restart = true;
+            lastIterWasWrong = true;
             Debug.LogError($"[LastIteration] ERROR: Not enough empty places to move all glasses. movingGlasses: {movingGlasses.Count}, nextPlaces: {nextPlaces.Count}");
             return;
         }
 
         for (int i = 0; i < movingGlasses.Count; i++)
         {
-            Debug.LogError($"[LastIteration] Moving glass {i} to place ID {nextPlaces[i].ID}");
+            Debug.Log($"[LastIteration] Moving glass {i} to place ID {nextPlaces[i].ID}");
             movingGlasses[i].currentID = nextPlaces[i].ID;
             nextPlaces[i].comingGlass = movingGlasses[i];
             movingGlasses[i].nextPosition = nextPlaces[i].myPosition;
@@ -166,7 +201,6 @@ public class TaskForCoins : MonoBehaviour
 
         for (int i = 0; i < movingGlasses.Count; i++)
         {
-            Debug.LogError($"[LastIteration] Setting glass {i} to moving.");
             movingGlasses[i].moving = true;
         }
     }
@@ -174,47 +208,32 @@ public class TaskForCoins : MonoBehaviour
 
     private void FillMovingGlassesAtStart(int iter)
     {
-        Debug.LogWarning($"FillMovingGlassesAtStart: Iteration {iter} started");
-
         if (nextPlaces.Count > 0)
         {
             int ID = nextPlaces[0].ID;
-            Debug.LogWarning($"FillMovingGlassesAtStart: Checking saved nextPlace ID {ID}");
 
             if (places[ID].filled && !places[ID].currentGlass.moving)
             {
                 movingGlasses.Add(places[ID].currentGlass);
                 places[ID].filled = false;
                 places[ID].currentGlass = null;
-                Debug.LogError($"FillMovingGlassesAtStart: Picked from saved nextPlace ID {ID}");
                 nextPlaces.RemoveAt(0);
                 return;
-            }
-            else
-            {
-                Debug.LogWarning($"FillMovingGlassesAtStart: Skipped ID {ID} - either not filled or already moving");
             }
 
             nextPlaces.RemoveAt(0);
         }
 
         int randomID = UnityEngine.Random.Range(0, places.Count);
-        Debug.LogWarning($"FillMovingGlassesAtStart: Trying randomID {randomID}");
 
         if (places[randomID].filled && !places[randomID].currentGlass.moving && !movingGlasses.Contains(places[randomID].currentGlass))
         {
             movingGlasses.Add(places[randomID].currentGlass);
-            Debug.LogWarning($"FillMovingGlassesAtStart: Added glass from randomID {randomID} to movingGlasses");
 
             if ((places[randomID].comingGlass != null && !places[randomID].comingGlass.moving) || (places[randomID].comingGlass == null))
             {
                 places[randomID].filled = false;
                 places[randomID].currentGlass = null;
-                Debug.LogError($"FillMovingGlassesAtStart: Picked random place {randomID}");
-            }
-            else
-            {
-                Debug.LogWarning($"FillMovingGlassesAtStart: Did not unfill randomID {randomID} due to moving comingGlass");
             }
         }
         else if (iter < 400)
@@ -234,7 +253,6 @@ public class TaskForCoins : MonoBehaviour
         int randomID = UnityEngine.Random.Range(0, places.Count);
         if (!places[randomID].toBeFilled && movingGlasses[i].currentID != randomID)
         {
-            Debug.LogError($"SelectPlaceToGoAtStart: Glass {i} moving from {movingGlasses[i].currentID} to {randomID}");
             nextPlaces.Add(places[randomID]);
             movingGlasses[i].nextPosition = places[randomID].myPosition;
             places[randomID].toBeFilled = true;
@@ -271,8 +289,6 @@ public class TaskForCoins : MonoBehaviour
 
             if (glass.time > 0.7f && !hasStartedNextIteration && !glass.hasRunCodeOnce)
             {
-                Debug.LogError($"Move: Glass {i} reached 0.7f time, triggering next iteration prep.");
-
                 for (int j = 0; j < movingGlasses.Count; j++)
                 {
                     movingGlasses[j].hasRunCodeOnce = true;
@@ -281,10 +297,9 @@ public class TaskForCoins : MonoBehaviour
                 savedPlaces.Clear();
                 hasStartedNextIteration = true;
 
-                for (int j = 0; j < currentGlassNoDifficulty; j++)
+                for (int j = 0; j < nextPlaces.Count; j++)
                 {
                     savedPlaces.Add(nextPlaces[j]);
-                    Debug.LogError($"Move: Saved Place {nextPlaces[j].ID} for glass {nextPlaces[j].ID}");
                     nextPlaces[j].toBeFilled = false;
                 }
 
@@ -292,49 +307,47 @@ public class TaskForCoins : MonoBehaviour
                 for (int j = 0; j < movingGlasses.Count; j++)
                 {
                     savedMovingGlasses.Add(movingGlasses[j]);
-                    Debug.LogError($"Move: Saved MovingGlass {movingGlasses[j].currentID}");
                 }
 
                 movingGlasses.Clear();
-                Debug.LogError("Move: Cleared current movingGlasses list.");
 
                 StartIteration();
-                Debug.LogError("Move: Called StartIteration from Move.");
             }
 
-            if (glass.time > 1.1f)
+            if (glass.time > 1.1f && gameEndsAfetrLastIter > 0)
             {
-                Debug.LogError($"Move: Glass {i} reached final stage of movement (time > 1.1). Finalizing.");
 
                 for (int j = 0; j < savedMovingGlasses.Count; j++)
                 {
                     savedMovingGlasses[j].time = 0;
                     savedMovingGlasses[j].moving = false;
                     savedMovingGlasses[j].previousPosition = savedMovingGlasses[j].currentPosition;
-                    Debug.LogError($"Move: Finalized Glass {savedMovingGlasses[j].currentID}, now at {savedMovingGlasses[j].currentPosition}");
                 }
 
-                for (int j = 0; j < currentGlassNoDifficulty; j++)
+                for (int j = 0; j < savedPlaces.Count; j++)
                 {
                     savedPlaces[j].filled = true;
                     savedPlaces[j].currentGlass = savedMovingGlasses[j];
                     savedPlaces[j].comingGlass = null;
-                    Debug.LogError($"Move: Updated Place {savedPlaces[j].ID} with new glass.");
+                }
+
+                if (endTheGame)
+                {
+                    gameEndsAfetrLastIter--;
+                    cupForCoinTasks.ForEach(task => { task.clickable = true; });
+                    cupForCoinTasks.ForEach(task => { task.getCoin = true; });
                 }
 
                 hasStartedNextIteration = false;
-                Debug.LogError("Move: Next iteration flag reset.");
             }
+            glasses[i].glassG.transform.localPosition = glasses[i].currentPosition;
+
         }
         else if (!glass.moving)
         {
-            if (glass.hasRunCodeOnce)
-                Debug.LogError($"Move: Glass {i} stopped moving. Resetting hasRunCodeOnce.");
-
             glass.hasRunCodeOnce = false;
         }
 
-        glasses[i].glassG.transform.localPosition = glasses[i].currentPosition;
     }
 
 }
@@ -353,9 +366,13 @@ public class Glass
     public float time;
     public int dirOfRoation;
 
-    public Glass(GameObject glass, int id)
+    public Glass(GameObject glass, int id, Vector3 initialPos, bool wasLastIterWrong)
     {
         glassG = glass;
+        if (wasLastIterWrong)
+        {
+            glass.transform.localPosition = initialPos;
+        }
         previousPosition = glassG.transform.localPosition;
         currentPosition = glassG.transform.localPosition;
         previousID = id;
