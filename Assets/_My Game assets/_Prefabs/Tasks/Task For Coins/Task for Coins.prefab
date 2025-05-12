@@ -51,11 +51,11 @@ MonoBehaviour:
   GlassNoDiffiIncrementRate: 0.25
   TimeDiffiIncrementRate: 0.07142857
   MinTimeDiffiItCanHandle: 0.4
-  MaxGlassNoItCanHandle: 4
+  MaxGlassNoItCanHandle: 5
   restart: 0
   positionReset: 0
-  startingIterationDifficulty: 10
-  startingGlassNoDifficulty: 3
+  startingIterationDifficulty: 20
+  startingGlassNoDifficulty: 5
   startingTimeDifficulty: 0.4
   gameStarted: 0
   endTheGame: 0
@@ -1473,7 +1473,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6292260027113058671}
   m_Layer: 10
-  m_Name: Places
+  m_Name: PlacesForDebug
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
