@@ -6,9 +6,9 @@ public class ItemHolding : NetworkBehaviour
 {
     [Header("Zoom Settings")]
     public bool isZoomed;
-    public float moveSpeed = 0.01f;
-    public float zoomDistFromCam = 2.5f;
-    private Vector3 zoomPos;
+    [SerializeField] private Vector3 zoomPos;
+    [SerializeField] private Quaternion zoomRotation;
+
 
     [Header("Camera Settings")]
     public Camera playerCamera;
@@ -34,7 +34,7 @@ public class ItemHolding : NetworkBehaviour
     void Start()
     {
         Inventory = GetComponent<Inventory>();
-        playerCamera = GameObject.FindAnyObjectByType<Camera>();
+        playerCamera = Camera.main;
         inventoryUI = FindAnyObjectByType<InventoryUI>();
         inventorySlotTracker = FindAnyObjectByType<InventorySlotTracker>();
     }
@@ -124,7 +124,7 @@ public class ItemHolding : NetworkBehaviour
         if (item == null) { return; }
 
         GameObject player = NetworkManager.Singleton.ConnectedClients[rpcParams.Receive.SenderClientId].PlayerObject.gameObject;       //----------Get the player who is throwing the item
-        GameObject itemInstance = Instantiate(ScriptableObjectFinder.FindItemSO(item).itemPrefab, ZoomPos(player), Quaternion.identity);//----------Instantiate it
+        GameObject itemInstance = Instantiate(ScriptableObjectFinder.FindItemSO(item).itemPrefab, ZoomPos(player), zoomRotation);//----------Instantiate it
         itemInstance.GetComponent<NetworkObject>().Spawn(true);                                                                        //-----------spawn
 
 
@@ -138,7 +138,7 @@ public class ItemHolding : NetworkBehaviour
         NotifyClientsAboutNewItemClientRpc(new NetworkObjectReference(networkObject), newItemData);
         if (toThrow)
         {
-            spawnedObject.GetComponent<Rigidbody>().AddForce(player.transform.GetChild(1).transform.forward * throwForce, ForceMode.Impulse);
+            spawnedObject.GetComponent<Rigidbody>().AddForce(playerCamera.transform.GetChild(0).transform.forward * throwForce, ForceMode.Impulse);
         }
         else
         {
@@ -166,7 +166,8 @@ public class ItemHolding : NetworkBehaviour
 
     private Vector3 ZoomPos(GameObject player)
     {
-        zoomPos = player.transform.GetChild(1).transform.position;
+        zoomPos = playerCamera.transform.GetChild(0).transform.position;
+        zoomRotation = playerCamera.transform.GetChild(0).transform.rotation;
         return zoomPos;
     }
 

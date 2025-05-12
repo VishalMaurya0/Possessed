@@ -16,8 +16,8 @@ MonoBehaviour:
   height: 2
   eyePosition: {x: 0, y: 0.5, z: 0}
   eyePositionFromGround: {x: 0, y: 4, z: 0}
-  timeBetweenHuntDuration: 200
-  timeBetweenHuntDurationRange: 400
+  timeBetweenHuntDuration: 5
+  timeBetweenHuntDurationRange: 1
   thresholdVelocity: 0.1
   showNearPPDuration: 300
   roamingRadius: 10
@@ -32,7 +32,7 @@ MonoBehaviour:
   averageHuntDuration: 100
   timeAfterWhichHuntHuntDurDoubles: 1200
   proceduresAfterWhichHuntHuntDurDoubles: 2
-  huntRoamingRadius: 10
+  huntRoamingRadius: 100
   huntEndRadius: 5
   timeAfterWhichGhostStartWalkingToCentre: 120
   maxNoiseClamp: 200

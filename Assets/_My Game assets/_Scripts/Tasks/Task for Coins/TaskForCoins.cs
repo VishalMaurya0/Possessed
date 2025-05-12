@@ -6,8 +6,8 @@ using UnityEngine;
 public class TaskForCoins : MonoBehaviour
 {
     [Header("Task Settings")]
-    [SerializeField] int startingIterationDifficulty = 6;
-    [SerializeField] int startingGlassNoDifficulty = 1;
+    [SerializeField] float startingIterationDifficulty = 6;
+    [SerializeField] float startingGlassNoDifficulty = 1;
     [SerializeField] bool gameStarted = false;
     [SerializeField] bool endTheGame = false;
     [SerializeField] public int gameEndsAfetrLastIter = 1;
@@ -15,14 +15,17 @@ public class TaskForCoins : MonoBehaviour
 
     [Header("Restart Time Settings")]
     public bool restart = false;
-    public float restartTime = 1;
-    public float time = 0;
+
+    [Header("Difficulty Increment Settings")]
+    [SerializeField] public float IterationDiffIncrementRate = 1/2;
+    [SerializeField] public float GlassNoDiffiIncrementRate = 1/5;
+    [SerializeField] public float MaxGlassNoItCanHandle = 4;
 
 
     [Header("Each Iteration Settings")]
-    [SerializeField] int iterationLeft;
-    [SerializeField] int currentIterationDifficulty = 6;
-    [SerializeField] int currentGlassNoDifficulty = 1;
+    [SerializeField] float iterationLeft;
+    [SerializeField] float currentIterationDifficulty = 6;
+    [SerializeField] float currentGlassNoDifficulty = 1;
     [SerializeField] List<Glass> movingGlasses = new();
     [SerializeField] List<Glass> savedMovingGlasses = new();
     [SerializeField] List<Place> nextPlaces = new();
@@ -31,7 +34,7 @@ public class TaskForCoins : MonoBehaviour
     [SerializeField] List<Glass> glasses = new();
     [SerializeField] List<Place> places = new();
     bool hasStartedNextIteration = false;
-    [SerializeField] bool lastIterWasWrong = false;
+    [SerializeField] public bool positionReset = false;
 
     [Header("References")]
     [SerializeField] public List<CupForCoinTask> cupForCoinTasks = new();
@@ -56,25 +59,36 @@ public class TaskForCoins : MonoBehaviour
 
         if (restart)
         {
-            time += Time.deltaTime;
+            restart = false;
+            ResetGameAndRestart();
+        }
 
-            if (time > restartTime)
-            {
-                time = 0;
-                restart = false;
-                ResetGame();
-            }
+        if (positionReset)
+        {
+            ResetPos();
+        }
+
+    }
+
+    public void IncreaseDifficulty()
+    {
+        startingIterationDifficulty += IterationDiffIncrementRate;
+        startingGlassNoDifficulty += GlassNoDiffiIncrementRate;
+
+        if (startingGlassNoDifficulty > MaxGlassNoItCanHandle)
+        {
+            startingGlassNoDifficulty = MaxGlassNoItCanHandle;
         }
     }
 
-    private void ResetGame()
+    private void ResetPos()
     {
         gameStarted = false;
         endTheGame = false;
         gameEndsAfetrLastIter = 1;
-
-        currentIterationDifficulty++;
-        //currentGlassNoDifficulty = 1; //TODO
+        
+        currentIterationDifficulty = startingIterationDifficulty;
+        currentGlassNoDifficulty = startingGlassNoDifficulty;
         movingGlasses.Clear();
         savedMovingGlasses.Clear();
         nextPlaces.Clear();
@@ -87,11 +101,38 @@ public class TaskForCoins : MonoBehaviour
         glasses.Clear();
         for (int i = 0; i < glassContainer.transform.childCount; i++)
         {
-            Glass glass = new Glass(glassContainer.transform.GetChild(i).gameObject, i, InitialPos[i], lastIterWasWrong);
+            Glass glass = new Glass(glassContainer.transform.GetChild(i).gameObject, i, InitialPos[i], positionReset);
             glasses.Add(glass);
             places.Add(new Place(i, glasses[i]));
         }
-        lastIterWasWrong = false;
+        positionReset = false;
+    }
+
+    private void ResetGameAndRestart()
+    {
+        gameStarted = false;
+        endTheGame = false;
+        gameEndsAfetrLastIter = 1;
+
+        currentIterationDifficulty = startingIterationDifficulty;
+        currentGlassNoDifficulty = startingGlassNoDifficulty;
+        movingGlasses.Clear();
+        savedMovingGlasses.Clear();
+        nextPlaces.Clear();
+        savedPlaces.Clear();
+        glasses.Clear();
+        places.Clear();
+        hasStartedNextIteration = false;
+
+        //===== New Glasses Instances =====//
+        glasses.Clear();
+        for (int i = 0; i < glassContainer.transform.childCount; i++)
+        {
+            Glass glass = new Glass(glassContainer.transform.GetChild(i).gameObject, i, InitialPos[i], positionReset);
+            glasses.Add(glass);
+            places.Add(new Place(i, glasses[i]));
+        }
+        positionReset = false;
 
         // ============== Start =============//
         if (!gameStarted)
@@ -102,25 +143,21 @@ public class TaskForCoins : MonoBehaviour
         }
     }
 
-    private void OnMouseUp()
-    {
-        if (!gameStarted)
-        {
-            gameStarted = true;
-            iterationLeft = currentIterationDifficulty;
-            StartIteration();
-        }
-    }
 
     private void StartIteration()
     {
-        if (iterationLeft == 0)
+        if (!gameStarted)
+        {
+            return;
+        }
+
+        if ((int)iterationLeft == 0)
         {
             iterationLeft--;
             LastIteration();
             return;
         }
-        else if (iterationLeft <= 0)
+        else if ((int)iterationLeft <= 0)
         {
             return;
         }
@@ -134,7 +171,7 @@ public class TaskForCoins : MonoBehaviour
             FillMovingGlassesAtStart(0);
         }
 
-        for (int i = 0; i < currentGlassNoDifficulty; i++)
+        for (int i = 0; i < movingGlasses.Count; i++)
         {
             SelectPlaceToGoAtStart(0, i);
             movingGlasses[i].currentID = nextPlaces[i].ID;
@@ -145,7 +182,7 @@ public class TaskForCoins : MonoBehaviour
             }
         }
 
-        for (int i = 0; i < currentGlassNoDifficulty; i++)
+        for (int i = 0; i < movingGlasses.Count; i++)
         {
             movingGlasses[i].moving = true;
         }
@@ -153,6 +190,11 @@ public class TaskForCoins : MonoBehaviour
 
     private void LastIteration()
     {
+        if (!gameStarted)
+        {
+            return;
+        }
+
         endTheGame = true;
         movingGlasses.Clear(); //  Prevent accumulation
 
@@ -186,7 +228,7 @@ public class TaskForCoins : MonoBehaviour
         if (movingGlasses.Count > nextPlaces.Count)
         {
             restart = true;
-            lastIterWasWrong = true;
+            positionReset = true;
             Debug.LogError($"[LastIteration] ERROR: Not enough empty places to move all glasses. movingGlasses: {movingGlasses.Count}, nextPlaces: {nextPlaces.Count}");
             return;
         }
@@ -251,7 +293,7 @@ public class TaskForCoins : MonoBehaviour
     private void SelectPlaceToGoAtStart(int iter, int i)
     {
         int randomID = UnityEngine.Random.Range(0, places.Count);
-        if (!places[randomID].toBeFilled && movingGlasses[i].currentID != randomID)
+        if (!places[randomID].toBeFilled && (movingGlasses[i].currentID != randomID))
         {
             nextPlaces.Add(places[randomID]);
             movingGlasses[i].nextPosition = places[randomID].myPosition;
@@ -270,6 +312,11 @@ public class TaskForCoins : MonoBehaviour
 
     private void Move(int i)
     {
+        if (!gameStarted)
+        {
+            return;
+        }
+
         Glass glass = glasses[i];
 
         if (glass.moving && glass.time < 1.8f)
@@ -278,6 +325,15 @@ public class TaskForCoins : MonoBehaviour
             glass.time += Time.deltaTime;
 
             Vector3 change = glass.nextPosition - glass.previousPosition;
+
+            if (change.magnitude == 0)
+            {
+                restart = true;
+                positionReset = true;
+                Debug.LogError($"[LastIteration] ERROR: Not enough empty places to move all glasses. movingGlasses: {movingGlasses.Count}, nextPlaces: {nextPlaces.Count}");
+                return;
+            }
+
             float sign = change.x / change.magnitude * (-1);
 
             glass.currentPosition = (glass.previousPosition + glass.nextPosition) / 2 +

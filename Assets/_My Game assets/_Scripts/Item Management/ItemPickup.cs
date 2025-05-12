@@ -71,4 +71,5 @@ public class ItemPickup : NetworkBehaviour
         if (!IsOwner) return;
         itemData.amount = remain;
     }
+
 }

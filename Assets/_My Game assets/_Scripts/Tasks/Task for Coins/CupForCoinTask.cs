@@ -23,7 +23,7 @@ public class CupForCoinTask : MonoBehaviour
 
     [Header("Time Settings For Starting The game")]
     [SerializeField]float startTime = 1;
-    [SerializeField] float timeForClickedState = 0.2f;
+    [SerializeField] float timeForClickedState = 0.02f;
     [SerializeField]float time = 0;
     [SerializeField]bool start = false;
     [SerializeField]bool showCup = false;
@@ -32,7 +32,6 @@ public class CupForCoinTask : MonoBehaviour
     public AnimationCurve yCurve;
     public float showingTime = 1f;
     private Vector3 startPos;
-    private float timer;
     float offsetY;
 
     private void Start()
@@ -77,6 +76,16 @@ public class CupForCoinTask : MonoBehaviour
                 taskForCoins.cupForCoinTasks.ForEach(task => { task.clickable = true; });
                 taskForCoins.cupForCoinTasks.ForEach(task => { task.getCoin = false; });
             }
+
+            if (time >= showingTime / 2 && containsCoin)
+            {
+                time = showingTime / 2;
+            }
+
+            if (containsCoin && newCoin == null)
+            {
+                containsCoin = false;
+            }
         }
     }
 
@@ -90,7 +99,15 @@ public class CupForCoinTask : MonoBehaviour
                 mats[i] = clickedMat;
             }
             renderar.materials = mats;
+        }else if (time >= timeForClickedState && time < timeForClickedState + 0.01f)
+        {
+            for (int i = 0; i < mats.Length; i++)
+            {
+                mats[i] = normalMat;
+            }
+            renderar.materials = mats;
         }
+
     }
 
     private void OnMouseEnter()
@@ -113,13 +130,35 @@ public class CupForCoinTask : MonoBehaviour
         renderar.materials = mats;
     }
 
-    private void OnMouseDown()
+    private void OnMouseUp()
     {
+        if (!clickable)
+        {
+            foreach (var cup in taskForCoins.cupForCoinTasks)
+            {
+                cup.clickable = true;
+                cup.containsCoin = false;
+                cup.getCoin = false;
+                cup.showCup = false;
+                cup.start = false;
+                cup.time = 0;
+                if (cup.newCoin != null)
+                {
+                    cup.newCoin.GetComponent<NetworkObject>().Despawn();
+                    Destroy(cup.newCoin);
+                }
+                taskForCoins.positionReset = true;
+            }
+            return;
+        }
+     
+        
         if (clickable && !getCoin)
         {
             taskForCoins.cupForCoinTasks.ForEach(task => { task.clickable = false; });
             start = true;
             containsCoin = true;
+            return;
         }
         
         if (clickable && getCoin)
@@ -127,13 +166,16 @@ public class CupForCoinTask : MonoBehaviour
             taskForCoins.cupForCoinTasks.ForEach(task => { task.clickable = false; });
             showCup = true;
             startPos = transform.localPosition;
+            taskForCoins.IncreaseDifficulty();
 
             if (containsCoin)
             {
                 newCoin = Instantiate(coinPrefab, transform.position, transform.rotation, transform);
                 newCoin.GetComponent<NetworkObject>().Spawn();
-                containsCoin = false;
+                newCoin.GetComponent<Rigidbody>().useGravity = false;
             }
+            return;
         }
+
     }
 }

@@ -66,7 +66,7 @@ public class PlayerController : MonoBehaviour
         torchToggleKey = playerData.torchToggleKey;
 
 
-        wallDetection = transform.GetChild(2).GetComponent<WallDetection>();
+        wallDetection = transform.GetChild(1).GetComponent<WallDetection>();
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         currentStamina = maxStamina;
