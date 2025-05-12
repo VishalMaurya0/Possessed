@@ -47,19 +47,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed96c40a77c190c4db19574cefed399d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingIterationDifficulty: 6
+  IterationDiffIncrementRate: 1.333333
+  GlassNoDiffiIncrementRate: 0.25
+  TimeDiffiIncrementRate: 0.07142857
+  MinTimeDiffiItCanHandle: 0.6
+  MaxGlassNoItCanHandle: 4
+  restart: 0
+  positionReset: 0
+  startingIterationDifficulty: 10
   startingGlassNoDifficulty: 1
+  startingTimeDifficulty: 1.6
   gameStarted: 0
   endTheGame: 0
   gameEndsAfetrLastIter: 1
-  InitialPos: []
-  restart: 0
-  IterationDiffIncrementRate: 0.5
-  GlassNoDiffiIncrementRate: 0.2
-  MaxGlassNoItCanHandle: 4
   iterationLeft: 15
   currentIterationDifficulty: 6
   currentGlassNoDifficulty: 1
+  currentTimeDifficulty: 1
+  InitialPos: []
   movingGlasses: []
   savedMovingGlasses: []
   nextPlaces: []
@@ -67,7 +72,6 @@ MonoBehaviour:
   glassContainer: {fileID: 3351722151756369127}
   glasses: []
   places: []
-  positionReset: 0
   cupForCoinTasks: []
 --- !u!114 &6429111385295827807
 MonoBehaviour:

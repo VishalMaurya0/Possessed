@@ -166,10 +166,10 @@ public class CupForCoinTask : MonoBehaviour
             taskForCoins.cupForCoinTasks.ForEach(task => { task.clickable = false; });
             showCup = true;
             startPos = transform.localPosition;
-            taskForCoins.IncreaseDifficulty();
 
             if (containsCoin)
             {
+                taskForCoins.IncreaseDifficulty();
                 newCoin = Instantiate(coinPrefab, transform.position, transform.rotation, transform);
                 newCoin.GetComponent<NetworkObject>().Spawn();
                 newCoin.GetComponent<Rigidbody>().useGravity = false;
