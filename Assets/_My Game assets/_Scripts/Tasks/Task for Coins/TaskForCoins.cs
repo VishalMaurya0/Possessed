@@ -34,6 +34,14 @@ public class TaskForCoins : MonoBehaviour
     bool hasStartedNextIteration = false;          //------To run Once
 
 
+    [Header("Debug")]
+    [SerializeField] Material FilledTOBeFilled;
+    [SerializeField] Material FilledNOTTOBeFilled;
+    [SerializeField] Material NOTFilledNOTTOBeFilled;
+    [SerializeField] Material NOTFilledTOBeFilled;
+    public GameObject placesContainer;
+
+
     [Header("Instantiated Data")]
     [SerializeField] List<Vector3> InitialPos = new();
     [SerializeField] List<Glass> movingGlasses = new();
@@ -57,6 +65,7 @@ public class TaskForCoins : MonoBehaviour
             InitialPos.Add(glassContainer.transform.GetChild(i).localPosition);
             cupForCoinTasks.Add(glassContainer.transform.GetChild(i).GetComponent<CupForCoinTask>());
         }
+
     }
 
     private void Update()
@@ -76,7 +85,27 @@ public class TaskForCoins : MonoBehaviour
         {
             ResetPos();
         }
+        DebugPlaces();
+    }
 
+    private void DebugPlaces()
+    {
+        foreach (Place place in places)
+        {
+            Material mat = null;
+
+            if (place.filled && place.toBeFilled)
+                mat = FilledTOBeFilled;
+            if (!place.filled && place.toBeFilled)
+                mat = NOTFilledTOBeFilled;
+            if (place.filled && !place.toBeFilled)
+                mat = FilledNOTTOBeFilled;
+            if (!place.filled && !place.toBeFilled)
+                mat = NOTFilledNOTTOBeFilled;
+
+
+            place.GameObject.material = mat;
+        }
     }
 
     public void IncreaseDifficulty()
@@ -148,6 +177,7 @@ public class TaskForCoins : MonoBehaviour
             Glass glass = new Glass(glassContainer.transform.GetChild(i).gameObject, i, InitialPos[i], positionReset);
             glasses.Add(glass);
             places.Add(new Place(i, glasses[i]));
+            places[i].GameObject = placesContainer.transform.GetChild(i).gameObject.GetComponent<MeshRenderer>();
         }
         positionReset = false;
 
@@ -212,9 +242,9 @@ public class TaskForCoins : MonoBehaviour
             return;
         }
 
-        for (int i = 0; i < movingGlasses.Count; i++)
+        for (int i = 0; i < nextPlaces.Count; i++)
         {
-            nextPlaces[i].comingGlass = movingGlasses[i];
+            nextPlaces[i].comingGlass = savedMovingGlasses[i];
         }
 
         endTheGame = true;
@@ -230,7 +260,7 @@ public class TaskForCoins : MonoBehaviour
                 return;
             }
 
-            if (places[ID].filled)
+            if (places[ID].filled && places[ID].currentGlass != null && places[ID].currentGlass.glassG != null)
             {
                 movingGlasses.Add(places[ID].currentGlass);
             }
@@ -293,17 +323,9 @@ public class TaskForCoins : MonoBehaviour
         if (places[randomID].filled && !places[randomID].currentGlass.moving && !movingGlasses.Contains(places[randomID].currentGlass))
         {
             movingGlasses.Add(places[randomID].currentGlass);
+            places[randomID].filled = false;     
+            places[randomID].currentGlass = null;
 
-            if ((places[randomID].comingGlass != null && !places[randomID].comingGlass.moving) || (places[randomID].comingGlass == null))
-            {
-                places[randomID].filled = false;
-                places[randomID].currentGlass = null;
-            }
-
-            if (places[randomID].comingGlass != null)
-            {
-                //TODO currentglass
-            }
         }
         else if (iter < 400)
         {
@@ -413,7 +435,10 @@ public class TaskForCoins : MonoBehaviour
                 {
                     savedPlaces[j].filled = true;
                     savedPlaces[j].currentGlass = savedMovingGlasses[j];
-                    savedPlaces[j].comingGlass = null;
+                    if (!savedPlaces[j].toBeFilled)
+                    {
+                        savedPlaces[j].comingGlass = null;
+                    }
                 }
 
                 if (endTheGame)
@@ -469,6 +494,7 @@ public class Glass
 [Serializable]
 public class Place
 {
+    public MeshRenderer GameObject;
     public int ID;
     public bool filled;
     public bool toBeFilled;
