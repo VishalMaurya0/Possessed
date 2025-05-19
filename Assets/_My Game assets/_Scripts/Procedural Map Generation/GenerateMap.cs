@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Unity.Netcode;
 using UnityEngine;
 using static Room;
 
-public class GenerateMap : MonoBehaviour
+public class GenerateMap : NetworkBehaviour
 {
     [Header("References")]
     public Grid grid;
@@ -35,17 +36,24 @@ public class GenerateMap : MonoBehaviour
     readonly List<MapCell> newIncrements = new ();
 
 
-
-
-
-    private void OnValidate()
+    private void OnEnable()
     {
-        generateAgain = true;
+        GameManager.onServerStarted += HandleServerStarted;
     }
 
-
-    private void Start()
+    private void OnDisable()
     {
+        GameManager.onServerStarted -= HandleServerStarted;
+    }
+
+    private void HandleServerStarted()
+    {
+        if (!IsServer)
+        {
+            return;
+        }
+
+
         typeOfRooms = proceduralMapDataSO.typeOfRooms;
         generateAgain = false;
         mapVisualTemp = GetComponent<MapVisualTemp>();
@@ -56,8 +64,21 @@ public class GenerateMap : MonoBehaviour
         ReferenceAdjacentCells();
         StartGeneration();
     }
+
+
+    private void OnValidate()
+    {
+        generateAgain = true;
+    }
+
+
     private void Update()
     {
+        if (!IsServer)
+        {
+            return;
+        }
+
         if (generateAgain)
         {
             generateAgain = false;
@@ -112,7 +133,6 @@ public class GenerateMap : MonoBehaviour
         CreateWindows();
         SpawnProcedures();
         GenerateProps();
-
 
 
         ////======== Visuals & NavMesh ========////

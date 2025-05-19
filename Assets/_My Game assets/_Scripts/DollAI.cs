@@ -129,12 +129,15 @@ public class DollAI : NetworkBehaviour
 
 
 
-    
+
     void Freeze()
     {
         animator.speed = 0;
-        agent.isStopped = true;
-        currentState = DollState.Frozen;
+        if (agent.isOnNavMesh)
+        {
+            agent.isStopped = true;
+            currentState = DollState.Frozen;
+        }
     }
 
     bool IsPlayerInSight()

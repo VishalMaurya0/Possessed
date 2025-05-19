@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class MapVisual : MonoBehaviour
+public class MapVisual : NetworkBehaviour
 {
     [Header("References")]
     public GenerateMap generateMap;
@@ -40,6 +41,7 @@ public class MapVisual : MonoBehaviour
                     {
                         if (cell.wallGTemporary[k] != null)
                         {
+                            cell.wallGTemporary[k].GetComponent<NetworkObject>().Despawn();
                             Destroy(cell.WallGameobject[k]);
                             cell.wallGTemporary[k] = null;
                         }
@@ -60,10 +62,20 @@ public class MapVisual : MonoBehaviour
 
                     if (cell.WallGameobject[k] == null)
                     {
-                        GameObject newWall = Instantiate(prefab, wallContainer.transform);
+                        GameObject newWall = Instantiate(prefab, Vector3.zero, Quaternion.identity);
+                        NetworkObject netObj = newWall.GetComponent<NetworkObject>();
+
+                        // Spawn without setting the transform from prefab (we'll set it manually after parenting)
+                        netObj.Spawn(true);
+
+                        // Set parent via Netcode-safe API
+                        netObj.TrySetParent(wallContainer.transform, false); // worldPositionStays = false for exact positioning
+
+                        // Set transform
                         newWall.transform.position = cell.GetWallPosition(k, cell);
                         newWall.transform.rotation = cell.GetWallRotation(k);
-                        newWall.SetActive(true); // Ensure it's visible
+
+                        newWall.SetActive(true);
 
                         cell.WallGameobject[k] = newWall;
 
@@ -103,6 +115,9 @@ public class MapVisual : MonoBehaviour
                     if (cell.PillarGameobject[k] == null)
                     {
                         GameObject newPillar = Instantiate(prefab, pillarContainer.transform);
+                        NetworkObject netobj = newPillar.GetComponent<NetworkObject>();
+                        netobj.Spawn();
+                        netobj.TrySetParent(pillarContainer.transform, false);
                         newPillar.transform.position = cell.GetPillarPosition(k, cell);
                         newPillar.transform.rotation = cell.GetPillarRotation(k);
                         newPillar.SetActive(true); // Ensure it's visible
@@ -140,6 +155,9 @@ public class MapVisual : MonoBehaviour
                 if (newPrefab != null)
                 {
                     GameObject obj = Instantiate(newPrefab, tileContainer.transform);
+                    NetworkObject netobj = obj.GetComponent<NetworkObject>();
+                    netobj.Spawn();
+                    netobj.TrySetParent(tileContainer.transform, false);
                     obj.transform.position = cell.position;
                     obj.name = $"Cell ({i}, {j})";
                     cell.FloorTileGameobject = obj;
@@ -168,6 +186,9 @@ public class MapVisual : MonoBehaviour
                 GameObject propPrefab = FindPropGameObj(cell);
                 if (propPrefab == null) continue;
                 GameObject propGameobject = Instantiate(propPrefab, propContainer.transform);
+                NetworkObject netobj = propGameobject.GetComponent<NetworkObject>();
+                netobj.Spawn();
+                netobj.TrySetParent(propContainer.transform, false);
                 cell.PropGameobject = propGameobject;
                 propGameobject.transform.position = cell.position;
                 //TODO Rotation

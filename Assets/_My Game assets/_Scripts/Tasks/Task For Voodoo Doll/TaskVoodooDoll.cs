@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TaskVoodooDoll : NetworkBehaviour
 {
-    public Tasks task;
+    public TasksEnum task;
     [SerializeField] GameObject voodooDollPrefab;
     [SerializeField] GameObject newVoodooDoll;
 
@@ -20,7 +20,7 @@ public class TaskVoodooDoll : NetworkBehaviour
         }
         if (GameManager.Instance.serverStarted)
         {
-            GameManager.Instance.taskManager.TasksGameobjcts.Add(new System.Collections.Generic.KeyValuePair<Tasks, GameObject>(task, this.gameObject));
+            GameManager.Instance.taskManager.TasksGameobjcts.Add(new System.Collections.Generic.KeyValuePair<TasksEnum, GameObject>(task, this.gameObject));
         }
     }
 

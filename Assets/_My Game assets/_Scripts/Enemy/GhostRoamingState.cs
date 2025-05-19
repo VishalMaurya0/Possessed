@@ -84,7 +84,7 @@ public class RoamWanderingState : GhostState
     public override void UpdateState()
     {
         if (GameManager.Instance.gameEnd) return;
-        if (ghostAI.navMeshAgent.remainingDistance < 1f)
+        if (ghostAI.navMeshAgent.isOnNavMesh && ghostAI.navMeshAgent.remainingDistance < 1f)
         {
             idleTimer += Time.deltaTime;
             if (idleTimer >= ghostAI.ghostData.idleDuration)
@@ -122,10 +122,10 @@ public class RoamWanderingState : GhostState
 
     private void SetNewDestination()
     {
-        if (playerPosition == Vector3.zero)
+        if (playerPosition == Vector3.zero && ghostAI.navMeshAgent.isOnNavMesh)
         {
             ghostAI.navMeshAgent.SetDestination(FindRoamingPosition());
-        }else
+        }else if (ghostAI.navMeshAgent.isOnNavMesh)
         {
             ghostAI.navMeshAgent.SetDestination(playerPosition);
             playerPosition = Vector3.zero;

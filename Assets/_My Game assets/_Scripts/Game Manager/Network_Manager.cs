@@ -66,7 +66,7 @@ public class Network_Manager : NetworkBehaviour
                     ownerPlayer = player;
                     GameManager.Instance.ownerPlayer = player;
                     GameManager.Instance.serverStarted = true;
-                    GameManager.Instance.OnServerStarted();
+                    GameManager.Instance.ServerStarted();
                 }
                 else
                 {

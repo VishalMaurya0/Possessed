@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
 
     public ProcedureBase procedureBase;
     public List<ProcedureCompletion> AllProcedures = new();
-    public TaskManager taskManager;
+    public TaskManager taskManager = null;
     
 
     public static event Action onServerStarted;
@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void OnServerStarted()
+    public void ServerStarted()
     {
         onServerStarted?.Invoke();
     }

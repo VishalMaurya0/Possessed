@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
 using Unity.Mathematics;
+using Unity.Netcode;
 using UnityEngine;
 
-public class TaskForCoins : MonoBehaviour
+public class TaskForCoins : NetworkBehaviour
 {
     [Header("Difficulty Increment Settings")]
     [SerializeField] public float IterationDiffIncrementRate = 1/2;
@@ -149,6 +150,7 @@ public class TaskForCoins : MonoBehaviour
             Glass glass = new Glass(glassContainer.transform.GetChild(i).gameObject, i, InitialPos[i], positionReset);
             glasses.Add(glass);
             places.Add(new Place(i, glasses[i]));
+            places[i].GameObject = placesContainer.transform.GetChild(i).gameObject.GetComponent<MeshRenderer>();
         }
         positionReset = false;
     }
@@ -444,8 +446,8 @@ public class TaskForCoins : MonoBehaviour
                 if (endTheGame)
                 {
                     gameEndsAfetrLastIter--;
-                    cupForCoinTasks.ForEach(task => { task.clickable = true; });
-                    cupForCoinTasks.ForEach(task => { task.getCoin = true; });
+                    cupForCoinTasks.ForEach(task => { task.clickable.Value = true; });
+                    cupForCoinTasks.ForEach(task => { task.getCoin.Value = true; });
                 }
 
                 hasStartedNextIteration = false;

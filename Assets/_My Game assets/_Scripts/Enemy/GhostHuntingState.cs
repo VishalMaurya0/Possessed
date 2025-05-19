@@ -98,7 +98,9 @@ public class GhostHuntingState : GhostState
     public void FindPosOfNoise()
     {
         GameObject chasePlayer = GameManager.Instance.connectedClients.ElementAtOrDefault(maxNoiseIndex).Value;
-        Vector3 chasePosition = chasePlayer.transform.position;
+        Vector3 chasePosition = Vector3.zero;
+        if (chasePlayer == null)
+        chasePosition = chasePlayer.transform.position;
 
 
         //--------------------------- Adjust positionPresitionRadius based on noise value-----------------------------//

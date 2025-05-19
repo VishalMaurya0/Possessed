@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class PurePowderTask : MonoBehaviour
+public class PurePowderTask : NetworkBehaviour
 {
     [Header("Total Iteration Settings")]
     [SerializeField] int totalIteration = 3;
@@ -12,7 +12,7 @@ public class PurePowderTask : MonoBehaviour
     [Header("One Iteration Settings")]
     [SerializeField] List<Material> colorCodes = new();
     [SerializeField] List<Material> currentColourCode = new();
-    [SerializeField] bool gameSatrted;
+    [SerializeField] NetworkVariable <bool> gameSatrted = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     [SerializeField] int colourToShow;
     [SerializeField] int currentColour = 0;
     [SerializeField] float timeForShowing1Color = 1;
@@ -20,6 +20,7 @@ public class PurePowderTask : MonoBehaviour
     [SerializeField] public Material neutralColourMaterial;
     [SerializeField] Material correctAnsMaterial;
     [SerializeField] Material wrongAnsMaterial;
+    //[SerializeField] NetworkVariable <Material> currentScreenColour = new NetworkVariable<Material>(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     [SerializeField] MeshRenderer ScreenColour;
 
     [Header("Task Settings & References")]
@@ -41,12 +42,18 @@ public class PurePowderTask : MonoBehaviour
 
     private void OnMouseUp()
     {
-        if (!gameSatrted && animator.GetCurrentAnimatorStateInfo(0).IsName("idle"))
+        if (!gameSatrted.Value && animator.GetCurrentAnimatorStateInfo(0).IsName("idle"))
         {
-            gameSatrted = true;
-            iterationLeft = totalIteration;
-            StartIteration();
+            StartGameServerRpc();
         }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void StartGameServerRpc()
+    {
+        gameSatrted.Value = true;
+        iterationLeft = totalIteration;
+        StartIteration();
     }
 
     private void Update()
@@ -66,7 +73,9 @@ public class PurePowderTask : MonoBehaviour
         {
             if (currentColour < colorCodes.Count)
             {
+                //currentScreenColour.Value = colorCodes[currentColour];
                 ScreenColour.material = colorCodes[currentColour];
+                ChangeColourClientRpc();
             }
 
             if (colourToShow > 0)
@@ -78,13 +87,21 @@ public class PurePowderTask : MonoBehaviour
             }
             else if (colourToShow == 0)
             {
+                //currentScreenColour.Value = neutralColourMaterial;
                 ScreenColour.material = neutralColourMaterial;
+                ChangeColourClientRpc();
                 showColour = false;
             }
 
 
             colourToShow--;
         }
+    }
+
+    [ClientRpc]
+    private void ChangeColourClientRpc()
+    {
+        //ScreenColour.material = currentScreenColour.Value;
     }
 
     private void StartIteration()
@@ -138,7 +155,7 @@ public class PurePowderTask : MonoBehaviour
             currentIteration = 1;
             colorCodes.Clear();
             currentColourCode.Clear();
-            gameSatrted = false;
+            gameSatrted.Value = false;
             currentColour = 0;
             time = 0;
             timeUp = true;
@@ -157,7 +174,7 @@ public class PurePowderTask : MonoBehaviour
         currentIteration = 1;
         colorCodes.Clear();
         currentColourCode.Clear();
-        gameSatrted = false;
+        gameSatrted.Value = false;
         currentColour = 0;
         time = 0;
         timeUp = true;
