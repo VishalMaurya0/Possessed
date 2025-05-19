@@ -13,7 +13,7 @@ public class StatueTask : NetworkBehaviour
     void Start()
     {
         value.Value = 0;
-        GameObject table = transform.parent.parent.gameObject;
+        GameObject table = transform.parent.gameObject;
         chestUnlock_BloodBottleTask = table.GetComponentInChildren<ChestUnlock_BloodBottleTask>();
     }
 

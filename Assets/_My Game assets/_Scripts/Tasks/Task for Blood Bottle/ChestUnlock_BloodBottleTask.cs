@@ -16,10 +16,6 @@ public class ChestUnlock_BloodBottleTask : NetworkBehaviour
     void Start()
     {
         codeShowingScript = GetComponent<CodeShowingScript>();
-        if (GameManager.Instance.serverStarted)
-        {
-            GameManager.Instance.taskManager.TasksGameobjcts.Add(new System.Collections.Generic.KeyValuePair<TasksEnum, GameObject>(task, this.gameObject));
-        }
     }
 
 

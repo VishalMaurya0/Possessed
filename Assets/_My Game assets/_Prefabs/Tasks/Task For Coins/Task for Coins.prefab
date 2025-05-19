@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6401980603582212760}
   - component: {fileID: 603202983287519809}
   - component: {fileID: 6429111385295827807}
+  - component: {fileID: 1100443778420215431}
   m_Layer: 10
   m_Name: Task for Coins
   m_TagString: Untagged
@@ -47,6 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed96c40a77c190c4db19574cefed399d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   IterationDiffIncrementRate: 1.333333
   GlassNoDiffiIncrementRate: 0.25
   TimeDiffiIncrementRate: 0.07142857
@@ -54,9 +56,9 @@ MonoBehaviour:
   MaxGlassNoItCanHandle: 5
   restart: 0
   positionReset: 0
-  startingIterationDifficulty: 20
-  startingGlassNoDifficulty: 5
-  startingTimeDifficulty: 0.4
+  startingIterationDifficulty: 10
+  startingGlassNoDifficulty: 1
+  startingTimeDifficulty: 1.6
   gameStarted: 0
   endTheGame: 0
   gameEndsAfetrLastIter: 1
@@ -103,6 +105,42 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
+--- !u!114 &1100443778420215431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 95645211053252873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  NetworkTransformExpanded: 0
+  AuthorityMode: 0
+  TickSyncChildren: 0
+  UseUnreliableDeltas: 0
+  SyncPositionX: 1
+  SyncPositionY: 0
+  SyncPositionZ: 1
+  SyncRotAngleX: 0
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 0
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  SwitchTransformSpaceWhenParented: 0
+  Interpolate: 1
+  SlerpPosition: 0
 --- !u!1 &206380613475557938
 GameObject:
   m_ObjectHideFlags: 0
@@ -116,6 +154,8 @@ GameObject:
   - component: {fileID: 231494216247455849}
   - component: {fileID: 6842898264690304321}
   - component: {fileID: 6769084325266981499}
+  - component: {fileID: 5948091684666368154}
+  - component: {fileID: 312710027594883943}
   m_Layer: 16
   m_Name: Cup5
   m_TagString: Untagged
@@ -226,6 +266,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27ead25f1fb0eb7439d0ad08030286fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   taskForCoins: {fileID: 0}
   coinPrefab: {fileID: 6905787541895510452, guid: 3c7d448ad8357394f879265c6a30305a, type: 3}
   newCoin: {fileID: 0}
@@ -233,13 +274,18 @@ MonoBehaviour:
   clickedMat: {fileID: 2100000, guid: 7f24a1c4cb4088a4198d9c28d807437f, type: 2}
   normalMat: {fileID: 2100000, guid: 979e22a6447bf9b44a24b2b01d34d82a, type: 2}
   renderar: {fileID: 0}
-  clickable: 1
-  getCoin: 0
-  containsCoin: 0
+  clickable:
+    m_InternalValue: 1
+  getCoin:
+    m_InternalValue: 0
+  containsCoin:
+    m_InternalValue: 0
   startTime: 1
   timeForClickedState: 0.2
-  time: 0
-  start: 0
+  time:
+    m_InternalValue: 0
+  start:
+    m_InternalValue: 0
   showCup: 0
   yCurve:
     serializedVersion: 2
@@ -284,6 +330,67 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   showingTime: 1
+--- !u!114 &5948091684666368154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 206380613475557938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  NetworkTransformExpanded: 0
+  AuthorityMode: 0
+  TickSyncChildren: 0
+  UseUnreliableDeltas: 0
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 0
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 0
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  SwitchTransformSpaceWhenParented: 0
+  Interpolate: 1
+  SlerpPosition: 0
+--- !u!114 &312710027594883943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 206380613475557938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 2147842411
+  InScenePlacedSourceGlobalObjectIdHash: 1229520170
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1 &1042379257259868235
 GameObject:
   m_ObjectHideFlags: 0
@@ -297,6 +404,8 @@ GameObject:
   - component: {fileID: 5557943447609563459}
   - component: {fileID: 8884871467133814175}
   - component: {fileID: 4188791345656067535}
+  - component: {fileID: 907373697615919146}
+  - component: {fileID: 4596063857786148607}
   m_Layer: 16
   m_Name: Cup6
   m_TagString: Untagged
@@ -407,6 +516,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27ead25f1fb0eb7439d0ad08030286fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   taskForCoins: {fileID: 0}
   coinPrefab: {fileID: 6905787541895510452, guid: 3c7d448ad8357394f879265c6a30305a, type: 3}
   newCoin: {fileID: 0}
@@ -414,13 +524,18 @@ MonoBehaviour:
   clickedMat: {fileID: 2100000, guid: 7f24a1c4cb4088a4198d9c28d807437f, type: 2}
   normalMat: {fileID: 2100000, guid: 979e22a6447bf9b44a24b2b01d34d82a, type: 2}
   renderar: {fileID: 0}
-  clickable: 1
-  getCoin: 0
-  containsCoin: 0
+  clickable:
+    m_InternalValue: 1
+  getCoin:
+    m_InternalValue: 0
+  containsCoin:
+    m_InternalValue: 0
   startTime: 1
   timeForClickedState: 0.2
-  time: 0
-  start: 0
+  time:
+    m_InternalValue: 0
+  start:
+    m_InternalValue: 0
   showCup: 0
   yCurve:
     serializedVersion: 2
@@ -465,6 +580,67 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   showingTime: 1
+--- !u!114 &907373697615919146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1042379257259868235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  NetworkTransformExpanded: 0
+  AuthorityMode: 0
+  TickSyncChildren: 0
+  UseUnreliableDeltas: 0
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 0
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 0
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  SwitchTransformSpaceWhenParented: 0
+  Interpolate: 1
+  SlerpPosition: 0
+--- !u!114 &4596063857786148607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1042379257259868235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 1679007532
+  InScenePlacedSourceGlobalObjectIdHash: 1229520170
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1 &2148789519270774740
 GameObject:
   m_ObjectHideFlags: 0
@@ -824,6 +1000,8 @@ GameObject:
   - component: {fileID: 1913397539940850097}
   - component: {fileID: 5486167579416462817}
   - component: {fileID: 4727716386193996498}
+  - component: {fileID: 8782132888590085355}
+  - component: {fileID: 7378714418807679670}
   m_Layer: 16
   m_Name: Cup7
   m_TagString: Untagged
@@ -934,6 +1112,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27ead25f1fb0eb7439d0ad08030286fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   taskForCoins: {fileID: 0}
   coinPrefab: {fileID: 6905787541895510452, guid: 3c7d448ad8357394f879265c6a30305a, type: 3}
   newCoin: {fileID: 0}
@@ -941,13 +1120,18 @@ MonoBehaviour:
   clickedMat: {fileID: 2100000, guid: 7f24a1c4cb4088a4198d9c28d807437f, type: 2}
   normalMat: {fileID: 2100000, guid: 979e22a6447bf9b44a24b2b01d34d82a, type: 2}
   renderar: {fileID: 0}
-  clickable: 1
-  getCoin: 0
-  containsCoin: 0
+  clickable:
+    m_InternalValue: 1
+  getCoin:
+    m_InternalValue: 0
+  containsCoin:
+    m_InternalValue: 0
   startTime: 1
   timeForClickedState: 0.2
-  time: 0
-  start: 0
+  time:
+    m_InternalValue: 0
+  start:
+    m_InternalValue: 0
   showCup: 0
   yCurve:
     serializedVersion: 2
@@ -992,6 +1176,67 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   showingTime: 1
+--- !u!114 &8782132888590085355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3508049663198790881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  NetworkTransformExpanded: 0
+  AuthorityMode: 0
+  TickSyncChildren: 0
+  UseUnreliableDeltas: 0
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 0
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 0
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  SwitchTransformSpaceWhenParented: 0
+  Interpolate: 1
+  SlerpPosition: 0
+--- !u!114 &7378714418807679670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3508049663198790881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 1854887776
+  InScenePlacedSourceGlobalObjectIdHash: 1229520170
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1 &3529716451004904246
 GameObject:
   m_ObjectHideFlags: 0
@@ -1005,6 +1250,8 @@ GameObject:
   - component: {fileID: 1984489186542406157}
   - component: {fileID: 3648434810427179196}
   - component: {fileID: 8394423892026746413}
+  - component: {fileID: 1894983746667848578}
+  - component: {fileID: 2430530640074607908}
   m_Layer: 16
   m_Name: Cup10
   m_TagString: Untagged
@@ -1115,6 +1362,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27ead25f1fb0eb7439d0ad08030286fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   taskForCoins: {fileID: 0}
   coinPrefab: {fileID: 6905787541895510452, guid: 3c7d448ad8357394f879265c6a30305a, type: 3}
   newCoin: {fileID: 0}
@@ -1122,13 +1370,18 @@ MonoBehaviour:
   clickedMat: {fileID: 2100000, guid: 7f24a1c4cb4088a4198d9c28d807437f, type: 2}
   normalMat: {fileID: 2100000, guid: 979e22a6447bf9b44a24b2b01d34d82a, type: 2}
   renderar: {fileID: 0}
-  clickable: 1
-  getCoin: 0
-  containsCoin: 0
+  clickable:
+    m_InternalValue: 1
+  getCoin:
+    m_InternalValue: 0
+  containsCoin:
+    m_InternalValue: 0
   startTime: 1
   timeForClickedState: 0.2
-  time: 0
-  start: 0
+  time:
+    m_InternalValue: 0
+  start:
+    m_InternalValue: 0
   showCup: 0
   yCurve:
     serializedVersion: 2
@@ -1173,6 +1426,67 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   showingTime: 1
+--- !u!114 &1894983746667848578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3529716451004904246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  NetworkTransformExpanded: 0
+  AuthorityMode: 0
+  TickSyncChildren: 0
+  UseUnreliableDeltas: 0
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 0
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 0
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  SwitchTransformSpaceWhenParented: 0
+  Interpolate: 1
+  SlerpPosition: 0
+--- !u!114 &2430530640074607908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3529716451004904246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 3987601270
+  InScenePlacedSourceGlobalObjectIdHash: 1229520170
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1 &3666105731288015217
 GameObject:
   m_ObjectHideFlags: 0
@@ -1295,6 +1609,8 @@ GameObject:
   - component: {fileID: 7038192826788218547}
   - component: {fileID: 1232251985102702382}
   - component: {fileID: 5873211358942272896}
+  - component: {fileID: 7661861332030998273}
+  - component: {fileID: 1267057756633726827}
   m_Layer: 16
   m_Name: Cup3
   m_TagString: Untagged
@@ -1405,6 +1721,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27ead25f1fb0eb7439d0ad08030286fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   taskForCoins: {fileID: 0}
   coinPrefab: {fileID: 6905787541895510452, guid: 3c7d448ad8357394f879265c6a30305a, type: 3}
   newCoin: {fileID: 0}
@@ -1412,13 +1729,18 @@ MonoBehaviour:
   clickedMat: {fileID: 2100000, guid: 7f24a1c4cb4088a4198d9c28d807437f, type: 2}
   normalMat: {fileID: 2100000, guid: 979e22a6447bf9b44a24b2b01d34d82a, type: 2}
   renderar: {fileID: 0}
-  clickable: 1
-  getCoin: 0
-  containsCoin: 0
+  clickable:
+    m_InternalValue: 1
+  getCoin:
+    m_InternalValue: 0
+  containsCoin:
+    m_InternalValue: 0
   startTime: 1
   timeForClickedState: 0.2
-  time: 0
-  start: 0
+  time:
+    m_InternalValue: 0
+  start:
+    m_InternalValue: 0
   showCup: 0
   yCurve:
     serializedVersion: 2
@@ -1463,6 +1785,67 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   showingTime: 1
+--- !u!114 &7661861332030998273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3727151983316602984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  NetworkTransformExpanded: 0
+  AuthorityMode: 0
+  TickSyncChildren: 0
+  UseUnreliableDeltas: 0
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 0
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 0
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  SwitchTransformSpaceWhenParented: 0
+  Interpolate: 1
+  SlerpPosition: 0
+--- !u!114 &1267057756633726827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3727151983316602984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 240763979
+  InScenePlacedSourceGlobalObjectIdHash: 1229520170
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1 &4088485158865323233
 GameObject:
   m_ObjectHideFlags: 0
@@ -1518,6 +1901,8 @@ GameObject:
   - component: {fileID: 1463042556321947001}
   - component: {fileID: 5953332728082220224}
   - component: {fileID: 977379185380884334}
+  - component: {fileID: 2242910440416866108}
+  - component: {fileID: 8895544116812060321}
   m_Layer: 16
   m_Name: Cup1
   m_TagString: Untagged
@@ -1628,6 +2013,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27ead25f1fb0eb7439d0ad08030286fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   taskForCoins: {fileID: 0}
   coinPrefab: {fileID: 6905787541895510452, guid: 3c7d448ad8357394f879265c6a30305a, type: 3}
   newCoin: {fileID: 0}
@@ -1635,13 +2021,18 @@ MonoBehaviour:
   clickedMat: {fileID: 2100000, guid: 7f24a1c4cb4088a4198d9c28d807437f, type: 2}
   normalMat: {fileID: 2100000, guid: 979e22a6447bf9b44a24b2b01d34d82a, type: 2}
   renderar: {fileID: 0}
-  clickable: 1
-  getCoin: 0
-  containsCoin: 0
+  clickable:
+    m_InternalValue: 1
+  getCoin:
+    m_InternalValue: 0
+  containsCoin:
+    m_InternalValue: 0
   startTime: 1
   timeForClickedState: 0.2
-  time: 0
-  start: 0
+  time:
+    m_InternalValue: 0
+  start:
+    m_InternalValue: 0
   showCup: 0
   yCurve:
     serializedVersion: 2
@@ -1686,6 +2077,67 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   showingTime: 1
+--- !u!114 &2242910440416866108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4259514927472353059}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  NetworkTransformExpanded: 0
+  AuthorityMode: 0
+  TickSyncChildren: 0
+  UseUnreliableDeltas: 0
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 0
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 0
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  SwitchTransformSpaceWhenParented: 0
+  Interpolate: 1
+  SlerpPosition: 0
+--- !u!114 &8895544116812060321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4259514927472353059}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 3716598567
+  InScenePlacedSourceGlobalObjectIdHash: 1229520170
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1 &4735224533545088667
 GameObject:
   m_ObjectHideFlags: 0
@@ -2279,6 +2731,8 @@ GameObject:
   - component: {fileID: 5320441353947958921}
   - component: {fileID: 3051438573839939626}
   - component: {fileID: 5656908331175958264}
+  - component: {fileID: 1192741148469892950}
+  - component: {fileID: 7787535924986395418}
   m_Layer: 16
   m_Name: Cup0
   m_TagString: Untagged
@@ -2389,6 +2843,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27ead25f1fb0eb7439d0ad08030286fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   taskForCoins: {fileID: 0}
   coinPrefab: {fileID: 6905787541895510452, guid: 3c7d448ad8357394f879265c6a30305a, type: 3}
   newCoin: {fileID: 0}
@@ -2396,13 +2851,18 @@ MonoBehaviour:
   clickedMat: {fileID: 2100000, guid: 7f24a1c4cb4088a4198d9c28d807437f, type: 2}
   normalMat: {fileID: 2100000, guid: 979e22a6447bf9b44a24b2b01d34d82a, type: 2}
   renderar: {fileID: 0}
-  clickable: 1
-  getCoin: 0
-  containsCoin: 0
+  clickable:
+    m_InternalValue: 1
+  getCoin:
+    m_InternalValue: 0
+  containsCoin:
+    m_InternalValue: 0
   startTime: 1
   timeForClickedState: 0.2
-  time: 0
-  start: 0
+  time:
+    m_InternalValue: 0
+  start:
+    m_InternalValue: 0
   showCup: 0
   yCurve:
     serializedVersion: 2
@@ -2447,6 +2907,67 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   showingTime: 1
+--- !u!114 &1192741148469892950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5844670226776262250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  NetworkTransformExpanded: 0
+  AuthorityMode: 0
+  TickSyncChildren: 0
+  UseUnreliableDeltas: 0
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 0
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 0
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  SwitchTransformSpaceWhenParented: 0
+  Interpolate: 1
+  SlerpPosition: 0
+--- !u!114 &7787535924986395418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5844670226776262250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 3084003786
+  InScenePlacedSourceGlobalObjectIdHash: 1229520170
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1 &6208181011874520845
 GameObject:
   m_ObjectHideFlags: 0
@@ -2531,6 +3052,8 @@ GameObject:
   - component: {fileID: 1439255495717689837}
   - component: {fileID: 5911564819460218335}
   - component: {fileID: 3685663068380134384}
+  - component: {fileID: 5701899960519183207}
+  - component: {fileID: 7048909335230025671}
   m_Layer: 16
   m_Name: Cup4
   m_TagString: Untagged
@@ -2641,6 +3164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27ead25f1fb0eb7439d0ad08030286fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   taskForCoins: {fileID: 0}
   coinPrefab: {fileID: 6905787541895510452, guid: 3c7d448ad8357394f879265c6a30305a, type: 3}
   newCoin: {fileID: 0}
@@ -2648,13 +3172,18 @@ MonoBehaviour:
   clickedMat: {fileID: 2100000, guid: 7f24a1c4cb4088a4198d9c28d807437f, type: 2}
   normalMat: {fileID: 2100000, guid: 979e22a6447bf9b44a24b2b01d34d82a, type: 2}
   renderar: {fileID: 0}
-  clickable: 1
-  getCoin: 0
-  containsCoin: 0
+  clickable:
+    m_InternalValue: 1
+  getCoin:
+    m_InternalValue: 0
+  containsCoin:
+    m_InternalValue: 0
   startTime: 1
   timeForClickedState: 0.2
-  time: 0
-  start: 0
+  time:
+    m_InternalValue: 0
+  start:
+    m_InternalValue: 0
   showCup: 0
   yCurve:
     serializedVersion: 2
@@ -2699,6 +3228,67 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   showingTime: 1
+--- !u!114 &5701899960519183207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6591114060174836583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  NetworkTransformExpanded: 0
+  AuthorityMode: 0
+  TickSyncChildren: 0
+  UseUnreliableDeltas: 0
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 0
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 0
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  SwitchTransformSpaceWhenParented: 0
+  Interpolate: 1
+  SlerpPosition: 0
+--- !u!114 &7048909335230025671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6591114060174836583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 4118339338
+  InScenePlacedSourceGlobalObjectIdHash: 1229520170
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1 &7301739980607959813
 GameObject:
   m_ObjectHideFlags: 0
@@ -2712,6 +3302,8 @@ GameObject:
   - component: {fileID: 5595838799255306758}
   - component: {fileID: 5294109983057502119}
   - component: {fileID: 7176105732942167650}
+  - component: {fileID: 5190559865521571424}
+  - component: {fileID: 7667106984169949398}
   m_Layer: 16
   m_Name: Cup9
   m_TagString: Untagged
@@ -2822,6 +3414,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27ead25f1fb0eb7439d0ad08030286fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   taskForCoins: {fileID: 0}
   coinPrefab: {fileID: 6905787541895510452, guid: 3c7d448ad8357394f879265c6a30305a, type: 3}
   newCoin: {fileID: 0}
@@ -2829,13 +3422,18 @@ MonoBehaviour:
   clickedMat: {fileID: 2100000, guid: 7f24a1c4cb4088a4198d9c28d807437f, type: 2}
   normalMat: {fileID: 2100000, guid: 979e22a6447bf9b44a24b2b01d34d82a, type: 2}
   renderar: {fileID: 0}
-  clickable: 1
-  getCoin: 0
-  containsCoin: 0
+  clickable:
+    m_InternalValue: 1
+  getCoin:
+    m_InternalValue: 0
+  containsCoin:
+    m_InternalValue: 0
   startTime: 1
   timeForClickedState: 0.2
-  time: 0
-  start: 0
+  time:
+    m_InternalValue: 0
+  start:
+    m_InternalValue: 0
   showCup: 0
   yCurve:
     serializedVersion: 2
@@ -2880,6 +3478,67 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   showingTime: 1
+--- !u!114 &5190559865521571424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7301739980607959813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  NetworkTransformExpanded: 0
+  AuthorityMode: 0
+  TickSyncChildren: 0
+  UseUnreliableDeltas: 0
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 0
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 0
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  SwitchTransformSpaceWhenParented: 0
+  Interpolate: 1
+  SlerpPosition: 0
+--- !u!114 &7667106984169949398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7301739980607959813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 3109266444
+  InScenePlacedSourceGlobalObjectIdHash: 1229520170
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1 &8059354530580584745
 GameObject:
   m_ObjectHideFlags: 0
@@ -2893,6 +3552,8 @@ GameObject:
   - component: {fileID: 6959381747694589424}
   - component: {fileID: 6584209742709190274}
   - component: {fileID: 2130166763995859702}
+  - component: {fileID: 195255872205147175}
+  - component: {fileID: 3604610618404072110}
   m_Layer: 16
   m_Name: Cup8
   m_TagString: Untagged
@@ -3003,6 +3664,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27ead25f1fb0eb7439d0ad08030286fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   taskForCoins: {fileID: 0}
   coinPrefab: {fileID: 6905787541895510452, guid: 3c7d448ad8357394f879265c6a30305a, type: 3}
   newCoin: {fileID: 0}
@@ -3010,13 +3672,18 @@ MonoBehaviour:
   clickedMat: {fileID: 2100000, guid: 7f24a1c4cb4088a4198d9c28d807437f, type: 2}
   normalMat: {fileID: 2100000, guid: 979e22a6447bf9b44a24b2b01d34d82a, type: 2}
   renderar: {fileID: 0}
-  clickable: 1
-  getCoin: 0
-  containsCoin: 0
+  clickable:
+    m_InternalValue: 1
+  getCoin:
+    m_InternalValue: 0
+  containsCoin:
+    m_InternalValue: 0
   startTime: 1
   timeForClickedState: 0.2
-  time: 0
-  start: 0
+  time:
+    m_InternalValue: 0
+  start:
+    m_InternalValue: 0
   showCup: 0
   yCurve:
     serializedVersion: 2
@@ -3061,6 +3728,67 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   showingTime: 1
+--- !u!114 &195255872205147175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8059354530580584745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  NetworkTransformExpanded: 0
+  AuthorityMode: 0
+  TickSyncChildren: 0
+  UseUnreliableDeltas: 0
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 0
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 0
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  SwitchTransformSpaceWhenParented: 0
+  Interpolate: 1
+  SlerpPosition: 0
+--- !u!114 &3604610618404072110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8059354530580584745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 4045348059
+  InScenePlacedSourceGlobalObjectIdHash: 1229520170
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1 &8225670235451556799
 GameObject:
   m_ObjectHideFlags: 0
@@ -3074,6 +3802,8 @@ GameObject:
   - component: {fileID: 3316136432906178811}
   - component: {fileID: 5652910991485930455}
   - component: {fileID: 3327798893793081088}
+  - component: {fileID: 4792752937183618564}
+  - component: {fileID: 6667967621582071575}
   m_Layer: 16
   m_Name: Cup2
   m_TagString: Untagged
@@ -3184,6 +3914,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27ead25f1fb0eb7439d0ad08030286fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   taskForCoins: {fileID: 0}
   coinPrefab: {fileID: 6905787541895510452, guid: 3c7d448ad8357394f879265c6a30305a, type: 3}
   newCoin: {fileID: 0}
@@ -3191,13 +3922,18 @@ MonoBehaviour:
   clickedMat: {fileID: 2100000, guid: 7f24a1c4cb4088a4198d9c28d807437f, type: 2}
   normalMat: {fileID: 2100000, guid: 979e22a6447bf9b44a24b2b01d34d82a, type: 2}
   renderar: {fileID: 0}
-  clickable: 1
-  getCoin: 0
-  containsCoin: 0
+  clickable:
+    m_InternalValue: 1
+  getCoin:
+    m_InternalValue: 0
+  containsCoin:
+    m_InternalValue: 0
   startTime: 1
   timeForClickedState: 0.2
-  time: 0
-  start: 0
+  time:
+    m_InternalValue: 0
+  start:
+    m_InternalValue: 0
   showCup: 0
   yCurve:
     serializedVersion: 2
@@ -3242,6 +3978,67 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   showingTime: 1
+--- !u!114 &4792752937183618564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8225670235451556799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  NetworkTransformExpanded: 0
+  AuthorityMode: 0
+  TickSyncChildren: 0
+  UseUnreliableDeltas: 0
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 0
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 0
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  SwitchTransformSpaceWhenParented: 0
+  Interpolate: 1
+  SlerpPosition: 0
+--- !u!114 &6667967621582071575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8225670235451556799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 1779308606
+  InScenePlacedSourceGlobalObjectIdHash: 1229520170
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1 &8366142521572018326
 GameObject:
   m_ObjectHideFlags: 0

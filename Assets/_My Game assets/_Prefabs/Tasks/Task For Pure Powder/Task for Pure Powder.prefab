@@ -177,12 +177,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccc864a74a15ac94da7d28960cc454bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   totalIteration: 10
   iterationLeft: 10
   currentIteration: 1
   colorCodes: []
   currentColourCode: []
-  gameSatrted: 0
+  gameSatrted:
+    m_InternalValue: 0
   colourToShow: 0
   currentColour: 0
   timeForShowing1Color: 1

@@ -11,6 +11,7 @@ public class GenerateMap : NetworkBehaviour
     public MapVisualTemp mapVisualTemp;
     public MapVisual mapVisual;
     public ProceduralMapDataSO proceduralMapDataSO;
+    public TaskManager taskManager; 
 
 
     [Header("Inputs")]
@@ -147,7 +148,6 @@ public class GenerateMap : NetworkBehaviour
         }
         GameManager.Instance.bakeNavMeshAgain = true;
     }
-
     private void CentreGeneration()
     {
         int centerRow = grid.length / grid.cellLength / 2;
@@ -894,9 +894,11 @@ public class GenerateMap : NetworkBehaviour
         GenerateCornerProps();
         GenerateWallSideProps();
         GenerateWindowSideProps();
-        //TODO : Spawn tasks //
+        SpawnTasks();
         GenerateRoomCenterProps();
     }
+
+
 
 
     private void GenerateCornerProps()
@@ -1081,6 +1083,101 @@ public class GenerateMap : NetworkBehaviour
             }
         }
     }
+    private void SpawnTasks()
+    {
+        TaskManager taskManager = GameManager.Instance.taskManager;
+        if (taskManager == null)
+        {
+            taskManager = this.taskManager;
+        }
+
+        //========= All Tasks ==========//
+        List<TaskEntry> leftTasks = new();
+        foreach (TaskEntry task in taskManager.AllTasks)
+        {
+            leftTasks.Add(task);
+        }
+
+        //========= All Rooms =========//
+        List<Room> allRooms = new(rooms);
+
+
+        //======== assign Procedure ========//
+        int totalTries = 5000, tries = 0;
+        while (leftTasks.Count > 0 && tries < totalTries)
+        {
+            tries++;
+            TaskEntry taskToPlace = leftTasks[0];
+            Room room = allRooms[Random.Range(0, allRooms.Count)];
+            if (room.Procedures.Count > 0)
+                continue;
+
+            int x = Random.Range((int)room.start.x, (int)room.start.x + room.length);
+            int y = Random.Range((int)room.start.y, (int)room.start.y + room.width);
+            MapCell cell = mapCells[x, y];
+
+            if (cell.spaceOccupied)
+            {
+                continue;
+            }
+
+            bool anyNeighborOccupied = false;
+            foreach (var adj in cell.adjCell)
+            {
+                if (adj.spaceOccupied || !adj.inRoom)
+                {
+                    anyNeighborOccupied = true;
+                    break;
+                }
+            }
+            if (anyNeighborOccupied)
+            {
+                continue;
+            }
+
+            // Success!
+
+            float[] yAngles = { 0f, 90f, 180f, -90f };
+
+
+            cell.task = taskToPlace;
+            room.Tasks.Add(taskToPlace);
+            leftTasks.RemoveAt(0);
+            cell.spaceOccupied = true;
+
+            taskToPlace.taskPrefab.transform.position = cell.position;
+            taskToPlace.taskPrefab.transform.rotation = Quaternion.Euler(0f, yAngles[Random.Range(0, yAngles.Length)], 0f);
+
+            //// 1) Instantiate your root prefab (with children already parented in prefab)
+            //GameObject obj = Instantiate(
+            //    taskToPlace.taskPrefab,
+            //    cell.position,
+            //    Quaternion.Euler(0f, yAngles[Random.Range(0, yAngles.Length)], 0f)
+            //);
+
+            //// 2) Spawn the root (now it's a network object)
+            //var rootNetObj = obj.GetComponent<NetworkObject>();
+            //rootNetObj.Spawn();
+
+            //// 3) Now handle each nested NetworkObject
+            //foreach (var childNetObj in rootNetObj.GetComponentsInChildren<NetworkObject>())
+            //{
+            //    if (childNetObj == rootNetObj)
+            //        continue;
+
+            //    // 4) Spawn the child
+            //    childNetObj.Spawn(destroyWithScene: true);
+
+            //    // 5) Parent it under the root via TrySetParent
+            //    //    (transform parenting is blocked; this is the Netcode-approved way)
+            //    childNetObj.TrySetParent(rootNetObj, worldPositionStays: true);
+            //}
+
+
+        }
+    }
+    
+
     private void GenerateRoomCenterProps()
     {
         for(int i = 0; i < rooms.Count; i++)
@@ -1273,6 +1370,8 @@ public class MapCell
 
     public Type prop;
 
+    public TaskEntry task;
+
     public bool spawnNoProcedures;
     public bool spaceOccupied;
 
@@ -1376,13 +1475,15 @@ public class Room
     [System.NonSerialized] public MapCell[] topCells;
     [System.NonSerialized] public MapCell[] leftCells;
     [System.NonSerialized] public MapCell[] bottomCells;
+    [System.NonSerialized] public MapCell[] AllCells;
     [System.NonSerialized] public List<MapCell[]> BoundaryCells = new();
 
 
     [System.NonSerialized] public MapCell[] cornercells = new MapCell[4];
 
 
-    public List<ProcedureLocation> Procedures = new List<ProcedureLocation>();
+    public List<ProcedureLocation> Procedures = new();
+    public List<TaskEntry> Tasks = new();
 
 
     public Room(Vector2 start, int length, int width, MapCell gateCell, int gateDir, GenerateMap generateMap)
@@ -1396,6 +1497,7 @@ public class Room
         topCells = new MapCell[length];
         leftCells = new MapCell[width];
         bottomCells = new MapCell[length];
+        AllCells = new MapCell[length * width];
 
         InitializeCells(generateMap);
 
@@ -1430,6 +1532,15 @@ public class Room
             topCells[i] = generateMap.mapCells[(int)start.x + i, (int)start.y + width - 1];
             bottomCells[i] = generateMap.mapCells[(int)start.x + i, (int)start.y];
         }
+
+        //for (int i = (int)start.x; i < (int)start.x + length; i++)
+        //{
+        //    for (int j = (int)start.y; j < (int)start.y + width; j++)
+        //    {
+        //        MapCell cell = generateMap.mapCells[i, j];
+        //        AllCells[(i * j) + j] = cell;
+        //    }
+        //}
 
         BoundaryCells.Add(rightCells);
         BoundaryCells.Add(topCells);

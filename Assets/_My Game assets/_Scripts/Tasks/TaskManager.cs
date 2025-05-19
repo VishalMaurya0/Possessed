@@ -1,9 +1,11 @@
+using System;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class TaskManager : MonoBehaviour
+public class TaskManager : NetworkBehaviour
 {
-    public List<KeyValuePair<TasksEnum, GameObject>> TasksGameobjcts = new ();
+    [SerializeField] public List<TaskEntry> AllTasks = new ();
 
     private void Update()
     {
@@ -21,4 +23,13 @@ public enum TasksEnum
     CursedCoinTask,
     PurePowderTask,
     CandleTask,
+}
+
+
+
+[Serializable]
+public class TaskEntry
+{
+    public TasksEnum taskType;
+    public GameObject taskPrefab;
 }
