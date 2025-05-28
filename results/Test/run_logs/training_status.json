@@ -1,0 +1,30 @@
+{
+    "Pilpilu": {
+        "elo": 1200.0,
+        "checkpoints": [
+            {
+                "steps": 1920,
+                "file_path": "results\\Test\\Pilpilu\\Pilpilu-1920.onnx",
+                "reward": null,
+                "creation_time": 1748109700.349081,
+                "auxillary_file_paths": [
+                    "results\\Test\\Pilpilu\\Pilpilu-1920.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 1920,
+            "file_path": "results\\Test\\Pilpilu.onnx",
+            "reward": null,
+            "creation_time": 1748109700.349081,
+            "auxillary_file_paths": [
+                "results\\Test\\Pilpilu\\Pilpilu-1920.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.30.0",
+        "torch_version": "1.13.1+cpu"
+    }
+}

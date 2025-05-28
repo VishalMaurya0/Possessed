@@ -1,0 +1,66 @@
+{
+    "Pilpilu": {
+        "checkpoints": [
+            {
+                "steps": 3249968,
+                "file_path": "results\\WalkTowardPlayer\\Pilpilu\\Pilpilu-3249968.onnx",
+                "reward": 277.6821971708728,
+                "creation_time": 1748370726.4006317,
+                "auxillary_file_paths": [
+                    "results\\WalkTowardPlayer\\Pilpilu\\Pilpilu-3249968.pt"
+                ]
+            },
+            {
+                "steps": 3299984,
+                "file_path": "results\\WalkTowardPlayer\\Pilpilu\\Pilpilu-3299984.onnx",
+                "reward": 224.1774655431509,
+                "creation_time": 1748370948.6557806,
+                "auxillary_file_paths": [
+                    "results\\WalkTowardPlayer\\Pilpilu\\Pilpilu-3299984.pt"
+                ]
+            },
+            {
+                "steps": 3349585,
+                "file_path": "results\\WalkTowardPlayer\\Pilpilu\\Pilpilu-3349585.onnx",
+                "reward": 233.01612834369436,
+                "creation_time": 1748371240.1557965,
+                "auxillary_file_paths": [
+                    "results\\WalkTowardPlayer\\Pilpilu\\Pilpilu-3349585.pt"
+                ]
+            },
+            {
+                "steps": 3349985,
+                "file_path": "results\\WalkTowardPlayer\\Pilpilu\\Pilpilu-3349985.onnx",
+                "reward": 106.76144027709961,
+                "creation_time": 1748400533.238178,
+                "auxillary_file_paths": [
+                    "results\\WalkTowardPlayer\\Pilpilu\\Pilpilu-3349985.pt"
+                ]
+            },
+            {
+                "steps": 3380713,
+                "file_path": "results\\WalkTowardPlayer\\Pilpilu\\Pilpilu-3380713.onnx",
+                "reward": 291.84487393574835,
+                "creation_time": 1748400853.1822064,
+                "auxillary_file_paths": [
+                    "results\\WalkTowardPlayer\\Pilpilu\\Pilpilu-3380713.pt"
+                ]
+            }
+        ],
+        "elo": 1200.078934161407,
+        "final_checkpoint": {
+            "steps": 3380713,
+            "file_path": "results\\WalkTowardPlayer\\Pilpilu.onnx",
+            "reward": 291.84487393574835,
+            "creation_time": 1748400853.1822064,
+            "auxillary_file_paths": [
+                "results\\WalkTowardPlayer\\Pilpilu\\Pilpilu-3380713.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.30.0",
+        "torch_version": "2.7.0+cu118"
+    }
+}

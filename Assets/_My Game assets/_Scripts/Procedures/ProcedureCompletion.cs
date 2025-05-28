@@ -7,8 +7,9 @@ public class ProcedureCompletion : ProcedureBase
 {
     [Header("References")]
     ProcedureBase procedureBase;
-    public ProcedureData procedureData;
+    public ProcedureDataSO procedureData;
     public GameObject procedurePrefab;
+    public triggerProcedurePointScript triggerScript;
 
     [Header("Procedure Specific Variables")]
     public TotalItemsNeeded totalItemsNeeded = new();
@@ -36,7 +37,7 @@ public class ProcedureCompletion : ProcedureBase
 
     void Start()
     {
-        Debug.Log("Initializing procedure...");
+        //Debug.Log("Initializing procedure...");
         for (int i = 0; i < procedureData.itemsNeeded.Count; i++)
         {
             totalItemsNeeded.itemNeeded.Add(procedureData.itemsNeeded[i]); // Copying itemsNeeded
@@ -44,7 +45,7 @@ public class ProcedureCompletion : ProcedureBase
         }
 
         totalItems = totalItemsNeeded.itemNeeded.Count;
-        Debug.Log($"Total items needed: {totalItems}");
+        //Debug.Log($"Total items needed: {totalItems}");
 
         procedureBase = GameManager.Instance.procedureBase;
         GameManager.Instance.AllProcedures.Add(this);
@@ -53,7 +54,7 @@ public class ProcedureCompletion : ProcedureBase
         {
             procedureBase.allProcedures[procedureData.procedureIndex] = this;
             procedureBase.position[procedureData.procedureIndex] = transform.position;
-            Debug.Log($"Procedure registered at index {procedureData.procedureIndex}");
+            //Debug.Log($"Procedure registered at index {procedureData.procedureIndex}");
         }
 
         InitializeVisuals();
@@ -93,16 +94,19 @@ public class ProcedureCompletion : ProcedureBase
             }
         }
 
-        var triggerScript = GetComponentInChildren<triggerProcedurePointScript>();
         if (triggerScript == null)
         {
-            Debug.LogWarning("triggerProcedurePointScript is missing!");
-            return;
+            triggerScript = GetComponentInChildren<triggerProcedurePointScript>();
+            if (triggerScript == null)
+            {
+                Debug.LogWarning("triggerProcedurePointScript is missing!");
+                return;
+            }
         }
 
         if (triggerScript.inProgress && Input.GetMouseButtonDown(0) && timer.Value <= 0)
         {
-            Debug.Log("Input detected. Checking inventory...");
+            //Debug.Log("Input detected. Checking inventory...");
 
             if (GameManager.Instance.ownerPlayer == null)
             {
@@ -124,13 +128,13 @@ public class ProcedureCompletion : ProcedureBase
                 return;
             }
 
-            Debug.Log($"Selected item: {selectedInventorySlot.itemData.itemType}");
+            //Debug.Log($"Selected item: {selectedInventorySlot.itemData.itemType}");
 
             for (int i = 0; i < totalItems; i++)
             {
                 if (totalItemsNeeded.itemNeeded[i].orderId == currentOrder.Value)
                 {
-                    Debug.Log($"Checking item match for order {currentOrder.Value}...");
+                    //Debug.Log($"Checking item match for order {currentOrder.Value}...");
                     CheckIfItemMatchedWithInventorySlot(totalItemsNeeded.itemNeeded[i], selectedInventorySlot.itemData, inventory, i);
                     CheckOrderCompletionServerRpc();
                 }
@@ -148,35 +152,35 @@ public class ProcedureCompletion : ProcedureBase
     [ServerRpc(RequireOwnership = false)]
     private void CheckOrderCompletionServerRpc()
     {
-        Debug.Log($"Checking if order {currentOrder.Value} is complete...");
+        //Debug.Log($"Checking if order {currentOrder.Value} is complete...");
         for (int i = 0; i < totalItems; i++)
         {
             if (totalItemsNeeded.itemNeeded[i].orderId == currentOrder.Value)
             {
-                Debug.Log($"Item {i}: required = {totalItemsNeeded.itemNeeded[i].requiredAmount}, added = {totalItemsNeeded.addedAmount[i]}");
+                //Debug.Log($"Item {i}: required = {totalItemsNeeded.itemNeeded[i].requiredAmount}, added = {totalItemsNeeded.addedAmount[i]}");
 
                 if (totalItemsNeeded.itemNeeded[i].requiredAmount != totalItemsNeeded.addedAmount[i])
                 {
-                    Debug.Log($"Order {currentOrder.Value} is not complete yet.");
+                    //Debug.Log($"Order {currentOrder.Value} is not complete yet.");
                     return;
                 }
             }
         }
 
         currentOrder.Value++;
-        Debug.Log($"Order {currentOrder.Value - 1} completed. Moving to order {currentOrder.Value}.");
+        //Debug.Log($"Order {currentOrder.Value - 1} completed. Moving to order {currentOrder.Value}.");
 
         if (totalItemsNeeded.itemNeeded[totalItems - 1].orderId < currentOrder.Value)
         {
             isCompleted.Value = true;
             GameManager.Instance.completedProcedures.Add(procedureData.procedureIndex);
-            Debug.Log("All orders completed!");
+            //Debug.Log("All orders completed!");
         }
     }
 
     private void CheckIfItemMatchedWithInventorySlot(ItemNeeded itemToCheckAndAdd, ItemData itemDataInInventory, Inventory inventory, int i)
     {
-        Debug.Log($"Matching item: {itemDataInInventory?.itemType} with required item: {itemToCheckAndAdd?.ItemType}");
+        //Debug.Log($"Matching item: {itemDataInInventory?.itemType} with required item: {itemToCheckAndAdd?.ItemType}");
 
         if (itemToCheckAndAdd.ItemType == itemDataInInventory?.itemType)
         {
@@ -185,7 +189,7 @@ public class ProcedureCompletion : ProcedureBase
 
             if (!isContainer)
             {
-                Debug.Log($"Non-container item detected: {itemDataInInventory.itemType}");
+                //Debug.Log($"Non-container item detected: {itemDataInInventory.itemType}");
                 if (itemToCheckAndAdd.currentState == itemDataInInventory.currentState)
                 {
                     if (totalItemsNeeded.addedAmount[i] < totalItemsNeeded.itemNeeded[i].requiredAmount)
@@ -196,7 +200,7 @@ public class ProcedureCompletion : ProcedureBase
             }
             else if (isContainer && itemDataInInventory.currentState != itemDataSO.noOfStates - 1)
             {
-                Debug.Log($"Container item detected: {itemDataInInventory.itemType}");
+                //Debug.Log($"Container item detected: {itemDataInInventory.itemType}");
                 if (totalItemsNeeded.addedAmount[i] < totalItemsNeeded.itemNeeded[i].requiredAmount)
                 {
                     AddContainerItem(inventory, itemDataInInventory, i);
@@ -208,22 +212,22 @@ public class ProcedureCompletion : ProcedureBase
 
     private void AddContainerItem(Inventory inventory, ItemData itemDataInInventory, int i)
     {
-        Debug.Log($"Adding container item: {itemDataInInventory.itemType}, State: {itemDataInInventory.currentState}");
+        //Debug.Log($"Adding container item: {itemDataInInventory.itemType}, State: {itemDataInInventory.currentState}");
         inventory.ChangeStateOfItemServerRpc(inventory.inventorySlots.IndexOf(inventory.selectedInventorySlot), 1);
         
         AddAmountInProcedureServerRpc(i);
-        Debug.Log($"Added amount: {totalItemsNeeded.addedAmount[i]} / {totalItemsNeeded.itemNeeded[i].requiredAmount}");
+        //Debug.Log($"Added amount: {totalItemsNeeded.addedAmount[i]} / {totalItemsNeeded.itemNeeded[i].requiredAmount}");
     }
 
     
 
     private void AddNonContainerItem(ItemData itemDataInInventory, Inventory inventory, int i)
     {
-        Debug.Log($"Adding non-container item: {itemDataInInventory.itemType}, State: {itemDataInInventory.currentState}");
+        //Debug.Log($"Adding non-container item: {itemDataInInventory.itemType}, State: {itemDataInInventory.currentState}");
         inventory.RemoveSelectedItemServerRpc(false);
 
         AddAmountInProcedureServerRpc(i);
-        Debug.Log($"Added amount: {totalItemsNeeded.addedAmount[i]} / {totalItemsNeeded.itemNeeded[i].requiredAmount}");
+        //Debug.Log($"Added amount: {totalItemsNeeded.addedAmount[i]} / {totalItemsNeeded.itemNeeded[i].requiredAmount}");
     }
 
     [ServerRpc(RequireOwnership = false)]

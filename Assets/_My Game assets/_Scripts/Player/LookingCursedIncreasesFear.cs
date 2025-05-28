@@ -46,6 +46,10 @@ public class LookingCursedIncreasesFear : MonoBehaviour
         {
             MyStart();
         }
+        if (fearMeter == null)
+            fearMeter = GetComponent<FearMeter>();
+
+
         if (CheckGhostVisibility())
         {
             fearMeter.isLookingGhost = true;
@@ -67,6 +71,8 @@ public class LookingCursedIncreasesFear : MonoBehaviour
 
     public bool CheckGhostVisibility()
     {
+        if (ghostAI == null)
+            return false;
         Plane[] cameraFrustum = GeometryUtility.CalculateFrustumPlanes(playerCamera);
         Collider ghostCollider = ghostAI.GetComponent<Collider>();
 

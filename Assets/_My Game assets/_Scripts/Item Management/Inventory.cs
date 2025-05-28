@@ -110,10 +110,10 @@ public class Inventory : NetworkBehaviour
         
         if (weight.Value + itemDataSO.weight >= maxWeight)
         {
-            Debug.Log("Connot hold this much Weight");
+            Debug.LogError("Connot hold this much Weight");
             return itemData.amount;
         }
-        Debug.Log($"Trying to add {itemData.amount} items");
+        //Debug.Log($"Trying to add {itemData.amount} items");
         //---------------------------------IF ALREADY AVAILABLE FILL THE SLOT-------------------------------//
 
         if (itemDataSO.isStackable)
@@ -141,7 +141,7 @@ public class Inventory : NetworkBehaviour
                             }
                             if (weight.Value + itemDataSO.weight >= maxWeight)
                             {
-                                Debug.Log("Connot hold this much Weight");
+                                Debug.LogError("Connot hold this much Weight");
                                 return itemData.amount;
                             }
                         }
@@ -154,12 +154,12 @@ public class Inventory : NetworkBehaviour
 
         if (slots.Value + itemDataSO.inventorySlots > maxSlots)
         {
-            Debug.Log("{itemData.itemName} is too big throw some items to collect this");
+            //Debug.Log("{itemData.itemName} is too big throw some items to collect this");
             return itemData.amount;
         }
         if (weight.Value + itemDataSO.weight > maxWeight)
         {
-            Debug.Log("Connot hold this much Weight");
+            Debug.LogError("Connot hold this much Weight");
             return itemData.amount;
         }
 
@@ -172,17 +172,17 @@ public class Inventory : NetworkBehaviour
             {
                 if (slots.Value + itemDataSO.inventorySlots > maxSlots)
                 {
-                    Debug.Log($"{itemDataSO.name} is too big throw some items to collect this");
+                    //Debug.Log($"{itemDataSO.name} is too big throw some items to collect this");
                     return itemData.amount;
                 }
                 if (weight.Value + itemDataSO.weight > maxWeight)
                 {
-                    Debug.Log("Connot hold this much Weight");
+                    //Debug.Log("Connot hold this much Weight");
                     return itemData.amount;
                 }
 
 
-                Debug.Log($"Add new : {itemData.amount} amount of {itemData.itemType}");
+                //Debug.Log($"Add new : {itemData.amount} amount of {itemData.itemType}");
                 slot.itemData = new ItemData(itemDataSO, 1, itemData.currentState);
                 slot.quantity = 1;
                 weight.Value += itemDataSO.weight;
@@ -196,7 +196,7 @@ public class Inventory : NetworkBehaviour
                 {
                     if (weight.Value + itemDataSO.weight >= maxWeight)
                     {
-                        Debug.Log("Connot hold this much Weight");
+                        Debug.LogError("Connot hold this much Weight");
                         return itemData.amount;
                     }
 
@@ -204,7 +204,7 @@ public class Inventory : NetworkBehaviour
                     SelectInventorySlot(slotNo.Value, false);
                     weight.Value += itemDataSO.weight;
                     itemData.amount--;
-                    Debug.Log(itemData.amount);
+                    //Debug.Log(itemData.amount);
 
                     if (itemData.amount <= 0)
                     {
@@ -220,7 +220,7 @@ public class Inventory : NetworkBehaviour
 
 
 
-        Debug.Log("Inventory is full!");
+        //Debug.Log("Inventory is full!");
         return itemData.amount;
     }
 
@@ -299,7 +299,7 @@ public class Inventory : NetworkBehaviour
     {
         if (inventorySlots[slotNo].itemData == null)
         {
-            Debug.Log("No item.");
+            //Debug.Log("No item.");
             return;
         }
         if (inventorySlots[slotNo].quantity < quantity) { return; }
@@ -323,18 +323,18 @@ public class Inventory : NetworkBehaviour
     {
         if (inventorySlots[slotNumber].itemData == null)
         {
-            Debug.Log($"Slot {slotNumber} has no itemData. Exiting function.");
+            //Debug.Log($"Slot {slotNumber} has no itemData. Exiting function.");
             return;
         }
 
-        Debug.Log($"Changing state of item in slot {slotNumber} by {changeInState}.");
+        //Debug.Log($"Changing state of item in slot {slotNumber} by {changeInState}.");
 
         ItemDataSO itemDataSO = ScriptableObjectFinder.FindItemSO(inventorySlots[slotNumber].itemData);
         InventorySlot slot = inventorySlots[slotNumber];
         int totalAmountInItem = itemDataSO.noOfStates - 1;
         int currentState = slot.itemData.currentState;
 
-        Debug.Log($"Total states in item: {totalAmountInItem}, Current state: {currentState}, Slot quantity: {slot.quantity}.");
+        //Debug.Log($"Total states in item: {totalAmountInItem}, Current state: {currentState}, Slot quantity: {slot.quantity}.");
 
         // Validate changeInState
         if (changeInState < 0 || changeInState > slot.quantity * totalAmountInItem)
@@ -352,14 +352,14 @@ public class Inventory : NetworkBehaviour
 
         //if (slot.quantity > 1)
         //{
-        Debug.Log($"Slot contains multiple items ({slot.quantity}). Computing state changes.");
+        //Debug.Log($"Slot contains multiple items ({slot.quantity}). Computing state changes.");
         int change = changeInState;
         int noOfEmptyItems = change / (totalAmountInItem - currentState);
         int changeOnFinal = change - (noOfEmptyItems) * (totalAmountInItem - currentState);
         int noOfChangingItems = changeOnFinal > 0 ? 1 : 0;
         int noOfUnchangedItems = Mathf.Max(0, slot.quantity - noOfEmptyItems - noOfChangingItems);
 
-        Debug.Log($"Change: {change}, Empty items: {noOfEmptyItems}, Change on final: {changeOnFinal}, Unchanged items: {noOfUnchangedItems}.");
+        //Debug.Log($"Change: {change}, Empty items: {noOfEmptyItems}, Change on final: {changeOnFinal}, Unchanged items: {noOfUnchangedItems}.");
 
         RemoveItemServerRpc(slotNumber, inventorySlots[slotNumber].quantity);
 
@@ -476,7 +476,7 @@ public class Inventory : NetworkBehaviour
 
     public void UpdateInventoryToClient(bool lockMovement = false)
     {
-        Debug.Log("[Inventory] Updating inventory to all clients...");
+        //Debug.Log("[Inventory] Updating inventory to all clients...");
         for (int i = 0; i < inventorySlots.Count; i++)
         {
             UpdateSlotClientRpc(inventorySlots[i].itemData, inventorySlots[i].quantity, i, lockMovement);
@@ -487,7 +487,7 @@ public class Inventory : NetworkBehaviour
     public void UpdateSlotClientRpc(ItemData itemData, int quantity, int i, bool lockMovement = false)
     {
         if (!IsOwner) { return; }
-        Debug.Log($"[Inventory] Updating slot {i} on client. Item: {itemData?.itemType}, Quantity: {quantity}");
+        //Debug.Log($"[Inventory] Updating slot {i} on client. Item: {itemData?.itemType}, Quantity: {quantity}");
         inventorySlots[i].itemData = itemData;
         inventorySlots[i].quantity = quantity;
         if (!lockMovement)

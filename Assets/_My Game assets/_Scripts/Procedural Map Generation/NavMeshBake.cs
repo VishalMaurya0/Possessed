@@ -1,10 +1,19 @@
+using System.Collections.Generic;
 using Unity.AI.Navigation;
 using UnityEngine;
 
 public class NavMeshBaker : MonoBehaviour
 {
-    public NavMeshSurface surface;
+    public List<NavMeshSurface> surfaces = new();
 
+
+    private void Start()
+    {
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            surfaces.Add(transform.GetChild(i).GetComponent<NavMeshSurface>());
+        }
+    }
 
     private void Update()
     {
@@ -17,6 +26,10 @@ public class NavMeshBaker : MonoBehaviour
 
     public void Bake()
     {
-        surface.BuildNavMesh();
+        foreach (NavMeshSurface surface in surfaces)
+        {
+            surface.BuildNavMesh();
+        }
+
     }
 }

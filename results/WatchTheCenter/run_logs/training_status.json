@@ -1,0 +1,48 @@
+{
+    "Pilpilu": {
+        "checkpoints": [
+            {
+                "steps": 49968,
+                "file_path": "results\\WatchTheCenter\\Pilpilu\\Pilpilu-49968.onnx",
+                "reward": 259.4940768215391,
+                "creation_time": 1748150609.6169722,
+                "auxillary_file_paths": [
+                    "results\\WatchTheCenter\\Pilpilu\\Pilpilu-49968.pt"
+                ]
+            },
+            {
+                "steps": 99936,
+                "file_path": "results\\WatchTheCenter\\Pilpilu\\Pilpilu-99936.onnx",
+                "reward": 365.0506703058879,
+                "creation_time": 1748150736.655425,
+                "auxillary_file_paths": [
+                    "results\\WatchTheCenter\\Pilpilu\\Pilpilu-99936.pt"
+                ]
+            },
+            {
+                "steps": 107688,
+                "file_path": "results\\WatchTheCenter\\Pilpilu\\Pilpilu-107688.onnx",
+                "reward": 463.7782325744629,
+                "creation_time": 1748150820.8311484,
+                "auxillary_file_paths": [
+                    "results\\WatchTheCenter\\Pilpilu\\Pilpilu-107688.pt"
+                ]
+            }
+        ],
+        "elo": 1200.0,
+        "final_checkpoint": {
+            "steps": 107688,
+            "file_path": "results\\WatchTheCenter\\Pilpilu.onnx",
+            "reward": 463.7782325744629,
+            "creation_time": 1748150820.8311484,
+            "auxillary_file_paths": [
+                "results\\WatchTheCenter\\Pilpilu\\Pilpilu-107688.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.30.0",
+        "torch_version": "2.7.0+cu118"
+    }
+}

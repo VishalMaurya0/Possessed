@@ -68,6 +68,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: 'WallPeices[Wall]'
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 649e2c1ff54cf0c4e883dbc0e9e71e5a, type: 3}
+      propertyPath: m_Layer
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 649e2c1ff54cf0c4e883dbc0e9e71e5a, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -91,7 +99,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6172254224933744502}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 14144dc3785c6204ba7abfe38061280e, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -117,7 +125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 878323200
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1

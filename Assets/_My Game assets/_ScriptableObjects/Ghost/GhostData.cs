@@ -22,7 +22,7 @@ public class GhostData : ScriptableObject
     public float roamingRadius = 100f;
     public float endRadius = 100f;
     public float idleDuration = 2f;
-    public int positionFindingDuration = 60;
+    [Tooltip("After this much time ghost gets the location of Random Player in Roaming Mode")] public int positionFindingDuration = 60;
     public float playerPosOffsetRadius = 5;
 
     [Header("ShowingNearPP")]

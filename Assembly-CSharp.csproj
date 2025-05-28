@@ -66,24 +66,25 @@
     <Compile Include="Assets\_My Game assets\_Scripts\UI\Inventory\Inventory UI.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Item Management\ItemPickup.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\EnvMapAnimator.cs" />
+    <Compile Include="Assets\_My Game assets\_Scripts\Enemy\Ghost\GhostDyingState.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_A.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\cameraMovement.cs" />
+    <Compile Include="Assets\_My Game assets\_Scripts\Enemy\Ghost\GhostState.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Procedures\triggerProcedurePointScript.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Player\playerMovement.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Player\LookingCursedIncreasesFear.cs" />
+    <Compile Include="Assets\_My Game assets\_Scripts\Enemy\Pilpilu\GroundCheck.cs" />
     <Compile Include="Assets\_My Game assets\_ScriptableObjects\Player\PlayerDataSO.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Enemy\GhostAI.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Tasks\Task for Coins\CupForCoinTask.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Tasks\Task for Blood Bottle\StatueTask.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark02.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\UI\Inventory\Inventory Slot Tracker For UI.cs" />
+    <Compile Include="Assets\_My Game assets\_Scripts\Enemy\Doll\DollAI.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Game Manager\CurserManage.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Tasks\Task for Candle\Candle__Task.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Enemy\Gizmos.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Procedural Map Generation\GenerateMap.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Static Classes\FindConnectedSO.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\DollAI.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Enemy\GhostState.cs" />
     <Compile Include="Assets\_My Game assets\_ScriptableObjects\Player\Noise\NoiseData.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_ExampleScript_01.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMPro_InstructionOverlay.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="Assets\_My Game assets\_Scripts\Tasks\Task For Pure Powder\PurePowderTaskButton.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Item Management\ItemCrafting.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexJitter.cs" />
+    <Compile Include="Assets\_My Game assets\_Scripts\Enemy\Ghost\GhostAI.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_UiFrameRateCounter.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexZoom.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_B.cs" />
@@ -101,11 +103,12 @@
     <Compile Include="Assets\_My Game assets\_Scripts\Procedures\Procedure0.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\ClientNetworkTransform.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ShaderPropAnimator.cs" />
+    <Compile Include="Assets\_My Game assets\_Scripts\Enemy\Ghost\GhostRoamingState.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\UI\Inventory\ItemAmountUI.cs" />
     <Compile Include="Assets\_My Game assets\_ScriptableObjects\Procedural Map Generation\ProceduralMapDataSO.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Tasks\Task for Candle\CandleTask.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextInfoDebugTool.cs" />
-    <Compile Include="Assets\_My Game assets\_ScriptableObjects\Procedures\ProcedureData.cs" />
+    <Compile Include="Assets\_My Game assets\_Scripts\Enemy\Ghost\GhostHuntingState.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeA.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Item Management\ItemHolding.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Player\FearMeter.cs" />
@@ -139,10 +142,9 @@
     <Compile Include="Assets\_My Game assets\_Scripts\Tasks\Task for Blood Bottle\CodeShowingScript.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\DropdownSample.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexColorCycler.cs" />
+    <Compile Include="Assets\_My Game assets\_Scripts\Enemy\Pilpilu\NavMeshAgentForPilpilu.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ObjectSpin.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_PhoneNumberValidator.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Enemy\GhostHuntingState.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Enemy\GhostRoamingState.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\UI\Inventory\ItemFrame UI.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextConsoleSimulator.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Tasks\Task For Pure Powder\PurePowderTask.cs" />
@@ -158,7 +160,8 @@
     <Compile Include="Assets\_My Game assets\_Scripts\Item Management\itemClass.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Tasks\Task For Voodoo Doll\TaskVoodooDoll.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Item Management\Inspection.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Enemy\GhostDyingState.cs" />
+    <Compile Include="Assets\_My Game assets\_Scripts\Enemy\Pilpilu\Pilpilu_ML.cs" />
+    <Compile Include="Assets\_My Game assets\_ScriptableObjects\Procedures\ProcedureDataSO.cs" />
     <Compile Include="Assets\_My Game assets\_ScriptableObjects\Ghost\GhostData.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -659,6 +662,10 @@
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.24f1\Editor\Data\Managed\UnityEngine\UnityEditor.XRModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="System.IO.Abstractions">
+      <HintPath>Library\PackageCache\com.unity.ml-agents\Plugins\System.IO.Abstractions.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.Collections.LowLevel.ILSupport">
       <HintPath>Library\PackageCache\com.unity.collections\Unity.Collections.LowLevel.ILSupport\Unity.Collections.LowLevel.ILSupport.dll</HintPath>
       <Private>False</Private>
@@ -667,12 +674,24 @@
       <HintPath>Library\PackageCache\com.unity.ext.nunit\net40\unity-custom\nunit.framework.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Google.Protobuf_Packed">
+      <HintPath>Library\PackageCache\com.unity.ml-agents\Plugins\Google.Protobuf_Packed.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.VisualScripting.Antlr3.Runtime">
       <HintPath>Library\PackageCache\com.unity.visualscripting\Runtime\VisualScripting.Flow\Dependencies\NCalc\Unity.VisualScripting.Antlr3.Runtime.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Grpc.Core">
+      <HintPath>Library\PackageCache\com.unity.ml-agents\Plugins\ProtoBuffer\Grpc.Core.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Mono.Cecil">
       <HintPath>Library\PackageCache\com.unity.nuget.mono-cecil\Mono.Cecil.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.IO.Abstractions.TestingHelpers">
+      <HintPath>Library\PackageCache\com.unity.ml-agents\Plugins\System.IO.Abstractions.TestingHelpers.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
@@ -1187,6 +1206,10 @@
       <HintPath>Library\ScriptAssemblies\Unity.InputSystem.ForUI.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.ML-Agents.CommunicatorObjects">
+      <HintPath>Library\ScriptAssemblies\Unity.ML-Agents.CommunicatorObjects.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
       <Private>False</Private>
@@ -1259,6 +1282,10 @@
       <HintPath>Library\ScriptAssemblies\Unity.Multiplayer.Center.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.ML-Agents">
+      <HintPath>Library\ScriptAssemblies\Unity.ML-Agents.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.Mathematics.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Mathematics.Editor.dll</HintPath>
       <Private>False</Private>
@@ -1311,6 +1338,10 @@
       <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.Sentis.iOSBLAS">
+      <HintPath>Library\ScriptAssemblies\Unity.Sentis.iOSBLAS.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.Collections.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Collections.Editor.dll</HintPath>
       <Private>False</Private>
@@ -1327,6 +1358,10 @@
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.Core.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.Sentis">
+      <HintPath>Library\ScriptAssemblies\Unity.Sentis.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.Multiplayer.Center.Common">
       <HintPath>Library\ScriptAssemblies\Unity.Multiplayer.Center.Common.dll</HintPath>
       <Private>False</Private>
@@ -1339,8 +1374,16 @@
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.Flow.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.Postprocessing.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Postprocessing.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.TextMeshPro">
       <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Sentis.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Sentis.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.VisualScripting.SettingsProvider.Editor">
@@ -1379,12 +1422,20 @@
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.State.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.ML-Agents.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.ML-Agents.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.2D.Sprite.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.2D.Sprite.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.AI.Navigation.Editor.ConversionSystem">
       <HintPath>Library\ScriptAssemblies\Unity.AI.Navigation.Editor.ConversionSystem.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Postprocessing.Runtime">
+      <HintPath>Library\ScriptAssemblies\Unity.Postprocessing.Runtime.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
@@ -1411,8 +1462,16 @@
       <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Core.Runtime.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.Sentis.MacBLAS">
+      <HintPath>Library\ScriptAssemblies\Unity.Sentis.MacBLAS.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.VisualScripting.Flow">
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.Flow.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Sentis.ONNX">
+      <HintPath>Library\ScriptAssemblies\Unity.Sentis.ONNX.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.Rendering.LightTransport.Runtime">

@@ -140,7 +140,7 @@ public class SelectingThreeProcedures : NetworkBehaviour
         int index3 = Random.Range(0, 8);
         if (index1 == index3 || index2 == index3)
         {
-            Debug.Log($"index3 {index3} is invalid, retrying...");
+            //Debug.Log($"index3 {index3} is invalid, retrying...");
             return SelectThirdProcedure(index1, index2);
         }
         else if (index1 != index3 && index2 != index3)
@@ -154,10 +154,10 @@ public class SelectingThreeProcedures : NetworkBehaviour
     {
         for (int i = 0; i < 8; i++)
         {
-            Debug.Log( totalReadings[i] );
+            //Debug.Log( totalReadings[i] );
         }
 
-        Debug.Log("---------------------------------------------------------------------");
+        //Debug.Log("---------------------------------------------------------------------");
 
         SetReadings(barometerReadings);
         SetReadings(giegerCounterReadings);

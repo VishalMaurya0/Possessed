@@ -24,7 +24,7 @@ public class ProcedureBase : NetworkBehaviour
 
 
 [System.Serializable]
-public struct TotalItemsNeeded
+public struct TotalItemsNeeded //========= For Completing Procedure ======//
 {
     public List<ItemNeeded> itemNeeded;
     public List<int> addedAmount;
