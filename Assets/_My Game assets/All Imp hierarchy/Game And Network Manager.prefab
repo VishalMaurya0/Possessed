@@ -1,0 +1,190 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7148567494265126245
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2414213928891276075}
+  - component: {fileID: 4480574489279584503}
+  - component: {fileID: 7931250053765984012}
+  - component: {fileID: 3491250806943052933}
+  - component: {fileID: 7816311691814989854}
+  - component: {fileID: 2257955994351765168}
+  - component: {fileID: 2693171361112807463}
+  - component: {fileID: 5439853222316432118}
+  m_Layer: 0
+  m_Name: Game And Network Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2414213928891276075
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7148567494265126245}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4480574489279584503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7148567494265126245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 1060251764
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
+--- !u!114 &7931250053765984012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7148567494265126245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22236db1591a7c24196e7a9be1dada90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  cameraMovement: {fileID: 0}
+  ownerPlayer: {fileID: 0}
+--- !u!114 &3491250806943052933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7148567494265126245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5931279eec68fb1469db3526f70a2155, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerPlayer: {fileID: 0}
+  noOfPlayers: 0
+  inventorySlots: 5
+  maxWeight: 15
+  serverStarted: 0
+  gameStarted: 0
+  gameEnd: 0
+  selectedProceduresIndex: 
+  completedProcedures: 
+  timeInSecElapsed: 0
+  lockCurser: 1
+  handlePlayerLookWithMouse: 1
+  handleMovement: 1
+  itemScrollingLock: 0
+  bakeNavMeshAgain: 0
+  procedureBase: {fileID: 0}
+  AllProcedures: []
+  taskManager: {fileID: 0}
+--- !u!114 &7816311691814989854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7148567494265126245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 303096e62a8fdbf4bbc7e034c68c99c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2257955994351765168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7148567494265126245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd41b90becdcfcc489cfe262f12f4468, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  barometerReadings: 0000000000000000000000000000000000000000000000000000000000000000
+  giegerCounterReadings: 0000000000000000000000000000000000000000000000000000000000000000
+  EMFReadings: 0000000000000000000000000000000000000000000000000000000000000000
+  FSCReadings: 0000000000000000000000000000000000000000000000000000000000000000
+  totalReadings: 0000000000000000000000000000000000000000000000000000000000000000
+  threeProcedureIndex: 
+--- !u!114 &2693171361112807463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7148567494265126245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 877780393f112794daf2f0e3b733f373, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  allProcedures: []
+  position: []
+  rotation: []
+--- !u!114 &5439853222316432118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7148567494265126245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8d551eb63856b499baf414ef414768, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemCraftingDataSO: {fileID: 11400000, guid: 73d016e06cfa47f4b8c8cce014b6591b, type: 2}
+  inventory: {fileID: 0}
+  currentItemData:
+    itemType: 0
+    currentState: 0
+    amount: 0
+    isOn: 0
+  finalItemState:
+    itemType: 0
+    isContainer: 0
+    currentState: 0
+    amount: 0
+  itemState2InventorySlot:
+    itemData:
+      rid: -2
+    quantity: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }

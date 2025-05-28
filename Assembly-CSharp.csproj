@@ -113,6 +113,7 @@
     <Compile Include="Assets\_My Game assets\_Scripts\Item Management\ItemHolding.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Player\FearMeter.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Tasks\Task for Blood Bottle\ChestUnlock_BloodBottleTask.cs" />
+    <Compile Include="Assets\_My Game assets\_Scripts\Procedures\Procedure1Visuals.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Procedural Map Generation\Grid.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\SimpleScript.cs" />
@@ -170,6 +171,7 @@
     <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Roboto-Bold - License.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile-2-Pass.shader" />
     <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Unity - OFL.txt" />
+    <None Include="Assets\Samples\Core RP Library\Common\TextMesh Pro\Resources\Fonts &amp; Materials\TMP_Node.hlsl" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
     <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Oswald-Bold - OFL.txt" />
     <None Include="Assets\_www.unityassetcollection.com.txt" />
@@ -194,6 +196,7 @@
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
+    <None Include="Assets\Samples\Core RP Library\Common\TextMesh Pro\Resources\Fonts &amp; Materials\Inter-LICENSE.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
     <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Bangers - OFL.txt" />
   </ItemGroup>
@@ -1338,12 +1341,20 @@
       <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.VisualEffectGraph.Runtime">
+      <HintPath>Library\ScriptAssemblies\Unity.VisualEffectGraph.Runtime.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.Sentis.iOSBLAS">
       <HintPath>Library\ScriptAssemblies\Unity.Sentis.iOSBLAS.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.Collections.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Collections.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.VisualEffectGraph.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.VisualEffectGraph.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary">
@@ -1492,9 +1503,25 @@
       <Project>{D4F68138-4C86-A611-BA2A-E4FFED7330D5}</Project>
       <Name>OutsideAssets</Name>
     </ProjectReference>
+    <ProjectReference Include="Unity.RenderPipelines.Core.Samples.Editor.csproj">
+      <Project>{B2FE46FE-5906-B648-3AB9-5D14CDB259AE}</Project>
+      <Name>Unity.RenderPipelines.Core.Samples.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="VFXGraph.OutputEventHandlers.Editor.csproj">
+      <Project>{5EBA5913-80B5-0AC6-3874-4B90AD92671D}</Project>
+      <Name>VFXGraph.OutputEventHandlers.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.RenderPipelines.Core.Samples.Runtime.csproj">
+      <Project>{62E8CC22-8F60-2E81-669B-F8B7418C292F}</Project>
+      <Name>Unity.RenderPipelines.Core.Samples.Runtime</Name>
+    </ProjectReference>
     <ProjectReference Include="ParrelSync.csproj">
       <Project>{ADB64EBC-CF4A-1438-944A-AF6F3704F41B}</Project>
       <Name>ParrelSync</Name>
+    </ProjectReference>
+    <ProjectReference Include="VFXGraph.OutputEventHandlers.csproj">
+      <Project>{D8F8119F-9555-D354-D38B-3280C3B4AC6B}</Project>
+      <Name>VFXGraph.OutputEventHandlers</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

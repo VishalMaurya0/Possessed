@@ -174,6 +174,7 @@ public class ProcedureCompletion : ProcedureBase
         {
             isCompleted.Value = true;
             GameManager.Instance.completedProcedures.Add(procedureData.procedureIndex);
+            procedureBase.Completed(transform.position);
             //Debug.Log("All orders completed!");
         }
     }

@@ -1277,12 +1277,20 @@
       <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.VisualEffectGraph.Runtime">
+      <HintPath>Library\ScriptAssemblies\Unity.VisualEffectGraph.Runtime.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.Sentis.iOSBLAS">
       <HintPath>Library\ScriptAssemblies\Unity.Sentis.iOSBLAS.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.Collections.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Collections.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.VisualEffectGraph.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.VisualEffectGraph.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary">
@@ -1435,9 +1443,25 @@
       <Project>{D4F68138-4C86-A611-BA2A-E4FFED7330D5}</Project>
       <Name>OutsideAssets</Name>
     </ProjectReference>
+    <ProjectReference Include="Unity.RenderPipelines.Core.Samples.Editor.csproj">
+      <Project>{B2FE46FE-5906-B648-3AB9-5D14CDB259AE}</Project>
+      <Name>Unity.RenderPipelines.Core.Samples.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="VFXGraph.OutputEventHandlers.Editor.csproj">
+      <Project>{5EBA5913-80B5-0AC6-3874-4B90AD92671D}</Project>
+      <Name>VFXGraph.OutputEventHandlers.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.RenderPipelines.Core.Samples.Runtime.csproj">
+      <Project>{62E8CC22-8F60-2E81-669B-F8B7418C292F}</Project>
+      <Name>Unity.RenderPipelines.Core.Samples.Runtime</Name>
+    </ProjectReference>
     <ProjectReference Include="ParrelSync.csproj">
       <Project>{ADB64EBC-CF4A-1438-944A-AF6F3704F41B}</Project>
       <Name>ParrelSync</Name>
+    </ProjectReference>
+    <ProjectReference Include="VFXGraph.OutputEventHandlers.csproj">
+      <Project>{D8F8119F-9555-D354-D38B-3280C3B4AC6B}</Project>
+      <Name>VFXGraph.OutputEventHandlers</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
