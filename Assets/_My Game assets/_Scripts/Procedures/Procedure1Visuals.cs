@@ -8,10 +8,12 @@ public class Procedure1Visuals : NetworkBehaviour
     
     public ProcedureCompletion procedureCompletion;
     public List<VisualsTrigger> visualsTrigger;
+    public GameObject SmokeGhost;
 
     private void Start()
     {
         visualsTrigger = procedureCompletion.visualsTrigger;
+        SmokeGhost.SetActive(true);
     }
 
     private void Update()

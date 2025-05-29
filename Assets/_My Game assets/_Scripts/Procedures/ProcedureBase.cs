@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
@@ -25,8 +27,22 @@ public class ProcedureBase : NetworkBehaviour
     public void Completed(Vector3 position)
     {
         GameObject obj = Instantiate(CompletionVFX, position, Quaternion.identity);
-        Destroy(obj, obj.GetComponent<VisualEffect>().GetFloat("Duration"));
+        StartCoroutine(DestroyAfterEffect(obj));
     }
+
+    IEnumerator DestroyAfterEffect(GameObject obj)
+    {
+        var vfx = obj.GetComponent<VisualEffect>();
+
+        yield return new WaitForSeconds(vfx.GetFloat("Duration"));
+
+        // Stop new particles from spawning
+        vfx.SetFloat("SpawnRate", 0);
+
+        yield return new WaitForSeconds(2f);
+        Destroy(obj);
+    }
+
 }
 
 

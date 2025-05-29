@@ -12,6 +12,7 @@ public class ProcedureCompletion : ProcedureBase
     public triggerProcedurePointScript triggerScript;
 
     [Header("Procedure Specific Variables")]
+    public Transform VFXPosition;
     public TotalItemsNeeded totalItemsNeeded = new();
     int totalItems;
 
@@ -167,6 +168,8 @@ public class ProcedureCompletion : ProcedureBase
             }
         }
 
+
+        procedureBase.Completed(VFXPosition.position);
         currentOrder.Value++;
         //Debug.Log($"Order {currentOrder.Value - 1} completed. Moving to order {currentOrder.Value}.");
 
@@ -174,7 +177,6 @@ public class ProcedureCompletion : ProcedureBase
         {
             isCompleted.Value = true;
             GameManager.Instance.completedProcedures.Add(procedureData.procedureIndex);
-            procedureBase.Completed(transform.position);
             //Debug.Log("All orders completed!");
         }
     }

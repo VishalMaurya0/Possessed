@@ -214,6 +214,10 @@ PrefabInstance:
       value: 2007658983
       objectReference: {fileID: 0}
     - target: {fileID: 5620655769701712646, guid: 3077d805d651268488cbc8a527144c8e, type: 3}
+      propertyPath: SceneMigrationSynchronization
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5620655769701712646, guid: 3077d805d651268488cbc8a527144c8e, type: 3}
       propertyPath: InScenePlacedSourceGlobalObjectIdHash
       value: 2764647091
       objectReference: {fileID: 0}
@@ -364,6 +368,10 @@ PrefabInstance:
     - target: {fileID: 5620655769701712646, guid: 381df1fe82387f046a52212ef87847f5, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 703684326
+      objectReference: {fileID: 0}
+    - target: {fileID: 5620655769701712646, guid: 381df1fe82387f046a52212ef87847f5, type: 3}
+      propertyPath: SceneMigrationSynchronization
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5620655769701712646, guid: 381df1fe82387f046a52212ef87847f5, type: 3}
       propertyPath: InScenePlacedSourceGlobalObjectIdHash
@@ -518,6 +526,10 @@ PrefabInstance:
       value: 87586036
       objectReference: {fileID: 0}
     - target: {fileID: 5620655769701712646, guid: 9e4315f995b072047afd4bfcff240ff5, type: 3}
+      propertyPath: SceneMigrationSynchronization
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5620655769701712646, guid: 9e4315f995b072047afd4bfcff240ff5, type: 3}
       propertyPath: InScenePlacedSourceGlobalObjectIdHash
       value: 604033577
       objectReference: {fileID: 0}
@@ -668,6 +680,10 @@ PrefabInstance:
     - target: {fileID: 5620655769701712646, guid: e706f0c46a3377c4db0eeb6d8f579e58, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 1846742943
+      objectReference: {fileID: 0}
+    - target: {fileID: 5620655769701712646, guid: e706f0c46a3377c4db0eeb6d8f579e58, type: 3}
+      propertyPath: SceneMigrationSynchronization
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5620655769701712646, guid: e706f0c46a3377c4db0eeb6d8f579e58, type: 3}
       propertyPath: InScenePlacedSourceGlobalObjectIdHash
@@ -1808,6 +1824,10 @@ PrefabInstance:
       value: 48346567
       objectReference: {fileID: 0}
     - target: {fileID: 5620655769701712646, guid: 1a76957cdcd90d94c8ca79225819fe13, type: 3}
+      propertyPath: SceneMigrationSynchronization
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5620655769701712646, guid: 1a76957cdcd90d94c8ca79225819fe13, type: 3}
       propertyPath: InScenePlacedSourceGlobalObjectIdHash
       value: 228170057
       objectReference: {fileID: 0}
@@ -2100,6 +2120,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5986616348342930678}
     m_Modifications:
+    - target: {fileID: 2271726080059734961, guid: 49dbf976fd4881d4d8ccad079ad60307, type: 3}
+      propertyPath: VFXPosition
+      value: 
+      objectReference: {fileID: 9027101040574881845}
+    - target: {fileID: 4044367817557264043, guid: 49dbf976fd4881d4d8ccad079ad60307, type: 3}
+      propertyPath: blendDistance
+      value: 5.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5620655769701712646, guid: 49dbf976fd4881d4d8ccad079ad60307, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 1431166765
+      objectReference: {fileID: 0}
+    - target: {fileID: 5620655769701712646, guid: 49dbf976fd4881d4d8ccad079ad60307, type: 3}
+      propertyPath: SceneMigrationSynchronization
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6885776839582056849, guid: 49dbf976fd4881d4d8ccad079ad60307, type: 3}
       propertyPath: m_LocalPosition.x
       value: -21.9
@@ -2152,6 +2188,11 @@ PrefabInstance:
 --- !u!4 &2646492171076660299 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6885776839582056849, guid: 49dbf976fd4881d4d8ccad079ad60307, type: 3}
+  m_PrefabInstance: {fileID: 8878014429548441050}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &9027101040574881845 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 464925775691288047, guid: 49dbf976fd4881d4d8ccad079ad60307, type: 3}
   m_PrefabInstance: {fileID: 8878014429548441050}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8955089930782039686
