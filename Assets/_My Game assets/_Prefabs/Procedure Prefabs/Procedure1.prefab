@@ -52,7 +52,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 5, y: 0.2, z: 5}
+  m_Size: {x: 7, y: 0.2, z: 7}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &7281192713076095505
 MonoBehaviour:
@@ -5482,7 +5482,7 @@ MonoBehaviour:
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -5508,6 +5508,7 @@ MonoBehaviour:
   procedureData: {fileID: 11400000, guid: c59cec54e199b784baf74d873f3bde4a, type: 2}
   procedurePrefab: {fileID: 0}
   triggerScript: {fileID: 0}
+  VFXPosition: {fileID: 464925775691288047}
   totalItemsNeeded:
     itemNeeded: []
     addedAmount: 
@@ -5534,6 +5535,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   procedureCompletion: {fileID: 2271726080059734961}
   visualsTrigger: []
+  SmokeGhost: {fileID: 2688492010036917977}
 --- !u!1001 &1211503987937299358
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6896,17 +6898,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6885776839582056849}
     m_Modifications:
+    - target: {fileID: 5332149896614013316, guid: 56cc2ee3a72744d448981843c5aa7742, type: 3}
+      propertyPath: blendDistance
+      value: 5.5
+      objectReference: {fileID: 0}
     - target: {fileID: 6093528846595545590, guid: 56cc2ee3a72744d448981843c5aa7742, type: 3}
       propertyPath: m_Name
       value: Smoke Ghost
       objectReference: {fileID: 0}
     - target: {fileID: 6093528846595545590, guid: 56cc2ee3a72744d448981843c5aa7742, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6916995981608780801, guid: 56cc2ee3a72744d448981843c5aa7742, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6916995981608780801, guid: 56cc2ee3a72744d448981843c5aa7742, type: 3}
       propertyPath: m_CastShadows

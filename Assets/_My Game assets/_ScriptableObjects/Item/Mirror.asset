@@ -17,14 +17,14 @@ MonoBehaviour:
   itemPrefab: {fileID: 6905787541895510452, guid: e89a164eb17f4384eb819d7fa0972ec0, type: 3}
   itemType: 3
   isContainer: 0
-  noOfStates: 3
+  noOfStates: 4
   states:
-  - Dirty
-  - Clean
+  - Normal
   - Pure Mirror
   - Cursed Mirror
   - Broken
   statesPrefab:
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
