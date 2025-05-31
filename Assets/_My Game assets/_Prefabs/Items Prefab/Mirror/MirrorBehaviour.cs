@@ -9,7 +9,7 @@ public class MirrorBehaviour : MonoBehaviour
     public Material referenceMat;
     private RenderTexture runtimeRT;
     private Material runtimeMaterial;
-
+    public bool GoAccordingToPlayer = true;
     private void Start()
     {
         camera = GetComponentInChildren<Camera>();
@@ -36,6 +36,7 @@ public class MirrorBehaviour : MonoBehaviour
 
     private void Update()
     {
+        if (!GoAccordingToPlayer) return;
         if (player == null)
         {
             player = GameManager.Instance.ownerPlayer;

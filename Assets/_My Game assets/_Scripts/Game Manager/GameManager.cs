@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public bool gameEnd = false;
 
     public Dictionary<ulong, GameObject> connectedClients = new();
+    public Dictionary<GameObject, Procedures> completedProcedure = new();
     public Dictionary<int, float> noiseValues = new();
     public int[] selectedProceduresIndex;
     public List<int> completedProcedures;

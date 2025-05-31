@@ -151,7 +151,7 @@ public class ProcedureCompletion : ProcedureBase
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void CheckOrderCompletionServerRpc()
+    private void CheckOrderCompletionServerRpc(ServerRpcParams rpcParams = default)
     {
         //Debug.Log($"Checking if order {currentOrder.Value} is complete...");
         for (int i = 0; i < totalItems; i++)
@@ -171,6 +171,8 @@ public class ProcedureCompletion : ProcedureBase
 
         procedureBase.Completed(VFXPosition.position);
         currentOrder.Value++;
+        if (!GameManager.Instance.completedProcedure.ContainsValue(procedureData.procedure))
+            GameManager.Instance.completedProcedure.Add(NetworkManager.Singleton.ConnectedClients[rpcParams.Receive.SenderClientId].PlayerObject.gameObject, procedureData.procedure);
         //Debug.Log($"Order {currentOrder.Value - 1} completed. Moving to order {currentOrder.Value}.");
 
         if (totalItemsNeeded.itemNeeded[totalItems - 1].orderId < currentOrder.Value)

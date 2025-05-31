@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -7,7 +9,10 @@ public class Procedure2Visuals : NetworkBehaviour
 {
     [Header("Visuals")]
     public GameObject Ghost;
+    public GameObject Portal;
     public Animator animator;
+    public NetworkVariable<bool> jailed = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public GameObject watchingPlayer;
 
     [Header("For Showing Items")]
     public ProcedureCompletion procedureCompletion;
@@ -15,7 +20,6 @@ public class Procedure2Visuals : NetworkBehaviour
 
     private void Start()
     {
-        animator = GetComponent<Animator>();
         visualsTrigger = procedureCompletion.visualsTrigger;
     }
 
@@ -27,16 +31,42 @@ public class Procedure2Visuals : NetworkBehaviour
             CompleteVisualsClientRpc(procedureCompletion.showVisual.Value);
             procedureCompletion.showVisual = new();
         }
+
+
+        if (jailed.Value)
+        {
+            if (watchingPlayer != null)
+            {
+                float rotationSpeed = 5f; // adjust as needed
+                Vector3 direction = watchingPlayer.transform.position - Ghost.transform.position;
+                direction.y = 0;
+
+                if (direction != Vector3.zero)
+                {
+                    Quaternion targetRotation = Quaternion.LookRotation(direction);
+                    Ghost.transform.rotation = Quaternion.Slerp(Ghost.transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+                }
+
+            }
+        }
     }
 
     public void SpawnGhost()
     {
-
+        animator.SetTrigger("Spawn");
+        Ghost.SetActive(true);
     }
 
-    public void AttackAndJail()
+    public void Jailed()
     {
-
+        for (int i = 0; i < GameManager.Instance.completedProcedure.Count; i++)
+        {
+            if (GameManager.Instance.completedProcedure.ElementAtOrDefault(i).Value == procedureCompletion.procedureData.procedure)
+            {
+                watchingPlayer = GameManager.Instance.completedProcedure.ElementAtOrDefault(i).Key;
+            }
+        }
+        jailed.Value = true;
     }
 
     [ClientRpc]
@@ -52,7 +82,14 @@ public class Procedure2Visuals : NetworkBehaviour
         if (i == 1)
         {
             transform.GetChild(visualsTrigger[i-1].trigger.Count).gameObject.SetActive(true);
+            StartCoroutine(StartProcedure());
         }
+    }
+
+    IEnumerator StartProcedure()
+    {
+        yield return new WaitForSeconds(8);
+        Portal.SetActive(true);
     }
 
 }

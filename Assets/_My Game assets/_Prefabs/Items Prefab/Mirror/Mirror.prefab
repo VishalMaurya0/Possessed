@@ -426,6 +426,7 @@ MonoBehaviour:
   forward: {fileID: 1025529405631690183}
   mirrorSurface: {fileID: 7425413343024482496}
   referenceMat: {fileID: 2100000, guid: c176e2db8cda4914e8a1c61b5aafd6af, type: 2}
+  GoAccordingToPlayer: 1
 --- !u!1 &8075723469075855652
 GameObject:
   m_ObjectHideFlags: 0
@@ -505,7 +506,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6170840984871193236}
   - component: {fileID: 832917459838946353}
-  - component: {fileID: 350704941349527980}
   - component: {fileID: 5264892499269017730}
   m_Layer: 0
   m_Name: Camera
@@ -580,14 +580,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &350704941349527980
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8238107459626103984}
-  m_Enabled: 1
 --- !u!114 &5264892499269017730
 MonoBehaviour:
   m_ObjectHideFlags: 0
