@@ -5,12 +5,17 @@ using UnityEngine;
 
 public class Procedure2Visuals : NetworkBehaviour
 {
-    
+    [Header("Visuals")]
+    public GameObject Ghost;
+    public Animator animator;
+
+    [Header("For Showing Items")]
     public ProcedureCompletion procedureCompletion;
     public List<VisualsTrigger> visualsTrigger;
 
     private void Start()
     {
+        animator = GetComponent<Animator>();
         visualsTrigger = procedureCompletion.visualsTrigger;
     }
 
@@ -22,6 +27,16 @@ public class Procedure2Visuals : NetworkBehaviour
             CompleteVisualsClientRpc(procedureCompletion.showVisual.Value);
             procedureCompletion.showVisual = new();
         }
+    }
+
+    public void SpawnGhost()
+    {
+
+    }
+
+    public void AttackAndJail()
+    {
+
     }
 
     [ClientRpc]
