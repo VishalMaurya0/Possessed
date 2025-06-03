@@ -52,7 +52,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 7, y: 0.2, z: 7}
+  m_Size: {x: 9, y: 0.2, z: 9}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &7281192713076095505
 MonoBehaviour:
@@ -5536,6 +5536,11 @@ MonoBehaviour:
   procedureCompletion: {fileID: 2271726080059734961}
   visualsTrigger: []
   SmokeGhost: {fileID: 2688492010036917977}
+  chainVFX: {fileID: 7876363921624227923, guid: 7f146441935685b42a2975ae3f7a3fb8, type: 3}
+  posG: []
+  additionalPos: {x: 0, y: -3, z: 0}
+  visualEffects: []
+  chainSpawned: 0
 --- !u!1001 &1211503987937299358
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6018,7 +6023,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49fedbd51616a5e42ba625f4d8f28b91, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.001999922
+      value: 0.04
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49fedbd51616a5e42ba625f4d8f28b91, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6056,6 +6061,10 @@ PrefabInstance:
       propertyPath: m_StaticShadowCaster
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 49fedbd51616a5e42ba625f4d8f28b91, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a79e786efb5a32a479d1f8a3544690a5, type: 2}
     - target: {fileID: 919132149155446097, guid: 49fedbd51616a5e42ba625f4d8f28b91, type: 3}
       propertyPath: m_Name
       value: Procedures1Water_1
