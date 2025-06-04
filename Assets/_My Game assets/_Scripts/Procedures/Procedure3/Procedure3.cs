@@ -72,6 +72,7 @@ public class SpecialProcedure : NetworkBehaviour   //+++++++++THIS PROCEDURE IS 
             if (selectedType == item)
             {
                 SpawnPinServerRpc();
+                procedureCompletion.CheckOrderCompletionServerRpc();
             }
         }
     }
@@ -81,6 +82,8 @@ public class SpecialProcedure : NetworkBehaviour   //+++++++++THIS PROCEDURE IS 
     {
         procedureCompleted.Value = true;
         Pin.gameObject.SetActive(true);
+
+        procedureCompletion.totalItemsNeeded.addedAmount[1]++;
     }
 
     [ServerRpc(RequireOwnership = false)]

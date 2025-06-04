@@ -151,7 +151,7 @@ public class ProcedureCompletion : ProcedureBase
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void CheckOrderCompletionServerRpc(ServerRpcParams rpcParams = default)
+    public void CheckOrderCompletionServerRpc(ServerRpcParams rpcParams = default)
     {
         //Debug.Log($"Checking if order {currentOrder.Value} is complete...");
         for (int i = 0; i < totalItems; i++)
