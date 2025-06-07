@@ -18,12 +18,12 @@ MonoBehaviour:
   procedurePrefab: {fileID: 8058553164415213228, guid: e706f0c46a3377c4db0eeb6d8f579e58, type: 3}
   itemsNeeded:
   - orderId: 0
-    ItemType: 0
-    currentState: 2
+    ItemType: 9
+    currentState: 0
     requiredAmount: 1
     timeToWaitAfterAddingAAmount: 0
   - orderId: 1
-    ItemType: 9
+    ItemType: 1
     currentState: 0
     requiredAmount: 1
     timeToWaitAfterAddingAAmount: 0
@@ -34,11 +34,6 @@ MonoBehaviour:
     timeToWaitAfterAddingAAmount: 0
   - orderId: 3
     ItemType: 4
-    currentState: 0
-    requiredAmount: 1
-    timeToWaitAfterAddingAAmount: 0
-  - orderId: 4
-    ItemType: 1
     currentState: 0
     requiredAmount: 1
     timeToWaitAfterAddingAAmount: 0

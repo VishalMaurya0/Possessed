@@ -1,11 +1,9 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.UIElements;
 
-public class SpecialProcedure : NetworkBehaviour   //+++++++++THIS PROCEDURE IS ON DECAL OBJECT+++++++++//
+public class SpecialProcedure : NetworkBehaviour   //+++++++++ THIS PROCEDURE IS ON DECAL OBJECT +++++++++//
 {
     [Header("Item Visuals")]
     public ProcedureCompletion procedureCompletion;
@@ -73,6 +71,7 @@ public class SpecialProcedure : NetworkBehaviour   //+++++++++THIS PROCEDURE IS 
             {
                 SpawnPinServerRpc();
                 procedureCompletion.CheckOrderCompletionServerRpc();
+                inventory.RemoveSelectedItemServerRpc(false);
             }
         }
     }
