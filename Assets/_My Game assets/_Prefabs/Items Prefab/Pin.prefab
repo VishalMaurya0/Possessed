@@ -220,7 +220,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3855719659
+  GlobalObjectIdHash: 1977852704
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -359,7 +359,7 @@ MonoBehaviour:
   inspectPoint: {fileID: 0}
   range: 36
   meshRenderers: []
-  outlineMat: {fileID: 0}
+  outlineMat: {fileID: 2100000, guid: 534e8c56f88eb72458409e5677d4dcce, type: 2}
 --- !u!114 &-2377024887794213282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -570,6 +570,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4688806188495565707}
     m_Modifications:
+    - target: {fileID: 2252424412041138072, guid: 965dad0669716174b8c8c771cc45b3da, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 534e8c56f88eb72458409e5677d4dcce, type: 2}
+    - target: {fileID: 4702857407123271726, guid: 965dad0669716174b8c8c771cc45b3da, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4702857407123271726, guid: 965dad0669716174b8c8c771cc45b3da, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 534e8c56f88eb72458409e5677d4dcce, type: 2}
     - target: {fileID: 6230915502527186457, guid: 965dad0669716174b8c8c771cc45b3da, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -614,6 +626,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Push Pin - Export - Sketchfab
       objectReference: {fileID: 0}
+    - target: {fileID: 7369257670838268084, guid: 965dad0669716174b8c8c771cc45b3da, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7369257670838268084, guid: 965dad0669716174b8c8c771cc45b3da, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 534e8c56f88eb72458409e5677d4dcce, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
