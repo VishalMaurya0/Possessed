@@ -9,7 +9,7 @@ public class Procedure2_Ghost : MonoBehaviour
         procedure2Visuals = GetComponentInParent<Procedure2Visuals>();
     }
 
-    public void GhostSpanned()
+    public void GhostSpannedAndJailed()
     {
         procedure2Visuals.Jailed();
     }
