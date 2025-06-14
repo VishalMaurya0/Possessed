@@ -50,14 +50,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1060251764
-  InScenePlacedSourceGlobalObjectIdHash: 0
+  GlobalObjectIdHash: 3436930068
+  InScenePlacedSourceGlobalObjectIdHash: 3296060542
   DeferredDespawnTick: 0
   Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -91,12 +91,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ownerPlayer: {fileID: 0}
-  noOfPlayers: 0
-  inventorySlots: 5
-  maxWeight: 15
+  playerCamera: {fileID: 0}
   serverStarted: 0
   gameStarted: 0
   gameEnd: 0
+  noOfPlayers: 0
+  inventorySlots: 5
+  maxWeight: 15
   selectedProceduresIndex: 
   completedProcedures: 
   timeInSecElapsed: 0
@@ -153,6 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   allProcedures: []
+  CompletionVFX: {fileID: 6139768488881502135, guid: 2cdb4769a199a8d4c994393eeb81e3b8, type: 3}
   position: []
   rotation: []
 --- !u!114 &5439853222316432118

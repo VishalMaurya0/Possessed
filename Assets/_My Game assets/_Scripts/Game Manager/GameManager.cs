@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 {
     [Header("Network Settings")]
     public GameObject ownerPlayer;
+    public Camera playerCamera;
     public bool serverStarted = false;
     public bool gameStarted = false;
     public bool gameEnd = false;
