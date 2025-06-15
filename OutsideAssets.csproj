@@ -62,14 +62,52 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.24f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\PanelBrushManager.cs" />
+    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\ScrollForMore.cs" />
+    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\VirtualCursorAnimate.cs" />
+    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\PanelTabButton.cs" />
     <Compile Include="Assets\Outside Assets\Hits Effects FREE\Scene Demo\Script\Prefab Manager.cs" />
+    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\MainPanelManager.cs" />
+    <Compile Include="Assets\Outside Assets\Dark UI\Editor\InitDarkUI.cs" />
+    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\DemoScrollForMore.cs" />
+    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\PressKeyEvent.cs" />
+    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\LaunchURL.cs" />
+    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\QualityManager.cs" />
+    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\SliderGamepadManager.cs" />
+    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\ModalWindowManager.cs" />
+    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\SplashScreenManager.cs" />
+    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\MainPanelButton.cs" />
+    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\ScrollGamepadManager.cs" />
+    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\UIParticleRenderer.cs" />
+    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\SliderManager.cs" />
+    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\BlurManager.cs" />
+    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\LayoutGroupPositionFix.cs" />
     <Compile Include="Assets\Outside Assets\Hits Effects FREE\Scene Demo\Script\RotationEffect.cs" />
+    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\SwitchManager.cs" />
+    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\UIDissolveEffect.cs" />
+    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\GamepadTriggerEvent.cs" />
+    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\HoldKeyEvent.cs" />
+    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\VirtualCursor.cs" />
+    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\PointerEnterEvents.cs" />
+    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\CustomDropdown.cs" />
+    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\PanelTabManager.cs" />
+    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\GamepadChecker.cs" />
+    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\CanvasManager.cs" />
     <Compile Include="Assets\Outside Assets\AssetStoreOriginals\_SNAPS_PrototypingAssets\Scripts\Editor\PackageChecker\PackageChecker.cs" />
+    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\TimedEvent.cs" />
+    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\UIElementSound.cs" />
+    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\ButtonAnimationFix.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Outside Assets\Hits Effects FREE\Documentation\Readme IMPORTANT.txt" />
+    <None Include="Assets\Outside Assets\Dark UI\Read Me.txt" />
+    <None Include="Assets\Outside Assets\Dark UI\Shaders\UI Particle Additive.shader" />
+    <None Include="Assets\Outside Assets\Dark UI\Shaders\UI Blur.shader" />
+    <None Include="Assets\Outside Assets\Dark UI\Shaders\Masked UI Blur.shader" />
+    <None Include="Assets\Outside Assets\Dark UI\Shaders\UI Dissolve Effect.shader" />
     <None Include="Assets\Outside Assets\Outside Assets.asmdef" />
     <None Include="Assets\Outside Assets\AssetStoreOriginals\_SNAPS_PrototypingAssets\Scripts\Editor\PackageChecker\settings\PackageImportList_ShaderGraph.txt" />
+    <None Include="Assets\Outside Assets\Dark UI\Shaders\Fast UI Blur.shader" />
     <None Include="Assets\Outside Assets\AssetStoreOriginals\_SNAPS_PrototypingAssets\Scripts\Editor\PackageChecker\PackageImportList.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -1119,6 +1157,14 @@
     </Reference>
     <Reference Include="System.Xml.Serialization">
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.24f1\Editor\Data\NetStandard\compat\2.1.0\shims\netfx\System.Xml.Serialization.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.TextMeshPro">
+      <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.TextMeshPro.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEditor.UI">
