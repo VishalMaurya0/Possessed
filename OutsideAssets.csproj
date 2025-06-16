@@ -62,41 +62,41 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.24f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\PanelBrushManager.cs" />
     <Compile Include="Assets\Outside Assets\Dark UI\Scripts\ScrollForMore.cs" />
     <Compile Include="Assets\Outside Assets\Dark UI\Scripts\VirtualCursorAnimate.cs" />
-    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\PanelTabButton.cs" />
     <Compile Include="Assets\Outside Assets\Hits Effects FREE\Scene Demo\Script\Prefab Manager.cs" />
-    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\MainPanelManager.cs" />
     <Compile Include="Assets\Outside Assets\Dark UI\Editor\InitDarkUI.cs" />
-    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\DemoScrollForMore.cs" />
-    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\PressKeyEvent.cs" />
     <Compile Include="Assets\Outside Assets\Dark UI\Scripts\LaunchURL.cs" />
     <Compile Include="Assets\Outside Assets\Dark UI\Scripts\QualityManager.cs" />
     <Compile Include="Assets\Outside Assets\Dark UI\Scripts\SliderGamepadManager.cs" />
     <Compile Include="Assets\Outside Assets\Dark UI\Scripts\ModalWindowManager.cs" />
     <Compile Include="Assets\Outside Assets\Dark UI\Scripts\SplashScreenManager.cs" />
-    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\MainPanelButton.cs" />
-    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\ScrollGamepadManager.cs" />
     <Compile Include="Assets\Outside Assets\Dark UI\Scripts\UIParticleRenderer.cs" />
     <Compile Include="Assets\Outside Assets\Dark UI\Scripts\SliderManager.cs" />
     <Compile Include="Assets\Outside Assets\Dark UI\Scripts\BlurManager.cs" />
     <Compile Include="Assets\Outside Assets\Dark UI\Scripts\LayoutGroupPositionFix.cs" />
     <Compile Include="Assets\Outside Assets\Hits Effects FREE\Scene Demo\Script\RotationEffect.cs" />
     <Compile Include="Assets\Outside Assets\Dark UI\Scripts\SwitchManager.cs" />
-    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\UIDissolveEffect.cs" />
     <Compile Include="Assets\Outside Assets\Dark UI\Scripts\GamepadTriggerEvent.cs" />
     <Compile Include="Assets\Outside Assets\Dark UI\Scripts\HoldKeyEvent.cs" />
+    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\CustomDropdown.cs" />
+    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\GamepadChecker.cs" />
+    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\UIElementSound.cs" />
+    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\ButtonAnimationFix.cs" />
+    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\PanelBrushManager.cs" />
+    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\PanelTabButton.cs" />
+    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\MainPanelManager.cs" />
+    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\DemoScrollForMore.cs" />
+    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\PressKeyEvent.cs" />
+    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\MainPanelButton.cs" />
+    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\ScrollGamepadManager.cs" />
+    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\UIDissolveEffect.cs" />
     <Compile Include="Assets\Outside Assets\Dark UI\Scripts\VirtualCursor.cs" />
     <Compile Include="Assets\Outside Assets\Dark UI\Scripts\PointerEnterEvents.cs" />
-    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\CustomDropdown.cs" />
     <Compile Include="Assets\Outside Assets\Dark UI\Scripts\PanelTabManager.cs" />
-    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\GamepadChecker.cs" />
     <Compile Include="Assets\Outside Assets\Dark UI\Scripts\CanvasManager.cs" />
     <Compile Include="Assets\Outside Assets\AssetStoreOriginals\_SNAPS_PrototypingAssets\Scripts\Editor\PackageChecker\PackageChecker.cs" />
     <Compile Include="Assets\Outside Assets\Dark UI\Scripts\TimedEvent.cs" />
-    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\UIElementSound.cs" />
-    <Compile Include="Assets\Outside Assets\Dark UI\Scripts\ButtonAnimationFix.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Outside Assets\Hits Effects FREE\Documentation\Readme IMPORTANT.txt" />
@@ -649,6 +649,14 @@
     </Reference>
     <Reference Include="System.IO.Abstractions.TestingHelpers">
       <HintPath>Library\PackageCache\com.unity.ml-agents\Plugins\System.IO.Abstractions.TestingHelpers.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="websocket-sharp">
+      <HintPath>Library\PackageCache\com.unity.services.wire\Plugins\websocket-sharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json\Runtime\Newtonsoft.Json.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">

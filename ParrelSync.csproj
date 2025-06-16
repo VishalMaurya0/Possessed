@@ -62,19 +62,19 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.24f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\ParrelSync-master\ParrelSync\Editor\ParrelSyncProjectSettings.cs" />
     <Compile Include="Assets\ParrelSync-master\ParrelSync\Editor\AssetModBlock\EditorQuit.cs" />
     <Compile Include="Assets\ParrelSync-master\ParrelSync\Editor\Project.cs" />
     <Compile Include="Assets\ParrelSync-master\ParrelSync\Editor\ClonesManagerWindow.cs" />
     <Compile Include="Assets\ParrelSync-master\ParrelSync\Editor\ExternalLinks.cs" />
     <Compile Include="Assets\ParrelSync-master\ParrelSync\Editor\FileUtilities.cs" />
     <Compile Include="Assets\ParrelSync-master\ParrelSync\Editor\AssetModBlock\ParrelSyncAssetModificationProcessor.cs" />
+    <Compile Include="Assets\ParrelSync-master\ParrelSync\Editor\ClonesManager.cs" />
+    <Compile Include="Assets\ParrelSync-master\ParrelSync\Editor\NonCore\AskFeedbackDialog.cs" />
+    <Compile Include="Assets\ParrelSync-master\ParrelSync\Editor\ParrelSyncProjectSettings.cs" />
     <Compile Include="Assets\ParrelSync-master\ParrelSync\Editor\UpdateChecker.cs" />
     <Compile Include="Assets\ParrelSync-master\ParrelSync\Editor\Preferences.cs" />
-    <Compile Include="Assets\ParrelSync-master\ParrelSync\Editor\ClonesManager.cs" />
     <Compile Include="Assets\ParrelSync-master\ParrelSync\Editor\NonCore\OtherMenuItem.cs" />
     <Compile Include="Assets\ParrelSync-master\ParrelSync\Editor\ValidateCopiedFoldersIntegrity.cs" />
-    <Compile Include="Assets\ParrelSync-master\ParrelSync\Editor\NonCore\AskFeedbackDialog.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\ParrelSync-master\ParrelSync\projectCloner.asmdef" />
@@ -626,6 +626,14 @@
     </Reference>
     <Reference Include="System.IO.Abstractions.TestingHelpers">
       <HintPath>Library\PackageCache\com.unity.ml-agents\Plugins\System.IO.Abstractions.TestingHelpers.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="websocket-sharp">
+      <HintPath>Library\PackageCache\com.unity.services.wire\Plugins\websocket-sharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json\Runtime\Newtonsoft.Json.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">

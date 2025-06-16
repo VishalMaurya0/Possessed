@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     [Header("Network Settings")]
     public GameObject ownerPlayer;
+    public string ownerPlayerName = "Player";
     public Camera playerCamera;
     public bool serverStarted = false;
     public bool gameStarted = false;
@@ -21,6 +23,7 @@ public class GameManager : MonoBehaviour
 
     [Header("In Game Info")]
     public Dictionary<ulong, GameObject> connectedClients = new();
+    public Dictionary<ulong, string> clientsNames = new();
     public Dictionary<GameObject, Procedures> completedProcedure = new();
     public Dictionary<int, float> noiseValues = new();
     public int[] selectedProceduresIndex;
@@ -39,6 +42,7 @@ public class GameManager : MonoBehaviour
     public ProcedureBase procedureBase;
     public List<ProcedureCompletion> AllProcedures = new();
     public TaskManager taskManager = null;
+    public TMP_InputField playerName_InputField;
     
 
     public static event Action onServerStarted;
@@ -100,5 +104,17 @@ public class GameManager : MonoBehaviour
         {
 
         }
+    }
+
+    public void PlayerNameChanged()
+    {
+        playerName_InputField.onDeselect.AddListener(value =>
+        {
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                ownerPlayerName = value;
+                Debug.Log("Player name set to: " + ownerPlayerName);
+            }
+        });
     }
 }
