@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.Netcode;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -43,6 +44,7 @@ public class GameManager : MonoBehaviour
     public List<ProcedureCompletion> AllProcedures = new();
     public TaskManager taskManager = null;
     public TMP_InputField playerName_InputField;
+    public TMP_Text playerNameText;
     
 
     public static event Action onServerStarted;
@@ -116,5 +118,16 @@ public class GameManager : MonoBehaviour
                 Debug.Log("Player name set to: " + ownerPlayerName);
             }
         });
+    }
+
+    public void SetPlayerNames()
+    {
+        playerNameText.text = ownerPlayerName;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void GivePlayerNameServerRpc(string name, RpcReceiveParams rpcReceiveParams = default)
+    {
+        clientsNames.Add(rpcReceiveParams.SenderClientId, name);
     }
 }
