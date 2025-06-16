@@ -5,6 +5,8 @@ public class MenuManager : MonoBehaviour
     public Animator mainMenuAnimator;
     public Animator MultiplayerMenuAnimator;
     public Animator HostGamePanelAnimator;
+    public Animator JoinGamePanelAnimator;
+    public Animator LobbyPanelAnimator;
 
 
     private void Update()
@@ -31,7 +33,16 @@ public class MenuManager : MonoBehaviour
     public void LoadHostGamePanel(bool load)
     {
         HostGamePanelAnimator.SetBool("Load", load);
-        Debug.LogError("dfghjk");
+    }
+    
+    public void LoadJoinGamePanel(bool load)
+    {
+        JoinGamePanelAnimator.SetBool("Load", load);
+    }
+    
+    public void LoadLobbyPanel(bool load)
+    {
+        LobbyPanelAnimator.SetBool("Load", load);
     }
     
 }

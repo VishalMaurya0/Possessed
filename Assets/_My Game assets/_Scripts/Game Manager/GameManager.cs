@@ -5,7 +5,7 @@ using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : NetworkBehaviour
 {
     [Header("Network Settings")]
     public GameObject ownerPlayer;
@@ -43,9 +43,14 @@ public class GameManager : MonoBehaviour
     public ProcedureBase procedureBase;
     public List<ProcedureCompletion> AllProcedures = new();
     public TaskManager taskManager = null;
+
+
+    [Header("Player Names")]
     public TMP_InputField playerName_InputField;
     public TMP_Text playerNameText;
-    
+    public GameObject parentObject; // Assign this in the Inspector (e.g., the panel that holds the texts)
+    public List<TMP_Text> tmpTextList = new List<TMP_Text>();
+
 
     public static event Action onServerStarted;
 
@@ -84,6 +89,7 @@ public class GameManager : MonoBehaviour
     public void ServerStarted()
     {
         onServerStarted?.Invoke();
+        NetworkManager.Singleton.OnClientConnectedCallback += HandleClientConnected;
     }
 
     public void CheckForCorrectProcedures()
@@ -108,26 +114,126 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
+
+    /// <summary>
+    /// Player Names
+    /// </summary>
+
+
+    private void HandleClientConnected(ulong clientId)
+    {
+        if (IsOwner)
+            ClientAdded();  // <-- Call it here on the local client
+    }
+
+    public void ClientAdded()
+    {
+        tmpTextList = GetTMPTextInHierarchyOrder(parentObject);
+        Debug.Log($"[Client] ClientAdded called. Found {tmpTextList.Count} TMP_Text elements.");
+    }
+
+
     public void PlayerNameChanged()
     {
-        playerName_InputField.onDeselect.AddListener(value =>
+        playerName_InputField.onEndEdit.AddListener((value) =>
         {
             if (!string.IsNullOrWhiteSpace(value))
             {
                 ownerPlayerName = value;
-                Debug.Log("Player name set to: " + ownerPlayerName);
+                Debug.LogError($"[Client] PlayerNameChanged called with name: {ownerPlayerName}");
+                GivePlayerNameServerRpc(ownerPlayerName);
+                playerNameText.text = ownerPlayerName;
             }
         });
     }
 
-    public void SetPlayerNames()
+    [ServerRpc(RequireOwnership = false)]
+    public void GivePlayerNameServerRpc(string name, ServerRpcParams rpcReceiveParams = default)
     {
-        playerNameText.text = ownerPlayerName;
+        Debug.LogError($"[Server] GivePlayerNameServerRpc received from client {rpcReceiveParams.Receive.SenderClientId} with name: {name}");
+
+        if (!clientsNames.ContainsKey(rpcReceiveParams.Receive.SenderClientId))
+        {
+            clientsNames.Add(rpcReceiveParams.Receive.SenderClientId, name);
+        }
+        else
+        {
+            clientsNames[rpcReceiveParams.Receive.SenderClientId] = name;
+        }
+
+        SendNamesToEveryone();
+    }
+    private void SendNamesToEveryone()
+    {
+        Debug.Log($"[Server] Sending names to all clients. Count: {clientsNames.Count}");
+
+        ResetNamesClientRpc();
+
+        foreach (var client in clientsNames)
+        {
+            Debug.Log($"[Server] Sending name to clients: {client.Key} -> {client.Value}");
+            SendNameClientRpc(client.Key, client.Value);
+        }
+
+        SetPlayerNamesClientRpc();
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    public void GivePlayerNameServerRpc(string name, RpcReceiveParams rpcReceiveParams = default)
+    [ClientRpc]
+    private void ResetNamesClientRpc()
     {
-        clientsNames.Add(rpcReceiveParams.SenderClientId, name);
+        if (IsServer)
+            return;
+
+        Debug.Log("[Client] Resetting local clientsNames dictionary");
+        clientsNames.Clear();
+    }
+    [ClientRpc]
+    private void SendNameClientRpc(ulong ID, string name)
+    {
+        Debug.Log($"[Client] Received name from server: {ID} -> {name}");
+
+        if (!clientsNames.ContainsKey(ID))
+        {
+            clientsNames.Add(ID, name);
+        }
+        else
+        {
+            clientsNames[ID] = name;
+        }
+    }
+    [ClientRpc]
+    private void SetPlayerNamesClientRpc()
+    {
+        Debug.Log($"[Client] Setting player names in UI. Count: {clientsNames.Count}");
+
+        int i = 0;
+        foreach (var client in clientsNames)
+        {
+            if (i < tmpTextList.Count)
+            {
+                Debug.Log($"[Client] Setting tmpTextList[{i}] = {client.Value}");
+                tmpTextList[i].text = client.Value;
+                i++;
+            }
+        }
+    }
+
+
+    List<TMP_Text> GetTMPTextInHierarchyOrder(GameObject root)
+    {
+        List<TMP_Text> list = new List<TMP_Text>();
+
+        TMP_Text[] allTexts = root.GetComponentsInChildren<TMP_Text>(true);
+
+        System.Array.Sort(allTexts, (a, b) =>
+        {
+            int aIndex = a.transform.GetSiblingIndex();
+            int bIndex = b.transform.GetSiblingIndex();
+            return aIndex.CompareTo(bIndex);
+        });
+
+        list.AddRange(allTexts);
+        return list;
     }
 }
