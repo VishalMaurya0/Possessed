@@ -4,25 +4,34 @@ public class MenuManager : MonoBehaviour
 {
     public Animator mainMenuAnimator;
     public Animator MultiplayerMenuAnimator;
+    public Animator HostGamePanelAnimator;
 
 
-    public void LoadMainMenu()
+    private void Update()
     {
-        mainMenuAnimator.SetBool("Load", true);
+        if (!HostGamePanelAnimator.enabled)
+        {
+            Debug.LogWarning("Animator got disabled!");
+            HostGamePanelAnimator.enabled = true;  // Re-enable it
+        }
+    }
+
+    public void LoadMainMenu(bool load)
+    {
+        mainMenuAnimator.SetBool("Load", load);
     }
     
-    public void DeLoadMainMenu()
+    
+    public void LoadMultiplayerMenu(bool load)
     {
-        mainMenuAnimator.SetBool("Load", false);
+        MultiplayerMenuAnimator.SetBool("Load", load);
     }
     
-    public void LoadMultiplayerMenu()
+    
+    public void LoadHostGamePanel(bool load)
     {
-        MultiplayerMenuAnimator.SetBool("Load", true);
+        HostGamePanelAnimator.SetBool("Load", load);
+        Debug.LogError("dfghjk");
     }
     
-    public void DeLoadMultiplayerMenu()
-    {
-        MultiplayerMenuAnimator.SetBool("Load", false);
-    }
 }
