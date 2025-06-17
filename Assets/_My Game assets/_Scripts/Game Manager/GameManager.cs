@@ -82,10 +82,13 @@ public class GameManager : NetworkBehaviour
         NetworkManager.Singleton.OnClientConnectedCallback += HandleClientConnected;
         LeanTween.reset();
         LeanTween.cancelAll();
-        playerName_InputFieldA.onValueChanged.AddListener(OnInputFieldAChanged);
-        playerName_InputFieldB.onValueChanged.AddListener(OnInputFieldBChanged);
+        if (playerName_InputFieldA != null)
+        {
+            playerName_InputFieldA.onValueChanged.AddListener(OnInputFieldAChanged);
+            playerName_InputFieldB.onValueChanged.AddListener(OnInputFieldBChanged);
+            PlayButton.interactable = false;
+        }
 
-        PlayButton.interactable = false;
     }
 
 
@@ -170,7 +173,7 @@ public class GameManager : NetworkBehaviour
     {
         base.OnNetworkSpawn();
 
-        if (IsHost)
+        if (IsHost && PlayButton != null)
         {
             PlayButton.interactable = true;
             Debug.Log("I'm the host, enabling the button.");

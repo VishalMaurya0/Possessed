@@ -3249,6 +3249,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8681387803135212428, guid: 4db9094cef773e6448308fc5f1694b5c, type: 3}
+      propertyPath: NetworkConfig.PlayerPrefab
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8878950338294104322, guid: 4db9094cef773e6448308fc5f1694b5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -3492,6 +3496,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4267da7ada398b84398e7236a2c3106d, type: 3}
+--- !u!114 &363812655177311576 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3871107611542198189, guid: 4267da7ada398b84398e7236a2c3106d, type: 3}
+  m_PrefabInstance: {fileID: 363812655177311575}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 557b6a8a2d384d04da4b494c3797d431, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &513989902957403316
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4582,6 +4597,14 @@ PrefabInstance:
       propertyPath: GlobalObjectIdHash
       value: 3436930068
       objectReference: {fileID: 0}
+    - target: {fileID: 5703164099892760267, guid: 7d9113090e1eac24299a1ad05eecc78d, type: 3}
+      propertyPath: GenerateMap
+      value: 
+      objectReference: {fileID: 363812655177311576}
+    - target: {fileID: 5703164099892760267, guid: 7d9113090e1eac24299a1ad05eecc78d, type: 3}
+      propertyPath: generateMap
+      value: 
+      objectReference: {fileID: 363812655177311576}
     - target: {fileID: 7148567494265126245, guid: 7d9113090e1eac24299a1ad05eecc78d, type: 3}
       propertyPath: m_Name
       value: Game And Network Manager
@@ -4590,11 +4613,36 @@ PrefabInstance:
       propertyPath: cameraMovement
       value: 
       objectReference: {fileID: 1832903028}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5703164099892760267, guid: 7d9113090e1eac24299a1ad05eecc78d, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7148567494265126245, guid: 7d9113090e1eac24299a1ad05eecc78d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5454383365230590744}
   m_SourcePrefab: {fileID: 100100000, guid: 7d9113090e1eac24299a1ad05eecc78d, type: 3}
+--- !u!1 &5454383365230590743 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7148567494265126245, guid: 7d9113090e1eac24299a1ad05eecc78d, type: 3}
+  m_PrefabInstance: {fileID: 5454383365230590742}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5454383365230590744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5454383365230590743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22236db1591a7c24196e7a9be1dada90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  playerPrefab: {fileID: 8596613677294679421, guid: 9381a5b89870b5947802a981bdc9214c, type: 3}
+  generateMap: {fileID: 363812655177311576}
+  cameraMovement: {fileID: 1832903028}
 --- !u!1001 &6625628828451275187
 PrefabInstance:
   m_ObjectHideFlags: 0

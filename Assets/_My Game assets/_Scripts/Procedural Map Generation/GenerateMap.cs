@@ -37,23 +37,13 @@ public class GenerateMap : NetworkBehaviour
     readonly List<MapCell> newIncrements = new ();
 
 
-    private void OnEnable()
-    {
-        GameManager.onServerStarted += HandleServerStarted;
-    }
-
-    private void OnDisable()
-    {
-        GameManager.onServerStarted -= HandleServerStarted;
-    }
-
-    private void HandleServerStarted()
+    public void HandleServerStarted()
     {
         if (!IsServer)
         {
             return;
         }
-
+        Debug.LogError("Generating");
 
         typeOfRooms = proceduralMapDataSO.typeOfRooms;
         generateAgain = false;
@@ -83,7 +73,7 @@ public class GenerateMap : NetworkBehaviour
         if (generateAgain)
         {
             generateAgain = false;
-            GenerateAgain();
+            //GenerateAgain();
         }
     }
 
