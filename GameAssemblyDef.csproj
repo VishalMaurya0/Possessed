@@ -80,6 +80,7 @@
     <Compile Include="Assets\_My Game assets\_Scripts\Enemy\Ghost\GhostAI.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Procedures\Procedure4\Procedure4Visuals.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Tasks\Task for Candle\CandleTask.cs" />
+    <Compile Include="Assets\_My Game assets\_Scripts\Game Manager\PlayerSpawnManager.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Item Management\ItemHolding.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Procedures\Procedure0\Procedure0Visuals.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Player\FearMeter.cs" />
@@ -129,6 +130,7 @@
     <Compile Include="Assets\_My Game assets\_Scripts\Procedures\Procedure3\Procedure3.cs" />
     <Compile Include="Assets\_My Game assets\_ScriptableObjects\Item\ItemDataSO.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Procedural Map Generation\MapVisualTemp.cs" />
+    <Compile Include="Assets\_My Game assets\_Scripts\Multiplayer\Widgets\SessionPlayerList.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Tasks\Task for Blood Bottle\CodeShowingScript.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\DisableVFXWhenNotLookedAt.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\UI\Inventory\ItemFrame UI.cs" />
@@ -1228,6 +1230,26 @@
     </Reference>
     <Reference Include="Unity.Multiplayer.Widgets.Session">
       <HintPath>Library\ScriptAssemblies\Unity.Multiplayer.Widgets.Session.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Services.Multiplayer">
+      <HintPath>Library\ScriptAssemblies\Unity.Services.Multiplayer.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Services.Multiplayer.Editor.Matchmaker.Authoring">
+      <HintPath>Library\ScriptAssemblies\Unity.Services.Multiplayer.Editor.Matchmaker.Authoring.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Services.Authentication">
+      <HintPath>Library\ScriptAssemblies\Unity.Services.Authentication.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Services.Core">
+      <HintPath>Library\ScriptAssemblies\Unity.Services.Core.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Services.Multiplayer.Editor.Shared">
+      <HintPath>Library\ScriptAssemblies\Unity.Services.Multiplayer.Editor.Shared.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEditor.UI">

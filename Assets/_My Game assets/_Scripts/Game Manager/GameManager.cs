@@ -4,6 +4,12 @@ using System.Linq;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
+using Unity.Multiplayer.Widgets;
+using System.Threading.Tasks;
+using Unity.Services.Authentication;
+using System.Collections;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : NetworkBehaviour
 {
@@ -44,12 +50,17 @@ public class GameManager : NetworkBehaviour
     public List<ProcedureCompletion> AllProcedures = new();
     public TaskManager taskManager = null;
 
+    [Header("Player Names")]
+    public Button PlayButton;
+    public GameObject LoadingPanel;
 
     [Header("Player Names")]
-    public TMP_InputField playerName_InputField;
-    public TMP_Text playerNameText;
-    public GameObject parentObject; // Assign this in the Inspector (e.g., the panel that holds the texts)
-    public List<TMP_Text> tmpTextList = new List<TMP_Text>();
+    public TMP_InputField playerName_InputFieldA;
+    public TMP_InputField playerName_InputFieldB;
+    bool updatingFields = false;
+    //public TMP_Text playerNameText;
+    //public GameObject parentObject; // Assign this in the Inspector (e.g., the panel that holds the texts)
+    //public List<TMP_Text> tmpTextList = new List<TMP_Text>();
 
 
     public static event Action onServerStarted;
@@ -68,8 +79,13 @@ public class GameManager : NetworkBehaviour
 
     private void Start()
     {
+        NetworkManager.Singleton.OnClientConnectedCallback += HandleClientConnected;
         LeanTween.reset();
         LeanTween.cancelAll();
+        playerName_InputFieldA.onValueChanged.AddListener(OnInputFieldAChanged);
+        playerName_InputFieldB.onValueChanged.AddListener(OnInputFieldBChanged);
+
+        PlayButton.interactable = false;
     }
 
 
@@ -89,7 +105,6 @@ public class GameManager : NetworkBehaviour
     public void ServerStarted()
     {
         onServerStarted?.Invoke();
-        NetworkManager.Singleton.OnClientConnectedCallback += HandleClientConnected;
     }
 
     public void CheckForCorrectProcedures()
@@ -121,119 +136,196 @@ public class GameManager : NetworkBehaviour
     /// </summary>
 
 
+    void OnInputFieldAChanged(string value)
+    {
+        if (updatingFields) return;
+
+        updatingFields = true;
+        playerName_InputFieldB.text = value;
+        PlayerPrefs.SetString("PlayerName", value);
+        PlayerPrefs.Save();
+
+        ownerPlayerName = value;
+        //Debug.LogError($"[Client] PlayerNameChanged called with name: {ownerPlayerName}");
+
+        updatingFields = false;
+    }
+
+    void OnInputFieldBChanged(string value)
+    {
+        if (updatingFields) return;
+
+        updatingFields = true;
+        playerName_InputFieldA.text = value;
+        PlayerPrefs.SetString("PlayerName", value);
+        PlayerPrefs.Save();
+
+        ownerPlayerName = value;
+        //Debug.LogError($"[Client] PlayerNameChanged called with name: {ownerPlayerName}");
+
+        updatingFields = false;
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+
+        if (IsHost)
+        {
+            PlayButton.interactable = true;
+            Debug.Log("I'm the host, enabling the button.");
+        }
+    }
+
+    // ===============Starting Game ===========//
+    public void StartGame()
+    {
+        if (IsHost)
+        {
+            ShowLoadingPanelClientRpc(); // Optional visual effect
+            NetworkManager.SceneManager.LoadScene("Procedural Generation", LoadSceneMode.Single);
+        }
+    }
+
+    [ClientRpc]
+    private void ShowLoadingPanelClientRpc()
+    {
+        LoadingPanel.SetActive(true); // Optional: show loading UI before transition
+    }
+
     private void HandleClientConnected(ulong clientId)
     {
-        if (IsOwner)
-            ClientAdded();  // <-- Call it here on the local client
+            //ClientAdded();  // <-- Call it here on the local client
     }
 
-    public void ClientAdded()
-    {
-        tmpTextList = GetTMPTextInHierarchyOrder(parentObject);
-        Debug.Log($"[Client] ClientAdded called. Found {tmpTextList.Count} TMP_Text elements.");
-    }
+    //public void ClientAdded()
+    //{
+    //    tmpTextList = GetTMPTextInHierarchyOrder(parentObject);
+    //    Debug.LogError($"[Client] ClientAdded called. Found {tmpTextList.Count} TMP_Text elements.");
+    //    SetPlayerNamesClientRpc();
+    //}
 
 
-    public void PlayerNameChanged()
-    {
-        playerName_InputField.onEndEdit.AddListener((value) =>
-        {
-            if (!string.IsNullOrWhiteSpace(value))
-            {
-                ownerPlayerName = value;
-                Debug.LogError($"[Client] PlayerNameChanged called with name: {ownerPlayerName}");
-                GivePlayerNameServerRpc(ownerPlayerName);
-                playerNameText.text = ownerPlayerName;
-            }
-        });
-    }
+    //public void PlayerNameChanged()
+    //{
+    //    playerName_InputFieldA.onEndEdit.AddListener((value) =>
+    //    {
+    //        if (!string.IsNullOrWhiteSpace(value))
+    //        {
+    //            ownerPlayerName = value;
+    //            Debug.LogError($"[Client] PlayerNameChanged called with name: {ownerPlayerName}");
+    //            StartCoroutine(SetPlayerName());
+    //            playerNameText.text = ownerPlayerName;
+    //            PlayerPrefs.SetString("PlayerName", ownerPlayerName);
+    //            PlayerPrefs.Save();
+    //        }
+    //    });
+    //}
 
-    [ServerRpc(RequireOwnership = false)]
-    public void GivePlayerNameServerRpc(string name, ServerRpcParams rpcReceiveParams = default)
-    {
-        Debug.LogError($"[Server] GivePlayerNameServerRpc received from client {rpcReceiveParams.Receive.SenderClientId} with name: {name}");
+    //IEnumerator SetPlayerName()
+    //{
+    //    yield return new WaitForSeconds(2);
+    //    GivePlayerNameServerRpc(ownerPlayerName);
+    //}
 
-        if (!clientsNames.ContainsKey(rpcReceiveParams.Receive.SenderClientId))
-        {
-            clientsNames.Add(rpcReceiveParams.Receive.SenderClientId, name);
-        }
-        else
-        {
-            clientsNames[rpcReceiveParams.Receive.SenderClientId] = name;
-        }
+    //[ServerRpc(RequireOwnership = false)]
+    //public void GivePlayerNameServerRpc(string name, ServerRpcParams rpcReceiveParams = default)
+    //{
+    //    Debug.LogError($"[Server] GivePlayerNameServerRpc received from client {rpcReceiveParams.Receive.SenderClientId} with name: {name}");
 
-        SendNamesToEveryone();
-    }
-    private void SendNamesToEveryone()
-    {
-        Debug.Log($"[Server] Sending names to all clients. Count: {clientsNames.Count}");
+    //    if (!clientsNames.ContainsKey(rpcReceiveParams.Receive.SenderClientId))
+    //    {
+    //        clientsNames.Add(rpcReceiveParams.Receive.SenderClientId, name);
+    //    }
+    //    else
+    //    {
+    //        clientsNames[rpcReceiveParams.Receive.SenderClientId] = name;
+    //    }
 
-        ResetNamesClientRpc();
+    //    SendNamesToEveryone();
+    //}
+    //private void SendNamesToEveryone()
+    //{
+    //    Debug.Log($"[Server] Sending names to all clients. Count: {clientsNames.Count}");
 
-        foreach (var client in clientsNames)
-        {
-            Debug.Log($"[Server] Sending name to clients: {client.Key} -> {client.Value}");
-            SendNameClientRpc(client.Key, client.Value);
-        }
+    //    ResetNamesClientRpc();
 
-        SetPlayerNamesClientRpc();
-    }
+    //    foreach (var client in clientsNames)
+    //    {
+    //        Debug.Log($"[Server] Sending name to clients: {client.Key} -> {client.Value}");
+    //        SendNameClientRpc(client.Key, client.Value);
+    //    }
 
-    [ClientRpc]
-    private void ResetNamesClientRpc()
-    {
-        if (IsServer)
-            return;
+    //    SetPlayerNamesClientRpc();
+    //}
 
-        Debug.Log("[Client] Resetting local clientsNames dictionary");
-        clientsNames.Clear();
-    }
-    [ClientRpc]
-    private void SendNameClientRpc(ulong ID, string name)
-    {
-        Debug.Log($"[Client] Received name from server: {ID} -> {name}");
+    //[ClientRpc]
+    //private void ResetNamesClientRpc()
+    //{
+    //    if (IsServer)
+    //        return;
 
-        if (!clientsNames.ContainsKey(ID))
-        {
-            clientsNames.Add(ID, name);
-        }
-        else
-        {
-            clientsNames[ID] = name;
-        }
-    }
-    [ClientRpc]
-    private void SetPlayerNamesClientRpc()
-    {
-        Debug.Log($"[Client] Setting player names in UI. Count: {clientsNames.Count}");
+    //    Debug.Log("[Client] Resetting local clientsNames dictionary");
+    //    clientsNames.Clear();
+    //}
+    //[ClientRpc]
+    //private void SendNameClientRpc(ulong ID, string name)
+    //{
+    //    Debug.Log($"[Client] Received name from server: {ID} -> {name}");
 
-        int i = 0;
-        foreach (var client in clientsNames)
-        {
-            if (i < tmpTextList.Count)
-            {
-                Debug.Log($"[Client] Setting tmpTextList[{i}] = {client.Value}");
-                tmpTextList[i].text = client.Value;
-                i++;
-            }
-        }
-    }
+    //    if (!clientsNames.ContainsKey(ID))
+    //    {
+    //        clientsNames.Add(ID, name);
+    //    }
+    //    else
+    //    {
+    //        clientsNames[ID] = name;
+    //    }
+    //}
+    //[ClientRpc]
+    //private void SetPlayerNamesClientRpc()
+    //{
+    //    Debug.Log($"[Client] Setting player names in UI. Count: {clientsNames.Count}");
+
+    //    int i = 0;
+    //    foreach (var client in clientsNames)
+    //    {
+    //        if (i < tmpTextList.Count)
+    //        {
+    //            Debug.Log($"[Client] Setting tmpTextList[{i}] = {client.Value}");
+    //            tmpTextList[i].text = client.Value;
+    //            i++;
+    //        }
+    //    }
+    //}
 
 
-    List<TMP_Text> GetTMPTextInHierarchyOrder(GameObject root)
-    {
-        List<TMP_Text> list = new List<TMP_Text>();
+    //List<TMP_Text> GetTMPTextInHierarchyOrder(GameObject root)
+    //{
+    //    List<TMP_Text> list = new List<TMP_Text>();
 
-        TMP_Text[] allTexts = root.GetComponentsInChildren<TMP_Text>(true);
+    //    TMP_Text[] allTexts = root.GetComponentsInChildren<TMP_Text>(true);
 
-        System.Array.Sort(allTexts, (a, b) =>
-        {
-            int aIndex = a.transform.GetSiblingIndex();
-            int bIndex = b.transform.GetSiblingIndex();
-            return aIndex.CompareTo(bIndex);
-        });
+    //    // Filter only those with GameObject name "TextEncoded"
+    //    List<TMP_Text> filtered = new List<TMP_Text>();
+    //    foreach (var text in allTexts)
+    //    {
+    //        if (text.gameObject.name == "TextEncoded")
+    //        {
+    //            filtered.Add(text);
+    //        }
+    //    }
 
-        list.AddRange(allTexts);
-        return list;
-    }
+    //    // Sort by sibling index to maintain hierarchy order
+    //    filtered.Sort((a, b) =>
+    //    {
+    //        int aIndex = a.transform.GetSiblingIndex();
+    //        int bIndex = b.transform.GetSiblingIndex();
+    //        return aIndex.CompareTo(bIndex);
+    //    });
+
+    //    return filtered;
+    //}
+
 }
+
