@@ -15,22 +15,40 @@ public class Network_Manager : NetworkBehaviour
     private bool runOnce = true;
     bool runStartOnceAfterStartingServer = true;
     private bool sceneInitDone = false;
+    private bool subscribeEvents = false;
+    private bool subscribeSceneLoadEvents = false;
 
 
 
 
+    public void Awake()
+    {
+        if (NetworkManager.Singleton != null && NetworkManager.Singleton.SceneManager != null && !subscribeSceneLoadEvents)
+        {
+            NetworkManager.Singleton.SceneManager.OnLoadComplete += OnSceneLoadComplete;
+            subscribeSceneLoadEvents = true;
+        }
+    }
 
-
-    private void MyStart()
+    private void SubscribeEvents()
     {
         if (NetworkManager.Singleton != null && NetworkManager.Singleton.SceneManager != null)
         {
-            NetworkManager.Singleton.SceneManager.OnLoadComplete += OnSceneLoadComplete;
+            if (!subscribeSceneLoadEvents)
+            {
+                subscribeSceneLoadEvents = true;
+                NetworkManager.Singleton.SceneManager.OnLoadComplete += OnSceneLoadComplete;      // ========this runs when scene load from main menu=========//
+            }
             NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
             NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
+        }
+    }
 
+    private void MyStart()
+    {
+        if (NetworkManager.Singleton != null)
+        {
             // Reinitialize connected clients on server start
-            
             foreach (var client in NetworkManager.Singleton.ConnectedClients)
             {
                 OnClientConnected(client.Key);
@@ -38,13 +56,18 @@ public class Network_Manager : NetworkBehaviour
         }
         else
         {
-            Debug.LogError("NetworkManager.Singleton or SceneManager is null!");
+            Debug.LogError("NetworkManager.Singleton");
         }
 
         if (IsServer && SceneManager.GetActiveScene().name == "Procedural Generation")
         {
             Debug.Log("[Server] Already in Procedural Generation scene, manually calling OnSceneLoadComplete.");
             OnSceneLoadComplete(NetworkManager.Singleton.LocalClientId, "Procedural Generation", LoadSceneMode.Single);
+
+            foreach (var client in NetworkManager.Singleton.ConnectedClients)
+            {
+                OnClientConnected(client.Key);
+            }
         }
     }
 
@@ -63,6 +86,11 @@ public class Network_Manager : NetworkBehaviour
         if (IsServer)
         {
             UpdateAllNoiseValues();
+        }
+        if (!subscribeEvents && NetworkManager.Singleton.IsListening)
+        {
+            subscribeEvents = true;
+            SubscribeEvents();
         }
         if (NetworkManager.Singleton.IsListening && runStartOnceAfterStartingServer)
         {
@@ -110,6 +138,13 @@ public class Network_Manager : NetworkBehaviour
             {
                 Debug.LogError("[Server] generateMap is still null after search.");
             }
+
+
+
+
+
+
+
 
             Debug.Log("[Server] Spawning players if not already spawned...");
             foreach (var clientPair in NetworkManager.Singleton.ConnectedClients)
@@ -169,14 +204,47 @@ public class Network_Manager : NetworkBehaviour
 
         StartCoroutine(HandleLocalCamera(clientId));
 
-        // Server-side tracking
         if (!IsServer) return;
+
+        // If we're already in the game scene and player hasn't been spawned yet
+        if (SceneManager.GetActiveScene().name == "Procedural Generation")
+        {
+            Debug.Log($"[Server] Late client connected in Procedural Generation scene: {clientId}");
+
+            if (NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject == null)
+            {
+                if (playerPrefab == null)
+                {
+                    Debug.LogError("[Server] playerPrefab is null! Cannot instantiate player.");
+                    return;
+                }
+
+                Vector3 spawnPosition = GetSpawnPosition();
+                GameObject playerInstance = Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
+                NetworkObject netObj = playerInstance.GetComponent<NetworkObject>();
+
+                if (netObj == null)
+                {
+                    Debug.LogError("[Server] Instantiated player prefab does not have a NetworkObject component!");
+                    Destroy(playerInstance);
+                    return;
+                }
+
+                netObj.SpawnAsPlayerObject(clientId);
+                Debug.Log($"[Server] Spawned player for late clientID: {clientId}");
+            }
+            else
+            {
+                Debug.Log($"[Server] PlayerObject already exists for late clientID: {clientId}");
+            }
+        }
 
         GameManager.Instance.noOfPlayers++;
         GameManager.Instance.noiseValues[(int)clientId] = 0;
 
         UpdateConnectedClients();
     }
+
 
     private IEnumerator HandleLocalCamera(ulong clientId)
     {

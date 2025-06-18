@@ -43,8 +43,7 @@ public class GenerateMap : NetworkBehaviour
         {
             return;
         }
-        Debug.LogError("Generating");
-
+        
         typeOfRooms = proceduralMapDataSO.typeOfRooms;
         generateAgain = false;
         mapVisualTemp = GetComponent<MapVisualTemp>();

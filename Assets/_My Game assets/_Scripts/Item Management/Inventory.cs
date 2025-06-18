@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
@@ -26,14 +27,35 @@ public class Inventory : NetworkBehaviour
                 inventorySlots.Add(new InventorySlot());
             }
         }
-        if (GameManager.Instance.serverStarted)
-        {
-            itemHolding = GameManager.Instance.ownerPlayer.GetComponent<ItemHolding>();
-            maxSlots = GameManager.Instance.inventorySlots;
-            maxWeight = GameManager.Instance.maxWeight;
-            InventorySlotTracker = FindAnyObjectByType<InventorySlotTracker>();
-        }
+
+        StartCoroutine(WaitForInitInventorySlotTracker());
     }
+
+    private IEnumerator WaitForInitInventorySlotTracker()
+    {
+        // Wait until GameManager is initialized and server is started
+        while (GameManager.Instance == null || !GameManager.Instance.serverStarted)
+        {
+            Debug.Log("Waiting for GameManager.Instance.serverStarted...");
+            yield return null;
+        }
+
+        Debug.Log("serverStarted is TRUE, continuing...");
+
+        itemHolding = GameManager.Instance.ownerPlayer.GetComponent<ItemHolding>();
+        maxSlots = GameManager.Instance.inventorySlots;
+        maxWeight = GameManager.Instance.maxWeight;
+
+        while (InventorySlotTracker == null)
+        {
+            Debug.Log("Finding InventorySlotTracker...");
+            InventorySlotTracker = FindAnyObjectByType<InventorySlotTracker>();
+            yield return null;
+        }
+
+        Debug.Log("InventorySlotTracker FOUND: " + InventorySlotTracker.name);
+    }
+
 
     private void Update()
     {

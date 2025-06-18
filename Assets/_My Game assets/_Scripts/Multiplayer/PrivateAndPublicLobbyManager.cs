@@ -5,21 +5,26 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine.UI;
 using Unity.Netcode;
+using System;
 
 public class PrivateAndPublicLobbyManager : NetworkBehaviour
 {
     private string lobbyId;
     public Toggle isPrivate_ToggleWhileHostingGame;
+    public Toggle isPrivate_ToggleAfterHosting;
     public bool isPrivate = true;
+
+    public bool isLobbyPrivate_GetTheValue;
 
     void Start()
     {
-        isPrivate_ToggleWhileHostingGame.onValueChanged.AddListener(OnToggleChanged);
+        isPrivate_ToggleWhileHostingGame.onValueChanged.AddListener(OnToggleChanged_WhileHostingInGame);
     }
 
-    void OnToggleChanged(bool isOn)
+    void OnToggleChanged_WhileHostingInGame(bool isOn)
     {
         isPrivate = isOn;
+        isPrivate_ToggleAfterHosting.isOn = isOn;
     }
 
     public void OnLobbyCreated()
@@ -59,6 +64,9 @@ public class PrivateAndPublicLobbyManager : NetworkBehaviour
         {
             return;
         }
+
+        this.isPrivate = isPrivate;
+
             await FetchLobbyId();
         if (string.IsNullOrEmpty(lobbyId))
         {
@@ -91,5 +99,55 @@ public class PrivateAndPublicLobbyManager : NetworkBehaviour
         {
             Debug.LogError($"Failed to update lobby: {ex.Message}");
         }
+
+        GetAndSetVisibilityOfLobby();
+    }
+
+    public void GetAndSetVisibilityOfLobby()
+    {
+        SetVisibilityOfLobbyClientRpc();
+
+    }
+
+    [ClientRpc]
+    private void SetVisibilityOfLobbyClientRpc()
+    {
+        SetVisibilityOfLobby_ClientComp();
+    }
+
+    public async void SetVisibilityOfLobby_ClientComp()
+    {
+        if (IsServer) { return; }
+
+
+        await FetchLobbyId();
+
+        if (string.IsNullOrEmpty(lobbyId))
+        {
+            Debug.LogError("Lobby ID not found.");
+            return;
+        }
+
+        try
+        {
+            var lobby = await LobbyService.Instance.GetLobbyAsync(lobbyId);
+
+            // Check visibility
+            isLobbyPrivate_GetTheValue = lobby.IsPrivate;
+            Debug.Log($"Lobby visibility: {(isPrivate ? "Private" : "Public")}");
+
+            // Optional: read from lobby.Data if you're using "visibility" tag
+            if (lobby.Data != null && lobby.Data.TryGetValue("visibility", out var visibilityData))
+            {
+                Debug.Log($"Lobby 'visibility' tag: {visibilityData.Value}");
+            }
+        }
+        catch (LobbyServiceException ex)
+        {
+            Debug.LogError($"Error fetching lobby: {ex.Message}");
+        }
+
+
+        isPrivate_ToggleAfterHosting.isOn = isLobbyPrivate_GetTheValue;
     }
 }
