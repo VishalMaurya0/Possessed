@@ -49,6 +49,7 @@ public class GameManager : NetworkBehaviour
     public ProcedureBase procedureBase;
     public List<ProcedureCompletion> AllProcedures = new();
     public TaskManager taskManager = null;
+    public TMP_Text HelpInstructions;
 
     [Header("Host Accessible")]
     public Button PlayButton;

@@ -105,39 +105,46 @@ public class ProcedureCompletion : ProcedureBase
             }
         }
 
-        if (triggerScript.inProgress && Input.GetMouseButtonDown(0) && timer.Value <= 0)
+        if (triggerScript.inProgress)
         {
-            //Debug.Log("Input detected. Checking inventory...");
-
-            if (GameManager.Instance.ownerPlayer == null)
+            if (triggerScript.inProgress && Input.GetMouseButtonDown(0) && timer.Value <= 0)
             {
-                Debug.LogWarning("ownerPlayer is null in GameManager!");
-                return;
-            }
+                //Debug.Log("Input detected. Checking inventory...");
 
-            Inventory inventory = GameManager.Instance.ownerPlayer.GetComponent<Inventory>();
-            if (inventory == null)
-            {
-                Debug.LogWarning("Inventory component is missing!");
-                return;
-            }
-
-            InventorySlot selectedInventorySlot = inventory.selectedInventorySlot;
-            if (selectedInventorySlot == null || selectedInventorySlot.itemData == null)
-            {
-                Debug.LogWarning("No item selected in inventory!");
-                return;
-            }
-
-            //Debug.Log($"Selected item: {selectedInventorySlot.itemData.itemType}");
-
-            for (int i = 0; i < totalItems; i++)
-            {
-                if (totalItemsNeeded.itemNeeded[i].orderId == currentOrder.Value)
+                if (GameManager.Instance.ownerPlayer == null)
                 {
-                    //Debug.Log($"Checking item match for order {currentOrder.Value}...");
-                    CheckIfItemMatchedWithInventorySlot(totalItemsNeeded.itemNeeded[i], selectedInventorySlot.itemData, inventory, i);
-                    CheckOrderCompletionServerRpc();
+                    Debug.LogWarning("ownerPlayer is null in GameManager!");
+                    return;
+                }
+
+                Inventory inventory = GameManager.Instance.ownerPlayer.GetComponent<Inventory>();
+                if (inventory == null)
+                {
+                    Debug.LogWarning("Inventory component is missing!");
+                    return;
+                }
+
+                InventorySlot selectedInventorySlot = inventory.selectedInventorySlot;
+                if (selectedInventorySlot == null || selectedInventorySlot.itemData == null)
+                {
+                    GameManager.Instance.HelpInstructions.text = "No item selected in inventory!";
+                    Debug.LogWarning("No item selected in inventory!");
+                    return;
+                }
+
+                //Debug.Log($"Selected item: {selectedInventorySlot.itemData.itemType}");
+
+                for (int i = 0; i < totalItems; i++)
+                {
+                    if (totalItemsNeeded.itemNeeded[i].orderId == currentOrder.Value)
+                    {
+                        //Debug.Log($"Checking item match for order {currentOrder.Value}...");
+                        if (CheckIfItemMatchedWithInventorySlot(totalItemsNeeded.itemNeeded[i], selectedInventorySlot.itemData, inventory, i))
+                        {
+                            CheckOrderCompletionServerRpc();
+                            break;
+                        }
+                    }
                 }
             }
         }
@@ -183,7 +190,7 @@ public class ProcedureCompletion : ProcedureBase
         }
     }
 
-    private void CheckIfItemMatchedWithInventorySlot(ItemNeeded itemToCheckAndAdd, ItemData itemDataInInventory, Inventory inventory, int i)
+    private bool CheckIfItemMatchedWithInventorySlot(ItemNeeded itemToCheckAndAdd, ItemData itemDataInInventory, Inventory inventory, int i)
     {
         //Debug.Log($"Matching item: {itemDataInInventory?.itemType} with required item: {itemToCheckAndAdd?.ItemType}");
 
@@ -200,7 +207,13 @@ public class ProcedureCompletion : ProcedureBase
                     if (totalItemsNeeded.addedAmount[i] < totalItemsNeeded.itemNeeded[i].requiredAmount)
                     {
                         AddNonContainerItem(itemDataInInventory, inventory, i);
+                        return true;
                     }
+                }
+                else
+                {
+                    GameManager.Instance.HelpInstructions.text =
+                        $"Incorrect state! Required: {itemToCheckAndAdd.currentState}";
                 }
             }
             else if (isContainer && itemDataInInventory.currentState != itemDataSO.noOfStates - 1)
@@ -209,9 +222,23 @@ public class ProcedureCompletion : ProcedureBase
                 if (totalItemsNeeded.addedAmount[i] < totalItemsNeeded.itemNeeded[i].requiredAmount)
                 {
                     AddContainerItem(inventory, itemDataInInventory, i);
+                    return true;
                 }
+            }else
+            {
+                GameManager.Instance.HelpInstructions.text =
+                    $"There's Nothing in the {itemToCheckAndAdd.ItemType}!!!";
+                return false;
             }
         }
+        else
+        {
+            GameManager.Instance.HelpInstructions.text =
+                $"Wrong item! Required: {itemToCheckAndAdd.ItemType}, You have: {itemDataInInventory?.itemType}";
+            return false;
+        }
+
+        return false;
     }
 
 

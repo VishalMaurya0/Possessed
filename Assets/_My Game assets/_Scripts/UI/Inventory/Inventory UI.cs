@@ -15,6 +15,7 @@ public class InventoryUI : MonoBehaviour
     public GameObject[] iconPlaceholders = new GameObject[9];
     public GameObject[] icons = new GameObject[9];
     public GameObject iconPrefab;
+    public Color color;
 
 
     public bool resetIcons;
@@ -142,7 +143,7 @@ public class InventoryUI : MonoBehaviour
                     iconTransform.anchoredPosition = placeholderTransform.anchoredPosition;
                     iconTransform.sizeDelta = placeholderTransform.sizeDelta;
                     iconImage.sprite = placeholderImage.sprite;
-                    iconImage.color = Color.white;
+                    iconImage.color = color;
                     icons[j].name = "Icon_" + j;
 
                     float alphaValue = (j != inventorySlotTracker.leftSlot.slots.Count) ? decreasedAlpha : 1f;

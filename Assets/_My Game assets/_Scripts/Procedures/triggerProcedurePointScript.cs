@@ -9,6 +9,10 @@ public class triggerProcedurePointScript : NetworkBehaviour
 
     private void OnTriggerStay(Collider other)
     {
+        if (other.gameObject == GameManager.Instance.ownerPlayer && !inProgress)
+        {
+            GameManager.Instance.HelpInstructions.text = "Left Click To Place An Item";
+        }
 
         if (other.gameObject == GameManager.Instance.ownerPlayer)
         {
