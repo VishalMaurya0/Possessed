@@ -217,28 +217,31 @@ public class HuntWanderState : GhostState
 
     public Vector3 FindCentreOfPlayersPosition()
     {
-        if (GameManager.Instance.gameEnd)
+        if (GameManager.Instance.gameEnd || GameManager.Instance.connectedClients.Count == 0)
         {
-            return default;
+            return ghostAI.transform.position;
         }
-        Vector3[] playersPosition = new Vector3[GameManager.Instance.connectedClients.Count];
+
         Vector3 addAll = Vector3.zero;
-        for (int i = 0; i < playersPosition.Length; i++)
+        int count = GameManager.Instance.connectedClients.Count;
+
+        for (int i = 0; i < count; i++)
         {
-            playersPosition[i] = GameManager.Instance.connectedClients.ElementAtOrDefault(i).Value.transform.position;
-            addAll += playersPosition[i];
+            GameObject player = GameManager.Instance.connectedClients.ElementAtOrDefault(i).Value;
+            if (player != null)
+                addAll += player.transform.position;
         }
-        Vector3 centrePos = addAll/playersPosition.Length;
 
+        Vector3 centrePos = addAll / count;
 
-        Vector3 huntRoamPosition = centrePos;
-
-        if (NavMesh.SamplePosition(huntRoamPosition, out NavMeshHit hit, ghostAI.ghostData.endRadius, NavMesh.AllAreas))
+        if (NavMesh.SamplePosition(centrePos, out NavMeshHit hit, ghostAI.ghostData.endRadius, NavMesh.AllAreas))
         {
             return hit.position;
         }
+
         return ghostAI.transform.position;
     }
+
 
     public Vector3 FindHuntRoamPosition()
     {

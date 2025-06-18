@@ -9,11 +9,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace></RootNamespace>
-    <ProjectGuid>{F0BAFBF4-0B9A-6EFC-2A84-67F0B571F822}</ProjectGuid>
+    <RootNamespace>Unity.Services.Multiplayer.Editor.Matchmaker.Authoring</RootNamespace>
+    <ProjectGuid>{85577A61-D1D0-F0A7-A472-33C504BA4277}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>Assembly-CSharp-Editor</AssemblyName>
+    <AssemblyName>Unity.Services.Multiplayer.Editor.Matchmaker.Authoring</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -23,7 +23,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>Temp\bin\Debug\</OutputPath>
-    <DefineConstants>UNITY_6000_0_24;UNITY_6000_0;UNITY_6000;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER;UNITY_2019_4_OR_NEWER;UNITY_2020_1_OR_NEWER;UNITY_2020_2_OR_NEWER;UNITY_2020_3_OR_NEWER;UNITY_2021_1_OR_NEWER;UNITY_2021_2_OR_NEWER;UNITY_2021_3_OR_NEWER;UNITY_2022_1_OR_NEWER;UNITY_2022_2_OR_NEWER;UNITY_2022_3_OR_NEWER;UNITY_2023_1_OR_NEWER;UNITY_2023_2_OR_NEWER;UNITY_2023_3_OR_NEWER;UNITY_6000_0_OR_NEWER;PLATFORM_ARCH_64;UNITY_64;UNITY_INCLUDE_TESTS;ENABLE_AR;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_EVENT_QUEUE;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_TEXTURE_STREAMING;ENABLE_VIRTUALTEXTURING;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_UNITYWEBREQUEST;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_EDITOR_GAME_SERVICES;ENABLE_UNITY_GAME_SERVICES_ANALYTICS_SUPPORT;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_GENERATE_NATIVE_PLUGINS_FOR_ASSEMBLIES_API;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_MANAGED_JOBS;ENABLE_MANAGED_TRANSFORM_JOBS;ENABLE_MANAGED_ANIMATION_JOBS;ENABLE_MANAGED_AUDIO_JOBS;ENABLE_MANAGED_UNITYTLS;INCLUDE_DYNAMIC_GI;ENABLE_SCRIPTING_GC_WBARRIERS;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_MARSHALLING_TESTS;ENABLE_VIDEO;ENABLE_NAVIGATION_OFFMESHLINK_TO_NAVMESHLINK;ENABLE_ACCELERATOR_CLIENT_DEBUGGING;TEXTCORE_1_0_OR_NEWER;EDITOR_ONLY_NAVMESH_BUILDER_DEPRECATED;PLATFORM_STANDALONE_WIN;PLATFORM_STANDALONE;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_NVIDIA;ENABLE_AMD;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_OUT_OF_PROCESS_CRASH_HANDLER;ENABLE_CLUSTER_SYNC;ENABLE_CLUSTERINPUT;PLATFORM_UPDATES_TIME_OUTSIDE_OF_PLAYER_LOOP;GFXDEVICE_WAITFOREVENT_MESSAGEPUMP;PLATFORM_USES_EXPLICIT_MEMORY_MANAGER_INITIALIZER;PLATFORM_SUPPORTS_WAIT_FOR_PRESENTATION;PLATFORM_SUPPORTS_SPLIT_GRAPHICS_JOBS;ENABLE_MONO;NET_4_6;NET_UNITY_4_8;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_UNITY_COLLECTIONS_CHECKS;ENABLE_BURST_AOT;UNITY_TEAM_LICENSE;UNITY_PRO_LICENSE;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_DIRECTOR;ENABLE_LOCALIZATION;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_TILEMAP;ENABLE_TIMELINE;ENABLE_INPUT_SYSTEM;ENABLE_LEGACY_INPUT_MANAGER;TEXTCORE_FONT_ENGINE_1_5_OR_NEWER;TEXTCORE_TEXT_ENGINE_1_5_OR_NEWER;UNITY_POST_PROCESSING_STACK_V2;CSHARP_7_OR_LATER;CSHARP_7_3_OR_NEWER;UNITY_EDITOR_ONLY_COMPILATION</DefineConstants>
+    <DefineConstants>UNITY_6000_0_24;UNITY_6000_0;UNITY_6000;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER;UNITY_2019_4_OR_NEWER;UNITY_2020_1_OR_NEWER;UNITY_2020_2_OR_NEWER;UNITY_2020_3_OR_NEWER;UNITY_2021_1_OR_NEWER;UNITY_2021_2_OR_NEWER;UNITY_2021_3_OR_NEWER;UNITY_2022_1_OR_NEWER;UNITY_2022_2_OR_NEWER;UNITY_2022_3_OR_NEWER;UNITY_2023_1_OR_NEWER;UNITY_2023_2_OR_NEWER;UNITY_2023_3_OR_NEWER;UNITY_6000_0_OR_NEWER;PLATFORM_ARCH_64;UNITY_64;UNITY_INCLUDE_TESTS;ENABLE_AR;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_EVENT_QUEUE;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_TEXTURE_STREAMING;ENABLE_VIRTUALTEXTURING;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_UNITYWEBREQUEST;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_EDITOR_GAME_SERVICES;ENABLE_UNITY_GAME_SERVICES_ANALYTICS_SUPPORT;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_GENERATE_NATIVE_PLUGINS_FOR_ASSEMBLIES_API;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_MANAGED_JOBS;ENABLE_MANAGED_TRANSFORM_JOBS;ENABLE_MANAGED_ANIMATION_JOBS;ENABLE_MANAGED_AUDIO_JOBS;ENABLE_MANAGED_UNITYTLS;INCLUDE_DYNAMIC_GI;ENABLE_SCRIPTING_GC_WBARRIERS;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_MARSHALLING_TESTS;ENABLE_VIDEO;ENABLE_NAVIGATION_OFFMESHLINK_TO_NAVMESHLINK;ENABLE_ACCELERATOR_CLIENT_DEBUGGING;TEXTCORE_1_0_OR_NEWER;EDITOR_ONLY_NAVMESH_BUILDER_DEPRECATED;PLATFORM_STANDALONE_WIN;PLATFORM_STANDALONE;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_NVIDIA;ENABLE_AMD;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_OUT_OF_PROCESS_CRASH_HANDLER;ENABLE_CLUSTER_SYNC;ENABLE_CLUSTERINPUT;PLATFORM_UPDATES_TIME_OUTSIDE_OF_PLAYER_LOOP;GFXDEVICE_WAITFOREVENT_MESSAGEPUMP;PLATFORM_USES_EXPLICIT_MEMORY_MANAGER_INITIALIZER;PLATFORM_SUPPORTS_WAIT_FOR_PRESENTATION;PLATFORM_SUPPORTS_SPLIT_GRAPHICS_JOBS;ENABLE_MONO;NET_4_6;NET_UNITY_4_8;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_UNITY_COLLECTIONS_CHECKS;ENABLE_BURST_AOT;UNITY_TEAM_LICENSE;UNITY_PRO_LICENSE;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_DIRECTOR;ENABLE_LOCALIZATION;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_TILEMAP;ENABLE_TIMELINE;ENABLE_INPUT_SYSTEM;ENABLE_LEGACY_INPUT_MANAGER;TEXTCORE_FONT_ENGINE_1_5_OR_NEWER;TEXTCORE_TEXT_ENGINE_1_5_OR_NEWER;UNITY_POST_PROCESSING_STACK_V2;DEPLOYMENT_API_AVAILABLE;CSHARP_7_OR_LATER;CSHARP_7_3_OR_NEWER;UNITY_EDITOR_ONLY_COMPILATION</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169;USG0001</NoWarn>
@@ -62,7 +62,81 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.24f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\TutorialInfo\Scripts\Editor\ReadmeEditor.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\JsonObjectSpecializedConverter.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\Matchmaker\Model\RuleBasedMatchDefinition.Gen.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\Matchmaker\Model\RangeRelaxation.Gen.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\Matchmaker\Model\EnvironmentConfig.Gen.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\MatchmakerAdminClient.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\IO\FileSystem.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\Shared\ApiException.Gen.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\Shared\IApiConfiguration.Gen.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\Matchmaker\Model\RuleRelaxation.Gen.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\Logging\ILogger.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\Matchmaker\Model\MatchRules.Gen.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\MatchmakerAuthoringServices.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\Matchmaker\Model\MatchIdHostingConfig.Gen.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\Model\ObservableMatchmakerQueueAssets.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\Network\WebRequestUtils.Gen.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\IO\DataMemberEnumConverter.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\Shared\ApiUtils.Gen.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\Shared\ApiRequestPathBuilder.Gen.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\Network\RetryPolicy.Gen.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\Shared\ApiConfiguration.Gen.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\Matchmaker\Model\RuleExternalData.Gen.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\Shared\IApiClient.Gen.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\Model\MatchmakerConfigAssetImporter.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AssemblyInfo.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\Matchmaker\Model\FilteredPoolConfig.Gen.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\Logging\Logger.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\Shared\ApiOperation.Gen.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\ModelCoreToGenerated.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\Matchmaker\Model\Filter.Gen.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\Shared\Multimap.Gen.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\Network\ApiClient.Gen.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\Matchmaker\Model\FilteredPoolConfigAllOf.Gen.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\UI\MatchmakerAssetInspector.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\Matchmaker\Model\Restrictions.Gen.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\Model\MatchmakerAsset.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\Deployment\MatchmakerDeployCommand.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\Shared\ApiObjectConverter.Gen.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\Deployment\IEditorMatchmakerDeploymentHandler.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\IO\MatchHostingConfigTypeConverted.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\IO\CustomContractResolver.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\Shared\ApiResponse.Gen.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\Matchmaker\Model\RuleExternalDataCloudSave.Gen.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\Matchmaker\Model\BasePoolConfig.Gen.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\Shared\ApiObject.Gen.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\Matchmaker\Model\MultiplayHostingConfig.Gen.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\Matchmaker\Model\MatchHosting.Gen.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\Shared\ApiErrorType.Gen.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\Shared\ApiRequestOptions.Gen.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\Matchmaker\Api\MatchmakerAdminApi.Gen.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\Matchmaker\Model\ProblemDetailsDetailsInner.Gen.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\Matchmaker\Model\FilterValue.Gen.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\IO\ResourceNameConverter.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\Matchmaker\Model\ProblemDetails.Gen.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\Deployment\MatchmakerDeploymentProvider.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\IProjectIdProvider.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\IO\MatchmakerConfigLoader.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\Matchmaker\Model\Rules.Gen.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\ModelGeneratedToCore.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\Matchmaker\Model\PoolConfig.Gen.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\Matchmaker\Model\Rule.Gen.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\Matchmaker\Model\BasePoolConfigAllOf.Gen.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\Shared\OpenAPIDateConverter.Gen.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\Shared\AbstractOpenAPISchema.Gen.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\IO\JsonObjectSpecializedConverter.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\Matchmaker\Model\Range.Gen.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\Matchmaker\Model\RuleExternalDataLeaderboard.Gen.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\Matchmaker\Model\AgeType.Gen.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\Matchmaker\Model\RuleBasedTeamDefinition.Gen.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\Network\IRetryPolicy.Gen.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\Matchmaker\Model\QueueConfig.Gen.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\AdminApi\Shared\IApiAccessor.Gen.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\Unity.Services.Multiplayer.Editor.Matchmaker.Authoring.asmdef" />
+    <None Include="Packages\com.unity.services.multiplayer\Editor\Matchmaker\Authoring\UI\Assets\MatchmakerAssetInspector.uxml" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -1141,6 +1215,26 @@
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.24f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Xml.XPath.XDocument.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.Services.DeploymentApi">
+      <HintPath>Library\ScriptAssemblies\Unity.Services.DeploymentApi.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Services.Core.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Services.Core.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Services.Core.Environments.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Services.Core.Environments.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEditor.UI">
+      <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="UnityEngine.TestRunner">
       <HintPath>Library\ScriptAssemblies\UnityEngine.TestRunner.dll</HintPath>
       <Private>False</Private>
@@ -1149,499 +1243,11 @@
       <HintPath>Library\ScriptAssemblies\UnityEditor.TestRunner.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.Services.Vivox.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Services.Vivox.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.AI.Navigation">
-      <HintPath>Library\ScriptAssemblies\Unity.AI.Navigation.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Networking.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Networking.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Multiplayer.Tools.NetStatsMonitor.Implementation">
-      <HintPath>Library\ScriptAssemblies\Unity.Multiplayer.Tools.NetStatsMonitor.Implementation.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.ShaderGraph.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.ShaderGraph.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Timeline">
-      <HintPath>Library\ScriptAssemblies\Unity.Timeline.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.RenderPipelines.Core.ShaderLibrary">
-      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Core.ShaderLibrary.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.PlasticSCM.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.PlasticSCM.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Multiplayer.Center.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Multiplayer.Center.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Performance.Profile-Analyzer.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Performance.Profile-Analyzer.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Multiplayer.Tools.NetStats">
-      <HintPath>Library\ScriptAssemblies\Unity.Multiplayer.Tools.NetStats.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.RenderPipelines.GPUDriven.Runtime">
-      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.GPUDriven.Runtime.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Multiplayer.Widgets.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Multiplayer.Widgets.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Services.Authentication.PlayerAccounts">
-      <HintPath>Library\ScriptAssemblies\Unity.Services.Authentication.PlayerAccounts.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="PPv2URPConverters">
-      <HintPath>Library\ScriptAssemblies\PPv2URPConverters.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.ProBuilder.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.ProBuilder.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.ProBuilder.AddOns.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.ProBuilder.AddOns.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Multiplayer.Playmode">
-      <HintPath>Library\ScriptAssemblies\Unity.Multiplayer.Playmode.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.VisualScripting.Core">
-      <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.Core.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Services.Authentication.Editor.Shared">
-      <HintPath>Library\ScriptAssemblies\Unity.Services.Authentication.Editor.Shared.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.RenderPipelines.Universal.Config.Runtime">
-      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Config.Runtime.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.ProBuilder.AssetIdRemapUtility">
-      <HintPath>Library\ScriptAssemblies\Unity.ProBuilder.AssetIdRemapUtility.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.RenderPipelines.Universal.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Multiplayer.PlayMode.Configurations.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Multiplayer.PlayMode.Configurations.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Multiplayer.Tools.DependencyInjection">
-      <HintPath>Library\ScriptAssemblies\Unity.Multiplayer.Tools.DependencyInjection.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.VisualEffectGraph.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.VisualEffectGraph.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Sentis.iOSBLAS">
-      <HintPath>Library\ScriptAssemblies\Unity.Sentis.iOSBLAS.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Collections.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Collections.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Profiling.Core">
-      <HintPath>Library\ScriptAssemblies\Unity.Profiling.Core.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary">
-      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.VisualScripting.Shared.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.Shared.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.VisualScripting.Core.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.Core.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.AI.Navigation.Updater">
-      <HintPath>Library\ScriptAssemblies\Unity.AI.Navigation.Updater.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Sentis">
-      <HintPath>Library\ScriptAssemblies\Unity.Sentis.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Multiplayer.PlayMode.Editor.Bridge">
-      <HintPath>Library\ScriptAssemblies\Unity.Multiplayer.PlayMode.Editor.Bridge.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Multiplayer.Tools.NetworkSimulator.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Multiplayer.Tools.NetworkSimulator.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Postprocessing.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Postprocessing.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.TextMeshPro">
-      <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Services.Vivox">
-      <HintPath>Library\ScriptAssemblies\Unity.Services.Vivox.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Services.Core.Analytics">
-      <HintPath>Library\ScriptAssemblies\Unity.Services.Core.Analytics.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Sentis.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Sentis.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.VisualScripting.SettingsProvider.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.SettingsProvider.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Netcode.PackageChecker.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Netcode.PackageChecker.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Multiplayer.Widgets.Core">
-      <HintPath>Library\ScriptAssemblies\Unity.Multiplayer.Widgets.Core.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="com.unity.multiplayer.tools.window">
-      <HintPath>Library\ScriptAssemblies\com.unity.multiplayer.tools.window.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.RenderPipelines.Universal.Runtime">
-      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Multiplayer.Tools.NetVis.Editor.Visualization">
-      <HintPath>Library\ScriptAssemblies\Unity.Multiplayer.Tools.NetVis.Editor.Visualization.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.VisualScripting.State">
-      <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.State.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.ML-Agents.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.ML-Agents.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.2D.Sprite.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.2D.Sprite.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.AI.Navigation.Editor.ConversionSystem">
-      <HintPath>Library\ScriptAssemblies\Unity.AI.Navigation.Editor.ConversionSystem.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Multiplayer.Tools.MetricEvents">
-      <HintPath>Library\ScriptAssemblies\Unity.Multiplayer.Tools.MetricEvents.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Multiplayer.Widgets.Session">
-      <HintPath>Library\ScriptAssemblies\Unity.Multiplayer.Widgets.Session.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Multiplayer.Tools.NetworkSolutionInterface">
-      <HintPath>Library\ScriptAssemblies\Unity.Multiplayer.Tools.NetworkSolutionInterface.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Sentis.MacBLAS">
-      <HintPath>Library\ScriptAssemblies\Unity.Sentis.MacBLAS.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.VisualScripting.Flow">
-      <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.Flow.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Sentis.ONNX">
-      <HintPath>Library\ScriptAssemblies\Unity.Sentis.ONNX.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Services.QoS">
-      <HintPath>Library\ScriptAssemblies\Unity.Services.QoS.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.RenderPipelines.Universal.2D.Runtime">
-      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Universal.2D.Runtime.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.RenderPipelines.Core.Runtime">
-      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Core.Runtime.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Multiplayer.Tools.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Multiplayer.Tools.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Multiplayer.Tools.NetStatsMonitor.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Multiplayer.Tools.NetStatsMonitor.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.InputSystem.ForUI">
-      <HintPath>Library\ScriptAssemblies\Unity.InputSystem.ForUI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.ML-Agents.CommunicatorObjects">
-      <HintPath>Library\ScriptAssemblies\Unity.ML-Agents.CommunicatorObjects.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEditor.UI">
-      <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Rider.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Rider.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Multiplayer.Tools.DependencyInjection.UIElements">
-      <HintPath>Library\ScriptAssemblies\Unity.Multiplayer.Tools.DependencyInjection.UIElements.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Multiplayer.Tools.MetricTestData">
-      <HintPath>Library\ScriptAssemblies\Unity.Multiplayer.Tools.MetricTestData.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Multiplayer.Tools.Common">
-      <HintPath>Library\ScriptAssemblies\Unity.Multiplayer.Tools.Common.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Searcher.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Searcher.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Netcode.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Netcode.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.RenderPipeline.Universal.ShaderLibrary">
-      <HintPath>Library\ScriptAssemblies\Unity.RenderPipeline.Universal.ShaderLibrary.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.RenderPipelines.Universal.Shaders">
-      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Shaders.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Multiplayer.Tools.NetStatsMonitor.Component">
-      <HintPath>Library\ScriptAssemblies\Unity.Multiplayer.Tools.NetStatsMonitor.Component.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Multiplayer.PlayMode.Scenarios.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Multiplayer.PlayMode.Scenarios.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.RenderPipelines.Core.Runtime.Shared">
-      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Core.Runtime.Shared.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Timeline.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.RenderPipelines.Core.Editor.Shared">
-      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Core.Editor.Shared.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.ProGrids.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.ProGrids.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Multiplayer.Center.Integrations">
-      <HintPath>Library\ScriptAssemblies\Unity.Multiplayer.Center.Integrations.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.ML-Agents">
-      <HintPath>Library\ScriptAssemblies\Unity.ML-Agents.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Mathematics.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Mathematics.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Netcode.Runtime">
-      <HintPath>Library\ScriptAssemblies\Unity.Netcode.Runtime.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Multiplayer.Tools.NetworkProfiler.Runtime">
-      <HintPath>Library\ScriptAssemblies\Unity.Multiplayer.Tools.NetworkProfiler.Runtime.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Collections">
-      <HintPath>Library\ScriptAssemblies\Unity.Collections.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Multiplayer.Tools.NetVis.Editor.UI">
-      <HintPath>Library\ScriptAssemblies\Unity.Multiplayer.Tools.NetVis.Editor.UI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Multiplayer.Tools.NetworkSimulator.Runtime">
-      <HintPath>Library\ScriptAssemblies\Unity.Multiplayer.Tools.NetworkSimulator.Runtime.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Rendering.LightTransport.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Rendering.LightTransport.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Multiplayer.Tools.NetworkProfiler.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Multiplayer.Tools.NetworkProfiler.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.VisualEffectGraph.Runtime">
-      <HintPath>Library\ScriptAssemblies\Unity.VisualEffectGraph.Runtime.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Multiplayer.Tools.NetStatsMonitor.Configuration">
-      <HintPath>Library\ScriptAssemblies\Unity.Multiplayer.Tools.NetStatsMonitor.Configuration.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Multiplayer.Center.Common">
-      <HintPath>Library\ScriptAssemblies\Unity.Multiplayer.Center.Common.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.VisualScripting.Flow.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.Flow.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Multiplayer.Center.NetcodeForGameObjectsExample">
-      <HintPath>Library\ScriptAssemblies\Unity.Multiplayer.Center.NetcodeForGameObjectsExample.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Multiplayer.Widgets.Vivox">
-      <HintPath>Library\ScriptAssemblies\Unity.Multiplayer.Widgets.Vivox.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.VisualScripting.State.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.State.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Multiplayer.Tools.Adapters">
-      <HintPath>Library\ScriptAssemblies\Unity.Multiplayer.Tools.Adapters.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.AI.Navigation.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.AI.Navigation.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Services.Authentication">
-      <HintPath>Library\ScriptAssemblies\Unity.Services.Authentication.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Mathematics">
-      <HintPath>Library\ScriptAssemblies\Unity.Mathematics.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Networking.Transport">
-      <HintPath>Library\ScriptAssemblies\Unity.Networking.Transport.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.RenderPipelines.Core.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Core.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.ProBuilder">
-      <HintPath>Library\ScriptAssemblies\Unity.ProBuilder.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Multiplayer.Tools.NetVis.Configuration">
-      <HintPath>Library\ScriptAssemblies\Unity.Multiplayer.Tools.NetVis.Configuration.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Services.Core.Environments">
-      <HintPath>Library\ScriptAssemblies\Unity.Services.Core.Environments.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Postprocessing.Runtime">
-      <HintPath>Library\ScriptAssemblies\Unity.Postprocessing.Runtime.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Multiplayer.Tools.NetStatsReporting">
-      <HintPath>Library\ScriptAssemblies\Unity.Multiplayer.Tools.NetStatsReporting.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Burst.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Burst.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Services.Core">
-      <HintPath>Library\ScriptAssemblies\Unity.Services.Core.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.ProGrids">
-      <HintPath>Library\ScriptAssemblies\Unity.ProGrids.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Burst">
-      <HintPath>Library\ScriptAssemblies\Unity.Burst.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Multiplayer.Tools.Initialization">
-      <HintPath>Library\ScriptAssemblies\Unity.Multiplayer.Tools.Initialization.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.VisualStudio.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.VisualStudio.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Multiplayer.Tools.MetricTypes">
-      <HintPath>Library\ScriptAssemblies\Unity.Multiplayer.Tools.MetricTypes.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Rendering.LightTransport.Runtime">
-      <HintPath>Library\ScriptAssemblies\Unity.Rendering.LightTransport.Runtime.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.InputSystem">
-      <HintPath>Library\ScriptAssemblies\Unity.InputSystem.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Assembly-CSharp.csproj">
-      <Project>{7F3AD9B4-F14F-5F4C-5ABB-5849CFC36813}</Project>
-      <Name>Assembly-CSharp</Name>
-    </ProjectReference>
-    <ProjectReference Include="OutsideAssets.csproj">
-      <Project>{D4F68138-4C86-A611-BA2A-E4FFED7330D5}</Project>
-      <Name>OutsideAssets</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.RenderPipelines.Core.Samples.Editor.csproj">
-      <Project>{B2FE46FE-5906-B648-3AB9-5D14CDB259AE}</Project>
-      <Name>Unity.RenderPipelines.Core.Samples.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="VFXGraph.OutputEventHandlers.Editor.csproj">
-      <Project>{5EBA5913-80B5-0AC6-3874-4B90AD92671D}</Project>
-      <Name>VFXGraph.OutputEventHandlers.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="ParrelSync.csproj">
-      <Project>{ADB64EBC-CF4A-1438-944A-AF6F3704F41B}</Project>
-      <Name>ParrelSync</Name>
+    <ProjectReference Include="Unity.Services.Multiplayer.Editor.Matchmaker.Authoring.Core.csproj">
+      <Project>{CB4E1FBC-E32B-F5E1-15BA-E931B2C802F3}</Project>
+      <Name>Unity.Services.Multiplayer.Editor.Matchmaker.Authoring.Core</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.Services.Multiplayer.Editor.Shared.csproj">
       <Project>{7F509295-6C6B-EF3A-3575-273284925A3E}</Project>
@@ -1651,33 +1257,9 @@
       <Project>{C8B87871-A12D-741A-0A8D-71FC1C57267D}</Project>
       <Name>Unity.Services.Multiplayer.Multiplay.Authoring.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="GameAssemblyDef.csproj">
-      <Project>{4B0071A1-F7C7-0096-FB86-8652343078F7}</Project>
-      <Name>GameAssemblyDef</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.Services.Multiplayer.csproj">
-      <Project>{A20F4E39-8AB6-A19A-D2BB-B64F811B3540}</Project>
-      <Name>Unity.Services.Multiplayer</Name>
-    </ProjectReference>
-    <ProjectReference Include="LeanTween.csproj">
-      <Project>{C335E9D1-C50D-7B2E-CA96-C55EBE0D2BDB}</Project>
-      <Name>LeanTween</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.RenderPipelines.Core.Samples.Runtime.csproj">
-      <Project>{62E8CC22-8F60-2E81-669B-F8B7418C292F}</Project>
-      <Name>Unity.RenderPipelines.Core.Samples.Runtime</Name>
-    </ProjectReference>
     <ProjectReference Include="Unity.Services.Multiplayer.Multiplay.Authoring.Editor.csproj">
       <Project>{2B2C1876-FA2E-E7F2-03A1-9AB3FC9A81CA}</Project>
       <Name>Unity.Services.Multiplayer.Multiplay.Authoring.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.Services.Multiplayer.Editor.Matchmaker.Authoring.csproj">
-      <Project>{85577A61-D1D0-F0A7-A472-33C504BA4277}</Project>
-      <Name>Unity.Services.Multiplayer.Editor.Matchmaker.Authoring</Name>
-    </ProjectReference>
-    <ProjectReference Include="VFXGraph.OutputEventHandlers.csproj">
-      <Project>{D8F8119F-9555-D354-D38B-3280C3B4AC6B}</Project>
-      <Name>VFXGraph.OutputEventHandlers</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

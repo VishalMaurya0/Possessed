@@ -10,10 +10,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{4B0071A1-F7C7-0096-FB86-8652343078F7}</ProjectGuid>
+    <ProjectGuid>{A20F4E39-8AB6-A19A-D2BB-B64F811B3540}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>GameAssemblyDef</AssemblyName>
+    <AssemblyName>Unity.Services.Multiplayer</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -23,11 +23,11 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>Temp\bin\Debug\</OutputPath>
-    <DefineConstants>UNITY_6000_0_24;UNITY_6000_0;UNITY_6000;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER;UNITY_2019_4_OR_NEWER;UNITY_2020_1_OR_NEWER;UNITY_2020_2_OR_NEWER;UNITY_2020_3_OR_NEWER;UNITY_2021_1_OR_NEWER;UNITY_2021_2_OR_NEWER;UNITY_2021_3_OR_NEWER;UNITY_2022_1_OR_NEWER;UNITY_2022_2_OR_NEWER;UNITY_2022_3_OR_NEWER;UNITY_2023_1_OR_NEWER;UNITY_2023_2_OR_NEWER;UNITY_2023_3_OR_NEWER;UNITY_6000_0_OR_NEWER;PLATFORM_ARCH_64;UNITY_64;UNITY_INCLUDE_TESTS;ENABLE_AR;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_EVENT_QUEUE;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_TEXTURE_STREAMING;ENABLE_VIRTUALTEXTURING;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_UNITYWEBREQUEST;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_EDITOR_GAME_SERVICES;ENABLE_UNITY_GAME_SERVICES_ANALYTICS_SUPPORT;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_GENERATE_NATIVE_PLUGINS_FOR_ASSEMBLIES_API;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_MANAGED_JOBS;ENABLE_MANAGED_TRANSFORM_JOBS;ENABLE_MANAGED_ANIMATION_JOBS;ENABLE_MANAGED_AUDIO_JOBS;ENABLE_MANAGED_UNITYTLS;INCLUDE_DYNAMIC_GI;ENABLE_SCRIPTING_GC_WBARRIERS;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_MARSHALLING_TESTS;ENABLE_VIDEO;ENABLE_NAVIGATION_OFFMESHLINK_TO_NAVMESHLINK;ENABLE_ACCELERATOR_CLIENT_DEBUGGING;TEXTCORE_1_0_OR_NEWER;EDITOR_ONLY_NAVMESH_BUILDER_DEPRECATED;PLATFORM_STANDALONE_WIN;PLATFORM_STANDALONE;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_NVIDIA;ENABLE_AMD;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_OUT_OF_PROCESS_CRASH_HANDLER;ENABLE_CLUSTER_SYNC;ENABLE_CLUSTERINPUT;PLATFORM_UPDATES_TIME_OUTSIDE_OF_PLAYER_LOOP;GFXDEVICE_WAITFOREVENT_MESSAGEPUMP;PLATFORM_USES_EXPLICIT_MEMORY_MANAGER_INITIALIZER;PLATFORM_SUPPORTS_WAIT_FOR_PRESENTATION;PLATFORM_SUPPORTS_SPLIT_GRAPHICS_JOBS;ENABLE_MONO;NET_STANDARD_2_0;NET_STANDARD;NET_STANDARD_2_1;NETSTANDARD;NETSTANDARD2_1;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_UNITY_COLLECTIONS_CHECKS;ENABLE_BURST_AOT;UNITY_TEAM_LICENSE;UNITY_PRO_LICENSE;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_DIRECTOR;ENABLE_LOCALIZATION;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_TILEMAP;ENABLE_TIMELINE;ENABLE_INPUT_SYSTEM;ENABLE_LEGACY_INPUT_MANAGER;TEXTCORE_FONT_ENGINE_1_5_OR_NEWER;TEXTCORE_TEXT_ENGINE_1_5_OR_NEWER;UNITY_POST_PROCESSING_STACK_V2;CSHARP_7_OR_LATER;CSHARP_7_3_OR_NEWER</DefineConstants>
+    <DefineConstants>UNITY_6000_0_24;UNITY_6000_0;UNITY_6000;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER;UNITY_2019_4_OR_NEWER;UNITY_2020_1_OR_NEWER;UNITY_2020_2_OR_NEWER;UNITY_2020_3_OR_NEWER;UNITY_2021_1_OR_NEWER;UNITY_2021_2_OR_NEWER;UNITY_2021_3_OR_NEWER;UNITY_2022_1_OR_NEWER;UNITY_2022_2_OR_NEWER;UNITY_2022_3_OR_NEWER;UNITY_2023_1_OR_NEWER;UNITY_2023_2_OR_NEWER;UNITY_2023_3_OR_NEWER;UNITY_6000_0_OR_NEWER;PLATFORM_ARCH_64;UNITY_64;UNITY_INCLUDE_TESTS;ENABLE_AR;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_EVENT_QUEUE;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_TEXTURE_STREAMING;ENABLE_VIRTUALTEXTURING;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_UNITYWEBREQUEST;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_EDITOR_GAME_SERVICES;ENABLE_UNITY_GAME_SERVICES_ANALYTICS_SUPPORT;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_GENERATE_NATIVE_PLUGINS_FOR_ASSEMBLIES_API;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_MANAGED_JOBS;ENABLE_MANAGED_TRANSFORM_JOBS;ENABLE_MANAGED_ANIMATION_JOBS;ENABLE_MANAGED_AUDIO_JOBS;ENABLE_MANAGED_UNITYTLS;INCLUDE_DYNAMIC_GI;ENABLE_SCRIPTING_GC_WBARRIERS;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_MARSHALLING_TESTS;ENABLE_VIDEO;ENABLE_NAVIGATION_OFFMESHLINK_TO_NAVMESHLINK;ENABLE_ACCELERATOR_CLIENT_DEBUGGING;TEXTCORE_1_0_OR_NEWER;EDITOR_ONLY_NAVMESH_BUILDER_DEPRECATED;PLATFORM_STANDALONE_WIN;PLATFORM_STANDALONE;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_NVIDIA;ENABLE_AMD;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_OUT_OF_PROCESS_CRASH_HANDLER;ENABLE_CLUSTER_SYNC;ENABLE_CLUSTERINPUT;PLATFORM_UPDATES_TIME_OUTSIDE_OF_PLAYER_LOOP;GFXDEVICE_WAITFOREVENT_MESSAGEPUMP;PLATFORM_USES_EXPLICIT_MEMORY_MANAGER_INITIALIZER;PLATFORM_SUPPORTS_WAIT_FOR_PRESENTATION;PLATFORM_SUPPORTS_SPLIT_GRAPHICS_JOBS;ENABLE_MONO;NET_STANDARD_2_0;NET_STANDARD;NET_STANDARD_2_1;NETSTANDARD;NETSTANDARD2_1;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_UNITY_COLLECTIONS_CHECKS;ENABLE_BURST_AOT;UNITY_TEAM_LICENSE;UNITY_PRO_LICENSE;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_DIRECTOR;ENABLE_LOCALIZATION;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_TILEMAP;ENABLE_TIMELINE;ENABLE_INPUT_SYSTEM;ENABLE_LEGACY_INPUT_MANAGER;TEXTCORE_FONT_ENGINE_1_5_OR_NEWER;TEXTCORE_TEXT_ENGINE_1_5_OR_NEWER;UNITY_POST_PROCESSING_STACK_V2;GAMEOBJECTS_NETCODE_AVAILABLE;GAMEOBJECTS_NETCODE_2_AVAILABLE;CSHARP_7_OR_LATER;CSHARP_7_3_OR_NEWER</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169;USG0001</NoWarn>
-    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -36,7 +36,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169;USG0001</NoWarn>
-    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <NoConfig>true</NoConfig>
@@ -62,87 +62,345 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.24f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\_My Game assets\_Scripts\UI\Inventory\Inventory UI.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Enemy\Ghost\GhostDyingState.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Enemy\Ghost\GhostState.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Player\playerMovement.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Player\LookingCursedIncreasesFear.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Tasks\Task for Coins\CupForCoinTask.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Enemy\Doll\DollAI.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Game Manager\CurserManage.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Tasks\Task for Candle\Candle__Task.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Static Classes\FindConnectedSO.cs" />
-    <Compile Include="Assets\_My Game assets\_ScriptableObjects\Player\Noise\NoiseData.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Procedures\Procedure2\Procedure2Visuals1.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Item Management\Inventory.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Tasks\Task For Pure Powder\PurePowderTaskButton.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Procedures\Procedure0\Procedure0.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Enemy\Ghost\GhostAI.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Procedures\Procedure4\Procedure4Visuals.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Tasks\Task for Candle\CandleTask.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Item Management\ItemHolding.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Procedures\Procedure0\Procedure0Visuals.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Player\FearMeter.cs" />
-    <Compile Include="Assets\_My Game assets\_Prefabs\Items Prefab\Mirror\MirrorBehaviour.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Procedures\Procedure1\Procedure1Visuals.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Multiplayer\LeaveSessionManager.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Procedural Map Generation\Grid.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Player\NoiseHandler.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Procedures\ProcedureCompletion.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Tasks\Task for Coins\TaskForCoins.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Game Manager\Network_Manager.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Static Classes\CopyValuesFromSO(Items).cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Procedures\Procedure5\Procedure5Visuals.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Procedural Map Generation\NavMeshBake.cs" />
-    <Compile Include="Assets\_My Game assets\_ScriptableObjects\Item\ItemCraftingDataSO.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Procedural Map Generation\MapVisual.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Item Management\ItemStatePrefabSelection.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Enemy\Pilpilu\NavMeshAgentForPilpilu.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Game Manager\GameManager.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Procedures\ProcedureBase.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Item Management\Inspection.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Enemy\Pilpilu\Pilpilu_ML.cs" />
-    <Compile Include="Assets\_My Game assets\_ScriptableObjects\Ghost\GhostData.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Item Management\ItemPickup.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Procedures\Procedure2\Procedure2_Portal.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\cameraMovement.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Multiplayer\CustomNetworkHandler.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Procedures\triggerProcedurePointScript.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Player\WallDetection.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Enemy\Pilpilu\GroundCheck.cs" />
-    <Compile Include="Assets\_My Game assets\_ScriptableObjects\Player\PlayerDataSO.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Tasks\Task for Blood Bottle\StatueTask.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\UI\Inventory\Inventory Slot Tracker For UI.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Enemy\Gizmos.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Procedural Map Generation\GenerateMap.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Procedures\Procedure2\Procedure2_Ghost.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Item Management\ItemCrafting.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Tasks\Task For Voodoo Doll\FireScriptForVoodooDoll.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\ClientNetworkTransform.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Procedures\Procedure3\Procedure3Visuals.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Enemy\Ghost\GhostRoamingState.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\UI\Inventory\ItemAmountUI.cs" />
-    <Compile Include="Assets\_My Game assets\_ScriptableObjects\Procedural Map Generation\ProceduralMapDataSO.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Enemy\Ghost\GhostHuntingState.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\UI\MainMenu\MainMenuManager.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Tasks\Task for Blood Bottle\ChestUnlock_BloodBottleTask.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Game Manager\SelectingThreeProcedures.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\SafePointArea.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Procedures\Procedure3\Procedure3.cs" />
-    <Compile Include="Assets\_My Game assets\_ScriptableObjects\Item\ItemDataSO.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Procedural Map Generation\MapVisualTemp.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Tasks\Task for Blood Bottle\CodeShowingScript.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\DisableVFXWhenNotLookedAt.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\UI\Inventory\ItemFrame UI.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Tasks\Task For Pure Powder\PurePowderTask.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Tasks\TaskManager.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Item Management\itemClass.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Tasks\Task For Voodoo Doll\TaskVoodooDoll.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Multiplayer\StartupManager.cs" />
-    <Compile Include="Assets\_My Game assets\_ScriptableObjects\Procedures\ProcedureDataSO.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\Http\HttpClientResponse.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\LobbyServiceSdk.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Models\MatchmakerIOneOf.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Modules\Matchmaker\MatchmakerModuleOption.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\SDK\LobbyCacher\LobbyCacher.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\Models\ResponseLinks.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Modules\IModuleOption.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\SDK\InternalLobbyService.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\SessionBrowser\QuerySessionsResults.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\ErrorMitigation\RetryPolicy.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\Http\JsonObject.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\SDK\WrappedMatchmakerService.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\Models\ErrorStatus.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\Models\AllocateResponseBody.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Models\MatchmakingResults.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\Models\ErrorResponseBody.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\AssemblyInfo.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\Models\JoinByCodeRequest.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\Models\JoinCodeData.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Session\Options\ReconnectSessionOptions.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\DistributedAuthority\SDK\Exceptions\ApiErrorsExtenders.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\Models\JoinByIdRequest.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Http\JsonHelpers.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\DistributedAuthority\Http\DeserializationSettings.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\Apis\LobbyApiRequests.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Utils\JWT\JwtDecoder.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\ErrorMitigation\StatusCodePolicyConfig.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\SDK\JoinLobbyByIdOptions.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Utils\JWT\DateTimeWrapper.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Http\IHttpClient.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Models\CreateTicketResponse.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\DistributedAuthority\Http\IDeserializable.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\SDK\LobbyUpdates\LobbyPlayerChanges.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\InternalMatchmakerServiceSdk.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\SDK\IMatchmakerService.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\SDK\RelayService.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Apis\TicketsApiRequests.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Lobby\LobbyHandler.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Lobby\LobbyState.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Models\CreateBackfillTicketRequest.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Models\TicketStatusResponse.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\Http\ResponseDeserializationException.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Models\Player.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Http\JsonObject.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Http\BaseApiClient.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\ErrorMitigation\RetryPolicyConfig.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Utils\Logger.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\Http\BaseApiClient.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\Scheduler\ThreadHelper.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\Models\JoinCodeResponseBody.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\SDK\CreateTicketOptions.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\DistributedAuthority\SDK\ConnectPayload.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Modules\Connection\ConnectionProvider.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\DistributedAuthority\Http\HttpClientResponse.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\SDK\IMatchmakerSdkConfiguration.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\Models\DataObject.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\SDK\LobbyUpdates\Internal\LobbyChannel.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\SDK\Exceptions\MatchmakerExceptionReason.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\SDK\BackfillTicket.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\SDK\QueryLobbiesOptions.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Apis\TicketsApi.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\Models\JoinAllocation.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\Models\KeyValuePair.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\Models\Region.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\SDK\LobbyUpdates\ChangedLobbyValue.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Session\Models\SessionEventConnectionState.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\SDK\LobbyUpdates\ILobbyEvents.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\Models\AllocationData.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Modules\Connection\Handlers\Connection\NetcodeUtils.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Modules\Matchmaker\MatchmakerModule.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\Http\IDeserializable.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\ErrorMitigation\IRetryPolicy.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Models\BackfillTicketProperties.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\Models\PlayerProfile.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Utils\MPConstants.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Session\Models\PropertyIndex.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Matchmaking\QosCalculator.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\DistributedAuthority\Http\JsonObjectConverter.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Models\QoSResult.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\SDK\UpdateLobbyOptions.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\Http\AsyncOpRetry.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\DistributedAuthority\ErrorMitigation\IRetryPolicy.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\Http\DeserializationSettings.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\MatchmakerServiceSdk.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\Http\DeserializationSettings.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\Http\JsonHelpers.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Modules\IModuleProvider.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\DistributedAuthority\Http\IHttpClient.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\DistributedAuthority\Models\ErrorDetail.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\Apis\RelayAllocationsApiRequests.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Modules\Connection\Handlers\Relay\RelayHandler.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\Http\ResponseHandler.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\Http\CommonErrors.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\RelayServiceSdk.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\DistributedAuthority\Configuration\Configuration.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Apis\MatchesApiRequests.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\Http\ResponseDeserializationException.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\SDK\LobbyUpdates\ChangedOrRemovedLobbyValue.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\Apis\LobbyApiNames.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\Models\QueryResponse.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\DistributedAuthority\Models\ErrorResponseBody.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\Models\IOneOf.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\Http\IHttpClient.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\Http\UnityWebRequestHelpers.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\MultiplayerInitializer.Relay.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Modules\Connection\Handlers\Connection\NetworkConfiguration.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Lobby\LobbyConverter.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\SDK\ILobbyService.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\SDK\Exceptions\RelayExceptionReason.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\Http\JsonObjectConverter.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Http\ResponseHandler.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\MultiplayerInitializer.Lobby.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\Http\HttpClient.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\DistributedAuthority\SDK\IDistributedAuthoritySDKConfiguration.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Modules\Matchmaker\MatchmakerInitializationOption.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\Models\JoinResponseBody.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\Http\AsyncOpRetry.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Matchmaking\QuickJoinOptions.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\ErrorMitigation\StatusCodePolicyConfig.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\DistributedAuthority\Http\JsonObject.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Modules\Connection\Handlers\Connection\NetcodeType.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\Apis\RelayAllocationsApi.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\DistributedAuthority\Http\Responses.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\SDK\LobbyService.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\Models\ResponseMeta.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Modules\Matchmaker\MatchmakerProvider.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Http\HttpException.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\WrappedMultiplayerService.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\SDK\CreateLobbyOptions.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\DistributedAuthority\ErrorMitigation\RetryPolicyConfig.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\Models\TokenData.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\SDK\Exceptions\LobbyServiceException.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Session\Options\BaseSessionOptions.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Http\DeserializationSettings.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Modules\Connection\Handlers\Connection\NetworkType.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\Http\DeserializationException.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\SDK\LobbyVivox\LobbyVivoxTokenProvider.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\SDK\Exceptions\ApiErrorsExtenders.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\MultiplayerService.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Http\JsonObjectConverter.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\SDK\WrappedRelayService.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Modules\Connection\NetworkStreamDrivers.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\Models\JoinAllocationAllOf.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\InternalRelayService.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\Models\QueryFilter.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Modules\Connection\Handlers\DistributedAuthority\DaHandler.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\DistributedAuthority\SDK\AssemblyInfo.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\Models\QueryRequest.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\UnityServicesExtensions.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\DistributedAuthority\Http\ResponseDeserializationException.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\Http\DeserializationException.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\Models\Detail.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\Models\RelayServer.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Session\Models\SessionProperty.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Http\HttpClientResponse.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\DistributedAuthority\Http\BaseApiClient.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Models\ProblemDetails.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\Models\BulkUpdateRequest.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\Models\PlayerUpdateRequest.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\Models\AllocationRequest.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\ErrorMitigation\IRetryPolicy.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\SDK\PayloadProxyApiClient.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\Scheduler\EngineStateHelper.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\DistributedAuthority\Http\HttpClient.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\SessionBrowser\SessionInfo.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\DistributedAuthority\Http\IsolatedJsonConvert.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\Apis\LobbyApi.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Overrides\ABAnalytics.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\DistributedAuthority\Http\UnityWebRequestHelpers.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\Configuration\Configuration.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Http\Responses.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Modules\Connection\Handlers\Connection\INetworkHandler.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\DistributedAuthority\SDK\LobbyServiceExceptionExtensions.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\Models\UpdateRequest.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Session\Models\Player\IPlayer.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\DistributedAuthority\SDK\InternalDaLobbyService.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\Models\RegionsResponseBody.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Models\MatchIdAssignment.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\DistributedAuthority\Scheduler\EngineStateHelper.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\Models\Player.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Utils\JWT\BaseJwt.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\Http\Responses.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\SDK\LobbyUpdates\ILobbyChanges.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\DistributedAuthority\ErrorMitigation\RetryPolicy.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\Http\IError.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Modules\Connection\Handlers\Connection\NetworkRole.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\MultiplayerInitializer.Da.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\SDK\ILobbyServiceInternal.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Models\Team.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\DistributedAuthority\Http\JsonHelpers.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Http\DeserializationException.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\Http\JsonObject.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\SDK\LobbyUpdates\Internal\LobbyWireTokenProvider.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\ErrorMitigation\RetryPolicyConfig.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\SessionBrowser\QuerySessionsOptions.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Modules\Connection\Handlers\Connection\ConnectionMetadata.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\SDK\ApiTelemetryScope.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Scheduler\EngineStateHelper.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\SDK\UpdatePlayerOptions.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\SDK\LobbyUpdates\Internal\LobbyPatcherChanges.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\DistributedAuthority\ErrorMitigation\StatusCodePolicyConfig.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\SDK\LobbyUpdates\LobbyEventConnectionState.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Models\StoredMatchmakingResults.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\MultiplayerInitializer.Matchmaker.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Operation\SessionException.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\Models\RelayIOneOf.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\Models\AllocationUtils.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\Http\HttpClient.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Apis\BackfillApiRequests.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Lobby\LobbySettings.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\DistributedAuthority\SDK\Exceptions\DistributedAuthorityServiceException.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Modules\Matchmaker\MatchmakerExtensions.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\Scheduler\EngineStateHelper.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\SessionBrowser\FilterOption.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\AssemblyInfo.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Models\Override.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\Http\IHttpClient.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Overrides\ABRemoteConfig.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Utils\JWT\ServerAccessToken.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\DistributedAuthority\Http\AsyncOpRetry.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\Http\HttpClientResponse.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Session\SessionManager.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\Models\Allocation.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\SDK\WrappedLobbyService.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\SDK\LobbyUpdates\LobbyValue.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\DistributedAuthority\Models\DistributedAuthorityIOneOf.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\Models\Lobby.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\SDK\IRelayService.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\SDK\MatchmakerService.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\Http\IsolatedJsonConvert.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\Models\JoinCodeRequest.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\Models\CreateRequest.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Session\Models\IVisibilityProperty.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\SDK\IRelayServiceSDKConfiguration.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\Models\PlayerDataObject.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\SDK\ILobbyServiceSDKConfiguration.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\SDK\Exceptions\LobbyExceptionReason.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Modules\Connection\ConnectionInfo.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\DistributedAuthority\Http\HttpException.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Models\MultiplayAssignment.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\DistributedAuthority\Models\Session.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\Models\TokenRequest.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\Models\RelayServerEndpoint.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\DistributedAuthority\Apis\DistributedAuthorityApiRequests.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Modules\Connection\SessionOptionsExtensions.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Utils\IServiceID.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Matchmaking\MatchmakerManager.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Overrides\IABAnalytics.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\ErrorMitigation\RetryPolicy.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\Models\JoinRequest.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Http\IsolatedJsonConvert.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\SDK\QuickJoinLobbyOptions.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Matchmaking\MatchmakerOptions.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\SDK\JoinLobbyByCodeOptions.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\Models\JoinData.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\DistributedAuthority\Apis\DistributedAuthorityApi.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Session\Models\IValueProperty.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\Http\BasicError.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\ErrorMitigation\StatusCodePolicyConfig.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Overrides\IABRemoteConfig.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\ErrorMitigation\IRetryPolicy.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Session\Models\Player\PlayerProperty.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Session\Options\JoinSessionOptions.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Http\HttpClient.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Session\Models\Player\Player.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Session\SessionState.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Session\Models\VisibilityPropertyOptions.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Modules\Connection\Handlers\Connection\EntitiesDriverConstructor.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Modules\IModule.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\DistributedAuthority\Scheduler\ThreadHelper.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\AssemblyInfo.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Matchmaking\Matchmaker.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\SDK\LobbyUpdates\LobbyEventCallbacks.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\DistributedAuthority\SDK\WrappedDistributedAuthorityService.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Scheduler\ThreadHelper.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Configuration\Configuration.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\DistributedAuthority\SDK\DistributedAuthorityTransport.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Http\IDeserializable.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Operation\SessionError.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Http\AsyncOpRetry.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\Models\QuickJoinRequest.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Models\ConversionExtensions.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Models\TicketStatusResponseOneOf.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Apis\MatchesApi.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Modules\Connection\Handlers\Connection\EntitiesNetcodeNetworkHandler.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\Http\ResponseHandler.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\DistributedAuthority\SDK\DefaultClock.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Models\LegacyBackfillTicket.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Matchmaking\MatchmakerAssignmentType.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Models\CreateTicketRequest.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\Models\RegionsData.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Modules\IModuleRegistry.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Modules\ModuleRegistry.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\SDK\Exceptions\RelayServiceException.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\DistributedAuthority\SDK\Exceptions\DistributedAuthorityExceptionReason.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\Http\JsonObjectConverter.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\Scheduler\ThreadHelper.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Modules\Connection\NetworkOption.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\DistributedAuthority\Http\ResponseHandler.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\DistributedAuthority\Http\DeserializationException.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\Http\HttpException.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Session\Options\SessionOptions.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\Models\QueryOrder.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\SessionBrowser\SessionBrowser.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\Http\HttpException.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Http\UnityWebRequestHelpers.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\MultiplayerInitializer.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\Http\IDeserializable.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Matchmaking\MatchmakerState.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Session\SessionHandler.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Models\AbTestingResult.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\Http\UnityWebRequestHelpers.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\SDK\LobbyUpdates\LobbyPlayerJoined.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Modules\Connection\Handlers\Relay\RelayState.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Modules\Matchmaker\BackfillingConfiguration.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\Configuration\Configuration.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\DistributedAuthority\SDK\DistributedAuthorityService.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Models\CreateBackfillTicketResponse.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Models\MatchProperties.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Http\ResponseDeserializationException.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Relay\Http\Responses.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\SDK\Exceptions\MatchmakerServiceException.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\SDK\LobbyUpdates\Internal\LobbyPatcher.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\Http\BaseApiClient.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\SessionBrowser\SortOption.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Apis\BackfillApi.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Session\Models\Player\IReadOnlyPlayer.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\SDK\CreateBackfillTicketOptions.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Modules\Connection\Handlers\Connection\GameObjectsNetcodeNetworkHandler.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\Models\StoredMatchProperties.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Modules\Connection\ConnectionOption.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Modules\Connection\Handlers\Connection\NetworkBuilder.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\ErrorMitigation\RetryPolicyConfig.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Lobbies\Http\JsonHelpers.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Matchmaker\ErrorMitigation\RetryPolicy.cs" />
+    <Compile Include="Packages\com.unity.services.multiplayer\Runtime\Multiplayer\Modules\Connection\ConnectionModule.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\_My Game assets\GameAssemblyDef.asmdef" />
+    <None Include="Packages\com.unity.services.multiplayer\Runtime\Unity.Services.Multiplayer.asmdef" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -1201,44 +1459,36 @@
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.24f1\Editor\Data\NetStandard\compat\2.1.0\shims\netfx\System.Xml.Serialization.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.Netcode.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Netcode.Editor.dll</HintPath>
+    <Reference Include="Unity.Collections">
+      <HintPath>Library\ScriptAssemblies\Unity.Collections.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.Netcode.Editor.CodeGen">
-      <HintPath>Library\ScriptAssemblies\Unity.Netcode.Editor.CodeGen.dll</HintPath>
+    <Reference Include="Unity.Services.Core">
+      <HintPath>Library\ScriptAssemblies\Unity.Services.Core.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.Netcode.Runtime">
-      <HintPath>Library\ScriptAssemblies\Unity.Netcode.Runtime.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.TextMeshPro">
-      <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.ML-Agents">
-      <HintPath>Library\ScriptAssemblies\Unity.ML-Agents.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.AI.Navigation">
-      <HintPath>Library\ScriptAssemblies\Unity.AI.Navigation.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Mathematics">
-      <HintPath>Library\ScriptAssemblies\Unity.Mathematics.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Multiplayer.Widgets.Session">
-      <HintPath>Library\ScriptAssemblies\Unity.Multiplayer.Widgets.Session.dll</HintPath>
+    <Reference Include="Unity.Services.Core.Internal">
+      <HintPath>Library\ScriptAssemblies\Unity.Services.Core.Internal.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.Services.Authentication">
       <HintPath>Library\ScriptAssemblies\Unity.Services.Authentication.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.Services.Core">
-      <HintPath>Library\ScriptAssemblies\Unity.Services.Core.dll</HintPath>
+    <Reference Include="Unity.Services.QoS">
+      <HintPath>Library\ScriptAssemblies\Unity.Services.QoS.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Netcode.Runtime">
+      <HintPath>Library\ScriptAssemblies\Unity.Netcode.Runtime.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Networking.Transport">
+      <HintPath>Library\ScriptAssemblies\Unity.Networking.Transport.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Burst">
+      <HintPath>Library\ScriptAssemblies\Unity.Burst.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEditor.UI">
@@ -1251,22 +1501,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="LeanTween.csproj">
-      <Project>{C335E9D1-C50D-7B2E-CA96-C55EBE0D2BDB}</Project>
-      <Name>LeanTween</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.Services.Multiplayer.csproj">
-      <Project>{A20F4E39-8AB6-A19A-D2BB-B64F811B3540}</Project>
-      <Name>Unity.Services.Multiplayer</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.Services.Multiplayer.Editor.Matchmaker.Authoring.csproj">
-      <Project>{85577A61-D1D0-F0A7-A472-33C504BA4277}</Project>
-      <Name>Unity.Services.Multiplayer.Editor.Matchmaker.Authoring</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.Services.Multiplayer.Editor.Shared.csproj">
-      <Project>{7F509295-6C6B-EF3A-3575-273284925A3E}</Project>
-      <Name>Unity.Services.Multiplayer.Editor.Shared</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

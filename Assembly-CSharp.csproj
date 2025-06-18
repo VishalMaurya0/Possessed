@@ -1348,14 +1348,6 @@
       <HintPath>Library\ScriptAssemblies\Unity.2D.Sprite.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.Services.Multiplayer.Editor.Shared">
-      <HintPath>Library\ScriptAssemblies\Unity.Services.Multiplayer.Editor.Shared.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Services.Multiplayer.Multiplay.Authoring.Core">
-      <HintPath>Library\ScriptAssemblies\Unity.Services.Multiplayer.Multiplay.Authoring.Core.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Unity.AI.Navigation.Editor.ConversionSystem">
       <HintPath>Library\ScriptAssemblies\Unity.AI.Navigation.Editor.ConversionSystem.dll</HintPath>
       <Private>False</Private>
@@ -1438,10 +1430,6 @@
     </Reference>
     <Reference Include="Unity.Netcode.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Netcode.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Services.Multiplayer">
-      <HintPath>Library\ScriptAssemblies\Unity.Services.Multiplayer.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.RenderPipeline.Universal.ShaderLibrary">
@@ -1584,14 +1572,6 @@
       <HintPath>Library\ScriptAssemblies\Unity.Services.Core.Environments.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.Services.Multiplayer.Multiplay.Authoring.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Services.Multiplayer.Multiplay.Authoring.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Services.Multiplayer.Editor.Matchmaker.Authoring">
-      <HintPath>Library\ScriptAssemblies\Unity.Services.Multiplayer.Editor.Matchmaker.Authoring.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Unity.Postprocessing.Runtime">
       <HintPath>Library\ScriptAssemblies\Unity.Postprocessing.Runtime.dll</HintPath>
       <Private>False</Private>
@@ -1658,9 +1638,21 @@
       <Project>{ADB64EBC-CF4A-1438-944A-AF6F3704F41B}</Project>
       <Name>ParrelSync</Name>
     </ProjectReference>
+    <ProjectReference Include="Unity.Services.Multiplayer.Editor.Shared.csproj">
+      <Project>{7F509295-6C6B-EF3A-3575-273284925A3E}</Project>
+      <Name>Unity.Services.Multiplayer.Editor.Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.Services.Multiplayer.Multiplay.Authoring.Core.csproj">
+      <Project>{C8B87871-A12D-741A-0A8D-71FC1C57267D}</Project>
+      <Name>Unity.Services.Multiplayer.Multiplay.Authoring.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="GameAssemblyDef.csproj">
       <Project>{4B0071A1-F7C7-0096-FB86-8652343078F7}</Project>
       <Name>GameAssemblyDef</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.Services.Multiplayer.csproj">
+      <Project>{A20F4E39-8AB6-A19A-D2BB-B64F811B3540}</Project>
+      <Name>Unity.Services.Multiplayer</Name>
     </ProjectReference>
     <ProjectReference Include="LeanTween.csproj">
       <Project>{C335E9D1-C50D-7B2E-CA96-C55EBE0D2BDB}</Project>
@@ -1669,6 +1661,14 @@
     <ProjectReference Include="Unity.RenderPipelines.Core.Samples.Runtime.csproj">
       <Project>{62E8CC22-8F60-2E81-669B-F8B7418C292F}</Project>
       <Name>Unity.RenderPipelines.Core.Samples.Runtime</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.Services.Multiplayer.Multiplay.Authoring.Editor.csproj">
+      <Project>{2B2C1876-FA2E-E7F2-03A1-9AB3FC9A81CA}</Project>
+      <Name>Unity.Services.Multiplayer.Multiplay.Authoring.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.Services.Multiplayer.Editor.Matchmaker.Authoring.csproj">
+      <Project>{85577A61-D1D0-F0A7-A472-33C504BA4277}</Project>
+      <Name>Unity.Services.Multiplayer.Editor.Matchmaker.Authoring</Name>
     </ProjectReference>
     <ProjectReference Include="VFXGraph.OutputEventHandlers.csproj">
       <Project>{D8F8119F-9555-D354-D38B-3280C3B4AC6B}</Project>

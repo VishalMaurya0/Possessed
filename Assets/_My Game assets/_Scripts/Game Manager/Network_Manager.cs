@@ -13,22 +13,15 @@ public class Network_Manager : NetworkBehaviour
 
     private bool generated = false;
     private bool runOnce = true;
-
-
-    private void Awake()
-    {
-#if UNITY_EDITOR
-        if (NetworkManager.Singleton != null && !NetworkManager.Singleton.IsListening)
-        {
-            DontDestroyOnLoad(NetworkManager.Singleton.gameObject);
-            NetworkManager.Singleton.StartHost();
-        }
-#endif
-    }
+    bool runStartOnceAfterStartingServer = true;
+    private bool sceneInitDone = false;
 
 
 
-    private void Start()
+
+
+
+    private void MyStart()
     {
         if (NetworkManager.Singleton != null && NetworkManager.Singleton.SceneManager != null)
         {
@@ -46,6 +39,12 @@ public class Network_Manager : NetworkBehaviour
         else
         {
             Debug.LogError("NetworkManager.Singleton or SceneManager is null!");
+        }
+
+        if (IsServer && SceneManager.GetActiveScene().name == "Procedural Generation")
+        {
+            Debug.Log("[Server] Already in Procedural Generation scene, manually calling OnSceneLoadComplete.");
+            OnSceneLoadComplete(NetworkManager.Singleton.LocalClientId, "Procedural Generation", LoadSceneMode.Single);
         }
     }
 
@@ -65,37 +64,94 @@ public class Network_Manager : NetworkBehaviour
         {
             UpdateAllNoiseValues();
         }
+        if (NetworkManager.Singleton.IsListening && runStartOnceAfterStartingServer)
+        {
+            MyStart();
+            runStartOnceAfterStartingServer = false;
+        }
     }
 
     private void OnSceneLoadComplete(ulong clientId, string sceneName, LoadSceneMode mode)
     {
-        if (!IsServer) return;
+        if (sceneInitDone)
+        {
+            Debug.LogWarning("[OnSceneLoadComplete] Scene already initialized. Skipping duplicate call.");
+            return;
+        }
+        sceneInitDone = true;
+        Debug.Log($"[OnSceneLoadComplete] Triggered for clientId: {clientId}, sceneName: {sceneName}");
+
+        if (!IsServer)
+        {
+            Debug.Log("[OnSceneLoadComplete] Not the server. Exiting.");
+            return;
+        }
 
         if (sceneName == "Procedural Generation")
         {
-            Debug.Log("Server: Procedural Generation scene loaded.");
+            Debug.Log("[Server] Procedural Generation scene loaded.");
+
+            if (generateMap == null)
+            {
+                Debug.LogWarning("[Server] generateMap is null. Trying to find it in the scene.");
+            }
 
             if (generateMap != null && !generated)
             {
+                Debug.Log("[Server] generateMap found and generation not yet triggered. Calling HandleServerStarted().");
                 generated = true;
                 generateMap.HandleServerStarted();
             }
+            else if (generated)
+            {
+                Debug.LogWarning("[Server] Map has already been generated.");
+            }
             else
             {
-                Debug.LogWarning("GenerateMap not found in scene or already generated.");
+                Debug.LogError("[Server] generateMap is still null after search.");
             }
 
-            // Spawn players for connected clients if not already spawned
+            Debug.Log("[Server] Spawning players if not already spawned...");
             foreach (var clientPair in NetworkManager.Singleton.ConnectedClients)
             {
                 ulong clientID = clientPair.Key;
-                if (clientPair.Value.PlayerObject != null) continue;
+                Debug.Log($"[Server] Checking player for clientID: {clientID}");
 
-                GameObject playerInstance = Instantiate(playerPrefab, GetSpawnPosition(), Quaternion.identity);
-                playerInstance.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientID);
+                if (clientPair.Value.PlayerObject != null)
+                {
+                    Debug.Log($"[Server] PlayerObject already exists for clientID: {clientID}, skipping spawn.");
+                    continue;
+                }
+
+                if (playerPrefab == null)
+                {
+                    Debug.LogError("[Server] playerPrefab is null! Cannot instantiate player.");
+                    continue;
+                }
+
+                Vector3 spawnPosition = GetSpawnPosition();
+                Debug.Log($"[Server] Spawning player for clientID: {clientID} at position: {spawnPosition}");
+
+                GameObject playerInstance = Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
+                NetworkObject netObj = playerInstance.GetComponent<NetworkObject>();
+
+                if (netObj == null)
+                {
+                    Debug.LogError("[Server] Instantiated player prefab does not have a NetworkObject component!");
+                    Destroy(playerInstance);
+                    continue;
+                }
+
+                netObj.SpawnAsPlayerObject(clientID);
+                Debug.Log($"[Server] PlayerObject spawned and assigned to clientID: {clientID}");
             }
         }
+        else
+        {
+            Debug.Log($"[OnSceneLoadComplete] Scene '{sceneName}' is not handled in this method.");
+        }
     }
+
 
     private Vector3 GetSpawnPosition()
     {
@@ -109,40 +165,47 @@ public class Network_Manager : NetworkBehaviour
 
     private void OnClientConnected(ulong clientId)
     {
-
-
         if (GameManager.Instance == null || NetworkManager.Singleton == null) return;
 
-        if (NetworkManager.Singleton.ConnectedClients.TryGetValue(clientId, out var client) && client.PlayerObject != null)
-        {
-            GameObject player = client.PlayerObject.gameObject;
+        StartCoroutine(HandleLocalCamera(clientId));
 
-            if (runOnce && cameraMovement != null && NetworkManager.Singleton.LocalClientId == clientId)
-            {
-                runOnce = false;
+        // Server-side tracking
+        if (!IsServer) return;
 
-                Transform cameraTransform_ = player.transform.childCount > 0 ? player.transform.GetChild(0) : null;
-                if (cameraTransform_ != null)
-                {
-                    cameraMovement.cameraTransform = cameraTransform_;
-                    GameManager.Instance.ownerPlayer = player;
-                    GameManager.Instance.serverStarted = true;
-                    GameManager.Instance.ServerStarted();
-                }
-                else
-                {
-                    Debug.LogError("Player has no child camera transform!");
-                }
-            }
-            
-            if (!IsServer) return;
-
-            GameManager.Instance.noOfPlayers++;
-            GameManager.Instance.noiseValues[(int)client.ClientId] = 0;
-        }
+        GameManager.Instance.noOfPlayers++;
+        GameManager.Instance.noiseValues[(int)clientId] = 0;
 
         UpdateConnectedClients();
     }
+
+    private IEnumerator HandleLocalCamera(ulong clientId)
+    {
+        // Wait until PlayerObject is spawned
+        yield return new WaitUntil(() =>
+            NetworkManager.Singleton.ConnectedClients.ContainsKey(clientId) &&
+            NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject != null);
+
+        GameObject player = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject.gameObject;
+
+        if (runOnce && cameraMovement != null && NetworkManager.Singleton.LocalClientId == clientId)
+        {
+            runOnce = false;
+
+            Transform cameraTransform_ = player.transform.childCount > 0 ? player.transform.GetChild(0) : null;
+            if (cameraTransform_ != null)
+            {
+                cameraMovement.cameraTransform = cameraTransform_;
+                GameManager.Instance.ownerPlayer = player;
+                GameManager.Instance.serverStarted = true;
+                GameManager.Instance.ServerStarted();
+            }
+            else
+            {
+                Debug.LogError("Player has no child camera transform!");
+            }
+        }
+    }
+
 
     private void OnClientDisconnected(ulong clientId)
     {
