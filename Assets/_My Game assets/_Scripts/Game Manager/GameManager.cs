@@ -50,8 +50,9 @@ public class GameManager : NetworkBehaviour
     public List<ProcedureCompletion> AllProcedures = new();
     public TaskManager taskManager = null;
 
-    [Header("Player Names")]
+    [Header("Host Accessible")]
     public Button PlayButton;
+    public Toggle PublicPrivateToggle;
     public GameObject LoadingPanel;
 
     [Header("Player Names")]
@@ -87,6 +88,7 @@ public class GameManager : NetworkBehaviour
             playerName_InputFieldA.onValueChanged.AddListener(OnInputFieldAChanged);
             playerName_InputFieldB.onValueChanged.AddListener(OnInputFieldBChanged);
             PlayButton.interactable = false;
+            PublicPrivateToggle.interactable = false;
         }
 
     }
@@ -176,6 +178,7 @@ public class GameManager : NetworkBehaviour
         if (IsHost && PlayButton != null)
         {
             PlayButton.interactable = true;
+            PublicPrivateToggle.interactable = true;
             Debug.Log("I'm the host, enabling the button.");
         }
     }

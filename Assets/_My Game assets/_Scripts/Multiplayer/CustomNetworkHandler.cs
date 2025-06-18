@@ -3,10 +3,30 @@ using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using UnityEngine.UI;
+using Unity.Netcode;
 
-public class SessionTagManager : MonoBehaviour
+public class PrivateAndPublicLobbyManager : NetworkBehaviour
 {
     private string lobbyId;
+    public Toggle isPrivate_ToggleWhileHostingGame;
+    public bool isPrivate = true;
+
+    void Start()
+    {
+        isPrivate_ToggleWhileHostingGame.onValueChanged.AddListener(OnToggleChanged);
+    }
+
+    void OnToggleChanged(bool isOn)
+    {
+        isPrivate = isOn;
+    }
+
+    public void OnLobbyCreated()
+    {
+        if (IsServer)
+        TogglePrivatePublic(isPrivate);
+    }
 
     public async Task FetchLobbyId()
     {
@@ -35,7 +55,11 @@ public class SessionTagManager : MonoBehaviour
 
     public async void TogglePrivatePublic(bool isPrivate)
     {
-        await FetchLobbyId();
+        if (!IsServer)
+        {
+            return;
+        }
+            await FetchLobbyId();
         if (string.IsNullOrEmpty(lobbyId))
         {
             Debug.LogError("Lobby ID not set. Use SetLobbyId() after session is created.");
