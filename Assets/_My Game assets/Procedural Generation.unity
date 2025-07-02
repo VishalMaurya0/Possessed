@@ -1872,7 +1872,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 3409921
+    m_Bits: 7604225
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: 46b3551cd153e1845ba07b996e571642, type: 2}
   m_TargetDisplay: 0
@@ -3037,7 +3037,7 @@ GameObject:
   - component: {fileID: 1288666955}
   m_Layer: 0
   m_Name: Camera(Small Map)
-  m_TagString: Untagged
+  m_TagString: Minimap
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3140,7 +3140,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 3409921
+    m_Bits: 7604225
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: c766edc71b33c924b885c1fab58662b9, type: 2}
   m_TargetDisplay: 0
@@ -5566,6 +5566,10 @@ PrefabInstance:
       propertyPath: HelpInstructions
       value: 
       objectReference: {fileID: 216743792}
+    - target: {fileID: 3491250806943052933, guid: 7d9113090e1eac24299a1ad05eecc78d, type: 3}
+      propertyPath: CameraWhichFollowPlayer_Y
+      value: 
+      objectReference: {fileID: 1288666956}
     - target: {fileID: 4480574489279584503, guid: 7d9113090e1eac24299a1ad05eecc78d, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 3436930068

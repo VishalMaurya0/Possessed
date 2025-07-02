@@ -140,7 +140,7 @@ public class LobbyManager : NetworkBehaviour
 
     private IEnumerator UpdateColorUIAfterDelay()
     {
-        yield return new WaitForSeconds(0.2f); // Small delay to allow UI to populate
+        yield return new WaitForSeconds(0.5f); // Small delay to allow UI to populate
 
         var dsfali = playerListParent.GetComponentsInChildren<DummyScriptForAccessingListItem>();
         for (int i = 0; i < dsfali.Length; i++)
