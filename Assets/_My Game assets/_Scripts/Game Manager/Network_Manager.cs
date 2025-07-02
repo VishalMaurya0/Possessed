@@ -295,6 +295,7 @@ public class Network_Manager : NetworkBehaviour
             if (playerObject != null && !GameManager.Instance.connectedClients.ContainsKey(clientId))
             {
                 GameManager.Instance.connectedClients.Add(clientId, playerObject.gameObject);
+                //GameManager.Instance.playerIndicatorColors.Add(client, Color.); TODO 
             }
         }
     }

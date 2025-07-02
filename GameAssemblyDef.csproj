@@ -66,6 +66,7 @@
     <Compile Include="Assets\_My Game assets\_Scripts\Enemy\Ghost\GhostDyingState.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Enemy\Ghost\GhostState.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Player\playerMovement.cs" />
+    <Compile Include="Assets\_My Game assets\_Scripts\Game Manager\GameDataRuntime.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Player\LookingCursedIncreasesFear.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Tasks\Task for Coins\CupForCoinTask.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Enemy\Doll\DollAI.cs" />
@@ -85,11 +86,11 @@
     <Compile Include="Assets\_My Game assets\_Scripts\Player\FearMeter.cs" />
     <Compile Include="Assets\_My Game assets\_Prefabs\Items Prefab\Mirror\MirrorBehaviour.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Procedures\Procedure1\Procedure1Visuals.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Multiplayer\LeaveSessionManager.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Procedural Map Generation\Grid.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Player\NoiseHandler.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Procedures\ProcedureCompletion.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Tasks\Task for Coins\TaskForCoins.cs" />
+    <Compile Include="Assets\_My Game assets\_Scripts\UI\Minimap\PlayerIndicatorInMinimap.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Game Manager\Network_Manager.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Static Classes\CopyValuesFromSO(Items).cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Procedures\Procedure5\Procedure5Visuals.cs" />
@@ -112,6 +113,7 @@
     <Compile Include="Assets\_My Game assets\_ScriptableObjects\Player\PlayerDataSO.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Tasks\Task for Blood Bottle\StatueTask.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\UI\Inventory\Inventory Slot Tracker For UI.cs" />
+    <Compile Include="Assets\_My Game assets\_Scripts\UI\MainMenu\Multiplayer UI\DummyScriptForAccessingListItem.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Enemy\Gizmos.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Procedural Map Generation\GenerateMap.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Procedures\Procedure2\Procedure2_Ghost.cs" />
@@ -119,6 +121,7 @@
     <Compile Include="Assets\_My Game assets\_Scripts\Tasks\Task For Voodoo Doll\FireScriptForVoodooDoll.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\ClientNetworkTransform.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Procedures\Procedure3\Procedure3Visuals.cs" />
+    <Compile Include="Assets\_My Game assets\_Scripts\UI\MainMenu\Multiplayer UI\SetPlayerName.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Enemy\Ghost\GhostRoamingState.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\UI\Inventory\ItemAmountUI.cs" />
     <Compile Include="Assets\_My Game assets\_ScriptableObjects\Procedural Map Generation\ProceduralMapDataSO.cs" />
@@ -128,8 +131,10 @@
     <Compile Include="Assets\_My Game assets\_Scripts\Game Manager\SelectingThreeProcedures.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\SafePointArea.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Procedures\Procedure3\Procedure3.cs" />
+    <Compile Include="Assets\_My Game assets\_Scripts\UI\MainMenu\Multiplayer UI\PrivateAndPublicLobbyManager.cs" />
+    <Compile Include="Assets\_My Game assets\_Scripts\UI\MainMenu\Multiplayer UI\LobbyManager.cs" />
     <Compile Include="Assets\_My Game assets\_ScriptableObjects\Item\ItemDataSO.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Multiplayer\PrivateAndPublicLobbyManager.cs" />
+    <Compile Include="Assets\_My Game assets\_Scripts\UI\MainMenu\Multiplayer UI\LeaveSessionManager.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Procedural Map Generation\MapVisualTemp.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Tasks\Task for Blood Bottle\CodeShowingScript.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\DisableVFXWhenNotLookedAt.cs" />
@@ -138,7 +143,6 @@
     <Compile Include="Assets\_My Game assets\_Scripts\Tasks\TaskManager.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Item Management\itemClass.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Tasks\Task For Voodoo Doll\TaskVoodooDoll.cs" />
-    <Compile Include="Assets\_My Game assets\_Scripts\Multiplayer\StartupManager.cs" />
     <Compile Include="Assets\_My Game assets\_ScriptableObjects\Procedures\ProcedureDataSO.cs" />
   </ItemGroup>
   <ItemGroup>

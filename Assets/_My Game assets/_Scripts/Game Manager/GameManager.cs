@@ -15,6 +15,7 @@ public class GameManager : NetworkBehaviour
 {
     [Header("Network Settings")]
     public GameObject ownerPlayer;
+    public ulong localID;
     public string ownerPlayerName = "Player";
     public Camera playerCamera;
     public bool serverStarted = false;
@@ -26,11 +27,13 @@ public class GameManager : NetworkBehaviour
     [Tooltip("Maintained on Server")] public int noOfPlayers;             //----------maintained on server---------//
     public int inventorySlots = 5;
     public float maxWeight = 15;
+    public Color playerIndicatorColor;
 
 
     [Header("In Game Info")]
     public Dictionary<ulong, GameObject> connectedClients = new();
     public Dictionary<ulong, string> clientsNames = new();
+    public Dictionary<ulong, Color> playerIndicatorColors = new();
     public Dictionary<GameObject, Procedures> completedProcedure = new();
     public Dictionary<int, float> noiseValues = new();
     public int[] selectedProceduresIndex;
@@ -78,6 +81,8 @@ public class GameManager : NetworkBehaviour
         procedureBase = GetComponent<ProcedureBase>();
         handleMovement = true;
     }
+
+
 
     private void Start()
     {
@@ -181,6 +186,12 @@ public class GameManager : NetworkBehaviour
             PlayButton.interactable = true;
             PublicPrivateToggle.interactable = true;
             Debug.Log("I'm the host, enabling the button.");
+        }
+
+        if (IsOwner)
+        {
+            localID = NetworkManager.Singleton.LocalClientId;
+            Debug.Log($"[DummyScript] Set ID: {localID} for client: {NetworkManager.Singleton.LocalClientId}");
         }
     }
 

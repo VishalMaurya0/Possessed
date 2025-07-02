@@ -1,35 +1,3 @@
-//using UnityEngine;
-//using Unity.Services.Authentication;
-//using System.Collections;
-
-//public class SetPlayerNameFromPrefs : MonoBehaviour
-//{
-//    IEnumerator Start()
-//    {
-//        // Wait until the user is signed in
-//        while (!AuthenticationService.Instance.IsSignedIn)
-//        {
-//            yield return null; // wait one frame
-//        }
-
-//        // Now set player name
-//        string playerName = PlayerPrefs.GetString("PlayerName", "Player" + Random.Range(1000, 9999));
-//        SetName(playerName);
-//    }
-
-//    async void SetName(string name)
-//    {
-//        try
-//        {
-//            await AuthenticationService.Instance.UpdatePlayerNameAsync(name);
-//            Debug.Log("Player name set to: " + name);
-//        }
-//        catch (AuthenticationException e)
-//        {
-//            Debug.LogWarning("Could not set player name: " + e.Message);
-//        }
-//    }
-//}
 
 using UnityEngine;
 using Unity.Services.Core;
@@ -49,7 +17,7 @@ public static class LobbySessionTracker
 
 
 
-public class StartupManager : MonoBehaviour
+public class SetPlayerName : MonoBehaviour
 {
     private string lastSetName = "";
     public LeaveSessionProxy leaveSessionProxy; // assign this via Inspector
