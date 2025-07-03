@@ -59,7 +59,7 @@ public class PlayerController : MonoBehaviour
         XfasterStaminaRecoveryRate = playerData.XfasterStaminaRecoveryRate;
         staminaDepletionRate = playerData.staminaDepletionRate;
 
-        torchLight = playerData.torchLight;
+        //torchLight = playerData.torchLight;
 
         sprintKey = playerData.sprintKey;
         crouchKey = playerData.crouchKey;

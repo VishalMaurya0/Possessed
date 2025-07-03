@@ -11,6 +11,7 @@ public class PlayerIndicatorInMinimap : NetworkBehaviour
 
     private void Start()
     {
+        CameraWhichFollow = GameObject.FindWithTag("Minimap");
         if (IsOwner)
         {
             indicator.color = GameDataRuntime.Instance.playerIndicatorColor;
@@ -22,7 +23,6 @@ public class PlayerIndicatorInMinimap : NetworkBehaviour
             indicator.color = GameDataRuntime.Instance.playerIndicatorColors[GetComponent<NetworkObject>().OwnerClientId];
             indicator2.color = indicator.color;
         }
-        CameraWhichFollow = GameObject.FindWithTag("Minimap");
     }
 
     private void Update()
