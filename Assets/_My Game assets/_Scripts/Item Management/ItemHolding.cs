@@ -24,8 +24,8 @@ public class ItemHolding : NetworkBehaviour
 
     [Header("Showing Held Items")]
     public Transform heldItemPosition;
+    public Transform heldItemParent;
     public List<GameObject> heldItemPrefabs; 
-    public List<Rigidbody> heldItemRgs; 
 
     [Header("UI")]
     public InventoryUI inventoryUI;
@@ -43,6 +43,10 @@ public class ItemHolding : NetworkBehaviour
         playerCamera = Camera.main;
         inventoryUI = FindAnyObjectByType<InventoryUI>();
         inventorySlotTracker = FindAnyObjectByType<InventorySlotTracker>();
+        for (int i = 0; i < 5; i++)
+        {
+            heldItemPrefabs.Add(null);
+        }
     }
 
     void Update()
@@ -225,33 +229,54 @@ public class ItemHolding : NetworkBehaviour
 
     private void HandleHeldItems()
     {
-        List<bool> itemTypeFlag = new(5);
-        List<bool> itemStateFlag = new(5);
-        for (int i = 0; i < Inventory.inventorySlots.Count; i++)
+        int slotCount = Inventory.inventorySlots.Count;
+
+        List<bool> itemTypeFlag = new(slotCount);
+        List<bool> itemStateFlag = new(slotCount);
+
+        // Fill the lists with default false values
+        for (int i = 0; i < slotCount; i++)
         {
-            if (Inventory.inventorySlots[i].itemData.itemType != heldItemPrefabs[i].GetComponent<DummyScriptForClassifyingItems>().ItemData.itemType)
+            itemTypeFlag.Add(false);
+            itemStateFlag.Add(false);
+        }
+
+        for (int i = 0; i < slotCount; i++)
+        {
+            if (Inventory.inventorySlots[i] == null && heldItemPrefabs[i] != null)
+            {
                 itemTypeFlag[i] = true;
-            if (Inventory.inventorySlots[i].itemData.currentState != heldItemPrefabs[i].GetComponent<DummyScriptForClassifyingItems>().ItemData.currentState)
-                itemStateFlag[i] = true;
+                continue;
+            }
+
+            if (Inventory.inventorySlots[i] != null && heldItemPrefabs[i] == null)
+            {
+                itemTypeFlag[i] = true;
+                continue;
+            }
+
+            if (heldItemPrefabs[i] != null && heldItemPrefabs[i].TryGetComponent<DummyScriptForClassifyingItems>(out var dummy))
+            {
+                if (Inventory.inventorySlots[i].itemData.itemType != dummy.ItemData.itemType)
+                    itemTypeFlag[i] = true;
+                if (Inventory.inventorySlots[i].itemData.currentState != dummy.ItemData.currentState)
+                    itemStateFlag[i] = true;
+            }
         }
-        bool typeFlag = false;
-        bool stateFlag = false;
-        foreach (var item in itemTypeFlag)
-        {
-            if (item) typeFlag = true;
-        }
-        foreach (var item in itemStateFlag)
-        {
-            if (item) stateFlag = true;
-        }
+
+        bool typeFlag = itemTypeFlag.Contains(true);
+        bool stateFlag = itemStateFlag.Contains(true);
+
         if (typeFlag)
         {
             HandleNewHeldItems(itemTypeFlag, itemStateFlag);
-        }else if (stateFlag)
+        }
+        else if (stateFlag)
         {
             HandleStateChangeOfHeldItems(itemStateFlag);
         }
     }
+
 
     private void HandleNewHeldItems(List<bool> itemTypeFlag, List<bool> itemStateFlag)
     {
@@ -262,8 +287,13 @@ public class ItemHolding : NetworkBehaviour
                 Destroy(heldItemPrefabs[i]);
                 heldItemPrefabs[i] = null;
 
+                if (Inventory.inventorySlots[i].itemData == null) continue;
+
                 ItemDataSO idso = ScriptableObjectFinder.FindItemSO(Inventory.inventorySlots[i].itemData);
-                GameObject obj = heldItemPrefabs[i] = Instantiate(idso.dummyItemPrefab, heldItemPosition);
+                GameObject obj = heldItemPrefabs[i] = Instantiate(idso.dummyItemPrefab);
+                var dummy = obj.AddComponent<DummyScriptForClassifyingItems>();
+                dummy.toFollow = heldItemPosition;
+                dummy.ItemData = Inventory.inventorySlots[i].itemData;
             }
         }
     }

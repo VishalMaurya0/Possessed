@@ -14,7 +14,7 @@ public class StatueTask : NetworkBehaviour
     {
         if (IsServer)
             value.Value = 0;
-        GameObject table = transform.parent.gameObject;
+        GameObject table = transform.parent.parent.gameObject;
         chestUnlock_BloodBottleTask = table.GetComponentInChildren<ChestUnlock_BloodBottleTask>();
     }
 

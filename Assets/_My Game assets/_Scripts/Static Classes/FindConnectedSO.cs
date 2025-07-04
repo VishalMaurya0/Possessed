@@ -35,24 +35,21 @@ public class ScriptableObjectFinder : MonoBehaviour
 
     public static ItemDataSO FindItemSO(ItemData itemData)
     {
-        if (scriptableObjects.Count != 0)
+        if (scriptableObjects.Count == 0)
         {
-            foreach (ScriptableObject obj in scriptableObjects)
-            {
-                if (obj is IIdentifiable identifiable && identifiable.ItemType == itemData.itemType)
-                {
-                    return obj as ItemDataSO;
-                }
-            }
+            FindScriptableObjectsInPath();  // <-- auto-load if not yet loaded
         }
-        ScriptableObject[] scriptableObjectss = FindScriptableObjectsInPath();
-        foreach(ScriptableObject obj in scriptableObjectss)
+
+        foreach (ScriptableObject obj in scriptableObjects)
         {
             if (obj is IIdentifiable identifiable && identifiable.ItemType == itemData.itemType)
             {
                 return obj as ItemDataSO;
             }
         }
+
+        Debug.LogError($"ItemDataSO not found for ItemType: {itemData.itemType}");
         return null;
     }
+
 }
