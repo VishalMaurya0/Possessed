@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Wood_OutlineForItems 1
-  m_Shader: {fileID: -6465566751694194690, guid: e1bde11a581073a44961425a20edfee9, type: 3}
+  m_Name: BulbOuter
+  m_Shader: {fileID: -6465566751694194690, guid: c6db68353ddb6834cace861f3799f982, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -38,14 +38,15 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Effect: 1.86
+    - _Outer: 1
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Scale: 0
     m_Colors:
-    - _Color: {r: 6.8831806, g: 6.8831806, b: 6.8831806, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!114 &1580929664954234811
+--- !u!114 &2436486561509925098
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

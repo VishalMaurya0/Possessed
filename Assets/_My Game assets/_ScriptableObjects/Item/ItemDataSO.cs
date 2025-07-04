@@ -6,6 +6,7 @@ public class ItemDataSO : ScriptableObject, IIdentifiable
     public string itemName;
     public Sprite icon;
     public GameObject itemPrefab;
+    public GameObject dummyItemPrefab;
     public ItemType itemType;
     public bool isContainer;
     public int noOfStates;

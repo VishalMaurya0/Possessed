@@ -6,6 +6,7 @@ public class UIRelated : MonoBehaviour
 {
     [Header("For Minimap UI")]
     public RectTransform FullMapBackground;
+    public CanvasGroup FullMap;
     public Image FullMapBackgroundImage;
     public TMP_Text FullMapText;
     public float height;
@@ -13,7 +14,8 @@ public class UIRelated : MonoBehaviour
     public float decAlpha;
     public float originalAlpha;
     public Color normalColor;
-    [ColorUsage(true, true)]public Color redColor;
+    [ColorUsage(true, true)] public Color redColor;
+    public float disabledAlpha = 0.2f;
 
     [Header("Animator References")]
     public Animator MinimapAnim;
@@ -40,10 +42,12 @@ public class UIRelated : MonoBehaviour
     private void Update()
     {
         fractionTime = timeLeftToShowMiniMap / totalTimeToShowMap;
-        if (Input.GetKeyUp(KeyCode.Tab) && fractionTime > fractionTimeLimit)
+        if (Input.GetKeyDown(KeyCode.Tab) && fractionTime > fractionTimeLimit)
         {
-            LoadMinimapPanel(!isFullMiniMapShowing);
-        } else if (timeLeftToShowMiniMap <= 0 || Input.GetKeyUp(KeyCode.Tab))
+            LoadMinimapPanel(true);
+        }
+
+        if (Input.GetKeyUp(KeyCode.Tab) || timeLeftToShowMiniMap <= 0)
         {
             LoadMinimapPanel(false);
         }
@@ -65,13 +69,22 @@ public class UIRelated : MonoBehaviour
         decAlpha = fractionTime * originalAlpha;
         //FullMapText.alpha = decAlpha;
 
-        if (fractionTime < fractionTimeLimit || isFullMiniMapShowing)
+        if (isFullMiniMapShowing)
         {
             FullMapBackgroundImage.GetComponent<Image>().color = redColor;
-        }else
+            FullMap.alpha = 1;
+        }
+        else if (fractionTime < fractionTimeLimit)
+        {
+            FullMapBackgroundImage.GetComponent<Image>().color = redColor;
+            FullMap.alpha = disabledAlpha;
+        }
+        else
         {
             FullMapBackgroundImage.GetComponent<Image>().color = normalColor;
+            FullMap.alpha = 1;
         }
+
 
         FullMapText.text = $"Full Map : {Mathf.Round(fractionTime * 10 * 100f) / 100f}";
     }

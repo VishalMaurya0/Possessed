@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -20,6 +21,11 @@ public class ItemHolding : NetworkBehaviour
     public ItemData heldItemData;
     public GameObject spawnedObject;
     public GameObject itemPrefab;
+
+    [Header("Showing Held Items")]
+    public Transform heldItemPosition;
+    public List<GameObject> heldItemPrefabs; 
+    public List<Rigidbody> heldItemRgs; 
 
     [Header("UI")]
     public InventoryUI inventoryUI;
@@ -198,6 +204,8 @@ public class ItemHolding : NetworkBehaviour
             heldItemData.currentState = currentState;
         }
 
+        HandleHeldItems();
+
         if (!lockMovement)
             SetEverythingNormal(animateInventory);
     }
@@ -215,4 +223,53 @@ public class ItemHolding : NetworkBehaviour
             inventorySlotTracker.UpdateTracker(true);        //============== Update The Tracker without animating ===========//
     }
 
+    private void HandleHeldItems()
+    {
+        List<bool> itemTypeFlag = new(5);
+        List<bool> itemStateFlag = new(5);
+        for (int i = 0; i < Inventory.inventorySlots.Count; i++)
+        {
+            if (Inventory.inventorySlots[i].itemData.itemType != heldItemPrefabs[i].GetComponent<DummyScriptForClassifyingItems>().ItemData.itemType)
+                itemTypeFlag[i] = true;
+            if (Inventory.inventorySlots[i].itemData.currentState != heldItemPrefabs[i].GetComponent<DummyScriptForClassifyingItems>().ItemData.currentState)
+                itemStateFlag[i] = true;
+        }
+        bool typeFlag = false;
+        bool stateFlag = false;
+        foreach (var item in itemTypeFlag)
+        {
+            if (item) typeFlag = true;
+        }
+        foreach (var item in itemStateFlag)
+        {
+            if (item) stateFlag = true;
+        }
+        if (typeFlag)
+        {
+            HandleNewHeldItems(itemTypeFlag, itemStateFlag);
+        }else if (stateFlag)
+        {
+            HandleStateChangeOfHeldItems(itemStateFlag);
+        }
+    }
+
+    private void HandleNewHeldItems(List<bool> itemTypeFlag, List<bool> itemStateFlag)
+    {
+        for (int i = 0; i < itemTypeFlag.Count; i++)
+        {
+            if (itemTypeFlag[i])
+            {
+                Destroy(heldItemPrefabs[i]);
+                heldItemPrefabs[i] = null;
+
+                ItemDataSO idso = ScriptableObjectFinder.FindItemSO(Inventory.inventorySlots[i].itemData);
+                GameObject obj = heldItemPrefabs[i] = Instantiate(idso.dummyItemPrefab, heldItemPosition);
+            }
+        }
+    }
+
+    private void HandleStateChangeOfHeldItems(List<bool> itemStateFlag)
+    {
+        throw new NotImplementedException();
+    }
 }

@@ -909,7 +909,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2752608705243854565}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -1357,6 +1357,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2210549693269386649}
+  - component: {fileID: 3936096441982224018}
   m_Layer: 5
   m_Name: Full Minimap Bar
   m_TagString: Untagged
@@ -1384,6 +1385,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &3936096441982224018
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4553982060558938508}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &4640112132265417089
 GameObject:
   m_ObjectHideFlags: 0
@@ -1448,7 +1461,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 1
-  m_AdditionalShaderChannelsFlag: 1
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -1506,6 +1519,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FullMapBackground: {fileID: 154100839769740117}
+  FullMap: {fileID: 3936096441982224018}
   FullMapBackgroundImage: {fileID: 2417697074753951729}
   FullMapText: {fileID: 7431427380514798434}
   height: 0
@@ -1514,12 +1528,13 @@ MonoBehaviour:
   originalAlpha: 0
   normalColor: {r: 0.30980393, g: 0.30980393, b: 0.30980393, a: 0.32156864}
   redColor: {r: 1.6870818, g: 0.41095582, b: 0.41095582, a: 1}
+  disabledAlpha: 0.2
   MinimapAnim: {fileID: 5735773259183319105}
   isFullMiniMapShowing: 0
   fractionTime: 0
   fractionTimeLimit: 0.2
   timeLeftToShowMiniMap: 0
-  totalTimeToShowMap: 50
+  totalTimeToShowMap: 30
   rechargeRate: 0.02
 --- !u!1 &4646010731995166849
 GameObject:
