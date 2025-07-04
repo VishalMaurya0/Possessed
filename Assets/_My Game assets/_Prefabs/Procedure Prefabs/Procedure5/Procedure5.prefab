@@ -350,6 +350,7 @@ GameObject:
   - component: {fileID: 9222677167907411156}
   - component: {fileID: 5855113404470313002}
   - component: {fileID: 3655455793869879194}
+  - component: {fileID: 4759298059698608358}
   m_Layer: 0
   m_Name: Fire
   m_TagString: Untagged
@@ -453,6 +454,23 @@ VFXRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &4759298059698608358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7255375588117593577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf387167c3c0e9d4d802fa0538e2b1e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCamera: {fileID: 0}
+  maxDistance: 100
+  lookLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &8058553164415213228
 GameObject:
   m_ObjectHideFlags: 0
@@ -732,7 +750,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -5894863403822994359, guid: 39e1eec0e5d61824b84486e4b7dde5d5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.15
+      value: 0.16
+      objectReference: {fileID: 0}
+    - target: {fileID: -3756473180518285571, guid: 39e1eec0e5d61824b84486e4b7dde5d5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -2271502847731017999, guid: 39e1eec0e5d61824b84486e4b7dde5d5, type: 3}
       propertyPath: m_LocalPosition.y

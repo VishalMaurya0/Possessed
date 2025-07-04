@@ -232,13 +232,11 @@ public class ItemHolding : NetworkBehaviour
         int slotCount = Inventory.inventorySlots.Count;
 
         List<bool> itemTypeFlag = new(slotCount);
-        List<bool> itemStateFlag = new(slotCount);
 
         // Fill the lists with default false values
         for (int i = 0; i < slotCount; i++)
         {
             itemTypeFlag.Add(false);
-            itemStateFlag.Add(false);
         }
 
         for (int i = 0; i < slotCount; i++)
@@ -259,26 +257,37 @@ public class ItemHolding : NetworkBehaviour
             {
                 if (Inventory.inventorySlots[i].itemData.itemType != dummy.ItemData.itemType)
                     itemTypeFlag[i] = true;
-                if (Inventory.inventorySlots[i].itemData.currentState != dummy.ItemData.currentState)
-                    itemStateFlag[i] = true;
             }
         }
 
         bool typeFlag = itemTypeFlag.Contains(true);
-        bool stateFlag = itemStateFlag.Contains(true);
 
         if (typeFlag)
         {
-            HandleNewHeldItems(itemTypeFlag, itemStateFlag);
+            HandleNewHeldItems(itemTypeFlag);
         }
-        else if (stateFlag)
+
+        CheckForCorrectInventorySelectedSlot();
+    }
+
+    private void CheckForCorrectInventorySelectedSlot()
+    {
+        int slot = Inventory.slotNo.Value;
+
+        for (int i = 0; i < heldItemPrefabs.Count; i++)
         {
-            HandleStateChangeOfHeldItems(itemStateFlag);
+            if (i != slot)
+            {
+                heldItemPrefabs[i]?.SetActive(false);
+            }
+            if (i == slot)
+            {
+                heldItemPrefabs[i]?.SetActive(true);
+            }
         }
     }
 
-
-    private void HandleNewHeldItems(List<bool> itemTypeFlag, List<bool> itemStateFlag)
+    private void HandleNewHeldItems(List<bool> itemTypeFlag)
     {
         for (int i = 0; i < itemTypeFlag.Count; i++)
         {
@@ -291,6 +300,7 @@ public class ItemHolding : NetworkBehaviour
 
                 ItemDataSO idso = ScriptableObjectFinder.FindItemSO(Inventory.inventorySlots[i].itemData);
                 GameObject obj = heldItemPrefabs[i] = Instantiate(idso.dummyItemPrefab);
+                obj.GetComponent<NetworkObject>().Spawn();
                 var dummy = obj.AddComponent<DummyScriptForClassifyingItems>();
                 dummy.toFollow = heldItemPosition;
                 dummy.ItemData = Inventory.inventorySlots[i].itemData;
@@ -298,8 +308,4 @@ public class ItemHolding : NetworkBehaviour
         }
     }
 
-    private void HandleStateChangeOfHeldItems(List<bool> itemStateFlag)
-    {
-        throw new NotImplementedException();
-    }
 }

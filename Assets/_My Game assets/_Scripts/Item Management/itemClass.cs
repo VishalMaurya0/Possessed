@@ -45,9 +45,9 @@ public enum ItemType
     Pin,
 
     //------Items Given to find Procedures------//
+    EnergyDetector,
     EMFSenser,
     GC,
-    Camera,
     Barometer,
 
     //------Items Given At Start-------//

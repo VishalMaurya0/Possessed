@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 2815254941577906391}
   - component: {fileID: 3080564380972908642}
   - component: {fileID: 756522335273199654}
+  - component: {fileID: 7174086955527841364}
   m_Layer: 0
   m_Name: PurePowder
   m_TagString: Untagged
@@ -145,6 +146,23 @@ VFXRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &7174086955527841364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 821695820175209565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf387167c3c0e9d4d802fa0538e2b1e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCamera: {fileID: 0}
+  maxDistance: 100
+  lookLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &2661364258863093255
 GameObject:
   m_ObjectHideFlags: 0
