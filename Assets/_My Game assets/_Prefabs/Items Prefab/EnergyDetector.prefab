@@ -921,6 +921,7 @@ GameObject:
   - component: {fileID: 1392419672695617844}
   - component: {fileID: 4056507842654779843}
   - component: {fileID: 3549840390974523850}
+  - component: {fileID: 4207758564326250930}
   m_Layer: 0
   m_Name: EnergyDetector
   m_TagString: Untagged
@@ -1138,6 +1139,21 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.11
   m_Center: {x: 0, y: 0, z: -0.2}
+--- !u!114 &4207758564326250930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7736469045731537671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a741980f8bdbcb3429b33b0641bc28ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemPickup: {fileID: 1774719748924034247}
+  outer: {fileID: 2100000, guid: 421e3fd85ad0a7b4abc118c17258049d, type: 2}
+  inner: {fileID: 2100000, guid: 21a7efdcca8df8740bbb20ee27f1a92d, type: 2}
 --- !u!1 &8276918548436582839
 GameObject:
   m_ObjectHideFlags: 0
