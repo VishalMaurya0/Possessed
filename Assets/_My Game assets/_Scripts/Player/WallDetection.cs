@@ -8,6 +8,10 @@ public class WallDetection : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         wallNormal = Vector3.zero;
+        if (other.gameObject.layer == LayerMask.NameToLayer("IgnorePlayer"))
+        {
+            return;
+        }
         // Only process if it's part of the environment (add your own tag/layer check if needed)
         if (other.attachedRigidbody == null)
         {

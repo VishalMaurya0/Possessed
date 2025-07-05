@@ -6,6 +6,10 @@ public class DummyScriptForClassifyingItems : MonoBehaviour
     ItemDataSO ItemDataSO;
     public Transform toFollow;
     public float followSpeed = 10f;
+    public bool makeItSpringy = true;
+    // Tune these:
+    public float stiffness = 900f;      // higher = stronger spring force
+    public float damping = 50f;         // higher = less oscillation; 2 * sqrt(stiffness) = critical damping;
     private Vector3 lastPos;
 
     private void Start()
@@ -13,12 +17,28 @@ public class DummyScriptForClassifyingItems : MonoBehaviour
         ItemDataSO = ScriptableObjectFinder.FindItemSO(ItemData);
     }
 
+    private Vector3 velocity;
+
     private void FixedUpdate()
     {
         if (toFollow == null) return;
 
-        float smoothStep = 1 - Mathf.Exp(-followSpeed * Time.fixedDeltaTime);
-        transform.position = Vector3.Lerp(transform.position, toFollow.position, smoothStep);
+        if (!makeItSpringy)
+        {
+            transform.position = toFollow.position;
+            return;
+        }
+
+        Vector3 target = toFollow.position;
+
+        Vector3 displacement = target - transform.position;
+        Vector3 springForce = displacement * stiffness;
+        Vector3 dampingForce = -velocity * damping;
+
+        Vector3 force = springForce + dampingForce;
+
+        velocity += force * Time.fixedDeltaTime;
+        transform.position += velocity * Time.fixedDeltaTime;
     }
 
     private void LateUpdate()

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SelectingThreeProcedures : NetworkBehaviour
 {
-    public int[] barometerReadings = new int[8], giegerCounterReadings = new int[8], EMFReadings = new int[8], FSCReadings = new int[8], totalReadings = new int[8];
+    public int[] barometerReadings = new int[8], giegerCounterReadings = new int[8], EMFReadings = new int[8], EnergyDetectorReadings = new int[8], totalReadings = new int[8];
     public int[] threeProcedureIndex;
 
     bool notifyClients;
@@ -162,11 +162,11 @@ public class SelectingThreeProcedures : NetworkBehaviour
         SetReadings(barometerReadings);
         SetReadings(giegerCounterReadings);
         SetReadings(EMFReadings);
-        SetReadings(FSCReadings);
+        SetReadings(EnergyDetectorReadings);
 
         for (int i = 0; i < 8; i++)
         {
-            totalReadings[i] = barometerReadings[i] + giegerCounterReadings[i] + EMFReadings[i] + FSCReadings[i];
+            totalReadings[i] = barometerReadings[i] + giegerCounterReadings[i] + EMFReadings[i] + EnergyDetectorReadings[i];
         }
         return CheckReadings(totalReadings);
 

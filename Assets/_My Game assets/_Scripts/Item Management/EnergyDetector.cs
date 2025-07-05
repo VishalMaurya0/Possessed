@@ -1,29 +1,67 @@
-using System;
+using System.Collections;
+using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class EnergyDetector : MonoBehaviour
+public class EnergyDetector : NetworkBehaviour
 {
+    [Header("Properties")]
+    public NetworkVariable<float> power_0_1 = new NetworkVariable<float>(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public List<float> power = new();
+    public List<GameObject> energySource = new();
+    public float maxPower = 50;
+    public int[] energyDetectorReadings;
+
+    [Header("References")]
     public ItemPickup itemPickup;
     public ItemData itemData;
+    public Inventory inventory;
+
+    [Header("Visuals")]
     public Material outer;
     public Material inner;
-    public Color noEffectColor;
-    public Color fullEffectColor;
+    [ColorUsage(true, true)] public Color noEffectColor;
+    [ColorUsage(true, true)] public Color midEffectColor;
+    [ColorUsage(true, true)] public Color fullEffectColor;
 
     private void Start()
     {
+        StartCoroutine(NextFrame());
+        GameManager.onServerStarted += GameManager_onServerStarted;
+    }
+
+    private void GameManager_onServerStarted()
+    {
+        inventory = GameManager.Instance.ownerPlayer.GetComponent<Inventory>();
+    }
+
+    IEnumerator NextFrame()
+    {
+        yield return new WaitForEndOfFrame();
         itemPickup = GetComponent<ItemPickup>();
         itemData = itemPickup?.itemData;
         if (itemData == null)
         {
-            itemData = GetComponent<DummyScriptForClassifyingItems>().ItemData;
+            var dsfci = GetComponent<DummyScriptForClassifyingItems>();
+            itemData = dsfci.ItemData;
+            dsfci.makeItSpringy = false;
             GameManager.Instance.HelpInstructions.text = $"Holding the item taking itemData from DummyScript, Found : {itemData}";
         }
+
+        energyDetectorReadings = GameManager.Instance.GetComponent<SelectingThreeProcedures>().EnergyDetectorReadings;
     }
 
     private void Update()
     {
-        if (itemPickup == null) return;
+
+        if (Input.GetMouseButtonUp(1))
+        {
+            if (inventory == null)
+                inventory = GameManager.Instance.ownerPlayer.GetComponent<Inventory>();
+
+            if (inventory?.selectedInventorySlot.itemData.itemType == itemData.itemType)
+                itemData.isOn = !itemData.isOn;
+        }
 
         if (itemData.isOn)
         {
@@ -40,6 +78,49 @@ public class EnergyDetector : MonoBehaviour
 
     private void ManageWorking()
     {
+        if (!IsServer) return;
 
+
+        if (power_0_1.Value < 0.5)
+            inner.SetColor("_Color", Color.Lerp(noEffectColor, midEffectColor, power_0_1.Value * 2));
+        else
+            inner.SetColor("_Color", Color.Lerp(midEffectColor, fullEffectColor, power_0_1.Value * 2 - 1));
+
+        float sum = 0;
+        for (int i = 0; i < power.Count; i++)
+        {
+            sum += power[i];
+        }
+        power_0_1.Value = sum / maxPower;
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (!IsServer) { return; }
+        if (itemData.isOn && other.CompareTag("Energy"))
+        {
+            float distance = (other.transform.position - transform.position).magnitude;
+            EnergyTrigger energyTrigger = other.GetComponent<EnergyTrigger>();
+            float energyRange = energyTrigger.energyRange;
+            float energy = energyTrigger.EnergyAmount;
+
+            if (!energySource.Contains(other.gameObject))
+            {
+                energySource.Add(other.gameObject);
+                power.Add(0);
+            }
+
+            int i = energySource.IndexOf(other.gameObject);
+            if (energyTrigger.isActive)
+            {
+                power[i] = (1 - (distance / energyRange)) * energy;
+            }
+            else
+            {
+                power[i] = 0;
+            }
+
+            power[i] = Mathf.Clamp(power[i], 0, maxPower);
+        }
     }
 }

@@ -270,7 +270,7 @@ public class ItemHolding : NetworkBehaviour
         CheckForCorrectInventorySelectedSlot();
     }
 
-    private void CheckForCorrectInventorySelectedSlot()
+    private void CheckForCorrectInventorySelectedSlot()    // Disables all the held item except the current slotNo
     {
         int slot = Inventory.slotNo.Value;
 
@@ -287,7 +287,7 @@ public class ItemHolding : NetworkBehaviour
         }
     }
 
-    private void HandleNewHeldItems(List<bool> itemTypeFlag)
+    private void HandleNewHeldItems(List<bool> itemTypeFlag)     // spawns the held item
     {
         for (int i = 0; i < itemTypeFlag.Count; i++)
         {
