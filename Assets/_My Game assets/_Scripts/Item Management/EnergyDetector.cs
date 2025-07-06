@@ -78,7 +78,8 @@ public class EnergyDetector : NetworkBehaviour
         {
             outer.SetFloat("_Outer", 0);
             inner.SetColor("_Color", noEffectColor);
-            canvas?.gameObject.SetActive(false);
+            if (canvas != null)
+                canvas.gameObject.SetActive(false);
         }
 
         if (!itemData.isOn)

@@ -255,7 +255,9 @@ public class ItemHolding : NetworkBehaviour
 
             if (heldItemPrefabs[i] != null && heldItemPrefabs[i].TryGetComponent<DummyScriptForClassifyingItems>(out var dummy))
             {
-                if (Inventory.inventorySlots[i].itemData.itemType != dummy.ItemData.itemType)
+                if (Inventory.inventorySlots[i].itemData == null || 
+                    Inventory.inventorySlots[i].itemData.itemType != 
+                    dummy.ItemData.itemType)
                     itemTypeFlag[i] = true;
             }
         }

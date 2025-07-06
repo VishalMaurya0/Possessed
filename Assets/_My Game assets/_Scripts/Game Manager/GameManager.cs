@@ -111,6 +111,17 @@ public class GameManager : NetworkBehaviour
         {
             gameEnd = true;
         }
+
+        if (HelpInstructions.text != "")
+        {
+            StartCoroutine(ResetHelpInstructions());
+        }
+    }
+
+    IEnumerator ResetHelpInstructions()
+    {
+        yield return new WaitForSeconds(3);
+        HelpInstructions.text = "";
     }
 
     public void ServerStarted()
