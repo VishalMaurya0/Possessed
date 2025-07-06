@@ -3046,28 +3046,6 @@ Camera:
   m_CorrespondingSourceObject: {fileID: 5931450644750953789, guid: 0ab44c956c732244c950801f8e64e41d, type: 3}
   m_PrefabInstance: {fileID: 1832903027}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1888579678 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1724125054566898536, guid: f15bf653b8407f5498a54d11b71e76f2, type: 3}
-  m_PrefabInstance: {fileID: 513989902957403316}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1888579688
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1888579678}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e69202036e5f4e14ca6a236aaeb7a00d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  energyPrefab: {fileID: 643987899253045226, guid: b5797c4b19733af4397107ad96768c1a, type: 3}
-  roamRange: 2.52
-  energyRange: 4.9
-  maxEnergy: 50
-  isActive: 1
 --- !u!4 &1920066738 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4639478947584436796, guid: 1b240d9022b66c247ba1e5eb8e7f49ec, type: 3}
@@ -3563,10 +3541,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1724125054566898536, guid: f15bf653b8407f5498a54d11b71e76f2, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1888579688}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f15bf653b8407f5498a54d11b71e76f2, type: 3}
 --- !u!1001 &782844799201966085
 PrefabInstance:
@@ -4257,6 +4232,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2257955994351765168, guid: 7d9113090e1eac24299a1ad05eecc78d, type: 3}
+      propertyPath: EnergyTriggerPrefab
+      value: 
+      objectReference: {fileID: 643987899253045226, guid: b5797c4b19733af4397107ad96768c1a, type: 3}
     - target: {fileID: 2414213928891276075, guid: 7d9113090e1eac24299a1ad05eecc78d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -4305,22 +4284,10 @@ PrefabInstance:
       propertyPath: HelpInstructions
       value: 
       objectReference: {fileID: 216743792}
-    - target: {fileID: 3491250806943052933, guid: 7d9113090e1eac24299a1ad05eecc78d, type: 3}
-      propertyPath: CameraWhichFollowPlayer_Y
-      value: 
-      objectReference: {fileID: 1288666956}
     - target: {fileID: 4480574489279584503, guid: 7d9113090e1eac24299a1ad05eecc78d, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 3436930068
       objectReference: {fileID: 0}
-    - target: {fileID: 5703164099892760267, guid: 7d9113090e1eac24299a1ad05eecc78d, type: 3}
-      propertyPath: GenerateMap
-      value: 
-      objectReference: {fileID: 363812655177311576}
-    - target: {fileID: 5703164099892760267, guid: 7d9113090e1eac24299a1ad05eecc78d, type: 3}
-      propertyPath: generateMap
-      value: 
-      objectReference: {fileID: 363812655177311576}
     - target: {fileID: 7148567494265126245, guid: 7d9113090e1eac24299a1ad05eecc78d, type: 3}
       propertyPath: m_Name
       value: Game And Network Manager

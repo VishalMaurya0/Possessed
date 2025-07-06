@@ -4,7 +4,7 @@ public class CameraMovement : MonoBehaviour
 {
     public Transform cameraTransform;
 
-    void Update()
+    void FixedUpdate()
     {
         if (cameraTransform != null) 
         {

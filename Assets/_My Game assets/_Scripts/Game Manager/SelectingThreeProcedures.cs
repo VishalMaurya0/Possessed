@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
@@ -6,6 +7,7 @@ public class SelectingThreeProcedures : NetworkBehaviour
 {
     public int[] barometerReadings = new int[8], giegerCounterReadings = new int[8], EMFReadings = new int[8], EnergyDetectorReadings = new int[8], totalReadings = new int[8];
     public int[] threeProcedureIndex;
+    public GameObject EnergyTriggerPrefab;
 
     bool notifyClients;
 
@@ -30,8 +32,46 @@ public class SelectingThreeProcedures : NetworkBehaviour
                 GameManager.Instance.selectedProceduresIndex = threeProcedureIndex;
             notifyClients = false;
         }
+
+
+        SetReadingsInProccedures();
+        StartCoroutine(SpawnEnergiesAroundProcedures());
     }
 
+    private void SetReadingsInProccedures()
+    {
+        if (!IsServer) return;
+
+        for (int i = 0; i < GameManager.Instance.AllProcedures.Count; i++)
+        {
+            ProcedureCompletion procedure = GameManager.Instance.AllProcedures[i];
+            if (procedure == null) continue;
+
+            procedure.EnergyDetectorReading = EnergyDetectorReadings[i];
+            procedure.barometerReading = barometerReadings[i];
+            procedure.EMFReading = EMFReadings[i];
+            procedure.giegerCounterReading = giegerCounterReadings[i];
+        }
+    }
+
+    IEnumerator SpawnEnergiesAroundProcedures()
+    {
+        if (!IsServer)  yield break;
+        yield return new WaitForSeconds(1.2f);
+
+        for (int i = 0; i < GameManager.Instance.AllProcedures.Count; i++)
+        {
+            ProcedureCompletion procedure = GameManager.Instance.AllProcedures[i];
+            if (procedure == null) continue;
+
+            var addEnergy = procedure.gameObject.AddComponent<AddEnergyAroundIt>();
+            addEnergy.energyRange = 20;
+            addEnergy.roamRange = 5;
+            addEnergy.isActive = true;
+            addEnergy.energyPrefab = EnergyTriggerPrefab;
+            addEnergy.maxEnergy = 50 * (procedure.EnergyDetectorReading + 1) / 3;
+        }
+    }
 
     [ClientRpc]
     private void NotifyClientsAboutSelectedProceduresClientRpc(int[] ints)

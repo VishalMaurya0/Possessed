@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
@@ -15,6 +17,7 @@ public class ProcedureCompletion : ProcedureBase
     public Transform VFXPosition;
     public TotalItemsNeeded totalItemsNeeded = new();
     int totalItems;
+    public int barometerReading, giegerCounterReading, EMFReading, EnergyDetectorReading;
 
     [Header("Visuals")]
     public List<VisualsTrigger> visualsTrigger = new();
@@ -49,7 +52,7 @@ public class ProcedureCompletion : ProcedureBase
         //Debug.Log($"Total items needed: {totalItems}");
 
         procedureBase = GameManager.Instance.procedureBase;
-        GameManager.Instance.AllProcedures.Add(this);
+        StartCoroutine(AddProcedureToGameManager());
 
         if (procedureBase != null)
         {
@@ -59,6 +62,12 @@ public class ProcedureCompletion : ProcedureBase
         }
 
         InitializeVisuals();
+    }
+
+    IEnumerator AddProcedureToGameManager()
+    {
+        yield return new WaitForSeconds(0.1f * procedureData.procedureIndex);
+        GameManager.Instance.AllProcedures.Add(this);
     }
 
     private void InitializeVisuals()

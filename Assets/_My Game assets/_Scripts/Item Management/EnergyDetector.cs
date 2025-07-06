@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ public class EnergyDetector : NetworkBehaviour
     [Header("Properties")]
     public NetworkVariable<float> power_0_1 = new NetworkVariable<float>(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public List<float> power = new();
+    public float addedPower = 0;
     public List<GameObject> energySource = new();
     public float maxPower = 50;
     public int[] energyDetectorReadings;
@@ -16,6 +18,8 @@ public class EnergyDetector : NetworkBehaviour
     public ItemPickup itemPickup;
     public ItemData itemData;
     public Inventory inventory;
+    public Canvas canvas;
+    public TMP_Text text;
 
     [Header("Visuals")]
     public Material outer;
@@ -66,12 +70,21 @@ public class EnergyDetector : NetworkBehaviour
         if (itemData.isOn)
         {
             outer.SetFloat("_Outer", 1);
-        }else
+            canvas?.gameObject.SetActive(true);
+            if (text != null)
+                text.text = addedPower.ToString("F2");
+        }
+        else
         {
             outer.SetFloat("_Outer", 0);
+            inner.SetColor("_Color", noEffectColor);
+            canvas?.gameObject.SetActive(false);
         }
 
-        if (!itemData.isOn) return;
+        if (!itemData.isOn)
+        {
+            return;
+        }
 
         ManageWorking();
     }
@@ -86,12 +99,12 @@ public class EnergyDetector : NetworkBehaviour
         else
             inner.SetColor("_Color", Color.Lerp(midEffectColor, fullEffectColor, power_0_1.Value * 2 - 1));
 
-        float sum = 0;
+        addedPower = 0;
         for (int i = 0; i < power.Count; i++)
         {
-            sum += power[i];
+            addedPower += power[i];
         }
-        power_0_1.Value = sum / maxPower;
+        power_0_1.Value = addedPower / maxPower;
     }
 
     private void OnTriggerStay(Collider other)
