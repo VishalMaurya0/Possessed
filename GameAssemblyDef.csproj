@@ -81,6 +81,7 @@
     <Compile Include="Assets\_My Game assets\_Scripts\Enemy\Ghost\GhostAI.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Procedures\Procedure4\Procedure4Visuals.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Tasks\Task for Candle\CandleTask.cs" />
+    <Compile Include="Assets\_My Game assets\_Scripts\UI\Clue Gathering\ClueGathering.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Item Management\ItemHolding.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Procedures\Procedure0\Procedure0Visuals.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Player\FearMeter.cs" />
@@ -141,6 +142,7 @@
     <Compile Include="Assets\_My Game assets\_Scripts\Procedural Map Generation\MapVisualTemp.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Tasks\Task for Blood Bottle\CodeShowingScript.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\DisableVFXWhenNotLookedAt.cs" />
+    <Compile Include="Assets\_My Game assets\_Scripts\UI\Clue Gathering\Dummy\DummyScriptForAccessingElement.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\UI\Inventory\ItemFrame UI.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Tasks\Task For Pure Powder\PurePowderTask.cs" />
     <Compile Include="Assets\_My Game assets\_Scripts\Tasks\TaskManager.cs" />
@@ -699,6 +701,10 @@
     </Reference>
     <Reference Include="System.IO.Abstractions.TestingHelpers">
       <HintPath>Library\PackageCache\com.unity.ml-agents\Plugins\System.IO.Abstractions.TestingHelpers.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Coffee.SoftMaskForUGUI.R">
+      <HintPath>Library\PackageCache\com.coffee.softmask-for-ugui\Runtime\Coffee.SoftMaskForUGUI.R.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
