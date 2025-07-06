@@ -73,6 +73,14 @@ public class AddEnergyAroundIt : MonoBehaviour
             Random.Range(-roamRange, roamRange)
         );
     }
+
+    private void OnDestroy()
+    {
+        if (energyGameObj != null)
+        {
+            Destroy(energyGameObj);
+        }
+    }
 }
 
 public class EnergyTrigger : MonoBehaviour

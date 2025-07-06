@@ -52,7 +52,7 @@ public class GenerateMap : NetworkBehaviour
         grid = GetComponent<Grid>();
         CreateInitialMap();          //===== generates the mapCells according to grid ======//
         ReferenceAdjacentCells();
-        StartGeneration();
+        START_GENERATION();
     }
 
 
@@ -109,7 +109,7 @@ public class GenerateMap : NetworkBehaviour
             }
         }
     }
-    private void StartGeneration()
+    private void START_GENERATION()
     {
         CentreGeneration();               //======= 3x3 centre generated =====//
         ChooseGate();                        //======= gate are chosen in all direction in the center randomly ========//
@@ -122,7 +122,7 @@ public class GenerateMap : NetworkBehaviour
         CreateTiles();
         CreateWindows();
         SpawnProcedures();
-        GenerateProps();
+        GENERATE_PROPS();
 
 
         ////======== Visuals & NavMesh ========////
@@ -137,6 +137,17 @@ public class GenerateMap : NetworkBehaviour
         }
         GameManager.Instance.bakeNavMeshAgain = true;
     }
+    private void GENERATE_PROPS()
+    {
+        GenerateCornerProps();
+        GenerateWallSideProps();
+        GenerateWindowSideProps();
+        SpawnTasks();
+        GenerateRoomCenterProps();
+    }
+
+
+
     private void CentreGeneration()
     {
         int centerRow = grid.length / grid.cellLength / 2;
@@ -192,6 +203,7 @@ public class GenerateMap : NetworkBehaviour
             }
         }
     }
+
 
 
 
@@ -878,14 +890,6 @@ public class GenerateMap : NetworkBehaviour
             //TODO Rotation//
         }
     }
-    private void GenerateProps()
-    {
-        GenerateCornerProps();
-        GenerateWallSideProps();
-        GenerateWindowSideProps();
-        SpawnTasks();
-        GenerateRoomCenterProps();
-    }
 
 
 
@@ -1098,7 +1102,7 @@ public class GenerateMap : NetworkBehaviour
             tries++;
             TaskEntry taskToPlace = leftTasks[0];
             Room room = allRooms[Random.Range(0, allRooms.Count)];
-            if (room.Procedures.Count > 0)
+            if (room.Procedures.Count > 1)
                 continue;
 
             int x = Random.Range((int)room.start.x, (int)room.start.x + room.length);
@@ -1164,9 +1168,38 @@ public class GenerateMap : NetworkBehaviour
 
 
         }
-    }
-    
 
+        if (tries >= totalTries)                       /////  TODO still not tested TODO  /////
+        {
+            RestartTaskGeneration();
+            Debug.LogError("Restarting...");
+        }
+    }
+    private void RestartTaskGeneration()
+    {
+        //========= All Rooms =========//
+        List<Room> allRooms = new(rooms);
+
+
+        //======== remove all the tasks from cell and rooms ========//
+        for (int i = 0; i < allRooms.Count; i++)
+        {
+            if (allRooms[i].Tasks.Count <= 0) continue;
+
+            for (int j = 0; j < allRooms[i].AllCells.Length; j++)
+            {
+                MapCell cell = allRooms[i].AllCells[j];
+                if (cell.task.taskPrefab == null) continue;
+
+                cell.task = null;
+                cell.spaceOccupied = false;
+            }
+            allRooms[i].Tasks.Clear();
+        }
+
+        //=========== Generate Again ============//
+        SpawnTasks();
+    }
     private void GenerateRoomCenterProps()
     {
         for(int i = 0; i < rooms.Count; i++)
