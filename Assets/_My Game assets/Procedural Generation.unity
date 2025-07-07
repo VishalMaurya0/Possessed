@@ -694,6 +694,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 5297650560534359662, guid: 653cf5aeea0a8f2469aa884204abf662, type: 3}
+      propertyPath: m_Alpha
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6478488244917620163, guid: 653cf5aeea0a8f2469aa884204abf662, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -1593,7 +1597,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 3ed6d3da478bcaf4dba186856d6c0f3e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f37765c041a5c7344a03f9347d909ef9, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2739,6 +2743,7 @@ GameObject:
   - component: {fileID: 535802355}
   - component: {fileID: 535802357}
   - component: {fileID: 535802356}
+  - component: {fileID: 535802358}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -2764,10 +2769,10 @@ RectTransform:
   - {fileID: 1059910321}
   m_Father: {fileID: 1432497580}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 372, y: 216}
+  m_SizeDelta: {x: -42, y: -42}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &535802356
 MonoBehaviour:
@@ -2807,6 +2812,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 535802354}
   m_CullTransparentMesh: 1
+--- !u!225 &535802358
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 535802354}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &656662536
 GameObject:
   m_ObjectHideFlags: 0
@@ -3619,7 +3636,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 3ed6d3da478bcaf4dba186856d6c0f3e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0a80d1d4b798ff34291bd081fbcfd2b1, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4646,6 +4663,7 @@ GameObject:
   - component: {fileID: 1171849891}
   - component: {fileID: 1171849893}
   - component: {fileID: 1171849892}
+  - component: {fileID: 1171849894}
   m_Layer: 5
   m_Name: Heading
   m_TagString: Untagged
@@ -4712,6 +4730,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1171849890}
   m_CullTransparentMesh: 1
+--- !u!225 &1171849894
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1171849890}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1001 &1195743332
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6012,7 +6042,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1332975073}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -6024,9 +6054,9 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1332975073}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: f3dc889532c0d3c4da244dcc51520727, type: 2}
+  m_Controller: {fileID: 9100000, guid: b4483b6340ea8bc409542b15ed9edbaf, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 2
   m_ApplyRootMotion: 0
@@ -6454,10 +6484,10 @@ RectTransform:
   - {fileID: 535802355}
   m_Father: {fileID: 2111748232}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 160.74}
-  m_SizeDelta: {x: 415.3783, y: 257.9282}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: -15.7599945}
+  m_SizeDelta: {x: -94.621704, y: -95.07181}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1432497581
 MonoBehaviour:

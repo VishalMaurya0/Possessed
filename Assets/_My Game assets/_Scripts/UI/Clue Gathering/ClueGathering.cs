@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class ClueGathering : MonoBehaviour
 {
     [Header("References")]
+    Animator animator;
     public RectTransform elementParent;
     public GameObject buttonElementPrefab;
     public List<Color> colors = new();
@@ -39,6 +40,7 @@ public class ClueGathering : MonoBehaviour
 
     private void Start()
     {
+        animator = GetComponent<Animator>();    
         for (int i = 0; i < 32; i++)
         {
             allButtonElements.Add(Instantiate(buttonElementPrefab, elementParent));
@@ -113,6 +115,18 @@ public class ClueGathering : MonoBehaviour
 
             if (t >= 1f)
                 isSmallMoving = false;
+        }
+
+        if (Input.GetKeyUp(KeyCode.I))
+        {
+            animator.SetBool("Load", !animator.GetBool("Load"));
+            if (animator.GetBool("Load"))
+            {
+                GameManager.Instance.lockCurser = false;
+            }else
+            {
+                GameManager.Instance.lockCurser = true;
+            }
         }
     }
 
