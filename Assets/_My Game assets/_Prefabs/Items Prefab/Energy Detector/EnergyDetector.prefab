@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -2813467912831258332, guid: 91ded3420c4e7ef4cafce874a4ca29d2, type: 3}
+  - {fileID: 2100000, guid: d6a61dde4f0f75a4d9373d204186041c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -245,7 +245,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -2813467912831258332, guid: 91ded3420c4e7ef4cafce874a4ca29d2, type: 3}
+  - {fileID: 2100000, guid: d9a2e275305ca224797401043cc4cc1f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -331,7 +331,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -2813467912831258332, guid: 91ded3420c4e7ef4cafce874a4ca29d2, type: 3}
+  - {fileID: 2100000, guid: 08b9b60a588bfef409d60ce8faf7fda3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -417,7 +417,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -2813467912831258332, guid: 91ded3420c4e7ef4cafce874a4ca29d2, type: 3}
+  - {fileID: 2100000, guid: 802979c376e17c24c9f4a4ba71e6ef64, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -675,7 +675,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -2813467912831258332, guid: 91ded3420c4e7ef4cafce874a4ca29d2, type: 3}
+  - {fileID: 2100000, guid: dc44caf3fa55dda4080cafd88aae39aa, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -761,7 +761,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -2813467912831258332, guid: 91ded3420c4e7ef4cafce874a4ca29d2, type: 3}
+  - {fileID: 2100000, guid: 6f875bc44bad1f54a8ff609b2ee42cc8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -847,7 +847,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -2813467912831258332, guid: 91ded3420c4e7ef4cafce874a4ca29d2, type: 3}
+  - {fileID: 2100000, guid: 02dd5a74d80f76d4aa807a3d657b9649, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -957,7 +957,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1286522342
+  GlobalObjectIdHash: 2037615710
   InScenePlacedSourceGlobalObjectIdHash: 2037615710
   DeferredDespawnTick: 0
   Ownership: 1
@@ -1151,9 +1151,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a741980f8bdbcb3429b33b0641bc28ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  power_0_1:
+    m_InternalValue: 0
+  power: []
+  addedPower: 0
+  energySource: []
+  maxPower: 50
+  energyDetectorReadings: 
   itemPickup: {fileID: 1774719748924034247}
+  itemData:
+    itemType: 0
+    currentState: 0
+    amount: 0
+    isOn: 0
+  inventory: {fileID: 0}
+  canvas: {fileID: 0}
+  text: {fileID: 0}
   outer: {fileID: 2100000, guid: 421e3fd85ad0a7b4abc118c17258049d, type: 2}
   inner: {fileID: 2100000, guid: 21a7efdcca8df8740bbb20ee27f1a92d, type: 2}
+  noEffectColor: {r: 0, g: 0, b: 0, a: 0}
+  midEffectColor: {r: 0, g: 0, b: 0, a: 0}
+  fullEffectColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &8276918548436582839
 GameObject:
   m_ObjectHideFlags: 0
@@ -1218,7 +1237,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -2813467912831258332, guid: 91ded3420c4e7ef4cafce874a4ca29d2, type: 3}
+  - {fileID: 2100000, guid: b192b1ac6e053404b8cef495007bb59a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1304,7 +1323,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -2813467912831258332, guid: 91ded3420c4e7ef4cafce874a4ca29d2, type: 3}
+  - {fileID: 2100000, guid: 810c1357c52c1bc46bfa84e58edbd080, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
