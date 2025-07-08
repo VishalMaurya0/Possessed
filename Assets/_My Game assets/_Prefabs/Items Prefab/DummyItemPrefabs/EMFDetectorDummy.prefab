@@ -294,13 +294,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   nib: {fileID: 5158875642864266091}
-  maxRot: 26
   EMFReadings: 
   power: []
   addedPower: 0
   maxPower: 50
   energySource: []
   onRenderer: {fileID: 1487824295310951385}
+  rot: 0
+  maxRot: 26
 --- !u!135 &8706284336120718899
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -373,9 +374,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6919428475708290453}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0.22370152, y: 0.91914994, z: -0.29348552, w: -0.13779432}
+  m_LocalPosition: {x: 0.082, y: 0.181, z: 0.206}
+  m_LocalScale: {x: 0.31309462, y: 0.31309462, z: 0.31309462}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6054734178769085762}
@@ -383,7 +384,7 @@ Transform:
   - {fileID: 6894531549187566290}
   - {fileID: 4029844531031002635}
   m_Father: {fileID: 4595996287601390900}
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 36.953, y: 188.782, z: -24.418}
 --- !u!1 &8057199910353342171
 GameObject:
   m_ObjectHideFlags: 0

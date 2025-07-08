@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
@@ -24,12 +23,49 @@ public class EMFReader : NetworkBehaviour
     public float rot;
     public float maxRot = 26;
 
+    [Header("Flicker")]
+    public float minFlickerInterval = 0.2f;
+    public float maxFlickerInterval = 20;    /// ===== CAN BE TWEAKABLE and CHANGE RESTARTFLICKER =====//
+    public bool restartFlicker = false;
+    public List<float> flickerDuration = new();
+    public bool isFlickering = false;
+    public bool isFlickeringExtreme = false;
+    public float subtractFlicker = 0;
+    public float waitTime;
+    private Coroutine flickerCoroutine;
+
+    private int dangerColliders = 0;
+
+
+    private void OnEnable()
+    {
+        if (IsServer && flickerCoroutine == null)
+            flickerCoroutine = StartCoroutine(FlickerRoutine());
+    }
+
+    private void OnDisable()
+    {
+        if (flickerCoroutine != null)
+        {
+            StopCoroutine(flickerCoroutine);
+            flickerCoroutine = null;
+        }
+
+        isFlickering = false;
+    }
+
 
 
     private void Start()
     {
+        for (int i = 0; i < 10; i++)
+        {
+            flickerDuration.Add(Random.Range(0.05f, 0.2f));
+        }
+
         StartCoroutine(NextFrame());
         GameManager.onServerStarted += GameManager_onServerStarted;
+
     }
 
     private void GameManager_onServerStarted()
@@ -82,6 +118,14 @@ public class EMFReader : NetworkBehaviour
 
 
         ManageWorking();
+
+        if (restartFlicker)
+        {
+            restartFlicker = false;
+            if (flickerCoroutine != null)
+                StopCoroutine(flickerCoroutine);
+            flickerCoroutine = StartCoroutine(FlickerRoutine());
+        }
     }
 
     private void ManageWorking()
@@ -96,13 +140,45 @@ public class EMFReader : NetworkBehaviour
         }
         addedPower = Mathf.Clamp(addedPower, 0, maxPower);
 
+        if (isFlickering && !isFlickeringExtreme)
+        {
+            subtractFlicker = Random.Range(0, addedPower);
+            addedPower -= subtractFlicker;
+        }
+
+        if (isFlickeringExtreme && isFlickering)
+        {
+            addedPower = Random.Range(-maxPower, maxPower);
+        }
+
+
         Visuals();
     }
 
     private void Visuals()
     {
-        nib.transform.localEulerAngles = new(nib.transform.localEulerAngles.x, (maxRot) - (2 * maxRot * addedPower / maxPower), nib.transform.localEulerAngles.z);
+        nib.transform.localEulerAngles = new(nib.transform.localEulerAngles.x, (-maxRot) + (2 * maxRot * addedPower / maxPower), nib.transform.localEulerAngles.z);
     }
+
+    IEnumerator FlickerRoutine()
+    {
+        while (true)
+        {
+            waitTime = Random.Range(minFlickerInterval, maxFlickerInterval);
+            yield return new WaitForSeconds(waitTime);
+
+            float noOfFlickers = Random.Range(0, flickerDuration.Count);
+
+            for (int i = 0; i < noOfFlickers; i++)
+            {
+                isFlickering = true;
+                yield return new WaitForSeconds(flickerDuration[i]);
+                isFlickering = false;
+                yield return new WaitForSeconds(flickerDuration[i]/5);
+            }
+        }
+    }
+
 
     private void OnTriggerStay(Collider other)
     {
@@ -133,4 +209,39 @@ public class EMFReader : NetworkBehaviour
             power[i] = Mathf.Clamp(power[i], 0, maxPower);
         }
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Ghost") || other.CompareTag("Doll"))
+        {
+            dangerColliders++;
+            restartFlicker = true;
+            UpdateFlickerMode();
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Ghost") || other.CompareTag("Doll"))
+        {
+            dangerColliders = Mathf.Max(0, dangerColliders - 1); // prevent negative values
+            UpdateFlickerMode();
+        }
+    }
+
+
+    private void UpdateFlickerMode()
+    {
+        if (dangerColliders > 0)
+        {
+            maxFlickerInterval = 0.5f;
+            isFlickeringExtreme = true;
+        }
+        else
+        {
+            maxFlickerInterval = 20f;
+            isFlickeringExtreme = false;
+        }
+    }
+
 }
