@@ -66,10 +66,13 @@ public class SelectingThreeProcedures : NetworkBehaviour
 
             var addEnergy = procedure.gameObject.AddComponent<AddEnergyAroundIt>();
             addEnergy.energyRange = 20;
+            addEnergy.EMFRange = 20;
             addEnergy.roamRange = 5;
-            addEnergy.isActive = true;
+            addEnergy.isEnergyActive = true;
+            addEnergy.isEMFActive = true;
             addEnergy.energyPrefab = EnergyTriggerPrefab;
             addEnergy.maxEnergy = 50 * (procedure.EnergyDetectorReading + 1) / 3;
+            addEnergy.maxEMFEnergy = 50 * (procedure.EMFReading + 1) / 3;
         }
     }
 

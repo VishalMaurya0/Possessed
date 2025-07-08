@@ -1,32 +1,30 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 
-public class EnergyDetector : NetworkBehaviour
+public class EMFReader : NetworkBehaviour
 {
+    [Header("References")]
+    ItemPickup itemPickup;
+    Inventory inventory;
+    ItemData itemData;
+    public GameObject nib;
+
     [Header("Properties")]
-    public NetworkVariable<float> power_0_1 = new NetworkVariable<float>(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public int[] EMFReadings; 
     public List<float> power = new();
     public float addedPower = 0;
+    public float maxPower = 60;
     public List<GameObject> energySource = new();
-    public float maxPower = 50;
-    public int[] energyDetectorReadings;
-
-    [Header("References")]
-    public ItemPickup itemPickup;
-    public ItemData itemData;
-    public Inventory inventory;
-    public Canvas canvas;
-    public TMP_Text text;
 
     [Header("Visuals")]
-    public Material outer;
-    public Material inner;
-    [ColorUsage(true, true)] public Color noEffectColor;
-    [ColorUsage(true, true)] public Color midEffectColor;
-    [ColorUsage(true, true)] public Color fullEffectColor;
+    public MeshRenderer onRenderer;
+    public float rot;
+    public float maxRot = 26;
+
+
 
     private void Start()
     {
@@ -49,15 +47,16 @@ public class EnergyDetector : NetworkBehaviour
             var dsfci = GetComponent<DummyScriptForClassifyingItems>();
             itemData = dsfci.ItemData;
             dsfci.makeItSpringy = false;
-            GameManager.Instance.HelpInstructions.text = $"Holding the item taking itemData from DummyScript, Found : {itemData}";
+            GameManager.Instance.HelpInstructions.text = $"Holding the item taking itemData from DummyScript, Found : {itemData.itemType}";
         }
 
-        energyDetectorReadings = GameManager.Instance.GetComponent<SelectingThreeProcedures>().EnergyDetectorReadings;
+        EMFReadings = GameManager.Instance.GetComponent<SelectingThreeProcedures>().EMFReadings;
     }
+
 
     private void Update()
     {
-
+        if (itemData == null) return;
         if (Input.GetMouseButtonUp(1))
         {
             if (inventory == null)
@@ -69,23 +68,18 @@ public class EnergyDetector : NetworkBehaviour
 
         if (itemData.isOn)
         {
-            outer.SetFloat("_Outer", 1);
-            canvas?.gameObject.SetActive(true);
-            if (text != null)
-                text.text = addedPower.ToString("F2");
+            onRenderer.material.EnableKeyword("_EMISSION");
         }
         else
         {
-            outer.SetFloat("_Outer", 0);
-            inner.SetColor("_Color", noEffectColor);
-            if (canvas != null)
-                canvas.gameObject.SetActive(false);
+            onRenderer.material.DisableKeyword("_EMISSION");
         }
 
         if (!itemData.isOn)
         {
             return;
         }
+
 
         ManageWorking();
     }
@@ -95,11 +89,6 @@ public class EnergyDetector : NetworkBehaviour
         if (!IsServer) return;
 
 
-        if (power_0_1.Value < 0.5)
-            inner.SetColor("_Color", Color.Lerp(noEffectColor, midEffectColor, power_0_1.Value * 2));
-        else
-            inner.SetColor("_Color", Color.Lerp(midEffectColor, fullEffectColor, power_0_1.Value * 2 - 1));
-
         addedPower = 0;
         for (int i = 0; i < power.Count; i++)
         {
@@ -107,7 +96,12 @@ public class EnergyDetector : NetworkBehaviour
         }
         addedPower = Mathf.Clamp(addedPower, 0, maxPower);
 
-        power_0_1.Value = addedPower / maxPower;
+        Visuals();
+    }
+
+    private void Visuals()
+    {
+        nib.transform.localEulerAngles = new(nib.transform.localEulerAngles.x, (maxRot) - (2 * maxRot * addedPower / maxPower), nib.transform.localEulerAngles.z);
     }
 
     private void OnTriggerStay(Collider other)
@@ -116,9 +110,9 @@ public class EnergyDetector : NetworkBehaviour
         if (itemData.isOn && other.CompareTag("Energy"))
         {
             float distance = (other.transform.position - transform.position).magnitude;
-            EnergyTrigger energyTrigger = other.GetComponent<EnergyTrigger>();
-            float energyRange = energyTrigger.energyRange;
-            float energy = energyTrigger.EnergyAmount;
+            EMFTrigger energyTrigger = other.GetComponent<EMFTrigger>();
+            float energyRange = energyTrigger.Range;
+            float energy = energyTrigger.Amount;
 
             if (!energySource.Contains(other.gameObject))
             {

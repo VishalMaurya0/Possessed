@@ -3,13 +3,19 @@ using UnityEngine;
 public class AddEnergyAroundIt : MonoBehaviour
 {
     public GameObject energyPrefab;
+    public float roamSpeed = 2f;
     public float roamRange = 5f;
+    
+    public bool isEnergyActive;
     public float energyRange = 3f;
     public float maxEnergy = 50f;
-    public float roamSpeed = 2f;
-    public bool isActive;
+
+    public bool isEMFActive;
+    public float EMFRange = 3f;
+    public float maxEMFEnergy = 50f;
 
     private EnergyTrigger et;
+    private EMFTrigger emft;
     private GameObject energyGameObj;
     private Vector3 currentTargetOffset;
 
@@ -17,6 +23,7 @@ public class AddEnergyAroundIt : MonoBehaviour
     {
         energyGameObj = Instantiate(energyPrefab);
         et = energyGameObj.AddComponent<EnergyTrigger>();
+        emft = energyGameObj.AddComponent<EMFTrigger>();
         energyGameObj.GetComponent<SphereCollider>().radius = energyRange;
 
         PickNewTarget();
@@ -30,6 +37,7 @@ public class AddEnergyAroundIt : MonoBehaviour
         {
             energyGameObj = Instantiate(energyPrefab);
             et = energyGameObj.AddComponent<EnergyTrigger>();
+            emft = energyGameObj.AddComponent<EMFTrigger>();
             energyGameObj.GetComponent<SphereCollider>().radius = energyRange;
             PickNewTarget();
         }
@@ -40,9 +48,12 @@ public class AddEnergyAroundIt : MonoBehaviour
         if (energyGameObj != null)
         {
             MoveEnergyAtConstantSpeed();
-            et.isActive = isActive;
+            et.isActive = isEnergyActive;
             et.EnergyAmount = maxEnergy;
             et.energyRange = energyRange;
+            emft.isActive = isEMFActive;
+            emft.Amount = maxEMFEnergy;
+            emft.Range = EMFRange;
         }
     }
 
@@ -88,4 +99,11 @@ public class EnergyTrigger : MonoBehaviour
     public float EnergyAmount;
     public bool isActive;
     public float energyRange;
+}
+
+public class EMFTrigger : MonoBehaviour
+{
+    public float Amount;
+    public bool isActive;
+    public float Range;
 }

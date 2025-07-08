@@ -46,7 +46,7 @@ public enum ItemType
 
     //------Items Given to find Procedures------//
     EnergyDetector,
-    EMFSenser,
+    EMFReader,
     GC,
     Barometer,
 
