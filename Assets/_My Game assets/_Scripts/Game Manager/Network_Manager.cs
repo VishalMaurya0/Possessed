@@ -62,7 +62,7 @@ public class Network_Manager : NetworkBehaviour
         if (IsServer && SceneManager.GetActiveScene().name == "Procedural Generation")
         {
             Debug.Log("[Server] Already in Procedural Generation scene, manually calling OnSceneLoadComplete.");
-            OnSceneLoadComplete(NetworkManager.Singleton.LocalClientId, "Procedural Generation", LoadSceneMode.Single);
+            HandleSceneInit();
 
             foreach (var client in NetworkManager.Singleton.ConnectedClients)
             {
@@ -70,6 +70,28 @@ public class Network_Manager : NetworkBehaviour
             }
         }
     }
+
+    private void HandleSceneInit()
+    {
+        if (generateMap != null && !generated)
+        {
+            generated = true;
+            generateMap.HandleServerStarted();
+        }
+
+        foreach (var clientPair in NetworkManager.Singleton.ConnectedClients)
+        {
+            ulong clientID = clientPair.Key;
+            if (clientPair.Value.PlayerObject == null && playerPrefab != null)
+            {
+                Vector3 spawnPosition = GetSpawnPosition();
+                GameObject playerInstance = Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
+                NetworkObject netObj = playerInstance.GetComponent<NetworkObject>();
+                netObj.SpawnAsPlayerObject(clientID);
+            }
+        }
+    }
+
 
     private void OnDisable()
     {
@@ -113,6 +135,12 @@ public class Network_Manager : NetworkBehaviour
         {
             Debug.Log("[OnSceneLoadComplete] Not the server. Exiting.");
             return;
+        }
+
+
+        if (sceneName == "Procedural Generation")
+        {
+            HandleSceneInit();
         }
 
         if (sceneName == "Procedural Generation")

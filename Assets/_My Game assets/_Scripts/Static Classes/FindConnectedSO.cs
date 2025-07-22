@@ -7,6 +7,12 @@ public class ScriptableObjectFinder : MonoBehaviour
     
     public static List<ScriptableObject> scriptableObjects = new List<ScriptableObject>();
 
+
+    private void Awake()
+    {
+        scriptableObjects.Clear();
+    }
+
     [MenuItem("Tools/Find ScriptableObjects in Path")]
     public static ScriptableObject[] FindScriptableObjectsInPath()
     {

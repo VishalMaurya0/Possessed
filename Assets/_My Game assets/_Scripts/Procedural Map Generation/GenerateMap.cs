@@ -1189,7 +1189,7 @@ public class GenerateMap : NetworkBehaviour
             for (int j = 0; j < allRooms[i].AllCells.Length; j++)
             {
                 MapCell cell = allRooms[i].AllCells[j];
-                if (cell.task.taskPrefab == null) continue;
+                if (cell.task == null || cell.task.taskPrefab == null) continue;
 
                 cell.task = null;
                 cell.spaceOccupied = false;
