@@ -142,7 +142,9 @@ public class GenerateMap : NetworkBehaviour
         GenerateCornerProps();
         GenerateWallSideProps();
         GenerateWindowSideProps();
-        SpawnTasks();
+        int tries = 0;
+        int totalTries = 50;
+        SpawnTasks(tries, totalTries);
         GenerateRoomCenterProps();
     }
 
@@ -1076,7 +1078,7 @@ public class GenerateMap : NetworkBehaviour
             }
         }
     }
-    private void SpawnTasks()
+    private void SpawnTasks(int triess, int totalTriess)
     {
         TaskManager taskManager = GameManager.Instance.taskManager;
         if (taskManager == null)
@@ -1171,12 +1173,16 @@ public class GenerateMap : NetworkBehaviour
 
         if (tries >= totalTries)                       /////  TODO still not tested TODO  /////
         {
-            RestartTaskGeneration();
+            RestartTaskGeneration(triess, totalTriess);
             Debug.LogError("Restarting...");
         }
     }
-    private void RestartTaskGeneration()
+    private void RestartTaskGeneration(int tries, int totalTries)
     {
+        if (tries >= totalTries)
+        {
+            Debug.LogError("NOT GENERATED!!!!"); return;
+        }
         //========= All Rooms =========//
         List<Room> allRooms = new(rooms);
 
@@ -1189,7 +1195,7 @@ public class GenerateMap : NetworkBehaviour
             for (int j = 0; j < allRooms[i].AllCells.Length; j++)
             {
                 MapCell cell = allRooms[i].AllCells[j];
-                if (cell.task == null || cell.task.taskPrefab == null) continue;
+                if (cell == null || cell.task == null || cell.task.taskPrefab == null) continue;
 
                 cell.task = null;
                 cell.spaceOccupied = false;
@@ -1198,7 +1204,7 @@ public class GenerateMap : NetworkBehaviour
         }
 
         //=========== Generate Again ============//
-        SpawnTasks();
+        SpawnTasks(tries + 1, totalTries);
     }
     private void GenerateRoomCenterProps()
     {

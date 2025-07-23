@@ -43,19 +43,51 @@ public class AddEnergyAroundIt : MonoBehaviour
         }
     }
 
+    private float energyAmount;
+    private float emfAmount;
+    private float energyChangeSpeed = 5f;
+    private float fluctuationTimer = 0f;
+    private float fluctuationInterval = 3f; // Time between energy fluctuations
+
     private void Update()
     {
         if (energyGameObj != null)
         {
             MoveEnergyAtConstantSpeed();
+
             et.isActive = isEnergyActive;
-            et.EnergyAmount = maxEnergy;
+            et.EnergyAmount = energyAmount;
             et.energyRange = energyRange;
+
             emft.isActive = isEMFActive;
-            emft.Amount = maxEMFEnergy;
+            emft.Amount = emfAmount;
             emft.Range = EMFRange;
+
+            UpdateEnergyFluctuation();
         }
     }
+
+    private void UpdateEnergyFluctuation()      //GPT
+    {
+        fluctuationTimer += Time.deltaTime;
+
+        if (fluctuationTimer >= fluctuationInterval)
+        {
+            fluctuationTimer = 0f;
+
+            // Simulate rare spikes by using a non-linear random chance
+            float randomFactor = Random.Range(0f, 1f);
+            float target = Mathf.Pow(randomFactor, 2) * maxEnergy; // Square biases toward lower values
+            float emfTarget = Mathf.Pow(randomFactor, 2) * maxEMFEnergy; // Square biases toward lower values
+
+            Debug.Log(target);
+
+            // Smoothly interpolate energy toward the target value
+            energyAmount = Mathf.MoveTowards(energyAmount, target, energyChangeSpeed * Time.deltaTime);
+            emfAmount = Mathf.MoveTowards(emfAmount, emfTarget, energyChangeSpeed * Time.deltaTime);
+        }
+    }
+
 
     private void MoveEnergyAtConstantSpeed()
     {
