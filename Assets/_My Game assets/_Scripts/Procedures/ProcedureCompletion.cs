@@ -17,7 +17,7 @@ public class ProcedureCompletion : ProcedureBase
     public Transform VFXPosition;
     public TotalItemsNeeded totalItemsNeeded = new();
     int totalItems;
-    public int barometerReading, giegerCounterReading, EMFReading, EnergyDetectorReading;
+    public int barometerReading, temperatureReading, EMFReading, EnergyDetectorReading;
 
     [Header("Visuals")]
     public List<VisualsTrigger> visualsTrigger = new();

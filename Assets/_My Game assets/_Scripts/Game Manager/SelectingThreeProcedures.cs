@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class SelectingThreeProcedures : NetworkBehaviour
 {
-    public int[] barometerReadings = new int[8], giegerCounterReadings = new int[8], EMFReadings = new int[8], EnergyDetectorReadings = new int[8], totalReadings = new int[8];
+    public int[] barometerReadings = new int[8], thermometerReadings = new int[8], EMFReadings = new int[8], EnergyDetectorReadings = new int[8], totalReadings = new int[8];
     public int[] threeProcedureIndex;
     public GameObject EnergyTriggerPrefab;
 
@@ -50,7 +50,7 @@ public class SelectingThreeProcedures : NetworkBehaviour
             procedure.EnergyDetectorReading = EnergyDetectorReadings[i];
             procedure.barometerReading = barometerReadings[i];
             procedure.EMFReading = EMFReadings[i];
-            procedure.giegerCounterReading = giegerCounterReadings[i];
+            procedure.temperatureReading = thermometerReadings[i];
         }
     }
 
@@ -205,13 +205,13 @@ public class SelectingThreeProcedures : NetworkBehaviour
         //Debug.Log("---------------------------------------------------------------------");
 
         SetReadings(barometerReadings);
-        SetReadings(giegerCounterReadings);
+        SetReadings(thermometerReadings);
         SetReadings(EMFReadings);
         SetReadings(EnergyDetectorReadings);
 
         for (int i = 0; i < 8; i++)
         {
-            totalReadings[i] = barometerReadings[i] + giegerCounterReadings[i] + EMFReadings[i] + EnergyDetectorReadings[i];
+            totalReadings[i] = barometerReadings[i] + thermometerReadings[i] + EMFReadings[i] + EnergyDetectorReadings[i];
         }
         return CheckReadings(totalReadings);
 

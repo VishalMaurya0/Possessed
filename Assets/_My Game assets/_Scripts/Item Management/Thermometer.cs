@@ -4,16 +4,16 @@ using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 
-public class Barometer : NetworkBehaviour
+public class Thermometer : NetworkBehaviour
 {
     [Header("Properties")]
     public NetworkVariable<float> power_0_1 = new NetworkVariable<float>(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public List<float> power = new();
     public float addedPower = 0;
-    public float avgPressure = 10;
+    public float avgTemperature = 25;
     public List<GameObject> energySource = new();
-    public float maxPower = 2f;
-    public int[] barometerReadings;
+    public float maxPower = 15f;
+    public int[] ThermometerReadings;
 
     [Header("References")]
     public ItemPickup itemPickup;
@@ -51,53 +51,33 @@ public class Barometer : NetworkBehaviour
             GameManager.Instance.HelpInstructions.text = $"Holding the item taking itemData from DummyScript, Found : {itemData}";
         }
 
-        barometerReadings = GameManager.Instance.GetComponent<SelectingThreeProcedures>().barometerReadings;
+        ThermometerReadings = GameManager.Instance.GetComponent<SelectingThreeProcedures>().thermometerReadings;
     }
 
     private float textUpdateInterval = 0.1f;
     private void Update()
     {
         textUpdateInterval -= Time.deltaTime;
-        if (Input.GetMouseButtonUp(1))
-        {
-            if (inventory == null)
-                inventory = GameManager.Instance.ownerPlayer.GetComponent<Inventory>();
 
-            if (inventory?.selectedInventorySlot.itemData.itemType == itemData.itemType)
-                itemData.isOn = !itemData.isOn;
+        if (canvas != null)
+            canvas.gameObject.SetActive(true);
+        if (text != null && textUpdateInterval <= 0)
+        {
+            textUpdateInterval = 0.1f;
+            text.text = addedPower.ToString("F1");
         }
-
-        if (itemData.isOn)
+        if (bar != null)
         {
-            if (canvas != null)
-                canvas.gameObject.SetActive(true);
-            if (text != null && textUpdateInterval <= 0)
-            {
-                textUpdateInterval = 0.1f;
-                text.text = addedPower.ToString("F1");
-            }
-            if (bar != null)
-            {
-                Vector3 currentScale = bar.transform.localScale;
-                float targetY = minPressureScale + (maxPressureScale - minPressureScale) * power_0_1.Value;
-                float smoothY = Mathf.Lerp(currentScale.y, targetY, Time.deltaTime * 5f); // 5f is the smoothing speed
-                bar.transform.localScale = new Vector3(currentScale.x, smoothY, currentScale.z);
-            }
-
-        }
-        else
-        {
-            if (canvas != null)
-                canvas.gameObject.SetActive(false);
-        }
-
-        if (!itemData.isOn)
-        {
-            return;
+            Vector3 currentScale = bar.transform.localScale;
+            float targetY = minPressureScale + (maxPressureScale - minPressureScale) * power_0_1.Value;
+            float smoothY = Mathf.Lerp(currentScale.y, targetY, Time.deltaTime * 5f); // 5f is the smoothing speed
+            bar.transform.localScale = new Vector3(currentScale.x, smoothY, currentScale.z);
         }
 
         ManageWorking();
     }
+
+    private float minTemp = -15;
 
     private void ManageWorking()
     {
@@ -109,20 +89,20 @@ public class Barometer : NetworkBehaviour
         {
             addedPower += power[i];
         }
-        addedPower = Mathf.Clamp(avgPressure - addedPower + Random.Range(-1f, 1f), 3, maxPower + avgPressure * 2);
+        addedPower = Mathf.Clamp(avgTemperature - addedPower + Random.Range(-1f, 1f), minTemp, maxPower + avgTemperature * 2);
 
-        power_0_1.Value = addedPower / (maxPower + avgPressure * 2);
+        power_0_1.Value = addedPower / (maxPower + avgTemperature * 2 + minTemp);
     }
 
     private void OnTriggerStay(Collider other)
     {
         if (!IsServer) { return; }
-        if (itemData.isOn && other.CompareTag("Energy"))
+        if (other.CompareTag("Energy"))
         {
             float distance = (other.transform.position - transform.position).magnitude;
-            PressureTrigger pressureTrigger = other.GetComponent<PressureTrigger>();
-            float Range = pressureTrigger.Range;
-            float energy = pressureTrigger.Amount;
+            TemperatureTrigger temperatureTrigger = other.GetComponent<TemperatureTrigger>();
+            float Range = temperatureTrigger.Range;
+            float energy = temperatureTrigger.Amount;
 
             if (!energySource.Contains(other.gameObject))
             {
@@ -131,7 +111,7 @@ public class Barometer : NetworkBehaviour
             }
 
             int i = energySource.IndexOf(other.gameObject);
-            if (pressureTrigger.isActive)
+            if (temperatureTrigger.isActive)
             {
                 power[i] = (1 - (distance / Range)) * energy;
             }
