@@ -96,7 +96,7 @@ public class Barometer : NetworkBehaviour
         {
             addedPower += power[i];
         }
-        addedPower = Mathf.Clamp(avgPressure - addedPower, 0, maxPower);
+        addedPower = Mathf.Clamp(avgPressure - addedPower + Random.Range(-.1f, .1f), 0, maxPower);
 
         power_0_1.Value = addedPower / maxPower;
     }
