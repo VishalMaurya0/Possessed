@@ -391,6 +391,7 @@ GameObject:
   - component: {fileID: 2025417242800400724}
   - component: {fileID: 5580885246337263039}
   - component: {fileID: 5849846341969615929}
+  - component: {fileID: 5403864538930390596}
   m_Layer: 0
   m_Name: Barometer
   m_TagString: Untagged
@@ -485,6 +486,38 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!114 &5403864538930390596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7921253054633184620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e373634c0a84e984d8ab11d751216499, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  power_0_1:
+    m_InternalValue: 0
+  power: []
+  addedPower: 0
+  energySource: []
+  maxPower: 50
+  energyDetectorReadings: 
+  itemPickup: {fileID: 0}
+  itemData:
+    itemType: 0
+    currentState: 0
+    amount: 0
+    isOn: 0
+  inventory: {fileID: 0}
+  canvas: {fileID: 0}
+  text: {fileID: 0}
+  bar: {fileID: 0}
+  minPressureScale: 0
+  maxPressureScale: 0
 --- !u!1 &8020592416226142048
 GameObject:
   m_ObjectHideFlags: 0

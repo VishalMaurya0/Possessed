@@ -5,7 +5,7 @@ public class AddEnergyAroundIt : MonoBehaviour
     public GameObject energyPrefab;
     public float roamSpeed = 2f;
     public float roamRange = 5f;
-    
+
     public bool isEnergyActive;
     public float energyRange = 3f;
     public float maxEnergy = 50f;
@@ -14,87 +14,108 @@ public class AddEnergyAroundIt : MonoBehaviour
     public float EMFRange = 3f;
     public float maxEMFEnergy = 50f;
 
-    private EnergyTrigger et;
-    private EMFTrigger emft;
+    public bool isTemperatureActive;
+    public float temperatureRange = 3f;
+    public float maxTemperature = 100f;
+
+    public bool isPressureActive;
+    public float pressureRange = 3f;
+    public float maxPressure = 100f;
+
     private GameObject energyGameObj;
+
+    private EnergyTrigger energyTrigger;
+    private EMFTrigger emfTrigger;
+    private TemperatureTrigger temperatureTrigger;
+    private PressureTrigger pressureTrigger;
+
     private Vector3 currentTargetOffset;
+
+    private float energyAmount;
+    private float emfAmount;
+    private float temperatureAmount;
+    private float pressureAmount;
+
+    private float fluctuationTimer = 0f;
+    private float fluctuationInterval = 3f;
 
     private void Start()
     {
-        energyGameObj = Instantiate(energyPrefab);
-        et = energyGameObj.AddComponent<EnergyTrigger>();
-        emft = energyGameObj.AddComponent<EMFTrigger>();
-        energyGameObj.GetComponent<SphereCollider>().radius = energyRange;
-
-        PickNewTarget();
+        SpawnEnergyObject();
 
         GameManager.onServerStarted += GameManager_onServerStarted;
     }
 
     private void GameManager_onServerStarted()
     {
-        if (et == null)
+        if (energyTrigger == null)
         {
-            energyGameObj = Instantiate(energyPrefab);
-            et = energyGameObj.AddComponent<EnergyTrigger>();
-            emft = energyGameObj.AddComponent<EMFTrigger>();
-            energyGameObj.GetComponent<SphereCollider>().radius = energyRange;
-            PickNewTarget();
+            SpawnEnergyObject();
         }
     }
 
-    private float energyAmount;
-    private float emfAmount;
-    private float energyChangeSpeed = 5f;
-    private float fluctuationTimer = 0f;
-    private float fluctuationInterval = 3f; // Time between energy fluctuations
+    private void SpawnEnergyObject()
+    {
+        energyGameObj = Instantiate(energyPrefab);
+        energyTrigger = energyGameObj.AddComponent<EnergyTrigger>();
+        emfTrigger = energyGameObj.AddComponent<EMFTrigger>();
+        temperatureTrigger = energyGameObj.AddComponent<TemperatureTrigger>();
+        pressureTrigger = energyGameObj.AddComponent<PressureTrigger>();
+
+        var collider = energyGameObj.GetComponent<SphereCollider>();
+        if (collider != null)
+            collider.radius = energyRange;
+
+        PickNewTarget();
+    }
 
     private void Update()
     {
-        if (energyGameObj != null)
-        {
-            MoveEnergyAtConstantSpeed();
+        if (energyGameObj == null) return;
 
-            et.isActive = isEnergyActive;
-            et.EnergyAmount = energyAmount;
-            et.energyRange = energyRange;
+        MoveEnergyAtConstantSpeed();
+        UpdateFluctuations();
 
-            emft.isActive = isEMFActive;
-            emft.Amount = emfAmount;
-            emft.Range = EMFRange;
+        // Set values on triggers
+        energyTrigger.isActive = isEnergyActive;
+        energyTrigger.EnergyAmount = energyAmount;
+        energyTrigger.energyRange = energyRange;
 
-            UpdateEnergyFluctuation();
-        }
+        emfTrigger.isActive = isEMFActive;
+        emfTrigger.Amount = emfAmount;
+        emfTrigger.Range = EMFRange;
+
+        temperatureTrigger.isActive = isTemperatureActive;
+        temperatureTrigger.Amount = temperatureAmount;
+        temperatureTrigger.Range = temperatureRange;
+
+        pressureTrigger.isActive = isPressureActive;
+        pressureTrigger.Amount = pressureAmount;
+        pressureTrigger.Range = pressureRange;
     }
 
-    private void UpdateEnergyFluctuation()      //GPT
+    private void UpdateFluctuations()
     {
         fluctuationTimer += Time.deltaTime;
-
         if (fluctuationTimer >= fluctuationInterval)
         {
             fluctuationTimer = 0f;
 
-            // Simulate rare spikes by using a non-linear random chance
             float randomFactor = Random.Range(0f, 1f);
-            float target = Mathf.Pow(randomFactor, 2) * maxEnergy; // Square biases toward lower values
-            float emfTarget = Mathf.Pow(randomFactor, 2) * maxEMFEnergy; // Square biases toward lower values
+            float biased = Mathf.Pow(randomFactor, 2); // Bias toward lower values
 
-            Debug.Log(target);
-
-            // Smoothly interpolate energy toward the target value
-            energyAmount = Mathf.MoveTowards(energyAmount, target, energyChangeSpeed * Time.deltaTime);
-            emfAmount = Mathf.MoveTowards(emfAmount, emfTarget, energyChangeSpeed * Time.deltaTime);
+            energyAmount = biased * maxEnergy;
+            emfAmount = biased * maxEMFEnergy;
+            temperatureAmount = biased * maxTemperature;
+            pressureAmount = biased * maxPressure;
         }
     }
-
 
     private void MoveEnergyAtConstantSpeed()
     {
         Vector3 targetWorldPos = transform.position + currentTargetOffset;
         Vector3 currentPos = energyGameObj.transform.position;
 
-        // Move toward the target at constant speed
         Vector3 direction = (targetWorldPos - currentPos).normalized;
         float distanceToTarget = Vector3.Distance(currentPos, targetWorldPos);
 
@@ -126,6 +147,7 @@ public class AddEnergyAroundIt : MonoBehaviour
     }
 }
 
+// Trigger components
 public class EnergyTrigger : MonoBehaviour
 {
     public float EnergyAmount;
@@ -134,6 +156,20 @@ public class EnergyTrigger : MonoBehaviour
 }
 
 public class EMFTrigger : MonoBehaviour
+{
+    public float Amount;
+    public bool isActive;
+    public float Range;
+}
+
+public class TemperatureTrigger : MonoBehaviour
+{
+    public float Amount;
+    public bool isActive;
+    public float Range;
+}
+
+public class PressureTrigger : MonoBehaviour
 {
     public float Amount;
     public bool isActive;
