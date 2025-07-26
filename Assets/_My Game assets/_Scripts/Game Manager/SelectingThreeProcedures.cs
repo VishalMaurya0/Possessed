@@ -70,6 +70,8 @@ public class SelectingThreeProcedures : NetworkBehaviour
             addEnergy.roamRange = 5;
             addEnergy.isEnergyActive = true;
             addEnergy.isEMFActive = true;
+            addEnergy.isPressureActive = true;
+            addEnergy.isTemperatureActive = true;
             addEnergy.energyPrefab = EnergyTriggerPrefab;
             addEnergy.maxEnergy = 50 * (procedure.EnergyDetectorReading + 1) / 3;
             addEnergy.maxEMFEnergy = 50 * (procedure.EMFReading + 1) / 3;

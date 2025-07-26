@@ -7,20 +7,20 @@ public class AddEnergyAroundIt : MonoBehaviour
     public float roamRange = 5f;
 
     public bool isEnergyActive;
-    public float energyRange = 3f;
+    public float energyRange = 20;
     public float maxEnergy = 50f;
 
     public bool isEMFActive;
-    public float EMFRange = 3f;
+    public float EMFRange = 20;
     public float maxEMFEnergy = 50f;
 
     public bool isTemperatureActive;
-    public float temperatureRange = 3f;
-    public float maxTemperature = 100f;
+    public float temperatureRange = 20;
+    public float maxTemperature = 50f;
 
     public bool isPressureActive;
-    public float pressureRange = 3f;
-    public float maxPressure = 100f;
+    public float pressureRange = 20;
+    public float maxPressure = 5f;
 
     private GameObject energyGameObj;
 
@@ -39,24 +39,30 @@ public class AddEnergyAroundIt : MonoBehaviour
     private float fluctuationTimer = 0f;
     private float fluctuationInterval = 3f;
 
+    private bool hasSpawned = false;
+
     private void Start()
     {
-        SpawnEnergyObject();
+        if (!hasSpawned)
+            SpawnEnergyObject();
 
         GameManager.onServerStarted += GameManager_onServerStarted;
     }
 
     private void GameManager_onServerStarted()
     {
-        if (energyTrigger == null)
-        {
+        if (!hasSpawned)
             SpawnEnergyObject();
-        }
     }
 
     private void SpawnEnergyObject()
     {
+        if (hasSpawned) return;
+
+        hasSpawned = true;
+
         energyGameObj = Instantiate(energyPrefab);
+        energyGameObj.hideFlags = HideFlags.DontSave;
         energyTrigger = energyGameObj.AddComponent<EnergyTrigger>();
         emfTrigger = energyGameObj.AddComponent<EMFTrigger>();
         temperatureTrigger = energyGameObj.AddComponent<TemperatureTrigger>();
@@ -68,6 +74,7 @@ public class AddEnergyAroundIt : MonoBehaviour
 
         PickNewTarget();
     }
+
 
     private void Update()
     {

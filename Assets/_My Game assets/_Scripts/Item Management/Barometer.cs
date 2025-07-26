@@ -10,9 +10,9 @@ public class Barometer : NetworkBehaviour
     public NetworkVariable<float> power_0_1 = new NetworkVariable<float>(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public List<float> power = new();
     public float addedPower = 0;
-    public float avgPressure = 1;
+    public float avgPressure = 10;
     public List<GameObject> energySource = new();
-    public float maxPower = 0.9f;
+    public float maxPower = 2f;
     public int[] barometerReadings;
 
     [Header("References")]
@@ -54,9 +54,10 @@ public class Barometer : NetworkBehaviour
         barometerReadings = GameManager.Instance.GetComponent<SelectingThreeProcedures>().barometerReadings;
     }
 
+    private float textUpdateInterval = 0.1f;
     private void Update()
     {
-
+        textUpdateInterval -= Time.deltaTime;
         if (Input.GetMouseButtonUp(1))
         {
             if (inventory == null)
@@ -68,9 +69,21 @@ public class Barometer : NetworkBehaviour
 
         if (itemData.isOn)
         {
-            canvas?.gameObject.SetActive(true);
-            if (text != null)
-                text.text = addedPower.ToString("F2");
+            if (canvas != null)
+                canvas.gameObject.SetActive(true);
+            if (text != null && textUpdateInterval <= 0)
+            {
+                textUpdateInterval = 0.1f;
+                text.text = addedPower.ToString("F1");
+            }
+            if (bar != null)
+            {
+                Vector3 currentScale = bar.transform.localScale;
+                float targetY = minPressureScale + (maxPressureScale - minPressureScale) * power_0_1.Value;
+                float smoothY = Mathf.Lerp(currentScale.y, targetY, Time.deltaTime * 5f); // 5f is the smoothing speed
+                bar.transform.localScale = new Vector3(currentScale.x, smoothY, currentScale.z);
+            }
+
         }
         else
         {
@@ -96,9 +109,9 @@ public class Barometer : NetworkBehaviour
         {
             addedPower += power[i];
         }
-        addedPower = Mathf.Clamp(avgPressure - addedPower + Random.Range(-.1f, .1f), 0, maxPower);
+        addedPower = Mathf.Clamp(avgPressure - addedPower + Random.Range(-1f, 1f), 0, maxPower + avgPressure + 0.1f);
 
-        power_0_1.Value = addedPower / maxPower;
+        power_0_1.Value = addedPower / (maxPower + avgPressure * 2);
     }
 
     private void OnTriggerStay(Collider other)
@@ -107,9 +120,9 @@ public class Barometer : NetworkBehaviour
         if (itemData.isOn && other.CompareTag("Energy"))
         {
             float distance = (other.transform.position - transform.position).magnitude;
-            EnergyTrigger energyTrigger = other.GetComponent<EnergyTrigger>();
-            float energyRange = energyTrigger.energyRange;
-            float energy = energyTrigger.EnergyAmount;
+            PressureTrigger pressureTrigger = other.GetComponent<PressureTrigger>();
+            float Range = pressureTrigger.Range;
+            float energy = pressureTrigger.Amount;
 
             if (!energySource.Contains(other.gameObject))
             {
@@ -118,9 +131,9 @@ public class Barometer : NetworkBehaviour
             }
 
             int i = energySource.IndexOf(other.gameObject);
-            if (energyTrigger.isActive)
+            if (pressureTrigger.isActive)
             {
-                power[i] = (1 - (distance / energyRange)) * energy;
+                power[i] = (1 - (distance / Range)) * energy;
             }
             else
             {
