@@ -197,6 +197,8 @@ public class ProcedureCompletion : ProcedureBase
             GameManager.Instance.completedProcedures.Add(procedureData.procedureIndex);
             //Debug.Log("All orders completed!");
         }
+        
+        CheckForGameComopletioon();
     }
 
     private bool CheckIfItemMatchedWithInventorySlot(ItemNeeded itemToCheckAndAdd, ItemData itemDataInInventory, Inventory inventory, int i)
@@ -250,6 +252,21 @@ public class ProcedureCompletion : ProcedureBase
         return false;
     }
 
+
+    private void CheckForGameComopletioon()
+    {
+
+        if (GameManager.Instance.completedProcedure.Count >= 3)
+        {
+            if (GameManager.Instance.CheckForCorrectProcedures())
+            {
+                GameManager.Instance.HelpInstructions.text = "You Won!!!";    ////TODO
+            }else
+            {
+                GameManager.Instance.HelpInstructions.text = "You Lose!!!";   ////TODO
+            }
+        }
+    }
 
     private void AddContainerItem(Inventory inventory, ItemData itemDataInInventory, int i)
     {

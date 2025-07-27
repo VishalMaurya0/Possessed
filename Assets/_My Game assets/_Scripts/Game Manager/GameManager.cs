@@ -129,11 +129,11 @@ public class GameManager : NetworkBehaviour
         onServerStarted?.Invoke();
     }
 
-    public void CheckForCorrectProcedures()
+    public bool CheckForCorrectProcedures()
     {
         if (completedProcedure.Count < selectedProceduresIndex.Length)
         {
-            return;
+            return false;
         }
 
         int correctOnes = 0;
@@ -145,10 +145,12 @@ public class GameManager : NetworkBehaviour
             }
         }
 
-        if (correctOnes > selectedProceduresIndex.Length)
+        if (correctOnes >= selectedProceduresIndex.Length)
         {
-
+            return true;
         }
+
+        return false;
     }
 
 

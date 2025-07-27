@@ -16,11 +16,11 @@ public class AddEnergyAroundIt : MonoBehaviour
 
     public bool isTemperatureActive;
     public float temperatureRange = 20;
-    public float maxTemperature = 50f;
+    public float maxTemperature = 15;
 
     public bool isPressureActive;
     public float pressureRange = 20;
-    public float maxPressure = 5f;
+    public float maxPressure = 10;
 
     private GameObject energyGameObj;
 
