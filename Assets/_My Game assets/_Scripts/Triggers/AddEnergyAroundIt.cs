@@ -16,11 +16,11 @@ public class AddEnergyAroundIt : MonoBehaviour
 
     public bool isTemperatureActive;
     public float temperatureRange = 20;
-    public float maxTemperature = 15;
+    public float maxTemperatureChange = 24;
 
     public bool isPressureActive;
     public float pressureRange = 20;
-    public float maxPressure = 10;
+    public float maxPressureChange = 19;
 
     private GameObject energyGameObj;
 
@@ -81,24 +81,36 @@ public class AddEnergyAroundIt : MonoBehaviour
         if (energyGameObj == null) return;
 
         MoveEnergyAtConstantSpeed();
+
+        // Testing...
+        //energyAmount = maxEnergy;
+        //emfAmount = maxEMFEnergy;
+        //temperatureAmount = maxTemperature;
+        //pressureAmount = maxPressure;
+        // Testing...
+
         UpdateFluctuations();
 
         // Set values on triggers
         energyTrigger.isActive = isEnergyActive;
-        energyTrigger.EnergyAmount = energyAmount;
+        energyTrigger.Amount = energyAmount;
         energyTrigger.energyRange = energyRange;
+        energyTrigger.MaxDecrement = maxEnergy;
 
         emfTrigger.isActive = isEMFActive;
         emfTrigger.Amount = emfAmount;
         emfTrigger.Range = EMFRange;
+        emfTrigger.MaxDecrement = maxEMFEnergy;
 
         temperatureTrigger.isActive = isTemperatureActive;
         temperatureTrigger.Amount = temperatureAmount;
         temperatureTrigger.Range = temperatureRange;
+        temperatureTrigger.MaxDecrement = maxTemperatureChange;
 
         pressureTrigger.isActive = isPressureActive;
         pressureTrigger.Amount = pressureAmount;
         pressureTrigger.Range = pressureRange;
+        pressureTrigger.MaxDecrement = maxPressureChange;
     }
 
     private void UpdateFluctuations()
@@ -109,12 +121,12 @@ public class AddEnergyAroundIt : MonoBehaviour
             fluctuationTimer = 0f;
 
             float randomFactor = Random.Range(0f, 1f);
-            float biased = Mathf.Pow(randomFactor, 2); // Bias toward lower values
+            float biased = Mathf.Pow(randomFactor, 2); // Bias toward lower values 
 
             energyAmount = biased * maxEnergy;
             emfAmount = biased * maxEMFEnergy;
-            temperatureAmount = biased * maxTemperature;
-            pressureAmount = biased * maxPressure;
+            temperatureAmount = biased * maxTemperatureChange;
+            pressureAmount = biased * maxPressureChange;
         }
     }
 
@@ -157,7 +169,8 @@ public class AddEnergyAroundIt : MonoBehaviour
 // Trigger components
 public class EnergyTrigger : MonoBehaviour
 {
-    public float EnergyAmount;
+    public float Amount;
+    public float MaxDecrement;
     public bool isActive;
     public float energyRange;
 }
@@ -165,6 +178,7 @@ public class EnergyTrigger : MonoBehaviour
 public class EMFTrigger : MonoBehaviour
 {
     public float Amount;
+    public float MaxDecrement;
     public bool isActive;
     public float Range;
 }
@@ -172,6 +186,7 @@ public class EMFTrigger : MonoBehaviour
 public class TemperatureTrigger : MonoBehaviour
 {
     public float Amount;
+    public float MaxDecrement;
     public bool isActive;
     public float Range;
 }
@@ -179,6 +194,7 @@ public class TemperatureTrigger : MonoBehaviour
 public class PressureTrigger : MonoBehaviour
 {
     public float Amount;
+    public float MaxDecrement;
     public bool isActive;
     public float Range;
 }

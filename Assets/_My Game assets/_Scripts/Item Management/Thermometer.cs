@@ -12,7 +12,7 @@ public class Thermometer : NetworkBehaviour
     public float addedPower = 0;
     public float avgTemperature = 25;
     public List<GameObject> energySource = new();
-    public float maxPower = 15f;
+    public float maxPowerOfEachDecrement = 15f;
     public int[] ThermometerReadings;
 
     [Header("References")]
@@ -83,15 +83,15 @@ public class Thermometer : NetworkBehaviour
     {
         if (!IsServer) return;
 
-
+        float maxPower = 60;
         addedPower = 0;
         for (int i = 0; i < power.Count; i++)
         {
             addedPower += power[i];
         }
-        addedPower = Mathf.Clamp(avgTemperature - addedPower + Random.Range(-1f, 1f), minTemp, maxPower + avgTemperature * 2);
+        addedPower = Mathf.Clamp(avgTemperature - addedPower + Random.Range(-1f, 1f), minTemp, maxPower);
 
-        power_0_1.Value = addedPower / (maxPower + avgTemperature * 2 + minTemp);
+        power_0_1.Value = addedPower / (maxPower);
     }
 
     private void OnTriggerStay(Collider other)
@@ -103,6 +103,7 @@ public class Thermometer : NetworkBehaviour
             TemperatureTrigger temperatureTrigger = other.GetComponent<TemperatureTrigger>();
             float Range = temperatureTrigger.Range;
             float energy = temperatureTrigger.Amount;
+            maxPowerOfEachDecrement = temperatureTrigger.MaxDecrement;
 
             if (!energySource.Contains(other.gameObject))
             {
@@ -120,7 +121,7 @@ public class Thermometer : NetworkBehaviour
                 power[i] = 0;
             }
 
-            power[i] = Mathf.Clamp(power[i], 0, maxPower);
+            power[i] = Mathf.Clamp(power[i], 0, maxPowerOfEachDecrement);
         }
     }
 }

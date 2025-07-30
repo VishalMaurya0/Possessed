@@ -15,6 +15,7 @@ public class EMFReader : NetworkBehaviour
     public int[] EMFReadings; 
     public List<float> power = new();
     public float addedPower = 0;
+    private float maxPowerOfEachDecrement = 60;
     public float maxPower = 60;
     public List<GameObject> energySource = new();
 
@@ -157,7 +158,7 @@ public class EMFReader : NetworkBehaviour
 
     private void Visuals()
     {
-        nib.transform.localEulerAngles = new(nib.transform.localEulerAngles.x, (-maxRot) + (2 * maxRot * addedPower / maxPower), nib.transform.localEulerAngles.z);
+        nib.transform.localEulerAngles = new(nib.transform.localEulerAngles.x, (-maxRot) + (2 * maxRot * addedPower / maxPowerOfEachDecrement), nib.transform.localEulerAngles.z);
     }
 
     IEnumerator FlickerRoutine()
@@ -186,9 +187,10 @@ public class EMFReader : NetworkBehaviour
         if (itemData.isOn && other.CompareTag("Energy"))
         {
             float distance = (other.transform.position - transform.position).magnitude;
-            EMFTrigger energyTrigger = other.GetComponent<EMFTrigger>();
-            float energyRange = energyTrigger.Range;
-            float energy = energyTrigger.Amount;
+            EMFTrigger emfTrigger = other.GetComponent<EMFTrigger>();
+            float energyRange = emfTrigger.Range;
+            float energy = emfTrigger.Amount;
+            maxPowerOfEachDecrement = emfTrigger.MaxDecrement;
 
             if (!energySource.Contains(other.gameObject))
             {
@@ -197,7 +199,7 @@ public class EMFReader : NetworkBehaviour
             }
 
             int i = energySource.IndexOf(other.gameObject);
-            if (energyTrigger.isActive)
+            if (emfTrigger.isActive)
             {
                 power[i] = (1 - (distance / energyRange)) * energy;
             }
@@ -206,7 +208,7 @@ public class EMFReader : NetworkBehaviour
                 power[i] = 0;
             }
 
-            power[i] = Mathf.Clamp(power[i], 0, maxPower);
+            power[i] = Mathf.Clamp(power[i], 0, maxPowerOfEachDecrement);
         }
     }
 

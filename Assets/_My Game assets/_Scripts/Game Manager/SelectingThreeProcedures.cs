@@ -68,13 +68,19 @@ public class SelectingThreeProcedures : NetworkBehaviour
             addEnergy.energyRange = 20;
             addEnergy.EMFRange = 20;
             addEnergy.roamRange = 5;
+            addEnergy.energyPrefab = EnergyTriggerPrefab;
+
+
             addEnergy.isEnergyActive = true;
             addEnergy.isEMFActive = true;
             addEnergy.isPressureActive = true;
             addEnergy.isTemperatureActive = true;
-            addEnergy.energyPrefab = EnergyTriggerPrefab;
-            addEnergy.maxEnergy = 50 * (procedure.EnergyDetectorReading + 1) / 3;
-            addEnergy.maxEMFEnergy = 50 * (procedure.EMFReading + 1) / 3;
+
+            // Max Value
+            addEnergy.maxEnergy = addEnergy.maxEnergy * (procedure.EnergyDetectorReading + 1) / 3;
+            addEnergy.maxEMFEnergy = addEnergy.maxEMFEnergy * (procedure.EMFReading + 1) / 3;
+            addEnergy.maxTemperatureChange = addEnergy.maxTemperatureChange * (procedure.temperatureReading + 1) / 3;
+            addEnergy.maxPressureChange = addEnergy.maxPressureChange * (procedure.barometerReading + 1) / 3;
         }
     }
 

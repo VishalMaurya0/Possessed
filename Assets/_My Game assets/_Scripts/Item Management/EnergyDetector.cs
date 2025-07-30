@@ -11,6 +11,7 @@ public class EnergyDetector : NetworkBehaviour
     public List<float> power = new();
     public float addedPower = 0;
     public List<GameObject> energySource = new();
+    private float maxPowerOfEachDecrement = 50;
     public float maxPower = 50;
     public int[] energyDetectorReadings;
 
@@ -118,7 +119,8 @@ public class EnergyDetector : NetworkBehaviour
             float distance = (other.transform.position - transform.position).magnitude;
             EnergyTrigger energyTrigger = other.GetComponent<EnergyTrigger>();
             float energyRange = energyTrigger.energyRange;
-            float energy = energyTrigger.EnergyAmount;
+            float energy = energyTrigger.Amount;
+            maxPowerOfEachDecrement = energyTrigger.MaxDecrement;
 
             if (!energySource.Contains(other.gameObject))
             {
@@ -136,7 +138,7 @@ public class EnergyDetector : NetworkBehaviour
                 power[i] = 0;
             }
 
-            power[i] = Mathf.Clamp(power[i], 0, maxPower);
+            power[i] = Mathf.Clamp(power[i], 0, maxPowerOfEachDecrement);
         }
     }
 }

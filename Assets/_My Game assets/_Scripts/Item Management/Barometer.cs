@@ -12,7 +12,7 @@ public class Barometer : NetworkBehaviour
     public float addedPower = 0;
     public float avgPressure = 10;
     public List<GameObject> energySource = new();
-    public float maxPower = 2f;
+    public float maxPowerOfEachDecrement = 2f;
     public int[] barometerReadings;
 
     [Header("References")]
@@ -103,15 +103,15 @@ public class Barometer : NetworkBehaviour
     {
         if (!IsServer) return;
 
-
+        float maxPower = 50;
         addedPower = 0;
         for (int i = 0; i < power.Count; i++)
         {
             addedPower += power[i];
         }
-        addedPower = Mathf.Clamp(avgPressure - addedPower + Random.Range(-1f, 1f), 3, maxPower + avgPressure * 2);
+        addedPower = Mathf.Clamp(avgPressure - addedPower + Random.Range(-1f, 1f), 1, maxPower);
 
-        power_0_1.Value = addedPower / (maxPower + avgPressure * 2);
+        power_0_1.Value = addedPower / (maxPower);
     }
 
     private void OnTriggerStay(Collider other)
@@ -123,6 +123,7 @@ public class Barometer : NetworkBehaviour
             PressureTrigger pressureTrigger = other.GetComponent<PressureTrigger>();
             float Range = pressureTrigger.Range;
             float energy = pressureTrigger.Amount;
+            maxPowerOfEachDecrement = pressureTrigger.MaxDecrement;
 
             if (!energySource.Contains(other.gameObject))
             {
@@ -140,7 +141,8 @@ public class Barometer : NetworkBehaviour
                 power[i] = 0;
             }
 
-            power[i] = Mathf.Clamp(power[i], 0, maxPower);
+
+            power[i] = Mathf.Clamp(power[i], 0, maxPowerOfEachDecrement);
         }
     }
 }
