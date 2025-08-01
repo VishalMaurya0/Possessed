@@ -68,6 +68,10 @@ public class GameManager : NetworkBehaviour
     //public List<TMP_Text> tmpTextList = new List<TMP_Text>();
 
 
+    [Header("Win Lose Condition")]
+    public TMP_Text winText;
+
+
     public static event Action onServerStarted;
 
 
@@ -131,26 +135,20 @@ public class GameManager : NetworkBehaviour
 
     public bool CheckForCorrectProcedures()
     {
-        if (completedProcedure.Count < selectedProceduresIndex.Length)
+        if (completedProcedures.Count < selectedProceduresIndex.Length)
         {
             return false;
         }
 
-        int correctOnes = 0;
-        for (int i = 0; i < selectedProceduresIndex.Length; i++)
+        foreach (int index in selectedProceduresIndex)
         {
-            if (completedProcedures.Contains(selectedProceduresIndex[i]))
+            if (!completedProcedures.Contains(index))
             {
-                correctOnes++;
+                return false;
             }
         }
 
-        if (correctOnes >= selectedProceduresIndex.Length)
-        {
-            return true;
-        }
-
-        return false;
+        return true;
     }
 
 
@@ -208,6 +206,18 @@ public class GameManager : NetworkBehaviour
         }
     }
 
+    // =============== Win and Lose Condition ===========//
+    public void OnWinOrLose(bool win)
+    {
+        if (win)
+        {
+            winText.text = $"You have Completed the Correct Procedures :) Remember to Play Again!\r\nYou Won!!!";
+        }else
+        {
+            winText.text = $"You have Completed the InCorrect Procedures :( Give it Another Chance!\r\nYou Lose!!!";
+        }
+    }
+
     // ===============Starting Game ===========//
     public void StartGame()
     {
@@ -226,7 +236,7 @@ public class GameManager : NetworkBehaviour
 
     private void HandleClientConnected(ulong clientId)
     {
-            //ClientAdded();  // <-- Call it here on the local client
+        //ClientAdded();  // <-- Call it here on the local client
     }
 
     //public void ClientAdded()

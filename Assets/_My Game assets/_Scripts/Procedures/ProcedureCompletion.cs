@@ -12,6 +12,7 @@ public class ProcedureCompletion : ProcedureBase
     public ProcedureDataSO procedureData;
     public GameObject procedurePrefab;
     public triggerProcedurePointScript triggerScript;
+    public Animator winLoseAnimator;
 
     [Header("Procedure Specific Variables")]
     public Transform VFXPosition;
@@ -33,6 +34,7 @@ public class ProcedureCompletion : ProcedureBase
 
     [Header("Champt GPT")]
     private bool isShuttingDown = false;
+    public bool temp = false;
 
     new private void OnDestroy()          //===========CHAMPT GPT=============//
     {
@@ -90,7 +92,11 @@ public class ProcedureCompletion : ProcedureBase
             return;
         }
 
-
+        if (temp)
+        {
+            temp = false;
+            CheckForGameComopletioon();
+        }
 
         if (IsServer)
         {
@@ -258,12 +264,14 @@ public class ProcedureCompletion : ProcedureBase
 
         if (GameManager.Instance.completedProcedure.Count >= 3)
         {
+            Debug.LogError("won");
+            winLoseAnimator.SetTrigger("Won");  // activate the winLose Panel
             if (GameManager.Instance.CheckForCorrectProcedures())
             {
-                GameManager.Instance.HelpInstructions.text = "You Won!!!";    ////TODO
+                GameManager.Instance.OnWinOrLose(true);
             }else
             {
-                GameManager.Instance.HelpInstructions.text = "You Lose!!!";   ////TODO
+                GameManager.Instance.OnWinOrLose(false);
             }
         }
     }
