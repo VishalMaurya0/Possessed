@@ -10,5 +10,6 @@ public class PlayerDeathManager : NetworkBehaviour
     public void DieClientRpc()
     {
         GameManager.Instance.handleMovement = false;
+        // remove noise TODO
     }
 }

@@ -268,7 +268,6 @@ public class Network_Manager : NetworkBehaviour
         }
 
         GameManager.Instance.noOfPlayers++;
-        GameManager.Instance.noiseValues[(int)clientId] = 0;
 
         UpdateConnectedClients();
     }
@@ -320,10 +319,8 @@ public class Network_Manager : NetworkBehaviour
             ulong clientId = client.Key;
             var playerObject = client.Value.PlayerObject;
 
-            if (playerObject != null && !GameManager.Instance.connectedClients.ContainsKey(clientId))
+            if (playerObject != null && GameManager.Instance.GetClientThroughID(clientId) == null)
             {
-                GameManager.Instance.connectedClients.Add(clientId, playerObject.gameObject);
-                GameManager.Instance.isPlayerAlive.Add(clientId, true);
                 GameManager.Instance.connectedClientsData.Add(new ConnectedClientsData(clientId, playerObject.gameObject, true));
                 //GameManager.Instance.playerIndicatorColors.Add(client, Color.); TODO 
             }
@@ -335,14 +332,14 @@ public class Network_Manager : NetworkBehaviour
         if (GameManager.Instance == null) return;
 
         int i = 0;
-        foreach (var kvp in GameManager.Instance.connectedClients)
+        foreach (var kvp in GameManager.Instance.connectedClientsData)
         {
-            if (kvp.Value != null)
+            if (kvp.playerGameobject != null)
             {
-                NoiseHandler noiseHandler = kvp.Value.GetComponent<NoiseHandler>();
+                NoiseHandler noiseHandler = kvp.playerGameobject.GetComponent<NoiseHandler>();
                 if (noiseHandler != null)
                 {
-                    GameManager.Instance.noiseValues[i] = noiseHandler.noiseValue;
+                    GameManager.Instance.connectedClientsData[i].noiseValue = noiseHandler.noiseValue;
                 }
             }
             i++;

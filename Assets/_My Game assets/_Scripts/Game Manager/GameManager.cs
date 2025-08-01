@@ -33,11 +33,11 @@ public class GameManager : NetworkBehaviour
     [Header("In Game Info")]
     public List<ConnectedClientsData> connectedClientsData = new();
     //public Dictionary<ulong, GameObject> connectedClients = new();
-    public Dictionary<ulong, bool> isPlayerAlive = new();
-    public Dictionary<ulong, string> clientsNames = new();
-    public Dictionary<ulong, Color> playerIndicatorColors = new();
+    //public Dictionary<ulong, bool> isPlayerAlive = new();
+    //public Dictionary<ulong, string> clientsNames = new();
+    //public Dictionary<ulong, Color> playerIndicatorColors = new();
     public Dictionary<GameObject, Procedures> completedProcedure = new();
-    public Dictionary<int, float> noiseValues = new();
+    //public Dictionary<int, float> noiseValues = new();
     public int[] selectedProceduresIndex;
     public List<int> completedProcedures;
     public float timeInSecElapsed = 0;
@@ -103,8 +103,52 @@ public class GameManager : NetworkBehaviour
             PublicPrivateToggle.interactable = false;
         }
 
+        NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
+        NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
     }
 
+
+    private void OnClientConnected(ulong obj)
+    {
+        if (!IsServer) return;
+        if (!(SceneManager.GetActiveScene().name == "Procedural Generation"))
+        {
+            connectedClientsData.Add(new ConnectedClientsData(obj, null, true));
+        }
+        NotifyClientAboutConnectedClients();
+    }
+
+    private void OnClientDisconnected(ulong obj)
+    {
+        if (!IsServer) return;
+        if (!(SceneManager.GetActiveScene().name == "Procedural Generation"))
+        {
+            connectedClientsData.Remove(GetClientThroughID(obj));
+        }
+    }
+
+    private void NotifyClientAboutConnectedClients()
+    {
+        if (!IsServer) return;
+        ClearConnectedClientsClientRpc();
+        for (int i = 0; i < connectedClientsData.Count; i++)
+        {
+            TransferDataClientRpc(connectedClientsData[i].clientID);
+        }
+    }
+    [ClientRpc]
+    private void ClearConnectedClientsClientRpc()
+    {
+        if (IsServer) return;
+        connectedClientsData.Clear();
+    }
+
+    [ClientRpc]
+    private void TransferDataClientRpc(ulong clientID)
+    {
+        if (IsServer) return;
+        connectedClientsData.Add(new ConnectedClientsData(clientID, null, true));
+    }
 
     private void Update()
     {
@@ -118,7 +162,7 @@ public class GameManager : NetworkBehaviour
             gameEnd = true;
         }
 
-        if (HelpInstructions.text != "")
+        if (HelpInstructions != null && HelpInstructions.text != "")
         {
             StartCoroutine(ResetHelpInstructions());
         }
@@ -382,7 +426,7 @@ public class GameManager : NetworkBehaviour
     }
 }
 
-
+[System.Serializable]   
 public class ConnectedClientsData
 {
     public ulong clientID;
@@ -397,5 +441,6 @@ public class ConnectedClientsData
         this.clientID = clientID;
         this.playerGameobject = playerGameobject;
         this.isAlive = isAlive;
+        noiseValue = 0;
     }
 }

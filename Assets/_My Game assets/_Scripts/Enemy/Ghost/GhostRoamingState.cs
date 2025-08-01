@@ -284,11 +284,12 @@ public class RoamChooseSpawnLocationState : GhostState
     private bool AnyPlayerVisible(Vector3 pos)
     {
         Vector3 eyePos = pos + ghostAI.ghostData.eyePositionFromGround;
-        foreach (var player in GameManager.Instance.connectedClients)
+        foreach (var player in GameManager.Instance.connectedClientsData)
         {
-            if (Physics.Raycast(eyePos, player.Value.transform.position - eyePos, out RaycastHit hit, Vector3.Distance(pos, player.Value.transform.position)))
+            if (!player.isAlive) continue;
+            if (Physics.Raycast(eyePos, player.playerGameobject.transform.position - eyePos, out RaycastHit hit, Vector3.Distance(pos, player.playerGameobject.transform.position)))
             {
-                if (hit.collider.gameObject == player.Value)
+                if (hit.collider.gameObject == player.playerGameobject)
                 {
                     return true;
                 }

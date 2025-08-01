@@ -174,10 +174,10 @@ public class Pilpilu_ML : Agent
             findPlayer = false;
             showingIndex = 0;
             Vector3 toGuide_ = Vector3.zero;
-            int count = GameManager.Instance.connectedClients.Count;
+            int count = GameManager.Instance.connectedClientsData.Count;
             if (GameManager.Instance.serverStarted)
             {
-                toGuide_ = GameManager.Instance.connectedClients.ElementAtOrDefault(Random.Range(0, count)).Value.transform.position;
+                toGuide_ = GameManager.Instance.connectedClientsData.ElementAtOrDefault(Random.Range(0, count)).playerGameobject.transform.position;
             }
             GivePosIn_ToGuidePos(toGuide_);
         }
@@ -261,10 +261,10 @@ public class Pilpilu_ML : Agent
             playerTime = 0;
             if (GameManager.Instance.serverStarted)
             {
-                float count = GameManager.Instance.connectedClients.Count;
+                float count = GameManager.Instance.connectedClientsData.Count;
                 for (int i = 0; i < count; i++)
                 {
-                    GameManager.Instance.connectedClients.ElementAtOrDefault(i).Value.gameObject.transform.position = playerPos[Random.Range(0, playerPos.Count)].position;
+                    GameManager.Instance.connectedClientsData.ElementAtOrDefault(i).playerGameobject.gameObject.transform.position = playerPos[Random.Range(0, playerPos.Count)].position;
                 }
             }
         }

@@ -83,9 +83,9 @@ public class GhostHuntingState : GhostState
         float maxNoise = 0f;
         for (int i = 0; i < GameManager.Instance.connectedClientsData.Count; i++)
         {
-            if (GameManager.Instance.noiseValues[i] > maxNoise && GameManager.Instance.noiseValues[i] > ignoreNoises)
+            if (GameManager.Instance.connectedClientsData[i].noiseValue > maxNoise && GameManager.Instance.connectedClientsData[i].noiseValue > ignoreNoises)
             {
-                maxNoise = GameManager.Instance.noiseValues[i];
+                maxNoise = GameManager.Instance.connectedClientsData[i].noiseValue;
                 maxNoiseIndex = i;
             }
         }
@@ -99,7 +99,7 @@ public class GhostHuntingState : GhostState
     }
     public void FindPosOfNoise()
     {
-        GameObject chasePlayer = GameManager.Instance.connectedClients.ElementAtOrDefault(maxNoiseIndex).Value;
+        GameObject chasePlayer = GameManager.Instance.connectedClientsData.ElementAtOrDefault(maxNoiseIndex).playerGameobject;
         Vector3 chasePosition = Vector3.zero;
         if (chasePlayer != null)
             chasePosition = chasePlayer.transform.position;
@@ -219,17 +219,19 @@ public class HuntWanderState : GhostState
 
     public Vector3 FindCentreOfPlayersPosition()
     {
-        if (GameManager.Instance.gameEnd || GameManager.Instance.connectedClients.Count == 0)
+        if (GameManager.Instance.gameEnd || GameManager.Instance.connectedClientsData.Count == 0)
         {
             return ghostAI.transform.position;
         }
 
         Vector3 addAll = Vector3.zero;
-        int count = GameManager.Instance.connectedClients.Count;
+
+
+        int count = GameManager.Instance.connectedClientsData.Count;
 
         for (int i = 0; i < count; i++)
         {
-            GameObject player = GameManager.Instance.connectedClients.ElementAtOrDefault(i).Value;
+            GameObject player = GameManager.Instance.connectedClientsData.ElementAtOrDefault(i).playerGameobject;
             if (player != null)
                 addAll += player.transform.position;
         }

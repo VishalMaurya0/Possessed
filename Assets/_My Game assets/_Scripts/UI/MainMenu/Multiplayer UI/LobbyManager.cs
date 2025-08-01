@@ -35,6 +35,7 @@ public class LobbyManager : NetworkBehaviour
 
         currentColor = Random.Range(0, allColors.Count);
         GameManager.Instance.playerIndicatorColor = allColors[currentColor];
+        
         Debug.Log($"[Start] Assigned random color index: {currentColor}, color: {allColors[currentColor]}");
 
         ShowColor();
@@ -87,14 +88,10 @@ public class LobbyManager : NetworkBehaviour
         ulong clientId = rpcParams.Receive.SenderClientId;
         Debug.Log($"[NotifyServerSeverRpc] Client {clientId} selected color index {i}");
 
-        if (!GameManager.Instance.playerIndicatorColors.ContainsKey(clientId))
+        if (GameManager.Instance.GetClientThroughID(clientId) != null)
         {
-            GameManager.Instance.playerIndicatorColors.Add(clientId, allColors[i]);
+            GameManager.Instance.GetClientThroughID(clientId).playerIndicatorColor = allColors[i];
             Debug.Log($"[NotifyServerSeverRpc] Added color {allColors[i]} for Client {clientId}");
-        }
-        else
-        {
-            GameManager.Instance.playerIndicatorColors[clientId] = allColors[i];
         }
         NotifyClients();
     }
@@ -103,10 +100,9 @@ public class LobbyManager : NetworkBehaviour
     private void NotifyClients()
     {
         NullTheDictionaryClientRpc();
-        Debug.Log(GameManager.Instance.playerIndicatorColors.Count);
-        foreach (var color in GameManager.Instance.playerIndicatorColors)
+        foreach (var client in GameManager.Instance.connectedClientsData)
         {
-            NotifyClientsEachColorClientRpc(color.Key, color.Value);
+            NotifyClientsEachColorClientRpc(client.clientID, client.playerIndicatorColor);
         }
         UpdateVisualClientRpc();
     }
@@ -114,10 +110,14 @@ public class LobbyManager : NetworkBehaviour
     [ClientRpc]
     private void NullTheDictionaryClientRpc()
     {
+        if (IsServer) return; 
         if (!NetworkManager.Singleton.IsServer)
         {
             Debug.Log("[NullTheDictionaryClientRpc] Resetting client color dictionary.");
-            GameManager.Instance.playerIndicatorColors = new Dictionary<ulong, Color>();
+            for (global::System.Int32 i = 0; i < GameManager.Instance.connectedClientsData.Count; i++)
+            {
+                GameManager.Instance.connectedClientsData[i].playerIndicatorColor = Color.clear;
+            }
         }
     }
 
@@ -125,9 +125,9 @@ public class LobbyManager : NetworkBehaviour
     private void NotifyClientsEachColorClientRpc(ulong id, Color color)
     {
         Debug.Log($"[NotifyClientsEachColorClientRpc] Receiving color for Client {id}: {color}");
-        if (!GameManager.Instance.playerIndicatorColors.ContainsKey(id))
+        if (GameManager.Instance.GetClientThroughID(id).playerIndicatorColor != null)
         {
-            GameManager.Instance.playerIndicatorColors.Add(id, color);
+            GameManager.Instance.GetClientThroughID(id).playerIndicatorColor = color;
         }
     }
 
@@ -146,13 +146,14 @@ public class LobbyManager : NetworkBehaviour
         for (int i = 0; i < dsfali.Length; i++)
         {
             ulong clientId = NetworkManager.Singleton.ConnectedClientsList[i].ClientId;
-            if (GameManager.Instance.playerIndicatorColors.TryGetValue(clientId, out Color c))
+            if (GameManager.Instance.GetClientThroughID(clientId) != null && GameManager.Instance.GetClientThroughID(clientId).playerIndicatorColor != null)
             {
+                Color c = GameManager.Instance.GetClientThroughID(clientId).playerIndicatorColor;
                 dsfali[i].GetComponent<Image>().color = c;
             }
         }
 
-        GameDataRuntime.Instance.playerIndicatorColors = GameManager.Instance.playerIndicatorColors;
+        GameDataRuntime.Instance.connectedClientsData = GameManager.Instance.connectedClientsData;
         GameDataRuntime.Instance.playerIndicatorColor = GameManager.Instance.playerIndicatorColor;
     }
 

@@ -82,31 +82,18 @@ public class FireScriptForVoodooDoll : NetworkBehaviour
             randomDirection.y = 0f;
             Vector3 potentialPosition = center + randomDirection;
 
-            Debug.Log($"[Attempt {i}] Trying potential position: {potentialPosition}");
 
             if (NavMesh.SamplePosition(potentialPosition, out NavMeshHit hit, 10f, NavMesh.AllAreas))
             {
-                Debug.Log($"Valid NavMesh position found: {hit.position}");
 
 
                 if (PosDirectlyNotVisToPlayers(hit.position))
                 {
-                    Debug.Log("Position not visible to players. Accepting.");
                     result = hit.position;
                     return true;
                 }
-                else
-                {
-                    Debug.Log("Position visible to players. Rejecting.");
-                }
-            }
-            else
-            {
-                Debug.Log("NavMesh.SamplePosition failed for this attempt.");
             }
         }
-
-        Debug.LogWarning("Could not find suitable NavMesh position after 100 attempts.");
         result = Vector3.zero;
         return false;
     }
@@ -116,9 +103,9 @@ public class FireScriptForVoodooDoll : NetworkBehaviour
     private bool PosDirectlyNotVisToPlayers(Vector3 pos)
     {
         List<GameObject> players = new();
-        foreach (var client in GameManager.Instance.connectedClients)
+        foreach (var client in GameManager.Instance.connectedClientsData)
         {
-            players.Add(client.Value);
+            players.Add(client.playerGameobject);
         }
 
         foreach (var player in players)
