@@ -31,7 +31,9 @@ public class GameManager : NetworkBehaviour
 
 
     [Header("In Game Info")]
-    public Dictionary<ulong, GameObject> connectedClients = new();
+    public List<ConnectedClientsData> connectedClientsData = new();
+    //public Dictionary<ulong, GameObject> connectedClients = new();
+    public Dictionary<ulong, bool> isPlayerAlive = new();
     public Dictionary<ulong, string> clientsNames = new();
     public Dictionary<ulong, Color> playerIndicatorColors = new();
     public Dictionary<GameObject, Procedures> completedProcedure = new();
@@ -368,5 +370,32 @@ public class GameManager : NetworkBehaviour
     //    return filtered;
     //}
 
+
+    public ConnectedClientsData GetClientThroughID(ulong clientId)
+    {
+        for (int i = 0; i < connectedClientsData.Count; i++)
+        {
+            if (clientId == connectedClientsData[i].clientID)
+                return connectedClientsData[i];
+        }
+        return null;
+    }
 }
 
+
+public class ConnectedClientsData
+{
+    public ulong clientID;
+    public GameObject playerGameobject;
+    public bool isAlive;
+    public string ClientName;
+    public Color playerIndicatorColor;
+    public float noiseValue;
+
+    public ConnectedClientsData(ulong clientID, GameObject playerGameobject, bool isAlive)
+    {
+        this.clientID = clientID;
+        this.playerGameobject = playerGameobject;
+        this.isAlive = isAlive;
+    }
+}

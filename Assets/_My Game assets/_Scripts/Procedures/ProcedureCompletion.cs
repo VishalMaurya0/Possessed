@@ -264,7 +264,6 @@ public class ProcedureCompletion : ProcedureBase
 
         if (GameManager.Instance.completedProcedure.Count >= 3)
         {
-            Debug.LogError("won");
             winLoseAnimator.SetTrigger("Won");  // activate the winLose Panel
             if (GameManager.Instance.CheckForCorrectProcedures())
             {

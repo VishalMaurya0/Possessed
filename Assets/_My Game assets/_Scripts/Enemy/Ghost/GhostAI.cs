@@ -42,7 +42,7 @@ public class GhostAI : NetworkBehaviour
         Currentstate.UpdateState();
 
 
-        //----------------------------------------------Hunt Time--------------//
+        //-----------------------------Hunt Time-------------------------------//
         huntToStartTimer += Time.deltaTime;
         if (huntToStartTimer > timeBetweenHuntDuration && !isHunting)
         {
@@ -66,15 +66,26 @@ public class GhostAI : NetworkBehaviour
 
     public Vector3[] FindPlayersPosition()
     {
-        Vector3[] pos = new Vector3[GameManager.Instance.connectedClients.Count];
-        int index = 0;
-        foreach (var player in GameManager.Instance.connectedClients)
+        int noOfPlayersAlive = 0;
+        for (int i = 0; i < GameManager.Instance.connectedClientsData.Count; i++)
         {
-            if (player.Value == null)
+            if (GameManager.Instance.connectedClientsData[i].isAlive)
+                noOfPlayersAlive++;
+        }
+        Vector3[] pos = new Vector3[noOfPlayersAlive];
+        int index = 0;
+        for (int i = 0; i < GameManager.Instance.connectedClientsData.Count; i++)
+        {
+            var player = GameManager.Instance.connectedClientsData[i];
+            if (!player.isAlive) continue;
+
+
+            if (player.playerGameobject == null)
             {
+                Debug.LogError("Error!");
                 return default;
             }
-            pos[index] = player.Value.transform.position;
+            pos[index] = player.playerGameobject.transform.position;
             index++;
         }
         return pos;
@@ -154,11 +165,12 @@ public class GhostAI : NetworkBehaviour
         {
             Debug.DrawRay(rayOrigin, targetDir * hit.distance, Color.green, 1f);  // Green ray to hit point
             Debug.DrawRay(hit.point, Vector3.up * 1f, Color.blue, 1f);
-            foreach (var playerr in GameManager.Instance.connectedClients)
+            foreach (var playerr in GameManager.Instance.connectedClientsData)
             {
-                if (hit.collider.gameObject == playerr.Value)
+                if (hit.collider.gameObject == playerr.playerGameobject)
                 {
-                    player = playerr;
+                    KeyValuePair<ulong, GameObject> temp = new (playerr.clientID, playerr.playerGameobject);
+                    player = temp;
                     return true;
                 }
             }
@@ -166,12 +178,13 @@ public class GhostAI : NetworkBehaviour
         
         if (Physics.Raycast(rayOrigin, targetPos, out RaycastHit hit2, ghostData.ghostLookDistance))
         {
-            foreach (var playerr in GameManager.Instance.connectedClients)
+            foreach (var playerr in GameManager.Instance.connectedClientsData)
             {
-                if (hit2.collider.gameObject == playerr.Value)
+                if (hit2.collider.gameObject == playerr.playerGameobject)
                 {
                     Debug.Log("player found");
-                    player = playerr;
+                    KeyValuePair<ulong, GameObject> temp = new(playerr.clientID, playerr.playerGameobject);
+                    player = temp;
                     return true;
                 }
             }
@@ -179,5 +192,19 @@ public class GhostAI : NetworkBehaviour
         
         player = default;
         return false;
+    }
+
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (!IsServer) return;
+        if (isHunting && collision.collider.CompareTag("Player"))
+        {
+            GameObject player = collision.collider.gameObject;
+            player.GetComponent<PlayerDeathManager>().DieClientRpc();
+
+            ulong clientId = player.GetComponent<NetworkObject>().OwnerClientId;
+            GameManager.Instance.GetClientThroughID(clientId).isAlive = false;
+        }
     }
 }

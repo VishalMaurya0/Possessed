@@ -41,7 +41,7 @@ public class GhostHuntingState : GhostState
         SetCurrentHuntSubState(huntWanderState);
         ghostAI.isHunting = true;
         averageHuntDuration = ghostAI.ghostData.averageHuntDuration;
-        huntDuration = averageHuntDuration * (GameManager.Instance.completedProcedures.Count / ghostAI.ghostData.proceduresAfterWhichHuntHuntDurDoubles + 1) * (GameManager.Instance.timeInSecElapsed / ghostAI.ghostData.timeAfterWhichHuntHuntDurDoubles + 1);
+        huntDuration = averageHuntDuration * ((GameManager.Instance.completedProcedures.Count / ghostAI.ghostData.proceduresAfterWhichHuntHuntDurDoubles) + 1) * ((GameManager.Instance.timeInSecElapsed / ghostAI.ghostData.timeAfterWhichHuntHuntDurDoubles) + 1);
     }
 
     public override void UpdateState()
@@ -52,7 +52,6 @@ public class GhostHuntingState : GhostState
         {
             sightChasing = true;
             SetCurrentHuntSubState(HuntSightChaseState);
-            Debug.Log(player);
         }
 
         huntDurationTimer += Time.deltaTime;
@@ -64,6 +63,7 @@ public class GhostHuntingState : GhostState
         }
     }
 
+
     public override void ExitState()
     {
         currentGhostHuntSubState.ExitState();
@@ -71,7 +71,6 @@ public class GhostHuntingState : GhostState
     }
     public void SetCurrentHuntSubState(GhostState state)
     {
-
         currentGhostHuntSubState?.ExitState();
         currentGhostHuntSubState = state;
         currentGhostHuntSubState?.EnterState();
@@ -82,7 +81,7 @@ public class GhostHuntingState : GhostState
     public void FindMaxNoiseIndexAndSetChasePosition()
     {
         float maxNoise = 0f;
-        for (int i = 0; i < GameManager.Instance.connectedClients.Count; i++)
+        for (int i = 0; i < GameManager.Instance.connectedClientsData.Count; i++)
         {
             if (GameManager.Instance.noiseValues[i] > maxNoise && GameManager.Instance.noiseValues[i] > ignoreNoises)
             {
@@ -93,14 +92,17 @@ public class GhostHuntingState : GhostState
         if (maxNoiseIndex != -1)
         {
             FindPosOfNoise();
+        }else
+        {
+            huntChaseTheNoisePosition = Vector3.zero;
         }
     }
     public void FindPosOfNoise()
     {
         GameObject chasePlayer = GameManager.Instance.connectedClients.ElementAtOrDefault(maxNoiseIndex).Value;
         Vector3 chasePosition = Vector3.zero;
-        if (chasePlayer == null)
-        chasePosition = chasePlayer.transform.position;
+        if (chasePlayer != null)
+            chasePosition = chasePlayer.transform.position;
 
 
         //--------------------------- Adjust positionPresitionRadius based on noise value-----------------------------//

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
@@ -31,11 +32,11 @@ public class DollAI : NetworkBehaviour
 
     private void SetAllConnectedPlayers()
     {
-        player = new Transform[GameManager.Instance.connectedClients.Count];
+        player = new Transform[GameManager.Instance.connectedClientsData.Count];
         playerDataSO = new PlayerDataSO[player.Length];
-        for (int i = 0; i < GameManager.Instance.connectedClients.Count; i++)
+        for (int i = 0; i < GameManager.Instance.connectedClientsData.Count; i++)
         {
-            player[i] = GameManager.Instance.connectedClients.ElementAtOrDefault(i).Value.transform;
+            player[i] = GameManager.Instance.connectedClientsData.ElementAtOrDefault(i).playerGameobject.transform;
             playerDataSO[i] = player[i].GetComponent<PlayerController>().playerData;
         }
     }
@@ -48,7 +49,7 @@ public class DollAI : NetworkBehaviour
             agent = GetComponent<NavMeshAgent>();
             animator = GetComponentInChildren<Animator>();
         }
-        if (player.Length < GameManager.Instance.connectedClients.Count)
+        if (player.Length < GameManager.Instance.connectedClientsData.Count)
         {
             SetAllConnectedPlayers();
         }
@@ -148,6 +149,9 @@ public class DollAI : NetworkBehaviour
             {
                 return false;
             }
+            // Eliminating Dead Players
+            int index = Array.IndexOf(player, playerr);
+            if (!GameManager.Instance.connectedClientsData[index].isAlive) return false;
 
             Vector3 origin = transform.position + Vector3.up * 0.5f;
             Vector3 directionToPlayer = (playerr.transform.position - origin).normalized;
@@ -178,6 +182,11 @@ public class DollAI : NetworkBehaviour
         if (GameManager.Instance.gameEnd) return false;
         foreach (var playerr in player)
         {
+            // Eliminating Dead Players
+            int index = Array.IndexOf(player, playerr);
+            if (!GameManager.Instance.connectedClientsData[index].isAlive) continue;
+
+
             Vector3 eyePosition = playerr.position + playerDataSO[playerr.GetComponentIndex()].eyePosition;
             Vector3 directionToDoll = (transform.position - eyePosition).normalized;
             float distanceToDoll = Vector3.Distance(eyePosition, transform.position);
