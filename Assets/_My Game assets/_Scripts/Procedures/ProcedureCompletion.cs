@@ -267,10 +267,10 @@ public class ProcedureCompletion : ProcedureBase
             winLoseAnimator.SetTrigger("Won");  // activate the winLose Panel
             if (GameManager.Instance.CheckForCorrectProcedures())
             {
-                GameManager.Instance.OnWinOrLose(true);
+                GameManager.Instance.OnWinOrLose(true, false);
             }else
             {
-                GameManager.Instance.OnWinOrLose(false);
+                GameManager.Instance.OnWinOrLose(false, false);
             }
         }
     }

@@ -55,6 +55,7 @@ public class GameManager : NetworkBehaviour
     public List<ProcedureCompletion> AllProcedures = new();
     public TaskManager taskManager = null;
     public TMP_Text HelpInstructions;
+    public Animator winLoseAnimator;
 
     [Header("Host Accessible")]
     public Button PlayButton;
@@ -179,6 +180,22 @@ public class GameManager : NetworkBehaviour
         onServerStarted?.Invoke();
     }
 
+    public void CheckForPlayerDead()
+    {
+        // Check if every player died
+
+        for (int i = 0; i < GameManager.Instance.connectedClientsData.Count; i++)
+        {
+            ConnectedClientsData connectedClientsData = GameManager.Instance.connectedClientsData[i];
+            if (connectedClientsData.isAlive) return;
+        }
+
+        // No one is alive
+
+        winLoseAnimator.SetTrigger("Won");  // activate the winLose Panel
+        GameManager.Instance.OnWinOrLose(false, true);
+    }
+
     public bool CheckForCorrectProcedures()
     {
         if (completedProcedures.Count < selectedProceduresIndex.Length)
@@ -253,14 +270,19 @@ public class GameManager : NetworkBehaviour
     }
 
     // =============== Win and Lose Condition ===========//
-    public void OnWinOrLose(bool win)
+    public void OnWinOrLose(bool win, bool dead)
     {
-        if (win)
+        if (win && !dead)
         {
             winText.text = $"You have Completed the Correct Procedures :) Remember to Play Again!\r\nYou Won!!!";
-        }else
+        }else if (!win && !dead)
         {
             winText.text = $"You have Completed the InCorrect Procedures :( Give it Another Chance!\r\nYou Lose!!!";
+        }
+
+        if (dead)
+        {
+            winText.text = $"EveryOne Died??\r\nTry Again!!";
         }
     }
 

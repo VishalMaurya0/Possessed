@@ -16,7 +16,6 @@ GameObject:
   - component: {fileID: 2257955994351765168}
   - component: {fileID: 2693171361112807463}
   - component: {fileID: 5439853222316432118}
-  - component: {fileID: 5703164099892760267}
   m_Layer: 0
   m_Name: Game And Network Manager
   m_TagString: Untagged
@@ -77,8 +76,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  playerPrefab: {fileID: 8596613677294679421, guid: 9381a5b89870b5947802a981bdc9214c, type: 3}
+  generateMap: {fileID: 0}
   cameraMovement: {fileID: 0}
-  ownerPlayer: {fileID: 0}
 --- !u!114 &3491250806943052933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93,6 +93,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   ownerPlayer: {fileID: 0}
+  localID: 0
   ownerPlayerName: Player
   playerCamera: {fileID: 0}
   serverStarted: 0
@@ -101,6 +102,8 @@ MonoBehaviour:
   noOfPlayers: 0
   inventorySlots: 5
   maxWeight: 15
+  playerIndicatorColor: {r: 0, g: 0, b: 0, a: 0}
+  connectedClientsData: []
   selectedProceduresIndex: 
   completedProcedures: 
   timeInSecElapsed: 0
@@ -112,10 +115,14 @@ MonoBehaviour:
   procedureBase: {fileID: 0}
   AllProcedures: []
   taskManager: {fileID: 0}
+  HelpInstructions: {fileID: 0}
+  winLoseAnimator: {fileID: 0}
   PlayButton: {fileID: 0}
+  PublicPrivateToggle: {fileID: 0}
   LoadingPanel: {fileID: 0}
   playerName_InputFieldA: {fileID: 0}
   playerName_InputFieldB: {fileID: 0}
+  winText: {fileID: 0}
 --- !u!114 &7816311691814989854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,11 +149,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   barometerReadings: 0000000000000000000000000000000000000000000000000000000000000000
-  giegerCounterReadings: 0000000000000000000000000000000000000000000000000000000000000000
+  thermometerReadings: 0000000000000000000000000000000000000000000000000000000000000000
   EMFReadings: 0000000000000000000000000000000000000000000000000000000000000000
-  FSCReadings: 0000000000000000000000000000000000000000000000000000000000000000
+  EnergyDetectorReadings: 0000000000000000000000000000000000000000000000000000000000000000
   totalReadings: 0000000000000000000000000000000000000000000000000000000000000000
   threeProcedureIndex: 
+  EnergyTriggerPrefab: {fileID: 643987899253045226, guid: b5797c4b19733af4397107ad96768c1a, type: 3}
 --- !u!114 &2693171361112807463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -197,16 +205,3 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
---- !u!114 &5703164099892760267
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7148567494265126245}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ecc80af91abcd3645bb091c9473b0fe9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 8596613677294679421, guid: 9381a5b89870b5947802a981bdc9214c, type: 3}

@@ -8,14 +8,27 @@ public class PlayerIndicatorInMinimap : NetworkBehaviour
     public Image indicator2;
 
     public GameObject CameraWhichFollow;
+    public GameObject Glasses;
 
     private void Start()
     {
+        if (IsOwner)
+        {
+            Glasses.SetActive(false);
+        }
+
         CameraWhichFollow = GameObject.FindWithTag("Minimap");
         if (IsOwner)
         {
-            indicator.color = GameDataRuntime.Instance.playerIndicatorColor;
-            indicator2.color = indicator.color;
+            if (indicator != null && GameDataRuntime.Instance != null)
+            {
+                indicator.color = GameDataRuntime.Instance.playerIndicatorColor;
+                indicator2.color = indicator.color;
+            }
+            else
+            {
+                Debug.LogWarning("Indicator reference not set on prefab.");
+            }
         }
 
         if (!IsOwner)

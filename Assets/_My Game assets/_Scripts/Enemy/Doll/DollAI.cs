@@ -120,8 +120,15 @@ public class DollAI : NetworkBehaviour
     
     void AttackPlayer()
     {
-        //Debug.Log("Doll attacked and possessed the player!");
-        // Add attack mechanics here
+        // TODO Attack Animations
+
+        // Player Death
+        ulong id = playerInSight.GetComponent<NetworkObject>().OwnerClientId;
+        GameManager.Instance.GetClientThroughID(id).isAlive = false;
+
+        playerInSight.GetComponent<PlayerDeathManager>().DieClientRpc();
+        
+        GameManager.Instance.CheckForPlayerDead();
     }
 
 

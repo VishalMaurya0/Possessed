@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIRelated : MonoBehaviour
@@ -93,5 +94,12 @@ public class UIRelated : MonoBehaviour
     {
         isFullMiniMapShowing = Load;
         MinimapAnim.SetBool("Load", Load);
+    }
+
+    // For After Death Or Win
+    public void LoadMainMenuScene()
+    {
+        SceneManager.LoadSceneAsync("Main Menu");
+        GameManager.Instance.LoadingPanel.SetActive(true);
     }
 }

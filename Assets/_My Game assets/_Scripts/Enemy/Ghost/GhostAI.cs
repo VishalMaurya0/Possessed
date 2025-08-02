@@ -201,10 +201,15 @@ public class GhostAI : NetworkBehaviour
         if (isHunting && collision.collider.CompareTag("Player"))
         {
             GameObject player = collision.collider.gameObject;
-            player.GetComponent<PlayerDeathManager>().DieClientRpc();
 
             ulong clientId = player.GetComponent<NetworkObject>().OwnerClientId;
             GameManager.Instance.GetClientThroughID(clientId).isAlive = false;
+
+
+            player.GetComponent<PlayerDeathManager>().DieClientRpc();
         }
+
+
+        GameManager.Instance.CheckForPlayerDead();
     }
 }
