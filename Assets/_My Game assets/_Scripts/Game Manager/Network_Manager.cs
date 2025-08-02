@@ -114,7 +114,7 @@ public class Network_Manager : NetworkBehaviour
             subscribeEvents = true;
             SubscribeEvents();
         }
-        if (NetworkManager.Singleton.IsListening && runStartOnceAfterStartingServer)
+        if (NetworkManager.Singleton != null && NetworkManager.Singleton.IsListening && runStartOnceAfterStartingServer)
         {
             MyStart();
             runStartOnceAfterStartingServer = false;
@@ -322,6 +322,7 @@ public class Network_Manager : NetworkBehaviour
             if (playerObject != null && GameManager.Instance.GetClientThroughID(clientId) == null)
             {
                 GameManager.Instance.connectedClientsData.Add(new ConnectedClientsData(clientId, playerObject.gameObject, true));
+                GameManager.Instance.NotifyClientAboutConnectedClientsServerRpc();
                 //GameManager.Instance.playerIndicatorColors.Add(client, Color.); TODO 
             }
         }

@@ -32,6 +32,7 @@ public class GameManager : NetworkBehaviour
 
     [Header("In Game Info")]
     public List<ConnectedClientsData> connectedClientsData = new();
+    public NetworkVariable<float> connectedClientsNumber = new NetworkVariable<float>();
     //public Dictionary<ulong, GameObject> connectedClients = new();
     //public Dictionary<ulong, bool> isPlayerAlive = new();
     //public Dictionary<ulong, string> clientsNames = new();
@@ -104,8 +105,6 @@ public class GameManager : NetworkBehaviour
             PublicPrivateToggle.interactable = false;
         }
 
-        NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
-        NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
     }
 
 
@@ -115,8 +114,10 @@ public class GameManager : NetworkBehaviour
         if (!(SceneManager.GetActiveScene().name == "Procedural Generation"))
         {
             connectedClientsData.Add(new ConnectedClientsData(obj, null, true));
+            connectedClientsNumber.Value = connectedClientsData.Count;
+            //Debug.LogError(connectedClientsData.Count);
+            NotifyClientAboutConnectedClientsServerRpc();
         }
-        NotifyClientAboutConnectedClients();
     }
 
     private void OnClientDisconnected(ulong obj)
@@ -128,15 +129,19 @@ public class GameManager : NetworkBehaviour
         }
     }
 
-    private void NotifyClientAboutConnectedClients()
+    [ServerRpc(RequireOwnership = false)]
+    public void NotifyClientAboutConnectedClientsServerRpc()
     {
         if (!IsServer) return;
         ClearConnectedClientsClientRpc();
         for (int i = 0; i < connectedClientsData.Count; i++)
         {
-            TransferDataClientRpc(connectedClientsData[i].clientID);
+            Debug.LogError($"Sending {connectedClientsData[i].clientID}");
+            TransferDataClientRpc(connectedClientsData[i].clientID, connectedClientsData[i].isAlive);
         }
     }
+
+
     [ClientRpc]
     private void ClearConnectedClientsClientRpc()
     {
@@ -145,11 +150,12 @@ public class GameManager : NetworkBehaviour
     }
 
     [ClientRpc]
-    private void TransferDataClientRpc(ulong clientID)
+    private void TransferDataClientRpc(ulong clientID, bool isAlive)
     {
         if (IsServer) return;
-        connectedClientsData.Add(new ConnectedClientsData(clientID, null, true));
+        connectedClientsData.Add(new ConnectedClientsData(clientID, null, isAlive));
     }
+
 
     private void Update()
     {
@@ -166,6 +172,14 @@ public class GameManager : NetworkBehaviour
         if (HelpInstructions != null && HelpInstructions.text != "")
         {
             StartCoroutine(ResetHelpInstructions());
+        }
+        
+        if (!IsServer)
+        {
+            if (connectedClientsData.Count != connectedClientsNumber.Value)
+            {
+                NotifyClientAboutConnectedClientsServerRpc();
+            }
         }
     }
 
@@ -267,6 +281,8 @@ public class GameManager : NetworkBehaviour
             localID = NetworkManager.Singleton.LocalClientId;
             Debug.Log($"[DummyScript] Set ID: {localID} for client: {NetworkManager.Singleton.LocalClientId}");
         }
+        NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
+        NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
     }
 
     // =============== Win and Lose Condition ===========//
