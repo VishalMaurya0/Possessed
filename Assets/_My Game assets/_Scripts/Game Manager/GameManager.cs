@@ -136,7 +136,6 @@ public class GameManager : NetworkBehaviour
         ClearConnectedClientsClientRpc();
         for (int i = 0; i < connectedClientsData.Count; i++)
         {
-            Debug.LogError($"Sending {connectedClientsData[i].clientID}");
             TransferDataClientRpc(connectedClientsData[i].clientID, connectedClientsData[i].isAlive);
         }
     }

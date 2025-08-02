@@ -106,7 +106,11 @@ public class PlayerDeathManager : NetworkBehaviour
     private void ReviveClientRpc()
     {
         if (IsOwner)
-            GameManager.Instance.handleMovement = false;
+            GameManager.Instance.handleMovement = true;
+
+
+        ulong clientId = gameObject.GetComponent<NetworkObject>().OwnerClientId;
+        GameManager.Instance.GetClientThroughID(clientId).isAlive = true;
 
 
         playerIndicator.SetActive(true);

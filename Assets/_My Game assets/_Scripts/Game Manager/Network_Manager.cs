@@ -323,6 +323,7 @@ public class Network_Manager : NetworkBehaviour
             {
                 GameManager.Instance.connectedClientsData.Add(new ConnectedClientsData(clientId, playerObject.gameObject, true));
                 GameManager.Instance.NotifyClientAboutConnectedClientsServerRpc();
+                connectedClientsNumber.Value = connectedClientsData.Count;
                 //GameManager.Instance.playerIndicatorColors.Add(client, Color.); TODO 
             }
         }
