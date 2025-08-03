@@ -27,6 +27,9 @@ public class PlayerDeathManager : NetworkBehaviour
         playerCharacter.SetActive(false);
         ashes.SetActive(true);
         // remove noise TODO
+
+
+        GameManager.Instance.NotifyClientAboutConnectedClientsServerRpc();
     }
 
     [ServerRpc(RequireOwnership = false)]

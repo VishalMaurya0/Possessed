@@ -42,6 +42,7 @@ public class GameManager : NetworkBehaviour
     public int[] selectedProceduresIndex;
     public List<int> completedProcedures;
     public float timeInSecElapsed = 0;
+    Coroutine HelpInstructionCorotine;
 
 
     [Header("Lock And Unlock")]
@@ -168,9 +169,9 @@ public class GameManager : NetworkBehaviour
             gameEnd = true;
         }
 
-        if (HelpInstructions != null && HelpInstructions.text != "")
+        if (HelpInstructions != null && HelpInstructions.text != "" && HelpInstructionCorotine == null)
         {
-            StartCoroutine(ResetHelpInstructions());
+            HelpInstructionCorotine = StartCoroutine(ResetHelpInstructions(HelpInstructions.text));
         }
         
         if (!IsServer)
@@ -182,10 +183,11 @@ public class GameManager : NetworkBehaviour
         }
     }
 
-    IEnumerator ResetHelpInstructions()
+    IEnumerator ResetHelpInstructions(string text)
     {
         yield return new WaitForSeconds(3);
         HelpInstructions.text = "";
+        HelpInstructionCorotine = null;
     }
 
     public void ServerStarted()
@@ -193,7 +195,7 @@ public class GameManager : NetworkBehaviour
         onServerStarted?.Invoke();
     }
 
-    public void CheckForPlayerDead()
+    public void CheckIfEveryPlayerDied()
     {
         // Check if every player died
 

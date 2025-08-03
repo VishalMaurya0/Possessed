@@ -99,7 +99,7 @@ public class EMFReader : NetworkBehaviour
             if (inventory == null)
                 inventory = GameManager.Instance.ownerPlayer.GetComponent<Inventory>();
 
-            if (inventory?.selectedInventorySlot.itemData.itemType == itemData.itemType)
+            if (inventory != null && inventory.selectedInventorySlot.itemData != null && inventory.selectedInventorySlot.itemData.itemType == itemData.itemType)
                 itemData.isOn = !itemData.isOn;
         }
 

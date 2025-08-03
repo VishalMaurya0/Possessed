@@ -128,7 +128,7 @@ public class DollAI : NetworkBehaviour
 
         playerInSight.GetComponent<PlayerDeathManager>().DieClientRpc();
         
-        GameManager.Instance.CheckForPlayerDead();
+        GameManager.Instance.CheckIfEveryPlayerDied();
     }
 
 

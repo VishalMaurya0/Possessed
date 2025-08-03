@@ -210,6 +210,6 @@ public class GhostAI : NetworkBehaviour
         }
 
 
-        GameManager.Instance.CheckForPlayerDead();
+        GameManager.Instance.CheckIfEveryPlayerDied();
     }
 }

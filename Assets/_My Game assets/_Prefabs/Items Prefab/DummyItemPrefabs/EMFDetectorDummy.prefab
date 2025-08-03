@@ -302,6 +302,14 @@ MonoBehaviour:
   onRenderer: {fileID: 1487824295310951385}
   rot: 0
   maxRot: 26
+  minFlickerInterval: 0.2
+  maxFlickerInterval: 20
+  restartFlicker: 0
+  flickerDuration: []
+  isFlickering: 0
+  isFlickeringExtreme: 0
+  subtractFlicker: 0
+  waitTime: 0
 --- !u!135 &8706284336120718899
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -321,8 +329,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.51
-  m_Center: {x: 0, y: 0, z: 0.48}
+  m_Radius: 0.14
+  m_Center: {x: 0.07, y: 0.22, z: 0.25}
 --- !u!54 &412321819596889586
 Rigidbody:
   m_ObjectHideFlags: 0
