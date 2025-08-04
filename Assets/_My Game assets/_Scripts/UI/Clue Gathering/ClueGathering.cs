@@ -117,15 +117,17 @@ public class ClueGathering : MonoBehaviour
                 isSmallMoving = false;
         }
 
-        if (Input.GetKeyUp(KeyCode.I))
+        if (Input.GetKeyDown(KeyCode.I))
         {
             animator.SetBool("Load", !animator.GetBool("Load"));
             if (animator.GetBool("Load"))
             {
                 GameManager.Instance.lockCurser = false;
+                GameManager.Instance.handlePlayerLookWithMouse = false;
             }else
             {
                 GameManager.Instance.lockCurser = true;
+                GameManager.Instance.handlePlayerLookWithMouse = true;
             }
         }
     }
