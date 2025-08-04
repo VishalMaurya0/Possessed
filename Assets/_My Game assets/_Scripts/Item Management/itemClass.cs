@@ -53,7 +53,8 @@ public enum ItemType
     //------Items Given At Start-------//
     Torch,
     ItemDuplicator,
-    SafePoint
+    SafePoint,
+    PhotoAlbum
 
     //------Items To Craft-----//
 }
