@@ -18,9 +18,9 @@ public class ItemData : INetworkSerializable
         this.amount = amount;
     }
     
-    public ItemData(ItemDataSO idSO, int amount, int CurrentState, int photoType, int photoID) 
+    public ItemData(int amount, int CurrentState, int photoType, int photoID) 
     {
-        itemType = idSO.itemType;
+        this.itemType = ItemType.Photo;
         currentState = CurrentState;
         this.amount = amount;
         this.photoType = photoType;
@@ -37,6 +37,7 @@ public class ItemData : INetworkSerializable
     }
 }
 
+[System.Serializable]
 public class PhotoData : INetworkSerializable
 {
     public int photoID;

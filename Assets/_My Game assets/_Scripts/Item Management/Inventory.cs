@@ -6,6 +6,9 @@ using UnityEngine;
 
 public class Inventory : NetworkBehaviour
 {
+    [Header("Refe")]
+
+    [Header("Inventory Properties")]
     public int maxSlots;
     public float maxWeight;
     public List<InventorySlot> inventorySlots = new();
@@ -19,6 +22,7 @@ public class Inventory : NetworkBehaviour
     public NetworkVariable<float> weight = new (default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public NetworkVariable<float> slots = new (default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
+    
 
     private void Start()
     {
@@ -29,6 +33,7 @@ public class Inventory : NetworkBehaviour
                 inventorySlots.Add(new InventorySlot());
             }
         }
+
 
         StartCoroutine(WaitForInitInventorySlotTracker());
     }
@@ -138,10 +143,11 @@ public class Inventory : NetworkBehaviour
     {
         if (GameManager.Instance.collectedPhotos.Count <= i)
         {
-            GameManager.Instance.collectedPhotos.Add(photoData);
-            return;
+            GameManager.Instance.collectedPhotos.Add(null);
         }
         GameManager.Instance.collectedPhotos[i] = photoData;
+
+        GameManager.Instance.photoAlbum.UpdatePhotoAlbumUI();
     }
 
 

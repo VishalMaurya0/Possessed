@@ -1,5 +1,6 @@
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ItemPickup : NetworkBehaviour
 {
@@ -14,16 +15,20 @@ public class ItemPickup : NetworkBehaviour
         {
             it = GameManager.Instance.ownerPlayer.GetComponent<ItemHolding>();
         }
-
-        if (itemData.itemType == ItemType.Photo)
-        {
-            itemData = new ItemData(ItemDataSO,itemData.amount,itemData.currentState,itemData.photoType,itemData.photoId);
-        }
-        else
-        {
-            itemData = new ItemData(ItemDataSO,itemData.amount,itemData.currentState);
-        }
         networkObject = GetComponent<NetworkObject>();
+
+        if (itemData != null)
+        {
+            if (itemData.itemType == ItemType.Photo)
+            {
+                itemData = new ItemData(itemData.amount, itemData.currentState, itemData.photoType, itemData.photoId);
+                GetComponentsInChildren<Image>()[0].sprite = GameManager.Instance.GetPhotoSprite(itemData.photoType, itemData.photoId);
+            }
+            else
+            {
+                itemData = new ItemData(ItemDataSO, itemData.amount, itemData.currentState);
+            }
+        }
     }
 
     private void Update()
@@ -50,9 +55,17 @@ public class ItemPickup : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void PickupItemServerRpc(ServerRpcParams rpcParams = default)
     {
+        if (!NetworkManager.Singleton.ConnectedClients.ContainsKey(rpcParams.Receive.SenderClientId)) return;
+
         var player = NetworkManager.Singleton.ConnectedClients[rpcParams.Receive.SenderClientId].PlayerObject;
         player.TryGetComponent<Inventory>(out var inventoryManager);
         it = player.GetComponent<ItemHolding>();
+
+        if (inventoryManager == null || it == null)
+        {
+            Debug.LogError($"Pickup Failed: Missing Inventory or ItemHolding on Player {rpcParams.Receive.SenderClientId}");
+            return;
+        }
 
         if (inventoryManager != null)
         {

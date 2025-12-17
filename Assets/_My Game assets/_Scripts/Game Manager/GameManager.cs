@@ -59,6 +59,7 @@ public class GameManager : NetworkBehaviour
     public TaskManager taskManager = null;
     public TMP_Text HelpInstructions;
     public Animator winLoseAnimator;
+    public PhotoAlbum photoAlbum;
 
     [Header("Host Accessible")]
     public Button PlayButton;
@@ -90,8 +91,16 @@ public class GameManager : NetworkBehaviour
 
         procedureBase = GetComponent<ProcedureBase>();
         handleMovement = true;
-    }
 
+
+        if (IsOwner || IsServer)
+        {
+            if (photoAlbum == null)
+            {
+                photoAlbum = FindAnyObjectByType<PhotoAlbum>();
+            }
+        }
+    }
 
 
     private void Start()
@@ -461,6 +470,23 @@ public class GameManager : NetworkBehaviour
         {
             if (clientId == connectedClientsData[i].clientID)
                 return connectedClientsData[i];
+        }
+        return null;
+    }
+
+    internal Sprite GetPhotoSprite(int photoType, int photoId)
+    {
+        if (photoType == 0) // normal
+        {
+            return null;
+        }
+        else if (photoType == 1) // procedure
+        {
+            return photoAlbum.PhotoContainerSO.ProcedurePhotos[photoId].photoSprite;
+        }
+        else if (photoType == 2) // statue
+        {
+            return photoAlbum.PhotoContainerSO.StatuePhotos[photoId].photoSprite;
         }
         return null;
     }
