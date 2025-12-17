@@ -8,12 +8,23 @@ public class ItemData : INetworkSerializable
     public int currentState;
     public int amount;
     public bool isOn;
+    public int photoType = 0; // 0 = normal, 1 = procedure, 2 = statue
+    public int photoId = 0;
 
     public ItemData(ItemDataSO idSO, int amount, int CurrentState) 
     {
         itemType = idSO.itemType;
         currentState = CurrentState;
         this.amount = amount;
+    }
+    
+    public ItemData(ItemDataSO idSO, int amount, int CurrentState, int photoType, int photoID) 
+    {
+        itemType = idSO.itemType;
+        currentState = CurrentState;
+        this.amount = amount;
+        this.photoType = photoType;
+        this.photoId = photoID;
     }
 
     public ItemData() { }            //======================Default Constructor For serialization Method to Work========================//
@@ -23,6 +34,26 @@ public class ItemData : INetworkSerializable
         serializer.SerializeValue(ref amount);
         serializer.SerializeValue(ref itemType);
         serializer.SerializeValue(ref isOn);
+    }
+}
+
+public class PhotoData : INetworkSerializable
+{
+    public int photoID;
+    public bool ProcedurePhoto;
+    public bool StatuePhoto;
+    public PhotoData(int photoID, bool procedurePhoto, bool statuePhoto)
+    {
+        this.photoID = photoID;
+        ProcedurePhoto = procedurePhoto;
+        StatuePhoto = statuePhoto;
+    }
+    public PhotoData() { }            //======================Default Constructor For serialization Method to Work========================//
+    public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+    {
+        serializer.SerializeValue(ref photoID);
+        serializer.SerializeValue(ref ProcedurePhoto);
+        serializer.SerializeValue(ref StatuePhoto);
     }
 }
 

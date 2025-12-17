@@ -41,6 +41,7 @@ public class GameManager : NetworkBehaviour
     //public Dictionary<int, float> noiseValues = new();
     public int[] selectedProceduresIndex;
     public List<int> completedProcedures;
+    public List<PhotoData> collectedPhotos = new();
     public float timeInSecElapsed = 0;
     Coroutine HelpInstructionCorotine;
 

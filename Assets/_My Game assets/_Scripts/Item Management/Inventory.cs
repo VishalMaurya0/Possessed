@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
@@ -11,6 +12,7 @@ public class Inventory : NetworkBehaviour
     public InventorySlot selectedInventorySlot;
     public ItemHolding itemHolding;
     public InventorySlotTracker InventorySlotTracker;
+    public List<PhotoData> photosTaken = new();
 
 
     public NetworkVariable<int> slotNo = new (default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
@@ -115,6 +117,32 @@ public class Inventory : NetworkBehaviour
         InventorySlotTracker.UpdateTracker(false);   //============== Update The Tracker which tracks inventory and store left, centre and right slots ===========//
     }
 
+
+
+    public void AddPhoto(ItemData itemData)  // run on server only
+    {
+        PhotoData photoData = new PhotoData(itemData.photoId, itemData.photoType == 1, itemData.photoType == 2);
+        photosTaken.Add(photoData);
+
+        UpdatePhotoAlbumForClient();
+    }
+    private void UpdatePhotoAlbumForClient()  // TODO --------can optimize to only send the new photo
+    {
+        for (int i = 0; i < photosTaken.Count; i++)
+        {
+            UpdatePhotoAlbumForClientRpc(photosTaken[i], i);
+        }
+    }
+    [ClientRpc]
+    private void UpdatePhotoAlbumForClientRpc(PhotoData photoData, int i)
+    {
+        if (GameManager.Instance.collectedPhotos.Count <= i)
+        {
+            GameManager.Instance.collectedPhotos.Add(photoData);
+            return;
+        }
+        GameManager.Instance.collectedPhotos[i] = photoData;
+    }
 
 
     public int AddItem(ItemData itemDataOriginal)

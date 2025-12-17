@@ -14,7 +14,15 @@ public class ItemPickup : NetworkBehaviour
         {
             it = GameManager.Instance.ownerPlayer.GetComponent<ItemHolding>();
         }
-        itemData = new ItemData(ItemDataSO,itemData.amount,itemData.currentState);
+
+        if (itemData.itemType == ItemType.Photo)
+        {
+            itemData = new ItemData(ItemDataSO,itemData.amount,itemData.currentState,itemData.photoType,itemData.photoId);
+        }
+        else
+        {
+            itemData = new ItemData(ItemDataSO,itemData.amount,itemData.currentState);
+        }
         networkObject = GetComponent<NetworkObject>();
     }
 
@@ -48,6 +56,17 @@ public class ItemPickup : NetworkBehaviour
 
         if (inventoryManager != null)
         {
+            // -------Special handling for Photo items
+            if (itemData.itemType == ItemType.Photo)
+            {
+                inventoryManager.AddPhoto(itemData);
+                //it.UpdatePhotoAlbumClientRPC(itemData.currentState);
+                networkObject.Despawn();
+                it.SetEverythingNormal(false);
+                return;
+            }
+
+
             int remainingItem = inventoryManager.AddItem(itemData);
             inventoryManager.UpdateInventoryToClient();
             Debug.Log(remainingItem.ToString());
