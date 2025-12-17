@@ -54,7 +54,10 @@ public enum ItemType
     Torch,
     ItemDuplicator,
     SafePoint,
-    PhotoAlbum
+    PhotoAlbum,
+
+    //------Photos-------//
+    Photo,
 
     //------Items To Craft-----//
 }

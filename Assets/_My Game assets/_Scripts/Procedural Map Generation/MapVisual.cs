@@ -105,6 +105,10 @@ public class MapVisual : NetworkBehaviour
 
                     GameObject prefab = FindPrefabWithTheirProbablity(pillarPrefabsList);
 
+                    //List<PropsProbablity> joinedPillarPrefabsList = GetBuildingBlock(cell.pillar[k]);
+
+                    //prefab = FindPrefabWithTheirProbablity(joinedPillarPrefabsList);
+
 
 
                     if (prefab == null)
@@ -269,6 +273,7 @@ public class MapVisual : NetworkBehaviour
             case Type.RoofTiles: return blocks.RoofTiles;
             case Type.RoomRoofTiles: return blocks.RoomRoofTiles;
             case Type.Pillar: return blocks.Pillars;
+            case Type.JoiningPillars: return blocks.JoiningPillars;
             default: return null;
         }
     }

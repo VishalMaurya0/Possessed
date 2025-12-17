@@ -119,6 +119,7 @@ public class GenerateMap : NetworkBehaviour
             GeneratePath();
         }
         CreatePillars();
+        CreateJoinedPillers();
         CreateTiles();
         CreateWindows();
         SpawnProcedures();
@@ -646,6 +647,57 @@ public class GenerateMap : NetworkBehaviour
                         //Vector3 pillarPosL = WallGameobject.transform.position - new Vector3(0, grid.cellLength / 2, 0);
                     }
 
+                }
+            }
+        }
+    }
+
+    private void CreateJoinedPillers()
+    {
+        int rowCells = mapCells.GetLength(0);
+        int columnCells = mapCells.GetLength(1);
+        for (int i = 0; i < rowCells; i++)
+        {
+            for (int j = 0; j < columnCells; j++)
+            {
+                // ======= every Cell =-=====//
+                MapCell cell = mapCells[i, j];
+
+                for (int k = 0; k < cell.wall.Length; k++)
+                {
+                    // ========= every wall ========//
+                    if (cell.wall[k] == Type.NoWall)
+                    {
+                        continue;
+                    }
+
+
+                    if (cell.pillar[k] != Type.Pillar && cell.pillar[k] != Type.JoiningPillars)
+                    {
+                        cell.pillar[k] = Type.JoiningPillars;
+
+                        //inform adj cells
+                        MapCell adjCell = cell.adjCell[k];
+                        if (adjCell != null)
+                        {
+                            adjCell.pillar[(k + 1) % 4] = Type.JoiningPillars;
+                        }
+
+                        if (adjCell != null)
+                        {
+                            adjCell = adjCell.adjCell[(k + 1) % 4];
+                            if (adjCell != null)
+                            {
+                                adjCell.pillar[(k + 2) % 4] = Type.JoiningPillars;
+                            }
+                        }
+
+                        adjCell = cell.adjCell[(k + 1) % 4];
+                        if (adjCell != null)
+                        {
+                            adjCell.pillar[(k + 3) % 4] = Type.JoiningPillars;
+                        }
+                    }
                 }
             }
         }

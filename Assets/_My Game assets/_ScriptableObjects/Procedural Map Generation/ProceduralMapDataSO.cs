@@ -28,6 +28,7 @@ public struct BuildingBlocks
     public List<PropsProbablity> RoofTiles;
     public List<PropsProbablity> RoomRoofTiles;
     public List<PropsProbablity> Pillars;
+    public List<PropsProbablity> JoiningPillars;
 }
 
 [System.Serializable]
@@ -85,4 +86,5 @@ public enum Type
     RoomCornerProps,
     WindowSideProp,
     CeilingProps,
+    JoiningPillars
 }
