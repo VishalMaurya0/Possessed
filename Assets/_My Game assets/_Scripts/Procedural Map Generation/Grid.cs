@@ -9,6 +9,7 @@ public class Grid : NetworkBehaviour
     public int length;
     public int width;
     public int cellLength;
+    public float heightForSpawningObjects = 1;
 
     [Header("Grid Properties")]
     public List<Cell> cells = new();
@@ -34,7 +35,7 @@ public class Grid : NetworkBehaviour
 
     private Cell CreateCell(Vector3 cellPosition)
     {
-        Cell cell = new Cell(cellPosition, cellLength);
+        Cell cell = new Cell(cellPosition, cellLength, heightForSpawningObjects);
         return cell;
     }
 
@@ -50,11 +51,13 @@ public class Cell
 {
     public Vector3 position;
     public int width;
+    public float heightForSpawningObjects;
     public int rank;
 
-    public Cell(Vector3 position, int cellLength, int rank = 0)
+    public Cell(Vector3 position, int cellLength, float heightForSpawningObjects, int rank = 0)
     {
         this.width = cellLength;
+        this.heightForSpawningObjects = heightForSpawningObjects;
         this.position = position;
         this.rank = rank;
     }

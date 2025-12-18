@@ -709,6 +709,7 @@
     "m_OutputNode": {
         "m_Id": ""
     },
+    "m_SubDatas": [],
     "m_ActiveTargets": [
         {
             "m_Id": "20c5db0d1dc3405d8625b4b55e911e6d"
@@ -961,8 +962,8 @@
         "y": 1.0
     },
     "m_DefaultValue": {
-        "x": 0.0,
-        "y": 0.0
+        "x": 1.0,
+        "y": 1.0
     },
     "m_Labels": []
 }
@@ -1422,8 +1423,8 @@
     "m_ObjectId": "2b35e06be5e345c3ae4b096d177640d8",
     "m_Title": "Animated wave noise Normals",
     "m_Position": {
-        "x": -1125.3333740234375,
-        "y": 145.99993896484376
+        "x": -1125.0001220703125,
+        "y": 145.99998474121095
     }
 }
 
@@ -2353,8 +2354,8 @@
         "y": 1.0
     },
     "m_DefaultValue": {
-        "x": 0.0,
-        "y": 0.0
+        "x": 1.0,
+        "y": 1.0
     },
     "m_Labels": []
 }
@@ -2458,10 +2459,10 @@
         "w": 1.0
     },
     "m_DefaultValue": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0,
-        "w": 0.0
+        "x": 1.0,
+        "y": 1.0,
+        "z": 1.0,
+        "w": 1.0
     },
     "m_Labels": []
 }
@@ -2556,8 +2557,8 @@
     "m_ObjectId": "696d6ed2c2b94591b66281b1fec24869",
     "m_Title": "Noise Push Vertices",
     "m_Position": {
-        "x": -86.66688537597656,
-        "y": -642.0
+        "x": -86.00003051757813,
+        "y": -642.0001220703125
     }
 }
 
@@ -2674,7 +2675,7 @@
     "m_DefaultValue": {
         "x": 0.0,
         "y": 0.0,
-        "z": 0.0
+        "z": 1.0
     },
     "m_Labels": []
 }
@@ -3207,8 +3208,8 @@
         "y": 1.0
     },
     "m_DefaultValue": {
-        "x": 0.0,
-        "y": 0.0
+        "x": 1.0,
+        "y": 1.0
     },
     "m_Labels": []
 }
@@ -3220,7 +3221,7 @@
     "m_Title": "Animated Noise",
     "m_Position": {
         "x": -964.0001220703125,
-        "y": -348.00006103515627
+        "y": -348.0001220703125
     }
 }
 
@@ -3676,8 +3677,8 @@
     "m_ObjectId": "9e962e253eef40f7b2cdedc76bbcc689",
     "m_Title": "Smoothness Based on VColors Mask",
     "m_Position": {
-        "x": 116.00012969970703,
-        "y": 695.9999389648438
+        "x": 115.99989318847656,
+        "y": 695.9998779296875
     }
 }
 
@@ -3721,6 +3722,7 @@
     "m_AlphaClip": false,
     "m_CastShadows": true,
     "m_ReceiveShadows": true,
+    "m_DisableTint": false,
     "m_AdditionalMotionVectorMode": 0,
     "m_AlembicMotionVectors": false,
     "m_SupportsLODCrossFade": false,
@@ -4011,7 +4013,7 @@
     "m_DefaultValue": {
         "x": 0.0,
         "y": 0.0,
-        "z": 0.0
+        "z": 1.0
     },
     "m_Labels": []
 }
@@ -4550,7 +4552,7 @@
     "m_DefaultValue": {
         "x": 0.0,
         "y": 0.0,
-        "z": 0.0
+        "z": 1.0
     },
     "m_Labels": []
 }
@@ -4573,7 +4575,7 @@
     "m_DefaultValue": {
         "x": 0.0,
         "y": 0.0,
-        "z": 0.0
+        "z": 1.0
     },
     "m_Labels": []
 }
@@ -4615,7 +4617,7 @@
     "m_Title": "Push Along Normal * VColors Mask",
     "m_Position": {
         "x": -792.0001220703125,
-        "y": -762.666748046875
+        "y": -763.0001220703125
     }
 }
 
@@ -5065,10 +5067,10 @@
         "w": 1.0
     },
     "m_DefaultValue": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0,
-        "w": 0.0
+        "x": 1.0,
+        "y": 1.0,
+        "z": 1.0,
+        "w": 1.0
     },
     "m_Labels": []
 }

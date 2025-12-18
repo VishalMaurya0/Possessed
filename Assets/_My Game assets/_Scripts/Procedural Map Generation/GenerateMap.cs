@@ -11,7 +11,8 @@ public class GenerateMap : NetworkBehaviour
     public MapVisualTemp mapVisualTemp;
     public MapVisual mapVisual;
     public ProceduralMapDataSO proceduralMapDataSO;
-    public TaskManager taskManager; 
+    public PhotoContainerSO photoContainerSO;
+    public TaskManager taskManager;
 
 
     [Header("Inputs")]
@@ -31,19 +32,20 @@ public class GenerateMap : NetworkBehaviour
     [Header("Map Properties")]
     public MapCell[,] mapCells;
     public MapCell centreMapCell;
-    public List<MapCell> InitialGateRooms = new ();
-    public List<Room> rooms = new ();
-    readonly List<MapCell> roomGates = new ();
-    readonly List<MapCell> newIncrements = new ();
+    public List<MapCell> InitialGateRooms = new();
+    public List<Room> rooms = new();
+    readonly List<MapCell> roomGates = new();
+    readonly List<MapCell> newIncrements = new();
+    public List<PhotoDataForCell> photoDataForCells = new();
 
 
-    public void HandleServerStarted()
+    public void HandleServerStarted()       //======== Start ========//
     {
         if (!IsServer)
         {
             return;
         }
-        
+
         typeOfRooms = proceduralMapDataSO.typeOfRooms;
         generateAgain = false;
         mapVisualTemp = GetComponent<MapVisualTemp>();
@@ -111,6 +113,7 @@ public class GenerateMap : NetworkBehaviour
     }
     private void START_GENERATION()
     {
+        MarkEdgeCells();
         CentreGeneration();               //======= 3x3 centre generated =====//
         ChooseGate();                        //======= gate are chosen in all direction in the center randomly ========//
         GenerateRooms(roomMinLength, roomMaxLength, totalRooms);    //======= generate the rooms =========//
@@ -124,6 +127,7 @@ public class GenerateMap : NetworkBehaviour
         CreateWindows();
         SpawnProcedures();
         GENERATE_PROPS();
+        SpawnPhotos();
 
 
         ////======== Visuals & NavMesh ========////
@@ -135,6 +139,7 @@ public class GenerateMap : NetworkBehaviour
         {
             mapVisual.GenerateBuildingBlocks();
             mapVisual.GenerateRoomProps();
+            mapVisual.SpawnPhotos();
         }
         GameManager.Instance.bakeNavMeshAgain = true;
     }
@@ -150,7 +155,22 @@ public class GenerateMap : NetworkBehaviour
     }
 
 
+    private void MarkEdgeCells()
+    {
+        int rows = mapCells.GetLength(0);
+        int cols = mapCells.GetLength(1);
 
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < cols; j++)
+            {
+                if (i == 0 || i == rows - 1 || j == 0 || j == cols - 1)
+                {
+                    mapCells[i, j].isEdgeCell = true;
+                }
+            }
+        }
+    }
     private void CentreGeneration()
     {
         int centerRow = grid.length / grid.cellLength / 2;
@@ -181,7 +201,7 @@ public class GenerateMap : NetworkBehaviour
         int centerRow = rowCount / 2;
         int centerCol = colCount / 2;
 
-        System.Random rand = new ();
+        System.Random rand = new();
 
         for (int i = -1; i < 2; i += 2)   ///choosing direction Left and Right
         {
@@ -266,7 +286,7 @@ public class GenerateMap : NetworkBehaviour
             }
         }
 
-        Vector2 start = new (Random.Range(0, grid.length), Random.Range(0, grid.width));
+        Vector2 start = new(Random.Range(0, grid.length), Random.Range(0, grid.width));
 
         bool flag = false;
 
@@ -393,7 +413,7 @@ public class GenerateMap : NetworkBehaviour
 
 
         // ========= Store It =====//
-        Room newRoom = new (start, length, width, gateCell, gateDir, this);
+        Room newRoom = new(start, length, width, gateCell, gateDir, this);
         newRoom.roomType = Random.Range(0, typeOfRooms);
 
         // ======== store corner cells =======//
@@ -432,7 +452,7 @@ public class GenerateMap : NetworkBehaviour
             MapCell cell = newIncrements[Random.Range(0, newIncrements.Count)];
             Increment(cell);
         }
-        
+
         foreach (Room room in rooms)
         {
             roomGates.Add(room.gateCell.adjCell[room.gateDir]);
@@ -450,12 +470,12 @@ public class GenerateMap : NetworkBehaviour
         {
             return;
         }
-        if (newIncrementsInside == null) 
+        if (newIncrementsInside == null)
             newIncrementsInside = newIncrements;
 
 
         int initialDir = -1;
-        List<int> incrementDir = new ();
+        List<int> incrementDir = new();
 
         //====== Get all Wall Directions =====//
         for (int i = 0; i < cell.wall.Length; i++)
@@ -487,7 +507,7 @@ public class GenerateMap : NetworkBehaviour
         }
 
         //////////============= select a random dir all found directions ==============////////////////
-        int SelectRandomDir()                   
+        int SelectRandomDir()
         {
             // ======= if no direction left ===========//
             if (incrementDir.Count == 0)
@@ -499,7 +519,7 @@ public class GenerateMap : NetworkBehaviour
                 }
 
                 return -1;
-            }    
+            }
 
 
             int randomIndex = Random.Range(0, incrementDir.Count);
@@ -507,7 +527,7 @@ public class GenerateMap : NetworkBehaviour
             incrementDir.RemoveAt(randomIndex);
 
             return randomDir;
-        }           
+        }
 
         int randomDir = SelectRandomDir();
 
@@ -528,7 +548,7 @@ public class GenerateMap : NetworkBehaviour
                     return;
                 }
             }
-        }else
+        } else
         {
             while
                 (cell.adjCell[randomDir] == null
@@ -586,8 +606,8 @@ public class GenerateMap : NetworkBehaviour
 
 
             Increment(cell.adjCell[randomDir], newIncrementsInside, forced);
-            
-            
+
+
         }
     }
 
@@ -609,10 +629,10 @@ public class GenerateMap : NetworkBehaviour
                 MapCell cell = mapCells[i, j];
 
 
-                for (int k = 0; k < cell.wall.Length; k ++)
+                for (int k = 0; k < cell.wall.Length; k++)
                 {
                     // ========= every wall ========//
-                    
+
                     Type wallType = cell.wall[k];
 
                     if (wallType != Type.NoWall)
@@ -628,7 +648,7 @@ public class GenerateMap : NetworkBehaviour
                             cell.pillar[k] = Type.NoPillar;
                         }
 
-                        l = k + 3; 
+                        l = k + 3;
                         l = l % 4;
                         // ====== if Some Wall is present ====== //
                         if (cell.wall[l] == Type.NoWall
@@ -643,7 +663,7 @@ public class GenerateMap : NetworkBehaviour
                         {
                             cell.pillar[k] = Type.Pillar;
                         }
-                            //Vector3 pillarPosK = WallGameobject.transform.position + new Vector3(0, grid.cellLength / 2, 0);
+                        //Vector3 pillarPosK = WallGameobject.transform.position + new Vector3(0, grid.cellLength / 2, 0);
                         //Vector3 pillarPosL = WallGameobject.transform.position - new Vector3(0, grid.cellLength / 2, 0);
                     }
 
@@ -764,7 +784,7 @@ public class GenerateMap : NetworkBehaviour
 
                 int windowIndex = Random.Range(1, boundaryCell.Length - 1);   //==== not choosing corner cells =====//
                 MapCell targetCell = boundaryCell[windowIndex];
-                
+
                 for (int k = 0; k < targetCell.wall.Length; k++)
                 {
                     if (targetCell.wall[k] != Type.NoWall)
@@ -789,7 +809,7 @@ public class GenerateMap : NetworkBehaviour
     {
         //========= All Rooms =========//
 
-        List<Room> allRooms = new ();
+        List<Room> allRooms = new();
         foreach (Room room in rooms)
         {
             allRooms.Add(room);
@@ -814,7 +834,7 @@ public class GenerateMap : NetworkBehaviour
 
         //========= all procedures =========//
 
-        List<Procedures> procedures = new ();                                  //TODO champt Gpt//
+        List<Procedures> procedures = new();                                  //TODO champt Gpt//
         foreach (string name in System.Enum.GetNames(typeof(Procedures)))
         {
             procedures.Add((Procedures)System.Enum.Parse(typeof(Procedures), name));
@@ -841,7 +861,7 @@ public class GenerateMap : NetworkBehaviour
         if (attempts >= maxAttempts)
         {
             Debug.LogError("Failed to place all procedures after maximum attempts.");
-        
+
 
 
             if (procedures.Count > 0)
@@ -873,7 +893,7 @@ public class GenerateMap : NetworkBehaviour
         {
             int i = 5000;
             bool posFound = false;
-            Vector2 pos = new ();
+            Vector2 pos = new();
 
 
             while (i > 0 && !posFound)
@@ -885,7 +905,7 @@ public class GenerateMap : NetworkBehaviour
                 if (mapCells[(int)pos.x, (int)pos.y].spawnNoProcedures) flag = true;
                 if (mapCells[(int)pos.x + 1, (int)pos.y].spawnNoProcedures) flag = true;
                 if (mapCells[(int)pos.x + 1, (int)pos.y + 1].spawnNoProcedures) flag = true;
-                if (mapCells[(int)pos.x, (int)pos.y + 1].spawnNoProcedures) flag = true; 
+                if (mapCells[(int)pos.x, (int)pos.y + 1].spawnNoProcedures) flag = true;
 
                 if (!flag)
                 {
@@ -900,9 +920,9 @@ public class GenerateMap : NetworkBehaviour
             }
 
 
-            Room.ProcedureLocation procedureLocation = new ();
+            Room.ProcedureLocation procedureLocation = new();
             procedureLocation.Procedure = procedures[procedureIndex];
-            procedureLocation.cell = new ();
+            procedureLocation.cell = new();
             procedureLocation.cell.Add(mapCells[(int)pos.x, (int)pos.y]);
             procedureLocation.cell.Add(mapCells[(int)pos.x + 1, (int)pos.y]);
             procedureLocation.cell.Add(mapCells[(int)pos.x + 1, (int)pos.y + 1]);
@@ -1260,7 +1280,7 @@ public class GenerateMap : NetworkBehaviour
     }
     private void GenerateRoomCenterProps()
     {
-        for(int i = 0; i < rooms.Count; i++)
+        for (int i = 0; i < rooms.Count; i++)
         {
             Room room = rooms[i];
             List<MapCell> selectedCells = new();
@@ -1332,6 +1352,84 @@ public class GenerateMap : NetworkBehaviour
 
 
 
+
+    private void SpawnPhotos()
+    {
+        if (photoContainerSO == null)
+        {
+            return;
+        }
+
+        #region SET PHOTOS PER PROCEDURE
+        // ===== spawning procedure photos ====== //
+        int maxPhotosOfSelectedProc = photoContainerSO.maxPhotoOfSelectedProcedure;
+        int limit = photoContainerSO.secMaxPhotoToStopPuttingPhotos;
+
+        int impIndex = GameManager.Instance.selectedProceduresIndex[2];
+
+        List<int> photosPerProcedure = new List<int>(new int[8]);
+
+
+        photosPerProcedure[impIndex] = maxPhotosOfSelectedProc;
+
+        bool canSpawnMore = true;
+        int safety = 1000;
+        while (canSpawnMore && safety-- > 0)
+        {
+            int randProcIndex = Random.Range(0, photosPerProcedure.Count);
+            if (randProcIndex == impIndex)
+            {
+                continue;
+            }
+
+            photosPerProcedure[randProcIndex]++;
+            if (photosPerProcedure[randProcIndex] >= limit)
+            {
+                canSpawnMore = false;
+            }
+        }
+        #endregion
+
+        int totalPhotosToSpawn = photosPerProcedure.Sum();
+        List<int> photosPerProcedureCopy = new List<int>(photosPerProcedure);
+        int rowCells = mapCells.GetLength(0);
+        int columnCells = mapCells.GetLength(1);
+        
+        int procIndex = 0;
+
+        while (totalPhotosToSpawn > 0)
+        {
+            if (procIndex >= photosPerProcedureCopy.Count)
+                procIndex = 0;
+
+            if (photosPerProcedureCopy[procIndex] <= 0)
+            {
+                procIndex++;
+                continue;
+            }
+
+            int rowNo = Random.Range(0, rowCells);
+            int colNo = Random.Range(0, columnCells);
+
+            MapCell cell = mapCells[rowNo, colNo];
+
+            if (cell.isEdgeCell)
+            {
+                continue;
+            }
+
+            //Vector3 randomPos = new Vector3(Random.Range(0, cell.width), Random.Range(0, height), Random.Range(0, cell.width));
+            int photoId = procIndex;
+            photosPerProcedureCopy[procIndex]--;
+
+            PhotoData photoData = new PhotoData(photoId, true, false);
+            //GameObject photo = Instantiate(photoContainerSO.photoPrefab, cell.position + randomPos, Quaternion.identity);
+            //photo.transform.SetParent(cell.transform); hgf
+
+            photoDataForCells.Add(new PhotoDataForCell(photoData, cell) );
+            totalPhotosToSpawn--;
+        }
+    }
 
 
 
@@ -1430,9 +1528,11 @@ public class MapCell
 {
     public Vector3 position;
     public int width;
+    public float heightForSpawningObjects;
     public Vector2 id;
     public bool visited;
     public bool inRoom;
+    public bool isEdgeCell;
     public int roomID;
 
 
@@ -1481,6 +1581,7 @@ public class MapCell
     {
         position = cell.position;
         width = cell.width;
+        heightForSpawningObjects = cell.heightForSpawningObjects;
         id.x = cell.position.x / 2;
         id.y = cell.position.z / 2;
         for (int i = 0; i < wall.Length; i++)
@@ -1635,5 +1736,18 @@ public class Room
         public Procedures Procedure;
         public ProcedureCompletion ProcedureCompletion;
         [System.NonSerialized] public List<MapCell> cell;
+    }
+}
+
+[System.Serializable]
+public struct PhotoDataForCell
+{
+    public PhotoData photoData;
+    public MapCell cell;
+
+    public PhotoDataForCell(PhotoData photoData, MapCell cell)
+    {
+        this.photoData = photoData;
+        this.cell = cell;
     }
 }

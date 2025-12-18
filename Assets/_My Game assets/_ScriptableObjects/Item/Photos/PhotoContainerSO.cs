@@ -6,6 +6,9 @@ public class PhotoContainerSO : ScriptableObject
 {
     public List<FullPhotoData> ProcedurePhotos;
     public List<FullPhotoData> StatuePhotos;
+    public int maxPhotoOfSelectedProcedure = 8;
+    public int secMaxPhotoToStopPuttingPhotos = 5;
+    public GameObject photoPrefab;
 }
 
 [System.Serializable]

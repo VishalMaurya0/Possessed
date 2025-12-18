@@ -11,6 +11,7 @@ public class MapVisual : NetworkBehaviour
     public GameObject pillarContainer;
     public GameObject tileContainer;
     public GameObject propContainer;
+    public GameObject photosContainer;
 
     [Header("Extracted Values")]
     int rowCells;
@@ -211,6 +212,29 @@ public class MapVisual : NetworkBehaviour
                     }
                 }
             }
+        }
+    }
+
+    //======= Photo Album Props ======//
+    public void SpawnPhotos()
+    {
+        List<PhotoDataForCell> photoDataForCells = generateMap.photoDataForCells;
+
+        foreach (var photoData in photoDataForCells)
+        {
+            GameObject photoObj = Instantiate(generateMap.photoContainerSO.photoPrefab, photosContainer.transform);
+            NetworkObject netobj = photoObj.GetComponent<NetworkObject>();
+            netobj.Spawn();
+            netobj.TrySetParent(photosContainer.transform, false);
+
+            MapCell cell = photoData.cell;
+            Vector3 randomPos = new Vector3(Random.Range(0.1f, cell.width), Random.Range(1f, cell.heightForSpawningObjects), Random.Range(0.1f, cell.width));
+            photoObj.transform.position = cell.position + randomPos;
+            photoObj.transform.rotation = Random.rotation;
+            ItemPickup item = photoObj.GetComponent<ItemPickup>();
+            item.itemData.photoId = photoData.photoData.photoID;
+            item.itemData.photoType = (photoData.photoData.ProcedurePhoto) ? 1 : 0;
+            item.itemData.photoType = (photoData.photoData.StatuePhoto) ? 1 : item.itemData.photoType;
         }
     }
 
