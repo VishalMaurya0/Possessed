@@ -61,8 +61,9 @@ public class ItemHolding : NetworkBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F) && heldItemData != null && !isZoomed)
         {
-            isZoomed = true;
-            SpawnItemInstanceServerRpc(heldItemData, 1, false);
+            isZoomed = true; 
+            GetZoomPosAndRot(out Vector3 pos, out Quaternion rot); 
+            SpawnItemInstanceServerRpc(heldItemData, 1, false, default, pos, rot);
         }
 
         if (Input.GetKeyDown(KeyCode.Q) && isZoomed)
@@ -108,7 +109,9 @@ public class ItemHolding : NetworkBehaviour
     {
         if (heldItemData?.amount > 0)
         {
-            SpawnItemInstanceServerRpc(heldItemData, 1, true, playerCamera.transform.GetChild(0).transform.forward);
+            GetZoomPosAndRot(out Vector3 pos, out Quaternion rot);
+
+            SpawnItemInstanceServerRpc(heldItemData, 1, true, playerCamera.transform.GetChild(0).transform.forward, pos, rot);
             spawnedObject = null;
             heldItemData.amount--;
             Debug.Log("removing 1");
@@ -120,8 +123,9 @@ public class ItemHolding : NetworkBehaviour
 
     void ThrowEntireStack()
     {
+        GetZoomPosAndRot(out Vector3 pos, out Quaternion rot);
 
-        SpawnItemInstanceServerRpc(heldItemData, heldItemData.amount, true, playerCamera.transform.GetChild(0).transform.forward);
+        SpawnItemInstanceServerRpc(heldItemData, heldItemData.amount, true, playerCamera.transform.GetChild(0).transform.forward, pos, rot);
         spawnedObject = null;
         Inventory.RemoveSelectedItemServerRpc(true);
         SetEverythingNormal(false);
@@ -132,20 +136,20 @@ public class ItemHolding : NetworkBehaviour
     {
         if (heldItemData == null && itemData == null) return;
         if (itemData == null) { itemData = heldItemData; }
-        SpawnItemInstanceServerRpc(itemData, quantity, true, playerCamera.transform.GetChild(0).transform.forward);
+        GetZoomPosAndRot(out Vector3 pos, out Quaternion rot); 
+        SpawnItemInstanceServerRpc(itemData, quantity, true, playerCamera.transform.GetChild(0).transform.forward, pos, rot);
     }
 
 
     //TODO
     [ServerRpc(RequireOwnership = false)]
-    void SpawnItemInstanceServerRpc(ItemData item, int quan = 1, bool toThrow = false, Vector3 throwDirection = default, ServerRpcParams rpcParams = default)
+    void SpawnItemInstanceServerRpc(ItemData item, int quan, bool toThrow, Vector3 throwDirection, Vector3 spawnPos, Quaternion spawnRot, ServerRpcParams rpcParams = default)
     {
         if (item == null) { return; }
 
-        GameObject player = NetworkManager.Singleton.ConnectedClients[rpcParams.Receive.SenderClientId].PlayerObject.gameObject;       //----------Get the player who is throwing the item
-        GameObject itemInstance = Instantiate(ScriptableObjectFinder.FindItemSO(item).itemPrefab, ZoomPos(player), zoomRotation);//----------Instantiate it
+        //GameObject player = NetworkManager.Singleton.ConnectedClients[rpcParams.Receive.SenderClientId].PlayerObject.gameObject;       //----------Get the player who is throwing the item
+        GameObject itemInstance = Instantiate(ScriptableObjectFinder.FindItemSO(item).itemPrefab, spawnPos, spawnRot);//----------Instantiate it
         itemInstance.GetComponent<NetworkObject>().Spawn(true);                                                                        //-----------spawn
-
 
         ItemData newItemData = itemInstance.GetComponent<ItemPickup>().itemData;//----------get itemdata of spawned object and set values
         newItemData.amount = quan;
@@ -182,12 +186,11 @@ public class ItemHolding : NetworkBehaviour
         Inventory.RemoveSelectedItemServerRpc(false, 1, true);
     }
     
-
-    private Vector3 ZoomPos(GameObject player)
+    private void GetZoomPosAndRot(out Vector3 pos, out Quaternion rot)
     {
-        zoomPos = playerCamera.transform.GetChild(0).transform.position;
-        zoomRotation = playerCamera.transform.GetChild(0).transform.rotation;
-        return zoomPos;
+        Transform target = playerCamera.transform.GetChild(0).transform;
+        pos = target.position;
+        rot = target.rotation;
     }
 
     [ServerRpc(RequireOwnership = false)]
