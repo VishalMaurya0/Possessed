@@ -78,11 +78,12 @@ public class ItemHolding : NetworkBehaviour
         isInspecting = false;
         Debug.Log("unzooming");
 
-        SetEverythingNormal(false);
         if (spawnedObject != null)
         {
+            spawnedObject = null;
             //DespawnObjectServerRpc(new NetworkObjectReference(spawnedObject.GetComponent<NetworkObject>()));
         }
+        SetEverythingNormal(false);
     }
 
     void HandleThrow()

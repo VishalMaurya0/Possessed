@@ -12,18 +12,21 @@ public class ItemPickup : NetworkBehaviour
 
     private void Start()
     {
-        if (GameManager.Instance.serverStarted)
+        if (GameManager.Instance.serverStarted && GameManager.Instance.ownerPlayer != null)
         {
             it = GameManager.Instance.ownerPlayer.GetComponent<ItemHolding>();
         }
         networkObject = GetComponent<NetworkObject>();
 
+        // Setup Item Data
         if (itemData != null)
         {
             if (itemData.itemType == ItemType.Photo)
             {
                 itemData = new ItemData(itemData.amount, itemData.currentState, itemData.photoType, itemData.photoId);
-                GetComponentsInChildren<Image>()[0].sprite = GameManager.Instance.GetPhotoSprite(itemData.photoType, itemData.photoId);
+                var images = GetComponentsInChildren<Image>();
+                if (images.Length > 0)
+                    images[0].sprite = GameManager.Instance.GetPhotoSprite(itemData.photoType, itemData.photoId);
             }
             else
             {
@@ -36,8 +39,10 @@ public class ItemPickup : NetworkBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) 
-            && (!inspection.isInspecting))
+        // Don't allow pickup if we are dead/despawning
+        if (!IsSpawned) return;
+
+        if (Input.GetKeyDown(KeyCode.E) && (!inspection.isInspecting))
         {
             TryPickupItem();
         }
@@ -62,50 +67,103 @@ public class ItemPickup : NetworkBehaviour
 
         var player = NetworkManager.Singleton.ConnectedClients[rpcParams.Receive.SenderClientId].PlayerObject;
         player.TryGetComponent<Inventory>(out var inventoryManager);
-        it = player.GetComponent<ItemHolding>();
 
-        if (inventoryManager == null || it == null)
+        // We get the ItemHolding component of the PLAYER who picked it up
+        var playerItemHolding = player.GetComponent<ItemHolding>();
+
+        if (inventoryManager == null || playerItemHolding == null) return;
+
+        bool shouldDespawn = false;
+
+        // --- Logic to Add to Inventory ---
+        if (itemData.itemType == ItemType.Photo)
         {
-            Debug.LogError($"Pickup Failed: Missing Inventory or ItemHolding on Player {rpcParams.Receive.SenderClientId}");
-            return;
+            inventoryManager.AddPhoto(itemData);
+            shouldDespawn = true;
         }
-
-        if (inventoryManager != null)
+        else
         {
-            // -------Special handling for Photo items
-            if (itemData.itemType == ItemType.Photo)
-            {
-                inventoryManager.AddPhoto(itemData);
-                //it.UpdatePhotoAlbumClientRPC(itemData.currentState);
-                //networkObject.ChangeOwnership(NetworkManager.ServerClientId);
-                networkObject.Despawn();
-                it.SetEverythingNormal(false);
-                return;
-            }
-
-
             int remainingItem = inventoryManager.AddItem(itemData);
             inventoryManager.UpdateInventoryToClient();
-            Debug.Log(remainingItem.ToString());
+
             if (remainingItem == 0)
             {
-                //networkObject.ChangeOwnership(NetworkManager.ServerClientId);
-                networkObject.Despawn();
-                it.SetEverythingNormal(false);
+                shouldDespawn = true;
             }
             else
             {
                 itemData.amount = remainingItem;
                 ReduceItemCountClientRPC(itemData, remainingItem);
-                it.SetEverythingNormal(false);
+
+                // Reset UI for the player who picked it up (Server Side Logic)
+                ClientRpcParams clientRpcParams = new ClientRpcParams
+                {
+                    Send = new ClientRpcSendParams { TargetClientIds = new ulong[] { rpcParams.Receive.SenderClientId } }
+                };
+                ResetPlayerUIClientRpc(clientRpcParams);
             }
+        }
+
+        // --- THE FIX: Hard Despawn ---
+        if (shouldDespawn)
+        {
+            // 1. Get the ID before we destroy it
+            ulong objectId = networkObject.NetworkObjectId;
+
+            // 2. Tell the specific client to reset their UI (Unzoom, enable mouse, etc)
+            ClientRpcParams clientRpcParams = new ClientRpcParams
+            {
+                Send = new ClientRpcSendParams { TargetClientIds = new ulong[] { rpcParams.Receive.SenderClientId } }
+            };
+            ResetPlayerUIClientRpc(clientRpcParams);
+
+            // 3. Force destroy on all clients immediately (Fixes the Ghost Object)
+            ForceDespawnClientRpc(objectId);
+
+            // 4. Finally, Despawn on Server
+            networkObject.Despawn();
         }
     }
 
     [ClientRpc]
     private void ReduceItemCountClientRPC(ItemData itemData, int remain)
     {
-        itemData.amount = remain;
+        this.itemData.amount = remain;
     }
 
+    [ClientRpc]
+    private void ResetPlayerUIClientRpc(ClientRpcParams clientRpcParams = default)
+    {
+        // This runs ONLY on the local machine of the player who picked up the item
+        if (GameManager.Instance.ownerPlayer != null)
+        {
+            var holding = GameManager.Instance.ownerPlayer.GetComponent<ItemHolding>();
+            if (holding != null)
+            {
+                holding.SetEverythingNormal(false);
+            }
+        }
+    }
+
+    [ClientRpc]
+    private void ForceDespawnClientRpc(ulong networkObjectId)
+    {
+        // Check if this object exists in the Netcode system
+        if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(networkObjectId, out NetworkObject obj))
+        {
+            // If the standard Despawn hasn't killed it yet, we kill the GameObject manually
+            if (obj != null && obj.gameObject != null)
+            {
+                Destroy(obj.gameObject);
+            }
+        }
+        else
+        {
+            // If Netcode lost track of it (due to reparenting), try to destroy 'this' object if the IDs match
+            if (NetworkObjectId == networkObjectId)
+            {
+                Destroy(gameObject);
+            }
+        }
+    }
 }

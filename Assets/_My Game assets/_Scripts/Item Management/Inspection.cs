@@ -77,11 +77,15 @@ public class Inspection : NetworkBehaviour
     {
         if (!isInspecting && (transform.position - GameManager.Instance.ownerPlayer.transform.position).sqrMagnitude < range)
         {
-            if (GetComponent<NetworkObject>().OwnerClientId != NetworkManager.Singleton.LocalClientId  && GetComponent<NetworkObject>().OwnerClientId == NetworkManager.ServerClientId)
+            // ============CASE 1: Client is NOT owner (Standard Client Logic)
+            if (GetComponent<NetworkObject>().OwnerClientId != NetworkManager.Singleton.LocalClientId && GetComponent<NetworkObject>().OwnerClientId == NetworkManager.ServerClientId)
             {
                 GrantPermissionToStartInspectionServerRpc(NetworkManager.Singleton.LocalClientId);
-            }else if (GetComponent<NetworkObject>().OwnerClientId == NetworkManager.Singleton.LocalClientId)
+            }
+            // ============CASE 2: Host/Local Player IS Owner
+            else if (GetComponent<NetworkObject>().OwnerClientId == NetworkManager.Singleton.LocalClientId)
             {
+                DisableObjectForClientServerRPC();
                 StartInspection();
             }
         }
@@ -181,6 +185,12 @@ public class Inspection : NetworkBehaviour
         PermissionGrantedClientRpc(ClientId);
     }
 
+    [ServerRpc(RequireOwnership = false)]
+    void DisableObjectForClientServerRPC()
+    {
+        DisableObjectClientRPC();
+    }
+
     [ClientRpc]
     private void DisableObjectClientRPC()
     {
@@ -230,7 +240,6 @@ public class Inspection : NetworkBehaviour
     {
         yield return new WaitForSeconds(.5f);  //TODO Retrieve permissin when obhject is back to original position in every client
 
-        if (GetComponent<NetworkObject>().OwnerClientId != NetworkManager.ServerClientId)
             RetrievePermissionServerRpc(NetworkManager.ServerClientId);
 
         yield return null;
