@@ -519,14 +519,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 541484693
+  GlobalObjectIdHash: 401083872
   InScenePlacedSourceGlobalObjectIdHash: 401083872
   DeferredDespawnTick: 0
   Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 0
+  SceneMigrationSynchronization: 1
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -556,7 +556,7 @@ MonoBehaviour:
   RotationMaxInterpolationTime: 0.1
   ScaleLerpSmoothing: 1
   ScaleMaxInterpolationTime: 0.1
-  AuthorityMode: 0
+  AuthorityMode: 1
   TickSyncChildren: 0
   UseUnreliableDeltas: 0
   SyncPositionX: 1
@@ -640,6 +640,8 @@ MonoBehaviour:
     currentState: 0
     amount: 1
     isOn: 0
+    photoType: 0
+    photoId: 0
   ItemDataSO: {fileID: 11400000, guid: 1d30379c9c20be24ebb2605965d67fee, type: 2}
   networkObject: {fileID: 0}
 --- !u!114 &5313808767195657768
@@ -720,7 +722,7 @@ MonoBehaviour:
   addedPower: 0
   avgPressure: 20
   energySource: []
-  maxPower: 10
+  maxPowerOfEachDecrement: 2
   barometerReadings: 
   itemPickup: {fileID: 0}
   itemData:
@@ -728,6 +730,8 @@ MonoBehaviour:
     currentState: 0
     amount: 0
     isOn: 0
+    photoType: 0
+    photoId: 0
   inventory: {fileID: 0}
   canvas: {fileID: 0}
   text: {fileID: 0}

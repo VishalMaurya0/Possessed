@@ -27,6 +27,7 @@ public class ItemHolding : NetworkBehaviour
     public Transform heldItemPosition;
     public Transform heldItemParent;
     public List<GameObject> heldItemPrefabs; 
+    public List<NetworkObjectReference> heldItemRefs; 
 
     [Header("UI")]
     public InventoryUI inventoryUI;
@@ -47,6 +48,7 @@ public class ItemHolding : NetworkBehaviour
         for (int i = 0; i < 5; i++)
         {
             heldItemPrefabs.Add(null);
+            heldItemRefs.Add(default);
         }
     }
 
@@ -74,6 +76,10 @@ public class ItemHolding : NetworkBehaviour
     public void HandleUnZoom()         //---------dont call directly ------//
     {
         isZoomed = false;
+
+        isInspecting = false;
+        Debug.Log("unzooming");
+
         SetEverythingNormal(false);
         if (spawnedObject != null)
         {
@@ -86,6 +92,9 @@ public class ItemHolding : NetworkBehaviour
         if (heldItemData == null) return;
         if (Input.GetKeyDown(KeyCode.G))
         {
+            isInspecting = false;
+
+            Debug.Log("unzooming");
             if (isZoomed)
             {
                 spawnedObject.GetComponent<Inspection>().EndInspection();
@@ -100,7 +109,7 @@ public class ItemHolding : NetworkBehaviour
     {
         if (heldItemData?.amount > 0)
         {
-            SpawnItemInstanceServerRpc(heldItemData, 1, true);
+            SpawnItemInstanceServerRpc(heldItemData, 1, true, playerCamera.transform.GetChild(0).transform.forward);
             spawnedObject = null;
             heldItemData.amount--;
             Debug.Log("removing 1");
@@ -113,7 +122,7 @@ public class ItemHolding : NetworkBehaviour
     void ThrowEntireStack()
     {
 
-        SpawnItemInstanceServerRpc(heldItemData, heldItemData.amount, true);
+        SpawnItemInstanceServerRpc(heldItemData, heldItemData.amount, true, playerCamera.transform.GetChild(0).transform.forward);
         spawnedObject = null;
         Inventory.RemoveSelectedItemServerRpc(true);
         SetEverythingNormal(false);
@@ -124,13 +133,13 @@ public class ItemHolding : NetworkBehaviour
     {
         if (heldItemData == null && itemData == null) return;
         if (itemData == null) { itemData = heldItemData; }
-        SpawnItemInstanceServerRpc(itemData, quantity, true);
+        SpawnItemInstanceServerRpc(itemData, quantity, true, playerCamera.transform.GetChild(0).transform.forward);
     }
 
 
     //TODO
     [ServerRpc(RequireOwnership = false)]
-    void SpawnItemInstanceServerRpc(ItemData item, int quan = 1, bool toThrow = false, ServerRpcParams rpcParams = default)
+    void SpawnItemInstanceServerRpc(ItemData item, int quan = 1, bool toThrow = false, Vector3 throwDirection = default, ServerRpcParams rpcParams = default)
     {
         if (item == null) { return; }
 
@@ -149,7 +158,7 @@ public class ItemHolding : NetworkBehaviour
         NotifyClientsAboutNewItemClientRpc(new NetworkObjectReference(networkObject), newItemData);
         if (toThrow)
         {
-            spawnedObject.GetComponent<Rigidbody>().AddForce(playerCamera.transform.GetChild(0).transform.forward * throwForce, ForceMode.Impulse);
+            spawnedObject.GetComponent<Rigidbody>().AddForce(throwDirection * throwForce, ForceMode.Impulse);
         }
         else
         {
@@ -183,10 +192,12 @@ public class ItemHolding : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    void DespawnObjectServerRpc(NetworkObjectReference refe)
+    private void DespawnHeldItemServerRpc(NetworkObjectReference objRef)
     {
-        GameObject obj = refe.TryGet(out NetworkObject networkObject) ? networkObject.gameObject : null;
-        networkObject.Despawn();
+        if (objRef.TryGet(out NetworkObject netObj))
+        {
+            netObj.Despawn();
+        }
     }
 
     
@@ -218,7 +229,6 @@ public class ItemHolding : NetworkBehaviour
     public void SetEverythingNormal(bool animateInventory)
     {
         isZoomed = false;
-        isInspecting = false;
         GameManager.Instance.handlePlayerLookWithMouse = true;
         GameManager.Instance.handleMovement = true;
         GameManager.Instance.lockCurser = true;
@@ -297,18 +307,46 @@ public class ItemHolding : NetworkBehaviour
         {
             if (itemTypeFlag[i])
             {
-                Destroy(heldItemPrefabs[i]);
+                // Despawn old held item if exists
+                if (heldItemRefs[i].TryGet(out NetworkObject oldNetObj))
+                {
+                    DespawnHeldItemServerRpc(heldItemRefs[i]);
+                }
                 heldItemPrefabs[i] = null;
+                heldItemRefs[i] = default;
 
                 if (Inventory.inventorySlots[i].itemData == null) continue;
 
-                ItemDataSO idso = ScriptableObjectFinder.FindItemSO(Inventory.inventorySlots[i].itemData);
-                GameObject obj = heldItemPrefabs[i] = Instantiate(idso.dummyItemPrefab);
-                obj.GetComponent<NetworkObject>().Spawn();
-                var dummy = obj.AddComponent<DummyScriptForClassifyingItems>();
-                dummy.toFollow = heldItemPosition;
-                dummy.ItemData = Inventory.inventorySlots[i].itemData;
+                SpawnHeldItemServerRpc(i, Inventory.inventorySlots[i].itemData);
             }
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void SpawnHeldItemServerRpc(int slotIndex, ItemData itemData, ServerRpcParams rpcParams = default)
+    {
+        if (itemData == null) return;
+
+        ItemDataSO idso = ScriptableObjectFinder.FindItemSO(itemData);
+        GameObject obj = Instantiate(idso.dummyItemPrefab);
+        NetworkObject netObj = obj.GetComponent<NetworkObject>();
+        netObj.Spawn(true);
+
+        var dummy = obj.AddComponent<DummyScriptForClassifyingItems>();
+        dummy.toFollow = heldItemPosition;
+        dummy.ItemData = itemData;
+
+        NetworkObjectReference objRef = new NetworkObjectReference(netObj);
+        NotifyHeldItemSpawnedClientRpc(slotIndex, objRef);
+    }
+
+    [ClientRpc]
+    private void NotifyHeldItemSpawnedClientRpc(int slotIndex, NetworkObjectReference objRef)
+    {
+        heldItemRefs[slotIndex] = objRef;
+        if (objRef.TryGet(out NetworkObject netObj))
+        {
+            heldItemPrefabs[slotIndex] = netObj.gameObject;
         }
     }
 

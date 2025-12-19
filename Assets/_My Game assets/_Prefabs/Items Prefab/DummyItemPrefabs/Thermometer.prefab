@@ -293,7 +293,7 @@ MonoBehaviour:
   RotationMaxInterpolationTime: 0.1
   ScaleLerpSmoothing: 1
   ScaleMaxInterpolationTime: 0.1
-  AuthorityMode: 0
+  AuthorityMode: 1
   TickSyncChildren: 0
   UseUnreliableDeltas: 0
   SyncPositionX: 1
@@ -302,9 +302,9 @@ MonoBehaviour:
   SyncRotAngleX: 1
   SyncRotAngleY: 1
   SyncRotAngleZ: 1
-  SyncScaleX: 1
-  SyncScaleY: 1
-  SyncScaleZ: 1
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
   PositionThreshold: 0.001
   RotAngleThreshold: 0.01
   ScaleThreshold: 0.01
@@ -372,7 +372,7 @@ MonoBehaviour:
   addedPower: 0
   avgTemperature: 25
   energySource: []
-  maxPower: 24
+  maxPowerOfEachDecrement: 15
   ThermometerReadings: 
   itemPickup: {fileID: 0}
   itemData:
@@ -380,6 +380,8 @@ MonoBehaviour:
     currentState: 0
     amount: 0
     isOn: 0
+    photoType: 0
+    photoId: 0
   inventory: {fileID: 0}
   canvas: {fileID: 6982894656930482977}
   text: {fileID: 6561302478212950145}

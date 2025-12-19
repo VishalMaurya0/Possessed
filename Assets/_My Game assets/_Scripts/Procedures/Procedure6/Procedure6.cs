@@ -53,21 +53,30 @@ public class Procedure6 : MonoBehaviour
 
         if (triggerScript.inProgress && Input.GetKeyDown(KeyCode.F) && inventory != null && !isInspecting)
         {
+            //Debug.LogError("F pressed");
+            if (inventory.selectedInventorySlot == null || inventory.selectedInventorySlot.itemData == null)
+            {
+                GameManager.Instance.HelpInstructions.text = "No item selected for inspection.";
+                GameManager.Instance.helpInstructionDisplayTime = 3f;
+                return;
+            }
             var selectedType = inventory.selectedInventorySlot.itemData.itemType;
             if (items.Contains(selectedType))
             {
                 isInspecting = true;
+                inventory.itemHolding.isInspecting = true;
+                //Debug.LogError("Started Inspecting");
                 CheckForInspectionServerRPC(inventory.selectedInventorySlot.itemData);
             }
         }
-        if (isInspecting && (Input.GetKeyDown(KeyCode.G) || Input.GetMouseButtonDown(0)))
+        if ((Input.GetKeyDown(KeyCode.G) || Input.GetMouseButtonDown(0)))
         {
             isInspecting = false;
             GameManager.Instance.HelpInstructions.text = "You need to inspect the items! Press F";
             GameManager.Instance.helpInstructionDisplayTime = 3f;
         }
 
-        if (isInspecting && inventory != null)
+        if (isInspecting && inventory != null && isInspecting)
         {
             if (inventory.itemHolding != null)
             {
@@ -84,7 +93,6 @@ public class Procedure6 : MonoBehaviour
     private void CheckForInspectionServerRPC(ItemData itemData, ServerRpcParams rpcParams = default)
     {
         ulong id = rpcParams.Receive.SenderClientId;
-        KeyValuePair<ulong, ItemType> inspectionItem = new KeyValuePair<ulong, ItemType>(id, itemData.itemType);
 
         //check for the id match the check if the item is already in the list
         for (int i = 0; i < inspectionItems.Count; i++)
@@ -95,9 +103,13 @@ public class Procedure6 : MonoBehaviour
                 break;
             }
         }
-        
+
         if (itemData != null)
+        {
+            KeyValuePair<ulong, ItemType> inspectionItem = new KeyValuePair<ulong, ItemType>(id, itemData.itemType);
             inspectionItems.Add(inspectionItem);
+        }
+        Debug.LogError("Inspection Items Count: " + inspectionItems.Count);
 
         ShowAnimClientRPC(inspectionItems.Count);
 

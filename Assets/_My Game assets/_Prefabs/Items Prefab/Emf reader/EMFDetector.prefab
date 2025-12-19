@@ -311,7 +311,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3207880009
+  GlobalObjectIdHash: 4244386797
   InScenePlacedSourceGlobalObjectIdHash: 4244386797
   DeferredDespawnTick: 0
   Ownership: 1
@@ -348,7 +348,7 @@ MonoBehaviour:
   RotationMaxInterpolationTime: 0.1
   ScaleLerpSmoothing: 1
   ScaleMaxInterpolationTime: 0.1
-  AuthorityMode: 0
+  AuthorityMode: 1
   TickSyncChildren: 0
   UseUnreliableDeltas: 0
   SyncPositionX: 1
@@ -388,6 +388,8 @@ MonoBehaviour:
     currentState: 0
     amount: 1
     isOn: 0
+    photoType: 0
+    photoId: 0
   ItemDataSO: {fileID: 11400000, guid: db710f28dea54b341b74dc0430a83510, type: 2}
   networkObject: {fileID: 7411244890179075922}
 --- !u!54 &654380536711809464

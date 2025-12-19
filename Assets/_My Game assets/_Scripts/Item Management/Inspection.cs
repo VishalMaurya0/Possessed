@@ -129,7 +129,8 @@ public class Inspection : NetworkBehaviour
     {
         isInspecting = false;
 
-        ItemHolding.isInspecting = true;
+        ItemHolding.isInspecting = false;
+        Debug.Log("unzooming");
 
         // Restore original position and rotation
         if (originalParent?.GetComponent<NetworkObject>() != null)

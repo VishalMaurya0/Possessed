@@ -387,6 +387,8 @@ MonoBehaviour:
     currentState: 0
     amount: 1
     isOn: 0
+    photoType: 0
+    photoId: 0
   ItemDataSO: {fileID: 11400000, guid: 86220f1f8eb166d4aa081b27f7497c32, type: 2}
   networkObject: {fileID: 0}
 --- !u!114 &4389121194185173623
@@ -403,6 +405,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   NetworkTransformExpanded: 0
+  AutoOwnerAuthorityTickOffset: 1
+  PositionInterpolationType: 0
+  RotationInterpolationType: 0
+  ScaleInterpolationType: 0
+  PositionLerpSmoothing: 1
+  PositionMaxInterpolationTime: 0.1
+  RotationLerpSmoothing: 1
+  RotationMaxInterpolationTime: 0.1
+  ScaleLerpSmoothing: 1
+  ScaleMaxInterpolationTime: 0.1
   AuthorityMode: 1
   TickSyncChildren: 0
   UseUnreliableDeltas: 0

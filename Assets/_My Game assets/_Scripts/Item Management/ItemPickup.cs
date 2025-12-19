@@ -74,6 +74,7 @@ public class ItemPickup : NetworkBehaviour
             {
                 inventoryManager.AddPhoto(itemData);
                 //it.UpdatePhotoAlbumClientRPC(itemData.currentState);
+                networkObject.ChangeOwnership(NetworkManager.ServerClientId);
                 networkObject.Despawn();
                 it.SetEverythingNormal(false);
                 return;
@@ -85,6 +86,7 @@ public class ItemPickup : NetworkBehaviour
             Debug.Log(remainingItem.ToString());
             if (remainingItem == 0)
             {
+                networkObject.ChangeOwnership(NetworkManager.ServerClientId);
                 networkObject.Despawn();
                 it.SetEverythingNormal(false);
             }
@@ -100,7 +102,6 @@ public class ItemPickup : NetworkBehaviour
     [ClientRpc]
     private void ReduceItemCountClientRPC(ItemData itemData, int remain)
     {
-        if (!IsOwner) return;
         itemData.amount = remain;
     }
 
