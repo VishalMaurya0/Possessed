@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class Procedure6 : MonoBehaviour
+public class Procedure6 : NetworkBehaviour
 {
     [Header("Item Visuals")]
     public ProcedureCompletion procedureCompletion;
@@ -30,6 +30,9 @@ public class Procedure6 : MonoBehaviour
 
     void Update()
     {
+        if (procedureCompletion.isCompleted.Value)
+            return;
+
         if (NetworkManager.Singleton == null || !NetworkManager.Singleton.IsListening)
         {
             Debug.LogWarning("[SpecialProcedure] NetworkManager not ready or not listening.");
@@ -69,14 +72,14 @@ public class Procedure6 : MonoBehaviour
                 CheckForInspectionServerRPC(inventory.selectedInventorySlot.itemData);
             }
         }
-        if ((Input.GetKeyDown(KeyCode.G) || Input.GetMouseButtonDown(0)))
+        if (triggerScript.inProgress && (Input.GetKeyDown(KeyCode.G) || Input.GetMouseButtonDown(0)))
         {
             isInspecting = false;
             GameManager.Instance.HelpInstructions.text = "You need to inspect the items! Press F";
             GameManager.Instance.helpInstructionDisplayTime = 3f;
         }
 
-        if (isInspecting && inventory != null && isInspecting)
+        if (triggerScript.inProgress && isInspecting && inventory != null)
         {
             if (inventory.itemHolding != null)
             {
@@ -108,6 +111,7 @@ public class Procedure6 : MonoBehaviour
         {
             KeyValuePair<ulong, ItemType> inspectionItem = new KeyValuePair<ulong, ItemType>(id, itemData.itemType);
             inspectionItems.Add(inspectionItem);
+            procedureCompletion.ShowVFXClientRPC();
         }
         Debug.LogError("Inspection Items Count: " + inspectionItems.Count);
 

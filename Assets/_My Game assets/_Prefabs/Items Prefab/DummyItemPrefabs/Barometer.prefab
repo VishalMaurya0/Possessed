@@ -631,7 +631,6 @@ GameObject:
   - component: {fileID: 5580885246337263039}
   - component: {fileID: 5849846341969615929}
   - component: {fileID: 5403864538930390596}
-  - component: {fileID: -8580838278542352434}
   - component: {fileID: -2465996744753170680}
   - component: {fileID: 1044839499084955931}
   m_Layer: 11
@@ -764,27 +763,6 @@ MonoBehaviour:
   bar: {fileID: 7376929419343036755}
   minPressureScale: 0.1
   maxPressureScale: 2.8
---- !u!65 &-8580838278542352434
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7921253054633184620}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.08799362, y: 0.37922955, z: 0.0860939}
-  m_Center: {x: -0.028867722, y: 0.28292322, z: 0.05583763}
 --- !u!54 &-2465996744753170680
 Rigidbody:
   m_ObjectHideFlags: 0
