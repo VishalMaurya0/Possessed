@@ -12,6 +12,7 @@ public class triggerProcedurePointScript : NetworkBehaviour
         if (other.gameObject == GameManager.Instance.ownerPlayer && !inProgress)
         {
             GameManager.Instance.HelpInstructions.text = "Left Click To Place An Item";
+            GameManager.Instance.helpInstructionDisplayTime = 3f;
         }
 
         if (other.gameObject == GameManager.Instance.ownerPlayer)

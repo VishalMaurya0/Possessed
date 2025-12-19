@@ -51,6 +51,7 @@ public class EnergyDetector : NetworkBehaviour
             itemData = dsfci.ItemData;
             dsfci.makeItSpringy = false;
             GameManager.Instance.HelpInstructions.text = $"Holding the item taking itemData from DummyScript, Found : {itemData}";
+            GameManager.Instance.helpInstructionDisplayTime = 5f;
         }
 
         energyDetectorReadings = GameManager.Instance.GetComponent<SelectingThreeProcedures>().EnergyDetectorReadings;

@@ -235,7 +235,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1192339916140211422, guid: ebd5e0acb5a660343bb2b011795da65e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 55.95
+      value: 58.67
       objectReference: {fileID: 0}
     - target: {fileID: 1192339916140211422, guid: ebd5e0acb5a660343bb2b011795da65e, type: 3}
       propertyPath: m_LocalRotation.w
@@ -267,7 +267,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3950130511831676120, guid: ebd5e0acb5a660343bb2b011795da65e, type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 3402904501
+      value: 3253920646
       objectReference: {fileID: 0}
     - target: {fileID: 3950130511831676120, guid: ebd5e0acb5a660343bb2b011795da65e, type: 3}
       propertyPath: InScenePlacedSourceGlobalObjectIdHash
@@ -299,6 +299,10 @@ PrefabInstance:
       propertyPath: VFXPosition
       value: 
       objectReference: {fileID: 6112436549336220225}
+    - target: {fileID: 2271726080059734961, guid: 9e4315f995b072047afd4bfcff240ff5, type: 3}
+      propertyPath: triggerScript
+      value: 
+      objectReference: {fileID: 6821528971590467859}
     - target: {fileID: 5620655769701712646, guid: 9e4315f995b072047afd4bfcff240ff5, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 87586036
@@ -355,6 +359,17 @@ PrefabInstance:
       addedObject: {fileID: 6112436549336220225}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9e4315f995b072047afd4bfcff240ff5, type: 3}
+--- !u!114 &6821528971590467859 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7281192713076095505, guid: 9e4315f995b072047afd4bfcff240ff5, type: 3}
+  m_PrefabInstance: {fileID: 4296731208412281602}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5fed86ca6e3cab4cb39681f9175dd5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &7218777386338826899 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6885776839582056849, guid: 9e4315f995b072047afd4bfcff240ff5, type: 3}
@@ -596,7 +611,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6885776839582056849, guid: 49dbf976fd4881d4d8ccad079ad60307, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 7.31
+      value: 1.79
       objectReference: {fileID: 0}
     - target: {fileID: 6885776839582056849, guid: 49dbf976fd4881d4d8ccad079ad60307, type: 3}
       propertyPath: m_LocalPosition.y

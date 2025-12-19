@@ -47,12 +47,14 @@ public class PlayerDeathManager : NetworkBehaviour
         {
             reviveTimer += Time.deltaTime;
             GameManager.Instance.HelpInstructions.text = $"Reviving... {reviveTimer:F1}s";
+            GameManager.Instance.helpInstructionDisplayTime = 3f;
 
             if (reviveTimer >= reviveTime)
             {
                 reviveTimer = 0f;
                 targetDownedPlayer.GetComponent<PlayerDeathManager>().NotifyClientServerRpc();
                 GameManager.Instance.HelpInstructions.text = "";
+                GameManager.Instance.helpInstructionDisplayTime = 0f;
                 targetDownedPlayer = null;
                 isInTrigger = false;
             }
@@ -63,6 +65,7 @@ public class PlayerDeathManager : NetworkBehaviour
             if (reviveTimer > 0f)
             {
                 GameManager.Instance.HelpInstructions.text = "Hold R to Revive";
+                GameManager.Instance.helpInstructionDisplayTime = 3f;
             }
             reviveTimer = 0f;
         }
@@ -81,6 +84,7 @@ public class PlayerDeathManager : NetworkBehaviour
         if (data.isAlive) return;
 
         GameManager.Instance.HelpInstructions.text = "Hold R to Revive";
+        GameManager.Instance.helpInstructionDisplayTime = 3f;
         isInTrigger = true;
         targetDownedPlayer = obj;
     }
@@ -92,6 +96,7 @@ public class PlayerDeathManager : NetworkBehaviour
         if (other.CompareTag("Player"))
         {
             GameManager.Instance.HelpInstructions.text = "";
+            GameManager.Instance.helpInstructionDisplayTime = 0f;
             isInTrigger = false;
             reviveTimer = 0f;
             targetDownedPlayer = null;

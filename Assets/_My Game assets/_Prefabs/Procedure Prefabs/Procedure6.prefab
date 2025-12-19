@@ -426,6 +426,7 @@ GameObject:
   - component: {fileID: 6885776839582056849}
   - component: {fileID: 5620655769701712646}
   - component: {fileID: 2271726080059734961}
+  - component: {fileID: 2465152270385217986}
   - component: {fileID: 6297161683400359392}
   m_Layer: 0
   m_Name: Procedure6
@@ -515,6 +516,23 @@ MonoBehaviour:
     m_InternalValue: 0
   timerText: {fileID: 0}
   temp: 0
+--- !u!114 &2465152270385217986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8058553164415213228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42cd0fb2e5814734e97778dfb9b791b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  procedureCompletion: {fileID: 2271726080059734961}
+  triggerScript: {fileID: 7281192713076095505}
+  visualsTrigger: []
+  inventory: {fileID: 0}
+  items: 03000000050000000700000009000000
 --- !u!95 &6297161683400359392
 Animator:
   serializedVersion: 7

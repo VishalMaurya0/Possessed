@@ -21,6 +21,7 @@ public class ItemHolding : NetworkBehaviour
     public ItemData heldItemData;
     public GameObject spawnedObject;
     public GameObject itemPrefab;
+    public bool isInspecting;
 
     [Header("Showing Held Items")]
     public Transform heldItemPosition;
@@ -217,6 +218,7 @@ public class ItemHolding : NetworkBehaviour
     public void SetEverythingNormal(bool animateInventory)
     {
         isZoomed = false;
+        isInspecting = false;
         GameManager.Instance.handlePlayerLookWithMouse = true;
         GameManager.Instance.handleMovement = true;
         GameManager.Instance.lockCurser = true;

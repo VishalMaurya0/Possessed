@@ -58,6 +58,7 @@ public class GameManager : NetworkBehaviour
     public List<ProcedureCompletion> AllProcedures = new();
     public TaskManager taskManager = null;
     public TMP_Text HelpInstructions;
+    public float helpInstructionDisplayTime = 0f;
     public Animator winLoseAnimator;
     public PhotoAlbum photoAlbum;
 
@@ -179,11 +180,15 @@ public class GameManager : NetworkBehaviour
             gameEnd = true;
         }
 
-        if (HelpInstructions != null && HelpInstructions.text != "" && HelpInstructionCorotine == null)
+        if (HelpInstructions != null && helpInstructionDisplayTime > 0)
         {
-            HelpInstructionCorotine = StartCoroutine(ResetHelpInstructions(HelpInstructions.text));
+            HelpInstructions.gameObject.SetActive(true);
+            helpInstructionDisplayTime -= Time.deltaTime;
+        }else if (HelpInstructions != null && helpInstructionDisplayTime <= 0)
+        {
+            HelpInstructions.gameObject.SetActive(false);
         }
-        
+
         if (!IsServer)
         {
             if (connectedClientsData.Count != connectedClientsNumber.Value)
@@ -193,12 +198,6 @@ public class GameManager : NetworkBehaviour
         }
     }
 
-    IEnumerator ResetHelpInstructions(string text)
-    {
-        yield return new WaitForSeconds(3);
-        HelpInstructions.text = "";
-        HelpInstructionCorotine = null;
-    }
 
     public void ServerStarted()
     {

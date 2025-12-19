@@ -143,6 +143,7 @@ public class ProcedureCompletion : ProcedureBase
                 if (selectedInventorySlot == null || selectedInventorySlot.itemData == null)
                 {
                     GameManager.Instance.HelpInstructions.text = "No item selected in inventory!";
+                    GameManager.Instance.helpInstructionDisplayTime = 3f;
                     Debug.LogWarning("No item selected in inventory!");
                     return;
                 }
@@ -190,22 +191,30 @@ public class ProcedureCompletion : ProcedureBase
             }
         }
 
-
-        procedureBase.Completed(VFXPosition.position);
+        ShowVFXClientRPC();
         currentOrder.Value++;
-        if (!GameManager.Instance.completedProcedure.ContainsValue(procedureData.procedure))
-            GameManager.Instance.completedProcedure.Add(NetworkManager.Singleton.ConnectedClients[rpcParams.Receive.SenderClientId].PlayerObject.gameObject, procedureData.procedure);
         //Debug.Log($"Order {currentOrder.Value - 1} completed. Moving to order {currentOrder.Value}.");
 
-        if (totalItemsNeeded.itemNeeded[totalItems - 1].orderId < currentOrder.Value)
+        CheckForProcedureCompletionServerRPC();
+
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void CheckForProcedureCompletionServerRPC(bool forceComplete = false, ServerRpcParams rpcParams = default)
+    {
+        if (forceComplete || totalItemsNeeded.itemNeeded[totalItems - 1].orderId < currentOrder.Value)
         {
             isCompleted.Value = true;
             GameManager.Instance.completedProcedures.Add(procedureData.procedureIndex);
+            if (!GameManager.Instance.completedProcedure.ContainsValue(procedureData.procedure))
+                GameManager.Instance.completedProcedure.Add(NetworkManager.Singleton.ConnectedClients[rpcParams.Receive.SenderClientId].PlayerObject.gameObject, procedureData.procedure);
             //Debug.Log("All orders completed!");
         }
+
         
         CheckForGameComopletioon();
     }
+
 
     private bool CheckIfItemMatchedWithInventorySlot(ItemNeeded itemToCheckAndAdd, ItemData itemDataInInventory, Inventory inventory, int i)
     {
@@ -231,6 +240,7 @@ public class ProcedureCompletion : ProcedureBase
                 {
                     GameManager.Instance.HelpInstructions.text =
                         $"Incorrect state! Required: {itemToCheckAndAdd.currentState}";
+                    GameManager.Instance.helpInstructionDisplayTime = 3f;
                 }
             }
             else if (isContainer && itemDataInInventory.currentState != itemDataSO.noOfStates - 1)
@@ -245,6 +255,7 @@ public class ProcedureCompletion : ProcedureBase
             {
                 GameManager.Instance.HelpInstructions.text =
                     $"There's Nothing in the {itemToCheckAndAdd.ItemType}!!!";
+                GameManager.Instance.helpInstructionDisplayTime = 3f;
                 return false;
             }
         }
@@ -252,6 +263,7 @@ public class ProcedureCompletion : ProcedureBase
         {
             GameManager.Instance.HelpInstructions.text =
                 $"Wrong item! Required: {itemToCheckAndAdd.ItemType}, You have: {itemDataInInventory?.itemType}";
+            GameManager.Instance.helpInstructionDisplayTime = 3f;
             return false;
         }
 
@@ -318,6 +330,12 @@ public class ProcedureCompletion : ProcedureBase
             visualsTrigger[i].trigger[j] = true;
         }
         showVisual = new KeyValuePair<bool, int> (true, i);
+    }
+
+    [ClientRpc]
+    public void ShowVFXClientRPC()
+    {
+        procedureBase.Completed(VFXPosition.position);
     }
 }
     

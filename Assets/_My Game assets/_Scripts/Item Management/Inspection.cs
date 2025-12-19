@@ -82,7 +82,13 @@ public class Inspection : NetworkBehaviour
     {
         isInspecting = true;
 
-        
+        if (ItemHolding == null && GameManager.Instance.ownerPlayer != null)
+        {
+            ItemHolding = GameManager.Instance.ownerPlayer.GetComponent<ItemHolding>();
+        }
+
+        ItemHolding.isInspecting = true;
+
 
         this.GetComponent<Rigidbody>().isKinematic = true;
         GameManager.Instance.handlePlayerLookWithMouse = false;
@@ -123,6 +129,7 @@ public class Inspection : NetworkBehaviour
     {
         isInspecting = false;
 
+        ItemHolding.isInspecting = true;
 
         // Restore original position and rotation
         if (originalParent?.GetComponent<NetworkObject>() != null)

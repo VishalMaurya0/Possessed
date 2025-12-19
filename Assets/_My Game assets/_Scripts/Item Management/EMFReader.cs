@@ -85,6 +85,7 @@ public class EMFReader : NetworkBehaviour
             itemData = dsfci.ItemData;
             dsfci.makeItSpringy = false;
             GameManager.Instance.HelpInstructions.text = $"Holding the item taking itemData from DummyScript, Found : {itemData.itemType}";
+            GameManager.Instance.helpInstructionDisplayTime = 5f;
         }
 
         EMFReadings = GameManager.Instance.GetComponent<SelectingThreeProcedures>().EMFReadings;
