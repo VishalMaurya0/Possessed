@@ -1,5 +1,24 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8168668949516913209
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 221518ef91623a7438a71fef23660601, type: 3}
+  m_Name: WhiteBalance
+  m_EditorClassIdentifier: 
+  active: 1
+  temperature:
+    m_OverrideState: 1
+    m_Value: -12
+  tint:
+    m_OverrideState: 0
+    m_Value: 2
 --- !u!114 &-7781217623364124408
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -46,6 +65,40 @@ MonoBehaviour:
   bladeRotation:
     m_OverrideState: 1
     m_Value: -18
+--- !u!114 &-6120063776017166101
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 558a8e2b6826cf840aae193990ba9f2e, type: 3}
+  m_Name: ShadowsMidtonesHighlights
+  m_EditorClassIdentifier: 
+  active: 1
+  shadows:
+    m_OverrideState: 1
+    m_Value: {x: 0.15716732, y: 0.11090642, z: 1, w: 0.28037384}
+  midtones:
+    m_OverrideState: 1
+    m_Value: {x: 1, y: 0.18977761, z: 0.36525318, w: 0.5420561}
+  highlights:
+    m_OverrideState: 1
+    m_Value: {x: 1, y: 0.7657029, z: 0, w: 0.102803744}
+  shadowsStart:
+    m_OverrideState: 1
+    m_Value: 0
+  shadowsEnd:
+    m_OverrideState: 1
+    m_Value: 0.56
+  highlightsStart:
+    m_OverrideState: 1
+    m_Value: 0.31
+  highlightsEnd:
+    m_OverrideState: 1
+    m_Value: 1
 --- !u!114 &-2753805258629509792
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -122,6 +175,58 @@ MonoBehaviour:
   - {fileID: -7781217623364124408}
   - {fileID: -2753805258629509792}
   - {fileID: 4976901130490058421}
+  - {fileID: 5263132015990581107}
+  - {fileID: 508479747935624396}
+  - {fileID: 1186331216797592372}
+  - {fileID: -6120063776017166101}
+  - {fileID: -8168668949516913209}
+--- !u!114 &508479747935624396
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb60a22f311433c4c962b888d1393f88, type: 3}
+  m_Name: PaniniProjection
+  m_EditorClassIdentifier: 
+  active: 1
+  distance:
+    m_OverrideState: 1
+    m_Value: 0.715
+  cropToFit:
+    m_OverrideState: 1
+    m_Value: 1
+--- !u!114 &1186331216797592372
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5e1dc532bcb41949b58bc4f2abfbb7e, type: 3}
+  m_Name: LensDistortion
+  m_EditorClassIdentifier: 
+  active: 1
+  intensity:
+    m_OverrideState: 1
+    m_Value: 0.5
+  xMultiplier:
+    m_OverrideState: 1
+    m_Value: 0.767
+  yMultiplier:
+    m_OverrideState: 1
+    m_Value: 0.762
+  center:
+    m_OverrideState: 0
+    m_Value: {x: 0.5, y: 0.5}
+  scale:
+    m_OverrideState: 0
+    m_Value: 1
 --- !u!114 &3459405436749110447
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -175,6 +280,31 @@ MonoBehaviour:
   saturation:
     m_OverrideState: 1
     m_Value: 36
+--- !u!114 &5263132015990581107
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29fa0085f50d5e54f8144f766051a691, type: 3}
+  m_Name: FilmGrain
+  m_EditorClassIdentifier: 
+  active: 1
+  type:
+    m_OverrideState: 1
+    m_Value: 5
+  intensity:
+    m_OverrideState: 1
+    m_Value: 0.703
+  response:
+    m_OverrideState: 0
+    m_Value: 0.8
+  texture:
+    m_OverrideState: 0
+    m_Value: {fileID: 0}
 --- !u!114 &6121258423058568509
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -224,10 +354,10 @@ MonoBehaviour:
     m_Value: 1
   intensity:
     m_OverrideState: 1
-    m_Value: 80
+    m_Value: 8.6
   scatter:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 1
   clamp:
     m_OverrideState: 0
     m_Value: 65472

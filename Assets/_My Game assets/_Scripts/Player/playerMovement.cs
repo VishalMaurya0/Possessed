@@ -31,9 +31,11 @@ public class PlayerController : MonoBehaviour
     public KeyCode crouchKey = KeyCode.LeftControl;
     public KeyCode torchToggleKey = KeyCode.F;
 
-    [Header("--References--")]
+    [Header("--References--")] 
+    public Transform playerVisual;
     public Transform playerCamera;
     public WallDetection wallDetection;
+    public Animator animator;
 
     private Rigidbody rb;
     public Vector3 collisionNormal;
@@ -45,7 +47,9 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        
+        if (animator == null)       
+            animator = GetComponentInChildren<Animator>();
+
         walkSpeed = playerData.walkSpeed;
         sprintSpeed = playerData.sprintSpeed;
         crouchSpeed = playerData.crouchSpeed;
@@ -84,6 +88,19 @@ public class PlayerController : MonoBehaviour
         if (GameManager.Instance.handlePlayerLookWithMouse)
         {
             HandleMouseMovement();
+            // --- ADD THIS VISUAL LOGIC HERE ---
+            // Calculate an approximate speed for the animator based on input
+            float currentSpeed = 0f;
+            if (movementInput.magnitude > 0.1f)
+            {
+                // If holding sprint key, we are at max speed (1.0), otherwise walk speed (0.5)
+                // This assumes your Blend Tree goes from 0 to 1
+                bool isSprintingInput = Input.GetKey(sprintKey);
+                currentSpeed = isSprintingInput ? 1.0f : 0.5f;
+            }
+
+            animator.SetFloat("Speed", currentSpeed, 0.1f, Time.deltaTime); // 0.1f adds smoothing
+                                                                            // ----------------------------------
         }
 
     }
@@ -121,6 +138,19 @@ public class PlayerController : MonoBehaviour
     private void MovePlayerFU()
     {
         float speed = walkSpeed;
+        // --- 1. MOVEMENT CALCULATION (Camera Relative) ---
+        // We calculate direction based on where the CAMERA is facing, not the player.
+        Vector3 camForward = playerCamera.forward;
+        Vector3 camRight = playerCamera.right;
+
+        // Flatten Y so looking up/down doesn't slow you down
+        camForward.y = 0;
+        camRight.y = 0;
+        camForward.Normalize();
+        camRight.Normalize();
+
+        // Calculate the direction we want to move in world space
+        Vector3 movementDirection = (camForward * movementInput.z + camRight * movementInput.x).normalized;
 
         if (currentStamina <= 0)
         {
@@ -167,6 +197,8 @@ public class PlayerController : MonoBehaviour
         }
         //Debug.DrawRay(transform.position, collisionNormal * 10f, Color.green);
         // Apply movement
+
+        animator.SetFloat("Speed", movement.magnitude * speed/sprintSpeed);
 
         rb.linearVelocity = new Vector3(movement.x * speed, rb.linearVelocity.y, movement.z * speed);
 
