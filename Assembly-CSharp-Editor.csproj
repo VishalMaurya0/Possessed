@@ -1434,13 +1434,13 @@
       <Project>{6DCA4226-D08C-524A-F3DA-CDBAE0039B31}</Project>
       <Name>Unity.VisualScripting.State</Name>
     </ProjectReference>
-    <ProjectReference Include="Unity.2D.Sprite.Editor.csproj">
-      <Project>{0945EA4B-3471-2A3C-CF2A-7A56B84E519C}</Project>
-      <Name>Unity.2D.Sprite.Editor</Name>
-    </ProjectReference>
     <ProjectReference Include="Unity.Services.Multiplayer.Editor.Shared.csproj">
       <Project>{7F509295-6C6B-EF3A-3575-273284925A3E}</Project>
       <Name>Unity.Services.Multiplayer.Editor.Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.2D.Sprite.Editor.csproj">
+      <Project>{0945EA4B-3471-2A3C-CF2A-7A56B84E519C}</Project>
+      <Name>Unity.2D.Sprite.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.Services.Multiplayer.Multiplay.Authoring.Core.csproj">
       <Project>{C8B87871-A12D-741A-0A8D-71FC1C57267D}</Project>
@@ -1474,6 +1474,10 @@
       <Project>{57B583E1-DBC4-45A2-5C1C-8DCEE49F9F23}</Project>
       <Name>Unity.VisualScripting.Flow</Name>
     </ProjectReference>
+    <ProjectReference Include="Unity.RenderPipelines.Core.Runtime.csproj">
+      <Project>{E290CBFC-298F-DDAC-3427-705F160E6DC7}</Project>
+      <Name>Unity.RenderPipelines.Core.Runtime</Name>
+    </ProjectReference>
     <ProjectReference Include="Unity.Services.QoS.csproj">
       <Project>{FA3E3548-676C-EB26-33DF-885219D4409C}</Project>
       <Name>Unity.Services.QoS</Name>
@@ -1481,10 +1485,6 @@
     <ProjectReference Include="Unity.RenderPipelines.Universal.2D.Runtime.csproj">
       <Project>{1886297D-E52D-9D79-761A-4F73690ABD9A}</Project>
       <Name>Unity.RenderPipelines.Universal.2D.Runtime</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.RenderPipelines.Core.Runtime.csproj">
-      <Project>{E290CBFC-298F-DDAC-3427-705F160E6DC7}</Project>
-      <Name>Unity.RenderPipelines.Core.Runtime</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.Multiplayer.Tools.Editor.csproj">
       <Project>{B2316A9C-D62D-0064-5641-6472781C779A}</Project>
@@ -1714,13 +1714,13 @@
       <Project>{D72B6A4F-E070-F43D-E2D6-FFCC5669ED39}</Project>
       <Name>Unity.ProGrids</Name>
     </ProjectReference>
-    <ProjectReference Include="Unity.VisualStudio.Editor.csproj">
-      <Project>{474A6496-9A00-66C6-9D1F-8500DC5ED9D5}</Project>
-      <Name>Unity.VisualStudio.Editor</Name>
-    </ProjectReference>
     <ProjectReference Include="Unity.Burst.csproj">
       <Project>{9912ABA0-33FC-5F70-E21E-31EC01B53F5E}</Project>
       <Name>Unity.Burst</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.VisualStudio.Editor.csproj">
+      <Project>{474A6496-9A00-66C6-9D1F-8500DC5ED9D5}</Project>
+      <Name>Unity.VisualStudio.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.Multiplayer.Tools.Initialization.csproj">
       <Project>{56E7AC6A-317C-23F6-2ED3-2873C735497C}</Project>

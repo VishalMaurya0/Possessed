@@ -280,13 +280,14 @@ GameObject:
   m_Component:
   - component: {fileID: 318529244210136125}
   - component: {fileID: 8401920472316271698}
+  - component: {fileID: 8787695030050824910}
   - component: {fileID: 2347942107639326097}
-  - component: {fileID: 4389121194185173623}
   - component: {fileID: 1382738338096327746}
-  - component: {fileID: 4372719719132351916}
+  - component: {fileID: -925449498113536049}
   - component: {fileID: -913701108965247333}
   - component: {fileID: -2377024887794213282}
   - component: {fileID: 5007955969876353414}
+  - component: {fileID: -8337295898522691896}
   m_Layer: 0
   m_Name: Blood Bottle
   m_TagString: Untagged
@@ -324,20 +325,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2547355200
-  InScenePlacedSourceGlobalObjectIdHash: 0
+  GlobalObjectIdHash: 3044378239
+  InScenePlacedSourceGlobalObjectIdHash: 2547355200
   DeferredDespawnTick: 0
   Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &2347942107639326097
+--- !u!114 &8787695030050824910
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -346,33 +347,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6905787541895510452}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4bd1421350672e84ca60e54f9506ac87, type: 3}
+  m_Script: {fileID: 11500000, guid: da52bf8bbc1de48cfb221a6ff30f7972, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  itemData:
-    itemType: 2
-    currentState: 0
-    amount: 1
-    isOn: 0
-    photoType: 0
-    photoId: 0
-  ItemDataSO: {fileID: 11400000, guid: 3e04f57a27d6fc54ba34d427d320f168, type: 2}
-  networkObject: {fileID: 0}
---- !u!114 &4389121194185173623
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6905787541895510452}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  NetworkTransformExpanded: 0
+  NetworkTransformExpanded: 1
   AutoOwnerAuthorityTickOffset: 1
   PositionInterpolationType: 0
   RotationInterpolationType: 0
@@ -405,6 +384,28 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!114 &2347942107639326097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6905787541895510452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bd1421350672e84ca60e54f9506ac87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  itemData:
+    itemType: 2
+    currentState: 0
+    amount: 1
+    isOn: 0
+    photoType: 0
+    photoId: 0
+  ItemDataSO: {fileID: 11400000, guid: 3e04f57a27d6fc54ba34d427d320f168, type: 2}
+  networkObject: {fileID: 0}
 --- !u!54 &1382738338096327746
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -431,8 +432,8 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 1
---- !u!114 &4372719719132351916
+  m_CollisionDetection: 0
+--- !u!114 &-925449498113536049
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -464,8 +465,10 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   inspectPoint: {fileID: 0}
   range: 36
+  isInspecting: 0
   meshRenderers: []
   outlineMat: {fileID: 0}
+  collider: {fileID: 0}
 --- !u!114 &-2377024887794213282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -499,6 +502,19 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.29076308
   m_Center: {x: 0.005165875, y: 0.28673178, z: 0}
+--- !u!114 &-8337295898522691896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6905787541895510452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6152772822895e147aa2b885d92b745f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!1 &8439994608654346107
 GameObject:
   m_ObjectHideFlags: 0

@@ -1041,6 +1041,10 @@
       <Project>{8A20A6C0-34A7-4F82-98C6-C62175345B9D}</Project>
       <Name>Unity.VisualScripting.Flow.Player</Name>
     </ProjectReference>
+    <ProjectReference Include="Unity.RenderPipelines.Core.Runtime.Player.csproj">
+      <Project>{D16F3CB4-965C-EFDF-D289-5E0887101FF8}</Project>
+      <Name>Unity.RenderPipelines.Core.Runtime.Player</Name>
+    </ProjectReference>
     <ProjectReference Include="Unity.Services.QoS.Player.csproj">
       <Project>{F756B548-8FA4-B252-A4CC-E73671FDA02F}</Project>
       <Name>Unity.Services.QoS.Player</Name>
@@ -1048,10 +1052,6 @@
     <ProjectReference Include="Unity.RenderPipelines.Universal.2D.Runtime.Player.csproj">
       <Project>{75A4FF5A-60B2-E819-F73E-810F2800614B}</Project>
       <Name>Unity.RenderPipelines.Universal.2D.Runtime.Player</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.RenderPipelines.Core.Runtime.Player.csproj">
-      <Project>{D16F3CB4-965C-EFDF-D289-5E0887101FF8}</Project>
-      <Name>Unity.RenderPipelines.Core.Runtime.Player</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.InputSystem.ForUI.Player.csproj">
       <Project>{BD98BFB3-ECA9-8C1E-8E92-3FD8A825F85B}</Project>

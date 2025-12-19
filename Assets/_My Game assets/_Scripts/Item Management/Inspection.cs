@@ -1,7 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Netcode;
+using Unity.Netcode.Components;
+
 //using UnityEditor.PackageManager;
 using UnityEngine;
 
@@ -13,7 +16,7 @@ public class Inspection : NetworkBehaviour
     private Transform originalParent;
     private Vector3 originalPosition; 
     private Quaternion originalRotation;
-    private bool isInspecting = false;
+    public bool isInspecting = false;
 
     private readonly float rotationSpeed = 5f;
     private ItemHolding ItemHolding;
@@ -23,6 +26,17 @@ public class Inspection : NetworkBehaviour
     [SerializeField] Material outlineMat;
     float glowScale = 1.15f;
 
+
+    private Rigidbody rb;
+    private NetworkRigidbody netRb;
+    public Collider collider;
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+        netRb = GetComponent<NetworkRigidbody>();
+        collider = GetComponent<Collider>();
+    }
 
     private void Start()
     {
@@ -78,6 +92,8 @@ public class Inspection : NetworkBehaviour
             return;
         StartInspection();
     }
+
+    #region Inspection Logic
     public void StartInspection()
     {
         isInspecting = true;
@@ -133,6 +149,8 @@ public class Inspection : NetworkBehaviour
         Debug.Log("unzooming");
 
         // Restore original position and rotation
+        transform.position = originalPosition;
+        transform.rotation = originalRotation;
         if (originalParent?.GetComponent<NetworkObject>() != null)
         {
             transform.transform.SetParent(originalParent);
@@ -141,26 +159,47 @@ public class Inspection : NetworkBehaviour
         {
             Debug.LogWarning("Attempted to parent a NetworkObject under a non-NetworkObject. Parenting aborted.");
         }
-        transform.position = originalPosition;
-        transform.rotation = originalRotation;
-        this.GetComponent<Rigidbody>().isKinematic = false;
+        //this.GetComponent<Rigidbody>().isKinematic = false;
         ItemHolding.SetEverythingNormal(false);
         ItemHolding.HandleUnZoom();
 
         StartCoroutine(RetrievePermission());
     }
+    #endregion
 
-
+    #region RPC Region
     [ServerRpc(RequireOwnership = false)]
     void GrantPermissionServerRpc(ulong ClientId)
     {
         GetComponent<NetworkObject>().ChangeOwnership(ClientId);
+        DisableObjectClientRPC();
         PermissionGrantedClientRpc(ClientId);
     }
-    
+
+    [ClientRpc]
+    private void DisableObjectClientRPC()
+    {
+        //if (GetComponent<NetworkObject>().OwnerClientId != NetworkManager.Singleton.LocalClientId)
+            //return;
+        netRb.enabled = false;
+        collider.enabled = false;
+        rb.isKinematic = true;
+    }
+
+    [ClientRpc]
+    private void EnableObjectClientRPC()
+    {
+        //if (GetComponent<NetworkObject>().OwnerClientId != NetworkManager.Singleton.LocalClientId)
+            //return;
+        netRb.enabled = true;
+        collider.enabled = true;
+        rb.isKinematic = false;
+    }
+
     [ServerRpc(RequireOwnership = false)]
     void RetrievePermissionServerRpc(ulong ClientId)
     {
+        EnableObjectClientRPC();
         GetComponent<NetworkObject>().ChangeOwnership(ClientId);
     }
 
@@ -170,9 +209,16 @@ public class Inspection : NetworkBehaviour
 
         if (GetComponent<NetworkObject>().OwnerClientId != NetworkManager.ServerClientId)
             RetrievePermissionServerRpc(NetworkManager.ServerClientId);
+
+        yield return null;
     }
+    #endregion
 
+    #region Disable Network Rigidbody While Inspecting
+    
+    #endregion
 
+    #region Glow Effect on Mouse Hover
     void OnMouseEnter()
     {
         if ((transform.position - GameManager.Instance.ownerPlayer.transform.position).sqrMagnitude < range)
@@ -214,4 +260,5 @@ public class Inspection : NetworkBehaviour
             }
         }
     }
+    #endregion
 }

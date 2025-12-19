@@ -27,7 +27,6 @@ public class ItemHolding : NetworkBehaviour
     public Transform heldItemPosition;
     public Transform heldItemParent;
     public List<GameObject> heldItemPrefabs; 
-    public List<NetworkObjectReference> heldItemRefs; 
 
     [Header("UI")]
     public InventoryUI inventoryUI;
@@ -48,7 +47,6 @@ public class ItemHolding : NetworkBehaviour
         for (int i = 0; i < 5; i++)
         {
             heldItemPrefabs.Add(null);
-            heldItemRefs.Add(default);
         }
     }
 
@@ -192,12 +190,10 @@ public class ItemHolding : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void DespawnHeldItemServerRpc(NetworkObjectReference objRef)
+    void DespawnObjectServerRpc(NetworkObjectReference refe)
     {
-        if (objRef.TryGet(out NetworkObject netObj))
-        {
-            netObj.Despawn();
-        }
+        GameObject obj = refe.TryGet(out NetworkObject networkObject) ? networkObject.gameObject : null;
+        networkObject.Despawn();
     }
 
     
@@ -307,46 +303,18 @@ public class ItemHolding : NetworkBehaviour
         {
             if (itemTypeFlag[i])
             {
-                // Despawn old held item if exists
-                if (heldItemRefs[i].TryGet(out NetworkObject oldNetObj))
-                {
-                    DespawnHeldItemServerRpc(heldItemRefs[i]);
-                }
+                Destroy(heldItemPrefabs[i]);
                 heldItemPrefabs[i] = null;
-                heldItemRefs[i] = default;
 
                 if (Inventory.inventorySlots[i].itemData == null) continue;
 
-                SpawnHeldItemServerRpc(i, Inventory.inventorySlots[i].itemData);
+                ItemDataSO idso = ScriptableObjectFinder.FindItemSO(Inventory.inventorySlots[i].itemData);
+                GameObject obj = heldItemPrefabs[i] = Instantiate(idso.dummyItemPrefab);
+                //obj.GetComponent<NetworkObject>().Spawn();
+                var dummy = obj.AddComponent<DummyScriptForClassifyingItems>();
+                dummy.toFollow = heldItemPosition;
+                dummy.ItemData = Inventory.inventorySlots[i].itemData;
             }
-        }
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    private void SpawnHeldItemServerRpc(int slotIndex, ItemData itemData, ServerRpcParams rpcParams = default)
-    {
-        if (itemData == null) return;
-
-        ItemDataSO idso = ScriptableObjectFinder.FindItemSO(itemData);
-        GameObject obj = Instantiate(idso.dummyItemPrefab);
-        NetworkObject netObj = obj.GetComponent<NetworkObject>();
-        netObj.Spawn(true);
-
-        var dummy = obj.AddComponent<DummyScriptForClassifyingItems>();
-        dummy.toFollow = heldItemPosition;
-        dummy.ItemData = itemData;
-
-        NetworkObjectReference objRef = new NetworkObjectReference(netObj);
-        NotifyHeldItemSpawnedClientRpc(slotIndex, objRef);
-    }
-
-    [ClientRpc]
-    private void NotifyHeldItemSpawnedClientRpc(int slotIndex, NetworkObjectReference objRef)
-    {
-        heldItemRefs[slotIndex] = objRef;
-        if (objRef.TryGet(out NetworkObject netObj))
-        {
-            heldItemPrefabs[slotIndex] = netObj.gameObject;
         }
     }
 
