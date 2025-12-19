@@ -255,6 +255,7 @@ GameObject:
   - component: {fileID: -913701108965247333}
   - component: {fileID: -4099602978446259901}
   - component: {fileID: 3050705545690770184}
+  - component: {fileID: -8333890661437349915}
   m_Layer: 0
   m_Name: Wood
   m_TagString: Untagged
@@ -300,7 +301,7 @@ MonoBehaviour:
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -433,8 +434,10 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   inspectPoint: {fileID: 0}
   range: 36
+  isInspecting: 0
   meshRenderers: []
   outlineMat: {fileID: 2100000, guid: e3b54984f9c161147941f1f31706a911, type: 2}
+  collider: {fileID: 0}
 --- !u!114 &-4099602978446259901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -470,6 +473,19 @@ CapsuleCollider:
   m_Height: 2.4442384
   m_Direction: 0
   m_Center: {x: 0.058065895, y: 0.04358459, z: -0.03278977}
+--- !u!114 &-8333890661437349915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6905787541895510452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6152772822895e147aa2b885d92b745f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!1001 &3398254402696156004
 PrefabInstance:
   m_ObjectHideFlags: 0

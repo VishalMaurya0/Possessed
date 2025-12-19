@@ -7,6 +7,7 @@ public class ItemPickup : NetworkBehaviour
     public ItemData itemData;
     public ItemDataSO ItemDataSO;
     private ItemHolding it;
+    public Inspection inspection;
     public NetworkObject networkObject;
 
     private void Start()
@@ -29,12 +30,14 @@ public class ItemPickup : NetworkBehaviour
                 itemData = new ItemData(ItemDataSO, itemData.amount, itemData.currentState);
             }
         }
+
+        inspection = GetComponent<Inspection>();
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.E) 
-            && (GetComponent<NetworkObject>().OwnerClientId == NetworkManager.ServerClientId || GetComponent<NetworkObject>().OwnerClientId == NetworkManager.Singleton.LocalClientId) )
+            && (!inspection.isInspecting))
         {
             TryPickupItem();
         }
@@ -74,7 +77,7 @@ public class ItemPickup : NetworkBehaviour
             {
                 inventoryManager.AddPhoto(itemData);
                 //it.UpdatePhotoAlbumClientRPC(itemData.currentState);
-                networkObject.ChangeOwnership(NetworkManager.ServerClientId);
+                //networkObject.ChangeOwnership(NetworkManager.ServerClientId);
                 networkObject.Despawn();
                 it.SetEverythingNormal(false);
                 return;
@@ -86,7 +89,7 @@ public class ItemPickup : NetworkBehaviour
             Debug.Log(remainingItem.ToString());
             if (remainingItem == 0)
             {
-                networkObject.ChangeOwnership(NetworkManager.ServerClientId);
+                //networkObject.ChangeOwnership(NetworkManager.ServerClientId);
                 networkObject.Despawn();
                 it.SetEverythingNormal(false);
             }

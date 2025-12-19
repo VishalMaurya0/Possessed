@@ -161,7 +161,7 @@ public class ItemHolding : NetworkBehaviour
         else
         {
             networkObject.ChangeOwnership(rpcParams.Receive.SenderClientId);
-            ZoomSpawnedClientRpc(new NetworkObjectReference(networkObject)); //========================== remove that from inventory  ======//
+            ZoomSpawnedClientRpc(new NetworkObjectReference(networkObject), rpcParams.Receive.SenderClientId); //========================== remove that from inventory  ======//
         }
     }
 
@@ -173,11 +173,11 @@ public class ItemHolding : NetworkBehaviour
     }
 
     [ClientRpc]
-    void ZoomSpawnedClientRpc(NetworkObjectReference refe)
+    void ZoomSpawnedClientRpc(NetworkObjectReference refe, ulong id)
     {
         if (!IsOwner) { return; }
         spawnedObject = refe.TryGet(out NetworkObject networkObject) ? networkObject.gameObject : null;
-        spawnedObject.GetComponent<Inspection>().StartInspection();
+        spawnedObject.GetComponent<Inspection>().GrantPermissionToStartInspectionServerRpc(id);
         Inventory.RemoveSelectedItemServerRpc(false, 1, true);
     }
     

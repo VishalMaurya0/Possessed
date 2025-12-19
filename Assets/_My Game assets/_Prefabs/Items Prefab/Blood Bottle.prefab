@@ -280,10 +280,10 @@ GameObject:
   m_Component:
   - component: {fileID: 318529244210136125}
   - component: {fileID: 8401920472316271698}
-  - component: {fileID: 8787695030050824910}
+  - component: {fileID: 4318961760379672160}
   - component: {fileID: 2347942107639326097}
   - component: {fileID: 1382738338096327746}
-  - component: {fileID: -925449498113536049}
+  - component: {fileID: 3459719499343383975}
   - component: {fileID: -913701108965247333}
   - component: {fileID: -2377024887794213282}
   - component: {fileID: 5007955969876353414}
@@ -325,7 +325,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3044378239
+  GlobalObjectIdHash: 2547355200
   InScenePlacedSourceGlobalObjectIdHash: 2547355200
   DeferredDespawnTick: 0
   Ownership: 1
@@ -338,7 +338,7 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &8787695030050824910
+--- !u!114 &4318961760379672160
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -347,11 +347,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6905787541895510452}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da52bf8bbc1de48cfb221a6ff30f7972, type: 3}
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  NetworkTransformExpanded: 1
+  NetworkTransformExpanded: 0
   AutoOwnerAuthorityTickOffset: 1
   PositionInterpolationType: 0
   RotationInterpolationType: 0
@@ -433,7 +433,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &-925449498113536049
+--- !u!114 &3459719499343383975
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

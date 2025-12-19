@@ -26,16 +26,18 @@ public class Inspection : NetworkBehaviour
     [SerializeField] Material outlineMat;
     float glowScale = 1.15f;
 
-
     private Rigidbody rb;
     private NetworkRigidbody netRb;
-    public Collider collider;
+    // public Collider collider;
+
+    // Store enabled colliders for restoration
+    private List<Collider> previouslyEnabledColliders = new List<Collider>();
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         netRb = GetComponent<NetworkRigidbody>();
-        collider = GetComponent<Collider>();
+        //collider = GetComponent<Collider>();
     }
 
     private void Start()
@@ -77,7 +79,7 @@ public class Inspection : NetworkBehaviour
         {
             if (GetComponent<NetworkObject>().OwnerClientId != NetworkManager.Singleton.LocalClientId  && GetComponent<NetworkObject>().OwnerClientId == NetworkManager.ServerClientId)
             {
-                GrantPermissionServerRpc(NetworkManager.Singleton.LocalClientId);
+                GrantPermissionToStartInspectionServerRpc(NetworkManager.Singleton.LocalClientId);
             }else if (GetComponent<NetworkObject>().OwnerClientId == NetworkManager.Singleton.LocalClientId)
             {
                 StartInspection();
@@ -94,7 +96,7 @@ public class Inspection : NetworkBehaviour
     }
 
     #region Inspection Logic
-    public void StartInspection()
+    private void StartInspection()
     {
         isInspecting = true;
 
@@ -105,7 +107,6 @@ public class Inspection : NetworkBehaviour
 
         ItemHolding.isInspecting = true;
 
-
         this.GetComponent<Rigidbody>().isKinematic = true;
         GameManager.Instance.handlePlayerLookWithMouse = false;
         GameManager.Instance.handleMovement = false;
@@ -115,6 +116,7 @@ public class Inspection : NetworkBehaviour
         originalParent = transform.parent;
         originalPosition = transform.position;
         originalRotation = transform.rotation;
+
 
         // Move object to inspection point
         transform.SetParent(null);
@@ -169,9 +171,12 @@ public class Inspection : NetworkBehaviour
 
     #region RPC Region
     [ServerRpc(RequireOwnership = false)]
-    void GrantPermissionServerRpc(ulong ClientId)
+    public void GrantPermissionToStartInspectionServerRpc(ulong ClientId)
     {
-        GetComponent<NetworkObject>().ChangeOwnership(ClientId);
+        if (GetComponent<NetworkObject>().OwnerClientId != ClientId)
+        {
+            GetComponent<NetworkObject>().ChangeOwnership(ClientId);
+        }
         DisableObjectClientRPC();
         PermissionGrantedClientRpc(ClientId);
     }
@@ -182,7 +187,19 @@ public class Inspection : NetworkBehaviour
         //if (GetComponent<NetworkObject>().OwnerClientId != NetworkManager.Singleton.LocalClientId)
             //return;
         netRb.enabled = false;
-        collider.enabled = false;
+        //collider.enabled = false;
+
+        // Disable all enabled colliders and store them
+        previouslyEnabledColliders.Clear();
+        foreach (var col in GetComponentsInChildren<Collider>(true))
+        {
+            if (col.enabled)
+            {
+                previouslyEnabledColliders.Add(col);
+                col.enabled = false;
+            }
+        }
+
         rb.isKinematic = true;
     }
 
@@ -190,10 +207,16 @@ public class Inspection : NetworkBehaviour
     private void EnableObjectClientRPC()
     {
         //if (GetComponent<NetworkObject>().OwnerClientId != NetworkManager.Singleton.LocalClientId)
-            //return;
+        //    return;
         netRb.enabled = true;
-        collider.enabled = true;
         rb.isKinematic = false;
+        // Re-enable only previously enabled colliders
+        foreach (var col in previouslyEnabledColliders)
+        {
+            if (col != null)
+                col.enabled = true;
+        }
+        previouslyEnabledColliders.Clear();
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -205,7 +228,7 @@ public class Inspection : NetworkBehaviour
 
     IEnumerator RetrievePermission()
     {
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(.5f);  //TODO Retrieve permissin when obhject is back to original position in every client
 
         if (GetComponent<NetworkObject>().OwnerClientId != NetworkManager.ServerClientId)
             RetrievePermissionServerRpc(NetworkManager.ServerClientId);

@@ -182,6 +182,7 @@ GameObject:
   - component: {fileID: -913701108965247333}
   - component: {fileID: -2377024887794213282}
   - component: {fileID: 3178552124650393215}
+  - component: {fileID: -5039614910353741254}
   m_Layer: 0
   m_Name: Pin
   m_TagString: Untagged
@@ -227,7 +228,7 @@ MonoBehaviour:
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -360,8 +361,10 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   inspectPoint: {fileID: 0}
   range: 36
+  isInspecting: 0
   meshRenderers: []
   outlineMat: {fileID: 2100000, guid: 534e8c56f88eb72458409e5677d4dcce, type: 2}
+  collider: {fileID: 0}
 --- !u!114 &-2377024887794213282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -397,6 +400,19 @@ CapsuleCollider:
   m_Height: 0.37
   m_Direction: 1
   m_Center: {x: 0, y: 0.18, z: 0}
+--- !u!114 &-5039614910353741254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6905787541895510452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6152772822895e147aa2b885d92b745f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!1 &7069909615565875165
 GameObject:
   m_ObjectHideFlags: 0

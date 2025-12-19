@@ -484,6 +484,7 @@ GameObject:
   - component: {fileID: -3377751056102261846}
   - component: {fileID: 1607727611419316861}
   - component: {fileID: 4518913388071958893}
+  - component: {fileID: 84489075007363318}
   m_Layer: 0
   m_Name: Barometer
   m_TagString: Untagged
@@ -526,7 +527,7 @@ MonoBehaviour:
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -556,7 +557,7 @@ MonoBehaviour:
   RotationMaxInterpolationTime: 0.1
   ScaleLerpSmoothing: 1
   ScaleMaxInterpolationTime: 0.1
-  AuthorityMode: 0
+  AuthorityMode: 1
   TickSyncChildren: 0
   UseUnreliableDeltas: 0
   SyncPositionX: 1
@@ -659,8 +660,10 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   inspectPoint: {fileID: 0}
   range: 36
+  isInspecting: 0
   meshRenderers: []
   outlineMat: {fileID: 0}
+  collider: {fileID: 0}
 --- !u!65 &-3377751056102261846
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -738,3 +741,16 @@ MonoBehaviour:
   bar: {fileID: 2952091963377092510}
   minPressureScale: 0.1
   maxPressureScale: 2.8
+--- !u!114 &84489075007363318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8439219597731154284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6152772822895e147aa2b885d92b745f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
