@@ -244,7 +244,7 @@ public class MapVisual : NetworkBehaviour
         List<ItemDataToSpawnForCell> itemDataToSpawnForCells = generateMap.itemDataToSpawnForCells;
         foreach (var itemData in itemDataToSpawnForCells)
         {
-            GameObject itemObj = Instantiate(itemData.itemData.itemPrefab, itemsContainer.transform);
+            GameObject itemObj = Instantiate(ScriptableObjectFinder.FindItemSO(itemData.itemData).itemPrefab, itemsContainer.transform);
             NetworkObject netobj = itemObj.GetComponent<NetworkObject>();
             netobj.Spawn();
             netobj.TrySetParent(itemsContainer.transform, false);

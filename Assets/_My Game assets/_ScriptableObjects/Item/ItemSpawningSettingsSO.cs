@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ItemSpawningSettingsSO", menuName = "Scriptable Objects/ItemSpawningSettingsSO")]
@@ -6,7 +7,7 @@ public class ItemSpawningSettingsSO : ScriptableObject
     public List<ItemSpawningData> itemSpawningDataList = new List<ItemSpawningData>();
 }
 
-
+[System.Serializable]
 public class ItemSpawningData
 {
     public ItemData itemData;

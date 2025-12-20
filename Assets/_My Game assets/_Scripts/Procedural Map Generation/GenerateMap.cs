@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
@@ -1260,14 +1258,14 @@ public class GenerateMap : NetworkBehaviour
         if (tries >= totalTries)                       /////  TODO still not tested TODO  /////
         {
             RestartTaskGeneration(triess, totalTriess);
-            Debug.LogError("Restarting...");
+            Debug.Log("Restarting...");
         }
     }
     private void RestartTaskGeneration(int tries, int totalTries)
     {
         if (tries >= totalTries)
         {
-            Debug.LogError("NOT GENERATED!!!!"); return;
+            Debug.LogWarning("NOT GENERATED!!!!"); return;
         }
         //========= All Rooms =========//
         List<Room> allRooms = new(rooms);
@@ -1459,20 +1457,30 @@ public class GenerateMap : NetworkBehaviour
 
     void SpawnItems()
     {
-        if (!itemSpawningSettingsSO) return;
+        if (!itemSpawningSettingsSO)
+        {
+            Debug.LogError("SpawnItems: Missing Scriptable Object!");
+            return;
+        }
+
+        Debug.Log($"<color=cyan>--- START SPAWN ITEMS ---</color>");
 
         List<ItemSpawningData> itemSpawningSettings = itemSpawningSettingsSO.itemSpawningDataList;
         List<ItemSpawningData> leftItems = new();
+
         for (int i = 0; i < itemSpawningSettings.Count; i++)
         {
             ItemSpawningData itemData = itemSpawningSettings[i];
-            int amountToSpawn = Random.Range(itemData.minAmountToSpawn, itemData.maxAmountToSpawn + 1);
+            itemData.amountToSpawn = Random.Range(itemData.minAmountToSpawn, itemData.maxAmountToSpawn + 1);
+            Debug.Log($"Setup: Item [{i}] needs <b>{itemData.amountToSpawn}</b> copies.");
         }
 
         int totalAmountToSpawn = itemSpawningSettings.Sum(item => item.amountToSpawn);
+        Debug.Log($"<color=yellow>Total items to spawn across all types: {totalAmountToSpawn}</color>");
 
         int safety = 10000;
-        while (totalAmountToSpawn > 0 && safety --> 0)
+
+        while (totalAmountToSpawn > 0 && safety-- > 0)
         {
             int index = Random.Range(0, itemSpawningSettings.Count);
             ItemSpawningData itemData = itemSpawningSettings[index];
@@ -1481,9 +1489,9 @@ public class GenerateMap : NetworkBehaviour
             itemData.amountToSpawn--;
             totalAmountToSpawn--;
 
-            // Find a valid cell to spawn the item
-            MapCell validCell = null;
+            bool placed = false;
             int attempts = 0;
+
             while (attempts < 100)
             {
                 attempts++;
@@ -1491,21 +1499,32 @@ public class GenerateMap : NetworkBehaviour
                 int c = Random.Range(0, mapCells.GetLength(1));
 
                 MapCell cell = mapCells[r, c];
-                if (itemData.inRoomOnly && !cell.inRoom) continue;
+
+                if (itemData.inRoomOnly && !cell.inRoom)
+                {
+                    continue;
+                }
+                if (cell.isEdgeCell) continue;
 
                 itemDataToSpawnForCells.Add(new ItemDataToSpawnForCell(itemData.itemData, cell));
+                // Debug.Log($"<color=green>Spawned {itemData.itemData.name} at [{r},{c}]</color>");
+                placed = true;
                 break;
             }
 
-            if (attempts >= 100)
+            if (!placed)
             {
-                Debug.LogWarning("Could not find a valid cell to spawn an item after 100 attempts!");
+                Debug.LogWarning($"<color=red>FAILED to place {itemData.itemData.itemType} after 100 attempts.</color>");
                 leftItems.Add(itemData);
             }
         }
 
-        Debug.LogError("Left Items to Spawn: " + leftItems.Count);
-        Debug.LogError("Total Amount Left to Spawn: " + totalAmountToSpawn);
+        // 3. Final Report
+        if (safety <= 0) Debug.LogError("HIT SAFETY LIMIT - Infinite loop prevention triggered.");
+
+        Debug.Log($"<color=cyan>--- FINISHED SPAWNING ---</color>");
+        Debug.Log($"Items that failed to find a spot: {leftItems.Count}");
+        Debug.Log($"Total Global Count Left (Should be 0): {totalAmountToSpawn}");
     }
 
 
@@ -1833,4 +1852,11 @@ public struct ItemDataToSpawnForCell
 {
     public ItemData itemData;
     public MapCell cell;
+
+    public ItemDataToSpawnForCell(ItemData itemData, MapCell mapCell)
+    {
+        this.itemData = itemData;
+        this.cell = mapCell;
+    }
+
 }
