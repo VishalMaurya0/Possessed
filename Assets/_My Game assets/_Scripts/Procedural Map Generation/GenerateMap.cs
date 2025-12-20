@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
@@ -12,6 +14,7 @@ public class GenerateMap : NetworkBehaviour
     public MapVisual mapVisual;
     public ProceduralMapDataSO proceduralMapDataSO;
     public PhotoContainerSO photoContainerSO;
+    public ItemSpawningSettingsSO itemSpawningSettingsSO;
     public TaskManager taskManager;
 
 
@@ -37,6 +40,7 @@ public class GenerateMap : NetworkBehaviour
     readonly List<MapCell> roomGates = new();
     readonly List<MapCell> newIncrements = new();
     public List<PhotoDataForCell> photoDataForCells = new();
+    public List<ItemDataToSpawnForCell> itemDataToSpawnForCells = new();
 
     [Header("Properties")]
     public bool photosNotGenerated = true;
@@ -137,6 +141,7 @@ public class GenerateMap : NetworkBehaviour
         SpawnProcedures();
         GENERATE_PROPS();
         //SpawnPhotos();
+        SpawnItems();
 
 
         ////======== Visuals & NavMesh ========////
@@ -148,6 +153,7 @@ public class GenerateMap : NetworkBehaviour
         {
             mapVisual.GenerateBuildingBlocks();
             mapVisual.GenerateRoomProps();
+            mapVisual.SpawnItems();
         }
         GameManager.Instance.bakeNavMeshAgain = true;
     }
@@ -1451,6 +1457,57 @@ public class GenerateMap : NetworkBehaviour
     }
 
 
+    void SpawnItems()
+    {
+        if (!itemSpawningSettingsSO) return;
+
+        List<ItemSpawningData> itemSpawningSettings = itemSpawningSettingsSO.itemSpawningDataList;
+        List<ItemSpawningData> leftItems = new();
+        for (int i = 0; i < itemSpawningSettings.Count; i++)
+        {
+            ItemSpawningData itemData = itemSpawningSettings[i];
+            int amountToSpawn = Random.Range(itemData.minAmountToSpawn, itemData.maxAmountToSpawn + 1);
+        }
+
+        int totalAmountToSpawn = itemSpawningSettings.Sum(item => item.amountToSpawn);
+
+        int safety = 10000;
+        while (totalAmountToSpawn > 0 && safety --> 0)
+        {
+            int index = Random.Range(0, itemSpawningSettings.Count);
+            ItemSpawningData itemData = itemSpawningSettings[index];
+            if (itemData.amountToSpawn <= 0) continue;
+
+            itemData.amountToSpawn--;
+            totalAmountToSpawn--;
+
+            // Find a valid cell to spawn the item
+            MapCell validCell = null;
+            int attempts = 0;
+            while (attempts < 100)
+            {
+                attempts++;
+                int r = Random.Range(0, mapCells.GetLength(0));
+                int c = Random.Range(0, mapCells.GetLength(1));
+
+                MapCell cell = mapCells[r, c];
+                if (itemData.inRoomOnly && !cell.inRoom) continue;
+
+                itemDataToSpawnForCells.Add(new ItemDataToSpawnForCell(itemData.itemData, cell));
+                break;
+            }
+
+            if (attempts >= 100)
+            {
+                Debug.LogWarning("Could not find a valid cell to spawn an item after 100 attempts!");
+                leftItems.Add(itemData);
+            }
+        }
+
+        Debug.LogError("Left Items to Spawn: " + leftItems.Count);
+        Debug.LogError("Total Amount Left to Spawn: " + totalAmountToSpawn);
+    }
+
 
 
 
@@ -1769,4 +1826,11 @@ public struct PhotoDataForCell
         this.photoData = photoData;
         this.cell = cell;
     }
+}
+
+[System.Serializable]
+public struct ItemDataToSpawnForCell
+{
+    public ItemData itemData;
+    public MapCell cell;
 }
