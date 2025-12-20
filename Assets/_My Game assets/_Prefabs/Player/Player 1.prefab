@@ -929,7 +929,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1116999853
+  GlobalObjectIdHash: 26841964
   InScenePlacedSourceGlobalObjectIdHash: 26841964
   DeferredDespawnTick: 0
   Ownership: 1
@@ -1079,6 +1079,10 @@ MonoBehaviour:
   staminaRecoveryRate: 2
   XfasterStaminaRecoveryRate: 1.5
   staminaDepletionRate: 2
+  staminaSlider: {fileID: 0}
+  staminaImage: {fileID: 0}
+  normalStaminaColor: {r: 0.45767334, g: 0.8207547, b: 0.24390352, a: 1}
+  buildingStaminaColor: {r: 0.9150943, g: 0.23740657, b: 0.23740657, a: 1}
   torchLight: {fileID: 2286757787952385109}
   torchToggleSound: {fileID: 0}
   sprintKey: 304

@@ -26,6 +26,9 @@ public class PlayerController : MonoBehaviour
     private float currentStamina;
     private bool staminaBuildingStage = false;
     public Slider staminaSlider;
+    public Image staminaImage;
+    public Color normalStaminaColor;
+    public Color buildingStaminaColor;
 
     [Header("Torch Settings")]
     public Light torchLight;
@@ -86,6 +89,12 @@ public class PlayerController : MonoBehaviour
 
         if (playerCamera != null)
             horizontalLookRotation = playerCamera.localEulerAngles.y;
+
+        if (staminaSlider == null)
+        {
+            staminaSlider = GameObject.FindWithTag("StaminaUI").GetComponent<Slider>();
+            staminaImage = staminaSlider.fillRect.GetComponent<Image>();
+        }
     }
 
     void Update()
@@ -195,10 +204,17 @@ public class PlayerController : MonoBehaviour
 
         currentStamina = Mathf.Clamp(currentStamina, 0, maxStamina);
         staminaSlider.value = currentStamina / maxStamina * 100;
+        if (staminaBuildingStage)
+        {
+            staminaImage.color = buildingStaminaColor;
+        }else
+        {
+            staminaImage.color = normalStaminaColor;
+        }
 
-        //Vector3 movement = (transform.forward * movementInput.z + transform.right * movementInput.x).normalized;
+            //Vector3 movement = (transform.forward * movementInput.z + transform.right * movementInput.x).normalized;
 
-        collisionNormal = wallDetection.wallNormal;
+            collisionNormal = wallDetection.wallNormal;
         
 
 
