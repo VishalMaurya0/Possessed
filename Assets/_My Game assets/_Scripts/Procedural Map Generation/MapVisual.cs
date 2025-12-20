@@ -234,7 +234,7 @@ public class MapVisual : NetworkBehaviour
             ItemPickup item = photoObj.GetComponent<ItemPickup>();
             item.itemData.photoId = photoData.photoData.photoID;
             item.itemData.photoType = (photoData.photoData.ProcedurePhoto) ? 1 : 0;
-            item.itemData.photoType = (photoData.photoData.StatuePhoto) ? 1 : item.itemData.photoType;
+            item.itemData.photoType = (photoData.photoData.StatuePhoto) ? 2 : item.itemData.photoType;
         }
     }
 

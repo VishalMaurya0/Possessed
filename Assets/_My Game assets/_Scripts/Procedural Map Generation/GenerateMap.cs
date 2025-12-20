@@ -38,6 +38,8 @@ public class GenerateMap : NetworkBehaviour
     readonly List<MapCell> newIncrements = new();
     public List<PhotoDataForCell> photoDataForCells = new();
 
+    [Header("Properties")]
+    public bool photosNotGenerated = true;
 
     public void HandleServerStarted()       //======== Start ========//
     {
@@ -75,6 +77,13 @@ public class GenerateMap : NetworkBehaviour
         {
             generateAgain = false;
             //GenerateAgain();
+        }
+
+        if (photosNotGenerated && GameManager.Instance.taskManager)
+        {
+            photosNotGenerated = false;
+            SpawnPhotos();
+            mapVisual.SpawnPhotos();
         }
     }
 
@@ -127,7 +136,7 @@ public class GenerateMap : NetworkBehaviour
         CreateWindows();
         SpawnProcedures();
         GENERATE_PROPS();
-        SpawnPhotos();
+        //SpawnPhotos();
 
 
         ////======== Visuals & NavMesh ========////
@@ -139,7 +148,6 @@ public class GenerateMap : NetworkBehaviour
         {
             mapVisual.GenerateBuildingBlocks();
             mapVisual.GenerateRoomProps();
-            mapVisual.SpawnPhotos();
         }
         GameManager.Instance.bakeNavMeshAgain = true;
     }
@@ -1355,79 +1363,90 @@ public class GenerateMap : NetworkBehaviour
 
     private void SpawnPhotos()
     {
-        if (photoContainerSO == null)
-        {
-            return;
-        }
+        if (photoContainerSO == null) return;
 
-        #region SET PHOTOS PER PROCEDURE
-        // ===== spawning procedure photos ====== //
+        List<PhotoData> allPhotosToSpawn = new List<PhotoData>();
+
+        #region PREPARE PROCEDURE PHOTOS
         int maxPhotosOfSelectedProc = photoContainerSO.maxPhotoOfSelectedProcedure;
         int limit = photoContainerSO.secMaxPhotoToStopPuttingPhotos;
-
         int impIndex = GameManager.Instance.selectedProceduresIndex[2];
 
-        List<int> photosPerProcedure = new List<int>(new int[8]);
+        int[] countsPerProc = new int[8];
+        countsPerProc[impIndex] = maxPhotosOfSelectedProc;
 
-
-        photosPerProcedure[impIndex] = maxPhotosOfSelectedProc;
-
-        bool canSpawnMore = true;
         int safety = 1000;
-        while (canSpawnMore && safety-- > 0)
+        while (safety --> 0)
         {
-            int randProcIndex = Random.Range(0, photosPerProcedure.Count);
-            if (randProcIndex == impIndex)
+            int randIndex = Random.Range(0, 8);
+            if (randIndex != impIndex && countsPerProc[randIndex] < limit)
             {
-                continue;
+                countsPerProc[randIndex]++;
+                if (countsPerProc[randIndex] >= limit) break;
             }
+        }
 
-            photosPerProcedure[randProcIndex]++;
-            if (photosPerProcedure[randProcIndex] >= limit)
+        for (int pIndex = 0; pIndex < countsPerProc.Length; pIndex++)
+        {
+            int count = countsPerProc[pIndex];
+            for (int k = 0; k < count; k++)
             {
-                canSpawnMore = false;
+                allPhotosToSpawn.Add(new PhotoData(pIndex, true, false));
             }
         }
         #endregion
 
-        int totalPhotosToSpawn = photosPerProcedure.Sum();
-        List<int> photosPerProcedureCopy = new List<int>(photosPerProcedure);
+        #region PREPARE STATUE PHOTOS
+        GameObject taskForBB = GameManager.Instance.taskManager.GetTask(TasksEnum.BloodBottleTask);
+        if (taskForBB != null)
+        {
+            int[] savedCode = taskForBB.GetComponentInChildren<ChestUnlock_BloodBottleTask>().savedCode;
+
+            for (int i = 0; i < savedCode.Length; i++)
+            {
+                PhotoData original = photoContainerSO.StatuePhotos[savedCode[i]].photoData;
+                allPhotosToSpawn.Add(new PhotoData(original.photoID, false, true));
+            }
+        }
+        #endregion
+
+
         int rowCells = mapCells.GetLength(0);
         int columnCells = mapCells.GetLength(1);
-        
-        int procIndex = 0;
 
-        while (totalPhotosToSpawn > 0)
+        HashSet<Vector2Int> usedCoords = new HashSet<Vector2Int>();
+
+        foreach (PhotoData photoData in allPhotosToSpawn)
         {
-            if (procIndex >= photosPerProcedureCopy.Count)
-                procIndex = 0;
+            MapCell validCell = null;
+            int attempts = 0;
 
-            if (photosPerProcedureCopy[procIndex] <= 0)
+            while (attempts < 100)
             {
-                procIndex++;
-                continue;
+                attempts++;
+                int r = Random.Range(0, rowCells);
+                int c = Random.Range(0, columnCells);
+
+                MapCell cell = mapCells[r, c];
+                Vector2Int coord = new Vector2Int(r, c);
+
+                if (cell.isEdgeCell) continue;
+
+                if (usedCoords.Contains(coord)) continue;
+
+                validCell = cell;
+                usedCoords.Add(coord);
+                break;
             }
 
-            int rowNo = Random.Range(0, rowCells);
-            int colNo = Random.Range(0, columnCells);
-
-            MapCell cell = mapCells[rowNo, colNo];
-
-            if (cell.isEdgeCell)
+            if (validCell != null)
             {
-                continue;
+                photoDataForCells.Add(new PhotoDataForCell(photoData, validCell));
             }
-
-            //Vector3 randomPos = new Vector3(Random.Range(0, cell.width), Random.Range(0, height), Random.Range(0, cell.width));
-            int photoId = procIndex;
-            photosPerProcedureCopy[procIndex]--;
-
-            PhotoData photoData = new PhotoData(photoId, true, false);
-            //GameObject photo = Instantiate(photoContainerSO.photoPrefab, cell.position + randomPos, Quaternion.identity);
-            //photo.transform.SetParent(cell.transform); hgf
-
-            photoDataForCells.Add(new PhotoDataForCell(photoData, cell) );
-            totalPhotosToSpawn--;
+            else
+            {
+                Debug.LogWarning("Could not find a valid empty cell for a photo after 100 attempts!");
+            }
         }
     }
 

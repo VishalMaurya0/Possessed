@@ -14,6 +14,18 @@ public class TaskManager : NetworkBehaviour
             GameManager.Instance.taskManager = this;
         }
     }
+
+    public GameObject GetTask(TasksEnum taskType)
+    {
+        foreach (var task in AllTasks)
+        {
+            if (task.taskType == taskType)
+            {
+                return task.taskPrefab;
+            }
+        }
+        return null;
+    }
 }
 
 public enum TasksEnum
