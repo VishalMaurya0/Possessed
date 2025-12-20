@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -13,6 +14,10 @@ public class PlayerController : MonoBehaviour
     public float lookSensitivity = 2.0f;
     public float maxLookAngle = 80f; // Limit looking up/down
 
+    [Header("Turn In Place Settings")]
+    public float turnInPlaceThreshold = 75f; // How far (in degrees) you can look before body turns
+    public float turnInPlaceSpeed = 5.0f;    // How fast the body catches up
+
     [Header("Stamina Settings")]
     public float maxStamina = 10.0f;
     public float staminaRecoveryRate = 2.0f;
@@ -20,6 +25,7 @@ public class PlayerController : MonoBehaviour
     public float staminaDepletionRate = 2.0f;
     private float currentStamina;
     private bool staminaBuildingStage = false;
+    public Slider staminaSlider;
 
     [Header("Torch Settings")]
     public Light torchLight;
@@ -43,6 +49,7 @@ public class PlayerController : MonoBehaviour
     private bool isCrouching = false;
     private bool isSprinting = false;
     private float verticalLookRotation = 0f;
+    private float horizontalLookRotation = 0f;
     public PlayerDataSO playerData;
 
     void Start()
@@ -76,6 +83,9 @@ public class PlayerController : MonoBehaviour
         currentStamina = maxStamina;
 
         if (torchLight != null) torchLight.enabled = isTorchOn;
+
+        if (playerCamera != null)
+            horizontalLookRotation = playerCamera.localEulerAngles.y;
     }
 
     void Update()
@@ -88,19 +98,27 @@ public class PlayerController : MonoBehaviour
         if (GameManager.Instance.handlePlayerLookWithMouse)
         {
             HandleMouseMovement();
-            // --- ADD THIS VISUAL LOGIC HERE ---
-            // Calculate an approximate speed for the animator based on input
-            float currentSpeed = 0f;
-            if (movementInput.magnitude > 0.1f)
-            {
-                // If holding sprint key, we are at max speed (1.0), otherwise walk speed (0.5)
-                // This assumes your Blend Tree goes from 0 to 1
-                bool isSprintingInput = Input.GetKey(sprintKey);
-                currentSpeed = isSprintingInput ? 1.0f : 0.5f;
-            }
 
-            animator.SetFloat("Speed", currentSpeed, 0.1f, Time.deltaTime); // 0.1f adds smoothing
-                                                                            // ----------------------------------
+            // --- NEW LOGIC START ---
+            // If we are NOT inputting movement (Standing still)
+            if (movementInput.magnitude < 0.1f)
+            {
+                HandleTurnInPlace(); // Call the new function
+
+                // Set animator speed to 0 just to be safe/clean
+                animator.SetFloat("Speed", 0f, 0.1f, Time.deltaTime);
+            }
+            else
+            {
+                // Existing Animation Logic for when moving...
+                float currentSpeed = 0f;
+                if (movementInput.magnitude > 0.1f)
+                {
+                    bool isSprintingInput = Input.GetKey(sprintKey);
+                    currentSpeed = isSprintingInput ? 1.0f : 0.5f;
+                }
+                animator.SetFloat("Speed", currentSpeed, 0.1f, Time.deltaTime);
+            }                                                              
         }
 
     }
@@ -176,8 +194,9 @@ public class PlayerController : MonoBehaviour
         }
 
         currentStamina = Mathf.Clamp(currentStamina, 0, maxStamina);
+        staminaSlider.value = currentStamina / maxStamina * 100;
 
-        Vector3 movement = (transform.forward * movementInput.z + transform.right * movementInput.x).normalized;
+        //Vector3 movement = (transform.forward * movementInput.z + transform.right * movementInput.x).normalized;
 
         collisionNormal = wallDetection.wallNormal;
         
@@ -185,22 +204,35 @@ public class PlayerController : MonoBehaviour
 
 
 
-        if (movement != Vector3.zero)
+        if (movementDirection != Vector3.zero)
         {
             // Check if we're colliding
-            if (collisionNormal != Vector3.zero && Vector3.Dot(movement, collisionNormal) < 0)
+            if (collisionNormal != Vector3.zero && Vector3.Dot(movementDirection, collisionNormal) < 0)
             {
                 // Slide along the collision normal
-                Vector3 slideDirection = Vector3.ProjectOnPlane(movement, collisionNormal);
-                movement = slideDirection.normalized;
+                Vector3 slideDirection = Vector3.ProjectOnPlane(movementDirection, collisionNormal);
+                movementDirection = slideDirection.normalized;
             }
         }
+
+
         //Debug.DrawRay(transform.position, collisionNormal * 10f, Color.green);
         // Apply movement
+        rb.linearVelocity = new Vector3(movementDirection.x * speed, rb.linearVelocity.y, movementDirection.z * speed);
 
-        animator.SetFloat("Speed", movement.magnitude * speed/sprintSpeed);
+        // --- 4. VISUAL ROTATION (The Magic Part) ---
+        // We rotate ONLY the 'playerVisual' child, not the main transform
+        if (movementDirection != Vector3.zero && playerVisual != null)
+        {
+            // Calculate where we should look
+            Quaternion targetRotation = Quaternion.LookRotation(movementDirection);
 
-        rb.linearVelocity = new Vector3(movement.x * speed, rb.linearVelocity.y, movement.z * speed);
+            // Smoothly rotate the visual model towards that direction
+            playerVisual.rotation = Quaternion.Slerp(playerVisual.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
+        }
+
+        // --- 5. ANIMATOR ---
+        animator.SetFloat("Speed", movementDirection.magnitude * (speed / sprintSpeed));
 
     }
     //private void OnCollisionStay(Collision collision)
@@ -248,12 +280,39 @@ public class PlayerController : MonoBehaviour
     private void HandleMouseMovement()
     {
         float mouseX = Input.GetAxis("Mouse X") * lookSensitivity;
-        transform.Rotate(Vector3.up * mouseX);
+        horizontalLookRotation += mouseX;
+
         float mouseY = Input.GetAxis("Mouse Y") * lookSensitivity;
         verticalLookRotation -= mouseY;
         verticalLookRotation = Mathf.Clamp(verticalLookRotation, -maxLookAngle, maxLookAngle);
 
-        playerCamera.localRotation = Quaternion.Euler(verticalLookRotation, playerCamera.localRotation.y, playerCamera.localRotation.z);
+        playerCamera.localRotation = Quaternion.Euler(verticalLookRotation, horizontalLookRotation, 0);
+    }
+
+    private void HandleTurnInPlace()
+    {
+        // 1. Get the camera direction, but ignore Up/Down (flatten it)
+        Vector3 camForward = playerCamera.forward;
+        camForward.y = 0;
+        camForward.Normalize();
+
+        // 2. Calculate the angle difference between Body and Camera
+        float angleDifference = Vector3.Angle(playerVisual.forward, camForward);
+
+        // 3. If the angle is too big, start rotating the body towards the camera
+        if (angleDifference > turnInPlaceThreshold)
+        {
+            // Calculate the target rotation (facing the same way as camera)
+            Quaternion targetRotation = Quaternion.LookRotation(camForward);
+
+            // Smoothly rotate the body towards that target
+            // We use a lower speed here so it feels like a "corrective" shuffle
+            playerVisual.rotation = Quaternion.Slerp(
+                playerVisual.rotation,
+                targetRotation,
+                turnInPlaceSpeed * Time.deltaTime
+            );
+        }
     }
 
     void OnDrawGizmos()

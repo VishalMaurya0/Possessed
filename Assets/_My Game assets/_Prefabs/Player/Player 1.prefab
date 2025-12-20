@@ -1073,6 +1073,8 @@ MonoBehaviour:
   rotationSpeed: 5
   lookSensitivity: 2
   maxLookAngle: 80
+  turnInPlaceThreshold: 75
+  turnInPlaceSpeed: 0.77
   maxStamina: 10
   staminaRecoveryRate: 2
   XfasterStaminaRecoveryRate: 1.5
@@ -1082,6 +1084,7 @@ MonoBehaviour:
   sprintKey: 304
   crouchKey: 306
   torchToggleKey: 116
+  playerVisual: {fileID: 3635968934060461195}
   playerCamera: {fileID: 7644840573191448947}
   wallDetection: {fileID: 0}
   animator: {fileID: 1415286437295232965}
