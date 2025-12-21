@@ -67,6 +67,8 @@
     <Compile Include="Assets\Outside Assets\Dark UI\Editor\InitDarkUI.cs" />
     <Compile Include="Assets\Outside Assets\Dark UI\Scripts\LaunchURL.cs" />
     <Compile Include="Assets\Outside Assets\Dark UI\Scripts\QualityManager.cs" />
+    <Compile Include="Assets\Outside Assets\Props\HouseholdItems\Scripts\PlayerMovement.cs" />
+    <Compile Include="Assets\Outside Assets\Dungeon\_SNAPS_PrototypingAssets\Scripts\Editor\PackageChecker\PackageChecker.cs" />
     <Compile Include="Assets\Outside Assets\Dark UI\Scripts\SliderGamepadManager.cs" />
     <Compile Include="Assets\Outside Assets\Dark UI\Scripts\ModalWindowManager.cs" />
     <Compile Include="Assets\Outside Assets\Dark UI\Scripts\SplashScreenManager.cs" />
@@ -93,8 +95,8 @@
     <Compile Include="Assets\Outside Assets\Dark UI\Scripts\VirtualCursor.cs" />
     <Compile Include="Assets\Outside Assets\Dark UI\Scripts\PointerEnterEvents.cs" />
     <Compile Include="Assets\Outside Assets\Dark UI\Scripts\PanelTabManager.cs" />
+    <Compile Include="Assets\Outside Assets\Props\HouseholdItems\Scripts\MouseLook.cs" />
     <Compile Include="Assets\Outside Assets\Dark UI\Scripts\CanvasManager.cs" />
-    <Compile Include="Assets\Outside Assets\AssetStoreOriginals\_SNAPS_PrototypingAssets\Scripts\Editor\PackageChecker\PackageChecker.cs" />
     <Compile Include="Assets\Outside Assets\Dark UI\Scripts\TimedEvent.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -105,9 +107,9 @@
     <None Include="Assets\Outside Assets\Dark UI\Shaders\Masked UI Blur.shader" />
     <None Include="Assets\Outside Assets\Dark UI\Shaders\UI Dissolve Effect.shader" />
     <None Include="Assets\Outside Assets\Outside Assets.asmdef" />
-    <None Include="Assets\Outside Assets\AssetStoreOriginals\_SNAPS_PrototypingAssets\Scripts\Editor\PackageChecker\settings\PackageImportList_ShaderGraph.txt" />
+    <None Include="Assets\Outside Assets\Dungeon\_SNAPS_PrototypingAssets\Scripts\Editor\PackageChecker\settings\PackageImportList_ShaderGraph.txt" />
     <None Include="Assets\Outside Assets\Dark UI\Shaders\Fast UI Blur.shader" />
-    <None Include="Assets\Outside Assets\AssetStoreOriginals\_SNAPS_PrototypingAssets\Scripts\Editor\PackageChecker\PackageImportList.txt" />
+    <None Include="Assets\Outside Assets\Dungeon\_SNAPS_PrototypingAssets\Scripts\Editor\PackageChecker\PackageImportList.txt" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
