@@ -6,7 +6,7 @@ public class PropID : MonoBehaviour
     public int propID;
     public List<Transform> positions;
 
-    private void Start() {
+    private void OnEnable() {
         ItemSpawningInPropsManager.instance.MakeItemSpawningInPropsManagerRuntimeData(this);
     }
 }

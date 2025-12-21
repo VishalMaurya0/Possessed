@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4152039754868849439}
   - component: {fileID: 6231830732810960480}
   - component: {fileID: -4253608166200692985}
+  - component: {fileID: 2336031472030148251}
   m_Layer: 0
   m_Name: Almirah_1
   m_TagString: Untagged
@@ -110,6 +111,21 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!114 &2336031472030148251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3227288110940223800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30f0af295a6eb32419d68de0f113a631, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  propID: 0
+  positions:
+  - {fileID: 8516912840732543370}
 --- !u!1001 &255873690765787440
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -502,7 +518,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: db3042097ca1de94e84577ecdedd045f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.164
+      value: 1.16
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: db3042097ca1de94e84577ecdedd045f, type: 3}
       propertyPath: m_LocalPosition.y
@@ -510,7 +526,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: db3042097ca1de94e84577ecdedd045f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.445
+      value: -1.72
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: db3042097ca1de94e84577ecdedd045f, type: 3}
       propertyPath: m_LocalRotation.w

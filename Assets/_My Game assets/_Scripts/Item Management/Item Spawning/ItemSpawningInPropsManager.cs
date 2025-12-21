@@ -53,6 +53,12 @@ public class ItemSpawningInPropsManager : MonoBehaviour
 
             itemSpawningDataInProps_1.amountToSpawn = Random.Range(itemSpawningDataInProps_1.minAmountToSpawn, itemSpawningDataInProps_1.maxAmountToSpawn + 1);
 
+            if (itemSpawningInPropsManagerRuntimeDatas.Count <= (itemSpawningDataInProps_1.propID))
+            {
+                Debug.LogError($"[ItemSpawner] Key '{itemSpawningDataInProps_1.propID}' not found in runtime datas! Skipping.");
+                continue;
+            }
+
             ItemSpawningInPropsManagerRuntimeData itemSpawningInPropsManagerRuntimeData = itemSpawningInPropsManagerRuntimeDatas[itemSpawningDataInProps_1.propID];
             List<PropID> propIDScriptList = itemSpawningInPropsManagerRuntimeData.propIDScriptList;
             int propID = itemSpawningInPropsManagerRuntimeData.propID;
@@ -60,7 +66,7 @@ public class ItemSpawningInPropsManager : MonoBehaviour
             int amountToSpawn = itemSpawningDataInProps_1.amountToSpawn;
 
             int safetyCounter = 1000;
-            while (amountToSpawn > 0 && safetyCounter --> 1000)
+            while (amountToSpawn > 0 && safetyCounter --> 0)
             {
                 if (propIDScriptList.Count <= 0) break;
 

@@ -152,6 +152,7 @@ public class GenerateMap : NetworkBehaviour
             mapVisual.GenerateBuildingBlocks();
             mapVisual.GenerateRoomProps();
             mapVisual.SpawnItems();
+            ItemSpawningInPropsManager.instance.StartItemSpawn();
         }
         GameManager.Instance.bakeNavMeshAgain = true;
     }
