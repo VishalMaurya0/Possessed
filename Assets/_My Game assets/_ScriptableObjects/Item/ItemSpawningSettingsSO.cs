@@ -11,6 +11,7 @@ public class ItemSpawningSettingsSO : ScriptableObject
 [System.Serializable]
 public class ItemSpawningData_inCell
 {
+    public string name = "new item";
     public ItemData itemData;
     public bool inRoomOnly = false;
     public int minAmountToSpawn = 1;
@@ -21,6 +22,7 @@ public class ItemSpawningData_inCell
 [System.Serializable]
 public class ItemSpawningData_inProps
 {
+    public string name = "new item";
     public ItemData itemData;
     public int propID;
     public int minAmountToSpawn = 1;
