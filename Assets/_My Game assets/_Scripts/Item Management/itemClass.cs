@@ -17,6 +17,16 @@ public class ItemData : INetworkSerializable
         currentState = CurrentState;
         this.amount = amount;
     }
+
+    public ItemData(ItemData itemData)
+    {
+        itemType = itemData.itemType;
+        currentState = itemData.currentState;
+        amount = itemData.amount;
+        photoType = itemData.photoType;
+        photoId = itemData.photoId;
+        isOn = itemData.isOn;
+    }
     
     public ItemData(int amount, int CurrentState, int photoType, int photoID) 
     {

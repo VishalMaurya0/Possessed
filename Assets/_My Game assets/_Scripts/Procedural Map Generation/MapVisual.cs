@@ -254,7 +254,7 @@ public class MapVisual : NetworkBehaviour
             itemObj.transform.position = cell.position + randomPos;
             itemObj.transform.rotation = Random.rotation;
             
-            itemObj.GetComponent<ItemPickup>().itemData = itemData.itemData;
+            itemObj.GetComponent<ItemPickup>().itemData = new ItemData(itemData.itemData);
         }
     }
 

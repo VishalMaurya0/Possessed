@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 192653227cf237d418431420f7a411d0, type: 3}
   m_Name: ItemSpawningSettingsSO
   m_EditorClassIdentifier: 
-  itemSpawningDataList:
+  itemSpawningDataInCellList:
   - itemData:
       itemType: 0
       currentState: 0
@@ -56,4 +56,16 @@ MonoBehaviour:
     inRoomOnly: 0
     minAmountToSpawn: 30
     maxAmountToSpawn: 50
+    amountToSpawn: 0
+  itemSpawningDataInPropsList:
+  - itemData:
+      itemType: 0
+      currentState: 0
+      amount: 1
+      isOn: 0
+      photoType: 0
+      photoId: 0
+    propID: 0
+    minAmountToSpawn: 0
+    maxAmountToSpawn: 0
     amountToSpawn: 0

@@ -1465,12 +1465,12 @@ public class GenerateMap : NetworkBehaviour
 
         Debug.Log($"<color=cyan>--- START SPAWN ITEMS ---</color>");
 
-        List<ItemSpawningData> itemSpawningSettings = itemSpawningSettingsSO.itemSpawningDataList;
-        List<ItemSpawningData> leftItems = new();
+        List<ItemSpawningData_inCell> itemSpawningSettings = itemSpawningSettingsSO.itemSpawningDataInCellList;
+        List<ItemSpawningData_inCell> leftItems = new();
 
         for (int i = 0; i < itemSpawningSettings.Count; i++)
         {
-            ItemSpawningData itemData = itemSpawningSettings[i];
+            ItemSpawningData_inCell itemData = itemSpawningSettings[i];
             itemData.amountToSpawn = Random.Range(itemData.minAmountToSpawn, itemData.maxAmountToSpawn + 1);
             Debug.Log($"Setup: Item [{i}] needs <b>{itemData.amountToSpawn}</b> copies.");
         }
@@ -1483,7 +1483,7 @@ public class GenerateMap : NetworkBehaviour
         while (totalAmountToSpawn > 0 && safety-- > 0)
         {
             int index = Random.Range(0, itemSpawningSettings.Count);
-            ItemSpawningData itemData = itemSpawningSettings[index];
+            ItemSpawningData_inCell itemData = itemSpawningSettings[index];
             if (itemData.amountToSpawn <= 0) continue;
 
             itemData.amountToSpawn--;

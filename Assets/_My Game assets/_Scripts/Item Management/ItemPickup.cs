@@ -166,4 +166,61 @@ public class ItemPickup : NetworkBehaviour
             }
         }
     }
+
+
+    #region FOR DATA MATCHING ACROSS CLIENTS
+
+    public void SetItemData(ItemData newData)
+    {
+        if (!IsServer)
+        {
+            Debug.LogWarning("Only the server can set item data!");
+            return;
+        }
+
+        itemData = newData;
+
+        SetItemDataClientRpc(newData);
+    }
+
+    [ClientRpc]
+    private void SetItemDataClientRpc(ItemData newData)
+    {
+        this.itemData = newData;
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        if (IsClient && !IsServer)
+        {
+            RequestDataServerRpc();
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void RequestDataServerRpc(ServerRpcParams rpcParams = default)
+    {
+        ClientRpcParams clientRpcParams = new ClientRpcParams
+        {
+            Send = new ClientRpcSendParams
+            {
+                TargetClientIds = new ulong[] { rpcParams.Receive.SenderClientId }
+            }
+        };
+
+        // Send the current data ONLY to that specific new player
+        SetItemDataClientRpc(itemData, clientRpcParams);
+    }
+
+    [ClientRpc]
+    private void SetItemDataClientRpc(ItemData newData, ClientRpcParams clientRpcParams = default)
+    {
+        this.itemData = newData;
+
+        // Update your visuals here (e.g. materials, text)
+        Debug.Log($"Client received item: {itemData.itemType}");
+    }
+
+
+    #endregion
 }
