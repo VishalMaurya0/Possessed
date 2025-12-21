@@ -95,6 +95,7 @@ MonoBehaviour:
         CeilingProps:
           propLocation: 
           Props: []
+        Droppables: []
       - WallSideProps:
           propLocation: Wall Sided
           Props:
@@ -174,7 +175,26 @@ MonoBehaviour:
               chancesIn100: 100
         WindowSideProp:
           propLocation: Window Side
-          Props: []
+          Props:
+          - propName: 
+            Prop: []
         CeilingProps:
           propLocation: 
           Props: []
+        Droppables:
+        - prop: {fileID: 8798258235173747734, guid: 6b0f73a9c790afc458cda3a7ffae1fe7, type: 3}
+          chancesIn100: 1
+        - prop: {fileID: 6993411864542057993, guid: d2f605d5aac84784697fb3a2a71c42eb, type: 3}
+          chancesIn100: 1
+        - prop: {fileID: 3992234195183566262, guid: 4fe7f034274b4924abd8c783ccb51b6b, type: 3}
+          chancesIn100: 1
+        - prop: {fileID: 5950184678588236206, guid: 36416c06fb3af47469a4d67e0bbde578, type: 3}
+          chancesIn100: 1
+        - prop: {fileID: 6187348660777160804, guid: 48183829e88e05a4eb148976224cea8a, type: 3}
+          chancesIn100: 1
+        - prop: {fileID: 4498293583883436693, guid: 591a60aa8143d0447a725d3a920373c5, type: 3}
+          chancesIn100: 1
+        - prop: {fileID: 896454351296144147, guid: eacc8615698408947bc2daa25b912427, type: 3}
+          chancesIn100: 1
+        - prop: {fileID: 1408075171160558967, guid: 1046f8b3a5cdd2644b5905cb5b7e8dd1, type: 3}
+          chancesIn100: 1

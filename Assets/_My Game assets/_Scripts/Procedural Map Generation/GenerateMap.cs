@@ -86,6 +86,7 @@ public class GenerateMap : NetworkBehaviour
             photosNotGenerated = false;
             SpawnPhotos();
             mapVisual.SpawnPhotos();
+            mapVisual.DropDroppablesInRoom();
         }
     }
 
@@ -1810,14 +1811,23 @@ public class Room
             bottomCells[i] = generateMap.mapCells[(int)start.x + i, (int)start.y];
         }
 
-        //for (int i = (int)start.x; i < (int)start.x + length; i++)
-        //{
-        //    for (int j = (int)start.y; j < (int)start.y + width; j++)
-        //    {
-        //        MapCell cell = generateMap.mapCells[i, j];
-        //        AllCells[(i * j) + j] = cell;
-        //    }
-        //}
+        int cellIndex = 0;
+
+        for (int i = (int)start.x; i < (int)start.x + length; i++)
+        {
+            for (int j = (int)start.y; j < (int)start.y + width; j++)
+            {
+                // Ensure we don't go outside the main map
+                    MapCell cell = generateMap.mapCells[i, j];
+
+                    // Use the safe counter
+                    if (cellIndex < AllCells.Length)
+                    {
+                        AllCells[cellIndex] = cell;
+                        cellIndex++;
+                    }
+            }
+        }
 
         BoundaryCells.Add(rightCells);
         BoundaryCells.Add(topCells);

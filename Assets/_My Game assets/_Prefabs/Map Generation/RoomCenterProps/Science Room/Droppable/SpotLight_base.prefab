@@ -20,7 +20,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &7909887221312322392
 Transform:
@@ -32,8 +32,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -36.144867, y: -2.7039273, z: -22.550545}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4312218993668528983}
   m_Father: {fileID: 0}
@@ -221,13 +221,13 @@ GameObject:
   - component: {fileID: 6396480593336920182}
   - component: {fileID: 6418937536748281278}
   - component: {fileID: 4584116688362309386}
-  - component: {fileID: 6810409285362149866}
+  - component: {fileID: 2182267590975280536}
   m_Layer: 0
   m_Name: Spotlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &6396480593336920182
 Transform:
@@ -297,8 +297,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &6810409285362149866
-MeshCollider:
+--- !u!65 &2182267590975280536
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -315,10 +315,9 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300006, guid: 6ebcc3cf4b50b1b42b8d0bcc0e4a198f, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 0.8780141, y: 0.46282536, z: 0.8073795}
+  m_Center: {x: 0.007842094, y: -0.07896441, z: -0.1654638}
 --- !u!1 &7367171778354026734
 GameObject:
   m_ObjectHideFlags: 0
@@ -330,13 +329,13 @@ GameObject:
   - component: {fileID: 4312218993668528983}
   - component: {fileID: 5936672188680633644}
   - component: {fileID: 2395370417323062119}
-  - component: {fileID: 5075967148661290565}
+  - component: {fileID: 778688412844533651}
   m_Layer: 0
   m_Name: Spotlight_turn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &4312218993668528983
 Transform:
@@ -407,8 +406,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &5075967148661290565
-MeshCollider:
+--- !u!65 &778688412844533651
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -425,7 +424,6 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300008, guid: 6ebcc3cf4b50b1b42b8d0bcc0e4a198f, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 0.93793756, y: 0.42319465, z: 0.4915542}
+  m_Center: {x: -0.0016490519, y: 0.0021725893, z: -0.39943883}

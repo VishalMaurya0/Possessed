@@ -216,6 +216,35 @@ public class MapVisual : NetworkBehaviour
         }
     }
 
+    public void DropDroppablesInRoom()
+    {
+        List<Room> rooms = generateMap.rooms;
+        for (int i = 0; i < rooms.Count; i++)
+        {
+            Room room = rooms[i];
+            if (room == null) continue;
+
+            int amountOfDroppablesTypesToSpawn = room.AllCells.Length + Random.Range(-2, 8);
+            List<PropsProbablity> propsProbablities = proceduralMapDataSO.MapMakingPrefabs.RoomProps.RoomTypes[room.roomType].Droppables;
+
+            for (int j = 0; j < amountOfDroppablesTypesToSpawn; j++)
+            {
+                //PropsProbablity droppableToSpawn = propsProbablities[Random.Range(0, propsProbablities.Count)];
+                if (propsProbablities == null || propsProbablities.Count <= 0) break;
+
+                MapCell cell = room.AllCells[Random.Range(0, room.AllCells.Length)];
+                if (cell == null) Debug.LogError("fgh");
+                Vector3 randomPos = new Vector3(Random.Range(0.1f, cell.width), cell.heightForSpawningObjects, Random.Range(0.1f, cell.width));
+                GameObject itemObj = Instantiate(FindPrefabWithTheirProbablity(propsProbablities), propContainer.transform);
+                NetworkObject netobj = itemObj.GetComponent<NetworkObject>();
+                netobj.Spawn();
+                netobj.TrySetParent(itemsContainer.transform, false);
+                itemObj.transform.position = cell.position + randomPos;
+                itemObj.transform.rotation = Random.rotation;
+            }
+        }
+    }
+
     //======= Photo Album Props ======//
     public void SpawnPhotos()
     {
@@ -259,8 +288,6 @@ public class MapVisual : NetworkBehaviour
     }
 
 
-
-
     private GameObject FindPropGameObj(MapCell cell)
     {
         Type prop = cell.prop;
@@ -271,6 +298,8 @@ public class MapVisual : NetworkBehaviour
 
 
         AllProps allProps = GetRoomProps(roomType, prop);
+        if (allProps.Props.Count <= 0)
+            return null;
         PropsVariation propsVariation = allProps.Props[Random.Range(0, allProps.Props.Count)];
         return FindPrefabWithTheirProbablity(propsVariation.Prop);
     }
