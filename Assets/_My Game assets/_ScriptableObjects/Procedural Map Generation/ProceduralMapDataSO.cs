@@ -45,6 +45,8 @@ public struct RoomPropsOfAType
     public AllProps RoomCornerProps;
     public AllProps WindowSideProp;
     public AllProps CeilingProps;
+
+    public List<PropsProbablity> Droppables;
 }
 
 [System.Serializable]

@@ -104,12 +104,6 @@ MonoBehaviour:
               chancesIn100: 10
             - prop: {fileID: 7837647790708826622, guid: 97a25ba22eb2da940a48a151da9ada79, type: 3}
               chancesIn100: 10
-          - propName: Geo Base
-            Prop:
-            - prop: {fileID: 2711424008024440009, guid: 393a6533e9ca63e40b4631a3917239b6, type: 3}
-              chancesIn100: 10
-            - prop: {fileID: 3181233163061696555, guid: 39392a8c95f605c4285520bab9f53d13, type: 3}
-              chancesIn100: 10
           - propName: ElectroBoxes
             Prop:
             - prop: {fileID: 1383657615073231048, guid: 43e1ecea777db4e4f8653cbd7460fab7, type: 3}
@@ -118,10 +112,30 @@ MonoBehaviour:
               chancesIn100: 100
             - prop: {fileID: 393102690823411953, guid: 27b16cc13298cad42a36ba5854e8e9f3, type: 3}
               chancesIn100: 100
-          - propName: OxygenSint
+          - propName: Geo Base
             Prop:
-            - prop: {fileID: 7629331034337814472, guid: 6fdcbe704f5b5b14281766d415f9ace5, type: 3}
-              chancesIn100: 100
+            - prop: {fileID: 2711424008024440009, guid: 393a6533e9ca63e40b4631a3917239b6, type: 3}
+              chancesIn100: 10
+            - prop: {fileID: 3181233163061696555, guid: 39392a8c95f605c4285520bab9f53d13, type: 3}
+              chancesIn100: 10
+            - prop: {fileID: 2152183590544580584, guid: 5565e32de65fdba4689371f9c2d321f0, type: 3}
+              chancesIn100: 10
+          - propName: Geo Base
+            Prop:
+            - prop: {fileID: 2711424008024440009, guid: 393a6533e9ca63e40b4631a3917239b6, type: 3}
+              chancesIn100: 10
+            - prop: {fileID: 3181233163061696555, guid: 39392a8c95f605c4285520bab9f53d13, type: 3}
+              chancesIn100: 10
+            - prop: {fileID: 2152183590544580584, guid: 5565e32de65fdba4689371f9c2d321f0, type: 3}
+              chancesIn100: 10
+          - propName: Geo Base
+            Prop:
+            - prop: {fileID: 2711424008024440009, guid: 393a6533e9ca63e40b4631a3917239b6, type: 3}
+              chancesIn100: 10
+            - prop: {fileID: 3181233163061696555, guid: 39392a8c95f605c4285520bab9f53d13, type: 3}
+              chancesIn100: 10
+            - prop: {fileID: 2152183590544580584, guid: 5565e32de65fdba4689371f9c2d321f0, type: 3}
+              chancesIn100: 10
         RoomCenterProps:
           propLocation: Center
           Props:
@@ -160,11 +174,7 @@ MonoBehaviour:
               chancesIn100: 100
         WindowSideProp:
           propLocation: Window Side
-          Props:
-          - propName: Window Table
-            Prop:
-            - prop: {fileID: 1383657615073231048, guid: 43e1ecea777db4e4f8653cbd7460fab7, type: 3}
-              chancesIn100: 10
+          Props: []
         CeilingProps:
           propLocation: 
           Props: []
