@@ -33,9 +33,14 @@ public class PlayerIndicatorInMinimap : NetworkBehaviour
 
         if (!IsOwner)
         {
+            if (GameDataRuntime.Instance == null)
+            {
+                Debug.LogWarning("GameDataRuntime instance is null.");
+                return;
+            }
 
-
-            if (GameDataRuntime.Instance.connectedClientsData != null && GameManager.Instance.connectedClientsData != null)
+            if (GameDataRuntime.Instance.connectedClientsData != null 
+                && GameManager.Instance.connectedClientsData != null)
             {
                 int count = Mathf.Min(GameDataRuntime.Instance.connectedClientsData.Count, GameManager.Instance.connectedClientsData.Count);
 

@@ -94,7 +94,7 @@ public class ItemCrafting : MonoBehaviour
         }
 
         itemState1 = new ItemState(currentItemData, inventory.selectedInventorySlot.quantity);
-        int totalStates = ScriptableObjectFinder.FindItemSO(currentItemData).noOfStates;
+        int totalStates = ScriptableObjectFinder.Instance.FindItemSO(currentItemData).noOfStates;
         Debug.Log($"[ItemCrafting] Checking recipes for Item: {currentItemData.itemType} with State: {itemState1.currentState}");
 
         foreach (var recipe in itemCraftingDataSO.itemStateCraftingRecipes)
@@ -148,7 +148,7 @@ public class ItemCrafting : MonoBehaviour
                 {
                     continue;
                 }
-                ItemDataSO itemDataSO = ScriptableObjectFinder.FindItemSO(slot.itemData);
+                ItemDataSO itemDataSO = ScriptableObjectFinder.Instance.FindItemSO(slot.itemData);
                 if (slot.itemData != null &&
                     slot.itemData.itemType == requiredType &&
                     !itemDataSO.isContainer &&
@@ -192,7 +192,7 @@ public class ItemCrafting : MonoBehaviour
     {
         Debug.Log($"[ItemCrafting] Crafting item with Recipe ID: {id}");
 
-        ItemDataSO idso = ScriptableObjectFinder.FindItemSO(selectedInventorySlot.itemData);
+        ItemDataSO idso = ScriptableObjectFinder.Instance.FindItemSO(selectedInventorySlot.itemData);
         ItemState A = itemCraftingDataSO.itemStateCraftingRecipes[id].ItemState1;
         ItemState B = itemCraftingDataSO.itemStateCraftingRecipes[id].ItemState2;
         ItemState C = itemCraftingDataSO.itemStateCraftingRecipes[id].CraftedItemState;

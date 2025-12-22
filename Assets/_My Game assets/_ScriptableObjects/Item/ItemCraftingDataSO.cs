@@ -28,7 +28,7 @@ public class ItemState
 
     public ItemState(ItemData itemdata, int amount)
     {
-        ItemDataSO idso = ScriptableObjectFinder.FindItemSO(itemdata);
+        ItemDataSO idso = ScriptableObjectFinder.Instance.FindItemSO(itemdata);
         if (amount > 0)
         {
             itemType = itemdata.itemType;

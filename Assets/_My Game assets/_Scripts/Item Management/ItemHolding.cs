@@ -148,7 +148,7 @@ public class ItemHolding : NetworkBehaviour
         if (item == null) { return; }
 
         //GameObject player = NetworkManager.Singleton.ConnectedClients[rpcParams.Receive.SenderClientId].PlayerObject.gameObject;       //----------Get the player who is throwing the item
-        GameObject itemInstance = Instantiate(ScriptableObjectFinder.FindItemSO(item).itemPrefab, spawnPos, spawnRot);//----------Instantiate it
+        GameObject itemInstance = Instantiate(ScriptableObjectFinder.Instance.FindItemSO(item).itemPrefab, spawnPos, spawnRot);//----------Instantiate it
         itemInstance.GetComponent<NetworkObject>().Spawn(true);                                                                        //-----------spawn
 
         ItemData newItemData = itemInstance.GetComponent<ItemPickup>().itemData;//----------get itemdata of spawned object and set values
@@ -208,7 +208,7 @@ public class ItemHolding : NetworkBehaviour
         heldItemData = itemData;
         if (itemData != null)
         {
-            itemPrefab = ScriptableObjectFinder.FindItemSO(itemData).itemPrefab;
+            itemPrefab = ScriptableObjectFinder.Instance.FindItemSO(itemData).itemPrefab;
         }
         else
         {
@@ -301,25 +301,80 @@ public class ItemHolding : NetworkBehaviour
         }
     }
 
-    private void HandleNewHeldItems(List<bool> itemTypeFlag)     // spawns the held item
+    private void HandleNewHeldItems(List<bool> itemTypeFlag)
     {
         for (int i = 0; i < itemTypeFlag.Count; i++)
         {
             if (itemTypeFlag[i])
             {
-                Destroy(heldItemPrefabs[i]);
-                heldItemPrefabs[i] = null;
+                if (heldItemPrefabs[i] != null)
+                {
+                    NetworkObject oldNetObj = heldItemPrefabs[i].GetComponent<NetworkObject>();
+
+                    if (oldNetObj != null)
+                    {
+                        RequestDespawnServerRPC(oldNetObj.NetworkObjectId);
+                    }
+                    else
+                    {
+                        Destroy(heldItemPrefabs[i]);
+                    }
+
+                    heldItemPrefabs[i] = null;
+                }
 
                 if (Inventory.inventorySlots[i].itemData == null) continue;
 
-                ItemDataSO idso = ScriptableObjectFinder.FindItemSO(Inventory.inventorySlots[i].itemData);
-                GameObject obj = heldItemPrefabs[i] = Instantiate(idso.dummyItemPrefab);
-                obj.GetComponent<NetworkObject>().Spawn();
-                var dummy = obj.AddComponent<DummyScriptForClassifyingItems>();
-                dummy.toFollow = heldItemPosition;
-                dummy.ItemData = Inventory.inventorySlots[i].itemData;
+                ItemData itemData = Inventory.inventorySlots[i].itemData;
+                PermissionToSpawnServerRPC((int)itemData.itemType, i);
             }
         }
     }
 
+
+    [ServerRpc]
+    private void RequestDespawnServerRPC(ulong networkObjectId)
+    {
+        if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(networkObjectId, out NetworkObject netObj))
+        {
+            netObj.Despawn();
+        }
+    }
+
+
+    [ServerRpc(RequireOwnership = false)]
+    private void PermissionToSpawnServerRPC(int itemID, int slotIndex, ServerRpcParams serverRpcParams = default)
+    {
+        ItemDataSO idso = ScriptableObjectFinder.Instance.FindItemSO(itemID);
+        if (idso == null || idso.dummyItemPrefab == null) return;
+
+        GameObject obj = Instantiate(idso.dummyItemPrefab);
+        NetworkObject netObj = obj.GetComponent<NetworkObject>();
+
+        netObj.SpawnWithOwnership(serverRpcParams.Receive.SenderClientId);
+
+        ClientRpcParams clientRpcParams = new ClientRpcParams
+        {
+            Send = new ClientRpcSendParams
+            {
+                TargetClientIds = new ulong[] { serverRpcParams.Receive.SenderClientId }
+            }
+        };
+
+        InformClientClientRPC(new NetworkObjectReference(netObj), slotIndex, clientRpcParams);
+    }
+
+    [ClientRpc]
+    private void InformClientClientRPC(NetworkObjectReference netObjRef, int slotIndex, ClientRpcParams clientRpcParams = default)
+    {
+        if (netObjRef.TryGet(out NetworkObject netObj))
+        {
+            GameObject obj = netObj.gameObject;
+            heldItemPrefabs[slotIndex] = obj;
+
+            var dummy = obj.AddComponent<DummyScriptForClassifyingItems>();
+            dummy.toFollow = heldItemPosition;
+            dummy.ItemData = Inventory.inventorySlots[slotIndex].itemData;
+        }
+    }
 }

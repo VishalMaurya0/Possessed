@@ -222,7 +222,7 @@ public class ProcedureCompletion : ProcedureBase
 
         if (itemToCheckAndAdd.ItemType == itemDataInInventory?.itemType)
         {
-            ItemDataSO itemDataSO = ScriptableObjectFinder.FindItemSO(itemDataInInventory);
+            ItemDataSO itemDataSO = ScriptableObjectFinder.Instance.FindItemSO(itemDataInInventory);
             bool isContainer = itemDataSO.isContainer;
 
             if (!isContainer)

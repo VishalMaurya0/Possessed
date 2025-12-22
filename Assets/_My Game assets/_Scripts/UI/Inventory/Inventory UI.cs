@@ -60,12 +60,12 @@ public class InventoryUI : MonoBehaviour
             int j = i + inventorySlotTracker.leftSlot.slots.Count + 1;
             if (inventorySlotTracker.leftSlot.slots[i].isFull && inventorySlotTracker.leftSlot.slots[i].inventorySlot.itemData != null)        //=======if left slot is full =======//
             {
-                ItemDataSO itemDataSO = ScriptableObjectFinder.FindItemSO(inventorySlotTracker.leftSlot.slots[i].inventorySlot.itemData);
+                ItemDataSO itemDataSO = ScriptableObjectFinder.Instance.FindItemSO(inventorySlotTracker.leftSlot.slots[i].inventorySlot.itemData);
                 SetIconPlaceholders(positions[i], i, false, itemDataSO.icon);
             }
             if (inventorySlotTracker.rightSlot.slots[i].isFull && inventorySlotTracker.rightSlot.slots[i].inventorySlot.itemData != null)      //=======if right slot is full =======//
             {
-                ItemDataSO itemDataSO = ScriptableObjectFinder.FindItemSO(inventorySlotTracker.rightSlot.slots[i].inventorySlot.itemData);
+                ItemDataSO itemDataSO = ScriptableObjectFinder.Instance.FindItemSO(inventorySlotTracker.rightSlot.slots[i].inventorySlot.itemData);
                 SetIconPlaceholders(positions[j], j, false, itemDataSO.icon);
             }
             if (!inventorySlotTracker.leftSlot.slots[i].isFull)                                                                                //=======if left slot is not full =======//
@@ -85,7 +85,7 @@ public class InventoryUI : MonoBehaviour
         }
         else if (inventorySlotTracker.currentSlot.slot.inventorySlot.itemData != null)
         {
-            ItemDataSO itemDataSO = ScriptableObjectFinder.FindItemSO(inventorySlotTracker.currentSlot.slot.inventorySlot.itemData);
+            ItemDataSO itemDataSO = ScriptableObjectFinder.Instance.FindItemSO(inventorySlotTracker.currentSlot.slot.inventorySlot.itemData);
             SetIconPlaceholders(positions[k], k, false, itemDataSO.icon);
         }
     }

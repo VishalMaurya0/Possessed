@@ -37,7 +37,7 @@ public class ItemAmountUI : MonoBehaviour
         ItemData itemData = inventory.inventorySlots[inventory.slotNo.Value].itemData;
         if (itemData != null)
         {
-            ItemDataSO idso = ScriptableObjectFinder.FindItemSO(itemData);
+            ItemDataSO idso = ScriptableObjectFinder.Instance.FindItemSO(itemData);
             totalAmountText.SetText($"{idso.maxStackSize}");
             itemNameText.SetText(idso.itemName);
 

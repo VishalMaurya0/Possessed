@@ -158,7 +158,7 @@ public class Inventory : NetworkBehaviour
         {
             return 0;
         }
-        ItemDataSO itemDataSO = ScriptableObjectFinder.FindItemSO(itemDataOriginal);
+        ItemDataSO itemDataSO = ScriptableObjectFinder.Instance.FindItemSO(itemDataOriginal);
         ItemData itemData = new ItemData(itemDataSO, itemDataOriginal.amount, itemDataOriginal.currentState);
 
 
@@ -323,7 +323,7 @@ public class Inventory : NetworkBehaviour
         {
             return;
         }
-        ItemDataSO selectedItemDataSO = ScriptableObjectFinder.FindItemSO(selectedInventorySlot.itemData);
+        ItemDataSO selectedItemDataSO = ScriptableObjectFinder.Instance.FindItemSO(selectedInventorySlot.itemData);
         if (!full)
         {
             selectedInventorySlot.quantity -= quantity;
@@ -361,7 +361,7 @@ public class Inventory : NetworkBehaviour
         if (inventorySlots[slotNo].quantity < quantity) { return; }
 
 
-        ItemDataSO selectedItemDataSO = ScriptableObjectFinder.FindItemSO(inventorySlots[slotNo].itemData);
+        ItemDataSO selectedItemDataSO = ScriptableObjectFinder.Instance.FindItemSO(inventorySlots[slotNo].itemData);
         inventorySlots[slotNo].quantity -= quantity;
         weight.Value -= selectedItemDataSO.weight * quantity;
 
@@ -385,7 +385,7 @@ public class Inventory : NetworkBehaviour
 
         //Debug.Log($"Changing state of item in slot {slotNumber} by {changeInState}.");
 
-        ItemDataSO itemDataSO = ScriptableObjectFinder.FindItemSO(inventorySlots[slotNumber].itemData);
+        ItemDataSO itemDataSO = ScriptableObjectFinder.Instance.FindItemSO(inventorySlots[slotNumber].itemData);
         InventorySlot slot = inventorySlots[slotNumber];
         int totalAmountInItem = itemDataSO.noOfStates - 1;
         int currentState = slot.itemData.currentState;

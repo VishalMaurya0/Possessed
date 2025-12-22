@@ -14,7 +14,7 @@ public class DummyScriptForClassifyingItems : MonoBehaviour
 
     private void Start()
     {
-        ItemDataSO = ScriptableObjectFinder.FindItemSO(ItemData);
+        ItemDataSO = ScriptableObjectFinder.Instance.FindItemSO(ItemData);
     }
 
     private Vector3 velocity;

@@ -86,7 +86,7 @@ public class ItemSpawningInPropsManager : MonoBehaviour
                     continue;
                 }
 
-                GameObject obj = Instantiate(ScriptableObjectFinder.FindItemSO(itemSpawningDataInProps_1.itemData).itemPrefab, position.position, position.rotation);
+                GameObject obj = Instantiate(ScriptableObjectFinder.Instance.FindItemSO(itemSpawningDataInProps_1.itemData).itemPrefab, position.position, position.rotation);
                 NetworkObject netobj = obj.GetComponent<NetworkObject>();
                 netobj.Spawn();
                 netobj.TrySetParent(itemsContainer.transform, false);
