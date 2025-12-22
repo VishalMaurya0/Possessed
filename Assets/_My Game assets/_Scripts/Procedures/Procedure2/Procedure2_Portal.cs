@@ -1,4 +1,3 @@
-using Codice.CM.Client.Differences;
 using UnityEngine;
 
 public class Procedure2_Portal : MonoBehaviour

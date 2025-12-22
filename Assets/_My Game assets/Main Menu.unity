@@ -40505,7 +40505,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 243864778437365490, guid: b3e9cd88a146b5b44a5d6fbe1eddb79c, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 5d6f11f7bd3d5174e9f8e6e7c38e218c, type: 3}
+  m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 5d6f11f7bd3d5174e9f8e6e7c38e218c, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.25
@@ -62292,7 +62292,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 243864778437365490, guid: b3e9cd88a146b5b44a5d6fbe1eddb79c, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 5d6f11f7bd3d5174e9f8e6e7c38e218c, type: 3}
+  m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 5d6f11f7bd3d5174e9f8e6e7c38e218c, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.25
@@ -86779,6 +86779,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerIndicatorColor: {r: 1, g: 1, b: 1, a: 1}
+  connectedClientsData: []
 --- !u!4 &1354781516
 Transform:
   m_ObjectHideFlags: 0
@@ -104735,8 +104736,12 @@ MonoBehaviour:
   inventorySlots: 5
   maxWeight: 15
   playerIndicatorColor: {r: 0, g: 0, b: 0, a: 0}
+  connectedClientsData: []
+  connectedClientsNumber:
+    m_InternalValue: 0
   selectedProceduresIndex: 
   completedProcedures: 
+  collectedPhotos: []
   timeInSecElapsed: 0
   lockCurser: 0
   handlePlayerLookWithMouse: 1
@@ -104747,11 +104752,15 @@ MonoBehaviour:
   AllProcedures: []
   taskManager: {fileID: 0}
   HelpInstructions: {fileID: 0}
+  helpInstructionDisplayTime: 0
+  winLoseAnimator: {fileID: 0}
+  photoAlbum: {fileID: 0}
   PlayButton: {fileID: 1758933382}
   PublicPrivateToggle: {fileID: 1106880489}
   LoadingPanel: {fileID: 219779672}
   playerName_InputFieldA: {fileID: 657654610}
   playerName_InputFieldB: {fileID: 1761749863}
+  winText: {fileID: 0}
 --- !u!4 &1639809913
 Transform:
   m_ObjectHideFlags: 0
@@ -112775,7 +112784,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 243864778437365490, guid: b3e9cd88a146b5b44a5d6fbe1eddb79c, type: 2}
-  m_audioClip: {fileID: 8300000, guid: ffcb7dedbe16d8d4994f06a6b8bf09cb, type: 3}
+  m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: ffcb7dedbe16d8d4994f06a6b8bf09cb, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -133929,7 +133938,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6960e84d07fb87f47956e7a81d71c4e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ProtocolType: 0
+  m_ProtocolType: 1
   m_UseWebSockets: 0
   m_UseEncryption: 0
   m_MaxPacketQueueSize: 128

@@ -290,13 +290,14 @@ public class ItemHolding : NetworkBehaviour
 
         for (int i = 0; i < heldItemPrefabs.Count; i++)
         {
+            if (heldItemPrefabs[i] == null) continue;
             if (i != slot)
             {
-                heldItemPrefabs[i]?.SetActive(false);
+                heldItemPrefabs[i].SetActive(false);
             }
             if (i == slot)
             {
-                heldItemPrefabs[i]?.SetActive(true);
+                heldItemPrefabs[i].SetActive(true);
             }
         }
     }
