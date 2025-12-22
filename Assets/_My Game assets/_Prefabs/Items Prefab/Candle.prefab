@@ -264,7 +264,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.5454979, y: 0.081033766, z: 0.6151085}
+  m_Size: {x: 0.82, y: 0.081033766, z: 0.6151085}
   m_Center: {x: 0.00034284592, y: -0.3627849, z: 0.0017819405}
 --- !u!136 &7567242308874324563
 CapsuleCollider:
@@ -335,6 +335,7 @@ MonoBehaviour:
     photoType: 0
     photoId: 0
   ItemDataSO: {fileID: 11400000, guid: b0f89460af4a27840a30737c3ae94662, type: 2}
+  inspection: {fileID: 0}
   networkObject: {fileID: 0}
 --- !u!114 &4389121194185173623
 MonoBehaviour:
@@ -444,7 +445,6 @@ MonoBehaviour:
   isInspecting: 0
   meshRenderers: []
   outlineMat: {fileID: 0}
-  collider: {fileID: 0}
 --- !u!114 &-2377024887794213282
 MonoBehaviour:
   m_ObjectHideFlags: 0

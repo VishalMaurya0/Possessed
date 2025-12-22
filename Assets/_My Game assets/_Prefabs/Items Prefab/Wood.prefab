@@ -328,6 +328,7 @@ MonoBehaviour:
     photoType: 0
     photoId: 0
   ItemDataSO: {fileID: 11400000, guid: 1b99ee0caa102eb42860807ae7834750, type: 2}
+  inspection: {fileID: 0}
   networkObject: {fileID: 0}
 --- !u!114 &4389121194185173623
 MonoBehaviour:
@@ -437,7 +438,6 @@ MonoBehaviour:
   isInspecting: 0
   meshRenderers: []
   outlineMat: {fileID: 2100000, guid: e3b54984f9c161147941f1f31706a911, type: 2}
-  collider: {fileID: 0}
 --- !u!114 &-4099602978446259901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -472,7 +472,7 @@ CapsuleCollider:
   m_Radius: 0.25950348
   m_Height: 2.4442384
   m_Direction: 0
-  m_Center: {x: 0.058065895, y: 0.04358459, z: -0.03278977}
+  m_Center: {x: 0, y: -0.03, z: 0.01}
 --- !u!114 &-8333890661437349915
 MonoBehaviour:
   m_ObjectHideFlags: 0
