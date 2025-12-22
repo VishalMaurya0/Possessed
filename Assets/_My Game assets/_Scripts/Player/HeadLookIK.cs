@@ -1,6 +1,7 @@
+using Unity.Netcode;
 using UnityEngine;
 
-public class HeadLookIK : MonoBehaviour
+public class HeadLookIK : NetworkBehaviour
 {
     public Transform targetCamera;
     public float lookWeight = 1.0f;
@@ -13,6 +14,10 @@ public class HeadLookIK : MonoBehaviour
 
     void OnAnimatorIK(int layerIndex)
     {
+        //if (!IsOwner)
+        //{
+        //    return;
+        //}
         if (anim && targetCamera)
         {
             // Set the weight (1 = fully look, 0 = don't look)

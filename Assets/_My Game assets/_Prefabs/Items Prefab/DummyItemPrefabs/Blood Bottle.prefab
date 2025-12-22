@@ -43,6 +43,8 @@ GameObject:
   - component: {fileID: 8604905558400547467}
   - component: {fileID: 547467232829629156}
   - component: {fileID: 5757899213514740929}
+  - component: {fileID: 8887493390372010939}
+  - component: {fileID: 2540063250590536701}
   m_Layer: 0
   m_Name: Blood Bottle
   m_TagString: Untagged
@@ -138,6 +140,41 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!114 &8887493390372010939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3231096909363431170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ba5c76948ff9d54c8e095d98194cbac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2540063250590536701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3231096909363431170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bd1421350672e84ca60e54f9506ac87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  itemData:
+    itemType: 2
+    currentState: 0
+    amount: 1
+    isOn: 0
+    photoType: 0
+    photoId: 0
+  ItemDataSO: {fileID: 11400000, guid: 3e04f57a27d6fc54ba34d427d320f168, type: 2}
+  inspection: {fileID: 0}
+  networkObject: {fileID: 0}
 --- !u!1 &3843094963348074336
 GameObject:
   m_ObjectHideFlags: 0

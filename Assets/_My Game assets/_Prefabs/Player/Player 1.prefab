@@ -903,6 +903,7 @@ GameObject:
   - component: {fileID: 783850877177941694}
   - component: {fileID: 4450471158361292249}
   - component: {fileID: 7154858739104671096}
+  - component: {fileID: 2729733652107298604}
   m_Layer: 12
   m_Name: Player 1
   m_TagString: Player
@@ -1082,6 +1083,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8fecbd34ca2ef84aac798001b8da1df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   walkSpeed: 3
   sprintSpeed: 6
   crouchSpeed: 1.5
@@ -1104,11 +1106,12 @@ MonoBehaviour:
   crouchKey: 306
   torchToggleKey: 116
   playerVisual: {fileID: 3635968934060461195}
-  playerCamera: {fileID: 7644840573191448947}
-  wallDetection: {fileID: 0}
+  player_GhostCamera: {fileID: 7644840573191448947}
+  wallDetection: {fileID: 5250367066418796619}
   animator: {fileID: 1415286437295232965}
   collisionNormal: {x: 0, y: 0, z: 0}
   playerData: {fileID: 11400000, guid: 90e601a80ebcdd34284ea39b4ff2a519, type: 2}
+  headLookTarget: {fileID: 0}
 --- !u!114 &-6953325095380937464
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1319,6 +1322,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   playerVisibleGameobject: {fileID: 8541091514147799486}
+--- !u!114 &2729733652107298604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8596613677294679421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  TransitionStateInfoList: []
+  m_Animator: {fileID: 1415286437295232965}
 --- !u!1 &8661401823799451394
 GameObject:
   m_ObjectHideFlags: 0
@@ -1475,6 +1493,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd0863a11d88d1349be33db14b8b7f21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   targetCamera: {fileID: 7644840573191448947}
   lookWeight: 1
 --- !u!1001 &8886482963032696171

@@ -195,7 +195,8 @@ GameObject:
   - component: {fileID: -913701108965247333}
   - component: {fileID: -2377024887794213282}
   - component: {fileID: -7094455517721680514}
-  m_Layer: 0
+  - component: {fileID: 5318546492834408253}
+  m_Layer: 11
   m_Name: Mirror
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -363,6 +364,27 @@ MonoBehaviour:
   mirrorSurface: {fileID: 7425413343024482496}
   referenceMat: {fileID: 2100000, guid: c176e2db8cda4914e8a1c61b5aafd6af, type: 2}
   GoAccordingToPlayer: 1
+--- !u!65 &5318546492834408253
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6905787541895510452}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 2.0036826, z: 0.23720121}
+  m_Center: {x: 0, y: -0.020073652, z: 0.10036826}
 --- !u!1 &8075723469075855652
 GameObject:
   m_ObjectHideFlags: 0

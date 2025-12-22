@@ -271,6 +271,7 @@ GameObject:
   - component: {fileID: 5159991390414626159}
   - component: {fileID: 5699891469130011811}
   - component: {fileID: 4994719202018554259}
+  - component: {fileID: 1035432598578008973}
   m_Layer: 11
   m_Name: EnergyDetectorDummy
   m_TagString: Untagged
@@ -377,7 +378,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a741980f8bdbcb3429b33b0641bc28ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
   power_0_1:
     m_InternalValue: 0
   power: []
@@ -422,6 +422,29 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.04
   m_Center: {x: -0.07, y: 0.28, z: -0.03}
+--- !u!114 &1035432598578008973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2199426314418571336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bd1421350672e84ca60e54f9506ac87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  itemData:
+    itemType: 11
+    currentState: 0
+    amount: 1
+    isOn: 0
+    photoType: 0
+    photoId: 0
+  ItemDataSO: {fileID: 11400000, guid: 081114c93467eb74ca53acbc54c96091, type: 2}
+  inspection: {fileID: 0}
+  networkObject: {fileID: 0}
 --- !u!1 &2565893543381987453
 GameObject:
   m_ObjectHideFlags: 0

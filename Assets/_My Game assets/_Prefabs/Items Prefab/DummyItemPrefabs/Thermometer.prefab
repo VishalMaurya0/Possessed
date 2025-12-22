@@ -190,6 +190,7 @@ GameObject:
   - component: {fileID: 4391990946203573274}
   - component: {fileID: 6372339415309622580}
   - component: {fileID: 5323863344163967360}
+  - component: {fileID: 692709985433004096}
   m_Layer: 0
   m_Name: Thermometer
   m_TagString: Untagged
@@ -320,6 +321,27 @@ MonoBehaviour:
   bar: {fileID: 4073918068981407577}
   minPressureScale: 0.2
   maxPressureScale: 3.5
+--- !u!65 &692709985433004096
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1220045408272392077}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.060173035, y: 0.39008284, z: 0.051239014}
+  m_Center: {x: -0.014507294, y: 0.29285693, z: 0.01694107}
 --- !u!1 &3766988682984598840
 GameObject:
   m_ObjectHideFlags: 0
@@ -528,10 +550,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Thermometer
       objectReference: {fileID: 0}
+    - target: {fileID: 9141816029861474070, guid: eccaabfac7ee29040a4da00914230511, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 9141816029861474070, guid: eccaabfac7ee29040a4da00914230511, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5190002520825630010}
   m_SourcePrefab: {fileID: 100100000, guid: eccaabfac7ee29040a4da00914230511, type: 3}
 --- !u!4 &1122960932700695899 stripped
 Transform:
@@ -543,3 +572,29 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: -5722315222512314903, guid: eccaabfac7ee29040a4da00914230511, type: 3}
   m_PrefabInstance: {fileID: 585246373070850736}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8557251917450061222 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9141816029861474070, guid: eccaabfac7ee29040a4da00914230511, type: 3}
+  m_PrefabInstance: {fileID: 585246373070850736}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &5190002520825630010
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8557251917450061222}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.0000074, y: 53.514133, z: 2.0000029}
+  m_Center: {x: 0.000062616324, y: 15.119337, z: 0.000000675887}

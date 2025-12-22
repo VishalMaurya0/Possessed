@@ -1,8 +1,9 @@
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : NetworkBehaviour
 {
     [Header("Movement Settings")]
     public float walkSpeed = 3.0f;
@@ -42,7 +43,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("--References--")] 
     public Transform playerVisual;
-    public Transform playerCamera;
+    public Transform player_GhostCamera;
     public WallDetection wallDetection;
     public Animator animator;
 
@@ -55,85 +56,169 @@ public class PlayerController : MonoBehaviour
     private float horizontalLookRotation = 0f;
     public PlayerDataSO playerData;
 
+    private NetworkVariable<Quaternion> netVisualRotation = new NetworkVariable<Quaternion>(
+        Quaternion.identity,
+        NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Owner
+    ); 
+    [Header("IK Settings")]
+    private NetworkVariable<Quaternion> netLookRotation = new NetworkVariable<Quaternion>(
+        Quaternion.identity, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner
+    );
+    private NetworkVariable<float> netAnimSpeed = new NetworkVariable<float>(
+    0f,
+    NetworkVariableReadPermission.Everyone,
+    NetworkVariableWritePermission.Owner
+);
+
+
+    public override void OnNetworkSpawn()
+    {
+        if (!IsOwner)
+        {
+            //if (playerCamera != null) playerCamera.gameObject.SetActive(false);
+            //if (staminaSlider != null) staminaSlider.gameObject.SetActive(false);
+            return;
+        }
+
+        if (player_GhostCamera != null)
+            horizontalLookRotation = player_GhostCamera.localEulerAngles.y;
+
+        if (staminaSlider == null)
+        {
+            GameObject uiObj = GameObject.FindWithTag("StaminaUI");
+            if (uiObj != null)
+            {
+                staminaSlider = uiObj.GetComponent<Slider>();
+                if (staminaSlider != null) staminaImage = staminaSlider.fillRect.GetComponent<Image>();
+            }
+        }
+    }
+
     void Start()
     {
-        if (animator == null)       
-            animator = GetComponentInChildren<Animator>();
-
-        walkSpeed = playerData.walkSpeed;
-        sprintSpeed = playerData.sprintSpeed;
-        crouchSpeed = playerData.crouchSpeed;
-        rotationSpeed = playerData.rotationSpeed;
-
-        lookSensitivity = playerData.lookSensitivity;
-        maxLookAngle = playerData.maxLookAngle;
-
-        maxStamina = playerData.maxStamina;
-        staminaRecoveryRate = playerData.staminaRecoveryRate;
-        XfasterStaminaRecoveryRate = playerData.XfasterStaminaRecoveryRate;
-        staminaDepletionRate = playerData.staminaDepletionRate;
-
-        //torchLight = playerData.torchLight;
-
-        sprintKey = playerData.sprintKey;
-        crouchKey = playerData.crouchKey;
-        torchToggleKey = playerData.torchToggleKey;
-
-
-        wallDetection = transform.GetChild(1).GetComponent<WallDetection>();
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         currentStamina = maxStamina;
 
-        if (torchLight != null) torchLight.enabled = isTorchOn;
+        if (animator == null) animator = GetComponentInChildren<Animator>();
 
-        if (playerCamera != null)
-            horizontalLookRotation = playerCamera.localEulerAngles.y;
+        // Wall detection safety check
+        if (transform.childCount > 1 && wallDetection == null)
+            wallDetection = transform.GetChild(1).GetComponent<WallDetection>();
 
-        if (staminaSlider == null)
-        {
-            staminaSlider = GameObject.FindWithTag("StaminaUI").GetComponent<Slider>();
-            staminaImage = staminaSlider.fillRect.GetComponent<Image>();
-        }
+        if (playerData != null) ApplyDataSO();
+
+        //if (IsOwner)
+        //{ 
+        //    NetworkObject playerNetObj = playerCamera.GetComponent<NetworkObject>();
+        //    if (playerNetObj != null && !playerNetObj.IsOwner)
+        //    {
+        //        playerNetObj.ChangeOwnership(NetworkManager.Singleton.LocalClientId);
+        //    }
+        //    playerNetObj.Spawn();
+        //    playerNetObj.TrySetParent(transform, false);
+        //}
+    }
+
+    private void ApplyDataSO()
+    {
+        walkSpeed = playerData.walkSpeed;
+        sprintSpeed = playerData.sprintSpeed;
+        crouchSpeed = playerData.crouchSpeed;
+        rotationSpeed = playerData.rotationSpeed;
+        lookSensitivity = playerData.lookSensitivity;
+        maxLookAngle = playerData.maxLookAngle;
+        maxStamina = playerData.maxStamina;
+        staminaRecoveryRate = playerData.staminaRecoveryRate;
+        XfasterStaminaRecoveryRate = playerData.XfasterStaminaRecoveryRate;
+        staminaDepletionRate = playerData.staminaDepletionRate;
+        sprintKey = playerData.sprintKey;
+        crouchKey = playerData.crouchKey;
+        torchToggleKey = playerData.torchToggleKey;
     }
 
     void Update()
     {
-        if (GameManager.Instance.handleMovement)
+        float currentSpeed = 0f;
+        if (IsOwner)
         {
-            HandleMovementInput();
-        }
-        HandleTorchToggle();
-        if (GameManager.Instance.handlePlayerLookWithMouse)
-        {
-            HandleMouseMovement();
-
-            // --- NEW LOGIC START ---
-            // If we are NOT inputting movement (Standing still)
-            if (movementInput.magnitude < 0.1f)
+            if (GameManager.Instance.handleMovement)
             {
-                HandleTurnInPlace(); // Call the new function
+                HandleMovementInput();
+            }
+            HandleTorchToggle();
 
-                // Set animator speed to 0 just to be safe/clean
-                animator.SetFloat("Speed", 0f, 0.1f, Time.deltaTime);
+            if (GameManager.Instance.handlePlayerLookWithMouse)
+            {
+                HandleMouseMovement();
+
+                // Turn in place logic
+                if (movementInput.magnitude < 0.1f) HandleTurnInPlace();
+                else
+                {
+                    // Animation speed logic
+                    bool isSprintingInput = Input.GetKey(sprintKey);
+                    currentSpeed = isSprintingInput ? 1.0f : 0.5f;
+                    // (You can also set animator speed here if you want)
+                }
+
+                // SYNC 1: Send Visual Rotation to Network
+                if (playerVisual != null)
+                {
+                    netVisualRotation.Value = playerVisual.rotation;
+                }
+
+                if (Mathf.Abs(Quaternion.Angle(netLookRotation.Value, player_GhostCamera.localRotation)) > 1f)
+                {
+                    netLookRotation.Value = player_GhostCamera.localRotation;
+                }
+            }
+        }
+
+        else // If we are NOT the owner
+        {
+            // Read the Network Variable and rotate the body smoothly
+            if (playerVisual != null)
+            {
+                playerVisual.rotation = Quaternion.Slerp(
+                    playerVisual.rotation,
+                    netVisualRotation.Value,
+                    rotationSpeed * Time.deltaTime
+                );
+            }
+
+            player_GhostCamera.localRotation = netLookRotation.Value;
+        }
+
+        // --- 5. ANIMATOR SYNC ---
+        if (animator != null)
+        {
+            if (IsOwner)
+            {
+                float effectiveSpeed = 0f;
+                if (rb != null)
+                {
+                    effectiveSpeed = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z).magnitude;
+                }
+
+                netAnimSpeed.Value = effectiveSpeed;
+
+                animator.SetFloat("Speed", effectiveSpeed * (1f / sprintSpeed), 0.1f, Time.deltaTime);
             }
             else
             {
-                // Existing Animation Logic for when moving...
-                float currentSpeed = 0f;
-                if (movementInput.magnitude > 0.1f)
-                {
-                    bool isSprintingInput = Input.GetKey(sprintKey);
-                    currentSpeed = isSprintingInput ? 1.0f : 0.5f;
-                }
-                animator.SetFloat("Speed", currentSpeed, 0.1f, Time.deltaTime);
-            }                                                              
-        }
+                float networkSpeed = netAnimSpeed.Value;
 
+                animator.SetFloat("Speed", networkSpeed * (1f / sprintSpeed), 0.1f, Time.deltaTime);
+            }
+        }
     }
+
 
     void FixedUpdate()
     {
+        if (!IsOwner) return;
         if (GameManager.Instance.handleMovement)
         {
             MovePlayerFU();
@@ -167,8 +252,8 @@ public class PlayerController : MonoBehaviour
         float speed = walkSpeed;
         // --- 1. MOVEMENT CALCULATION (Camera Relative) ---
         // We calculate direction based on where the CAMERA is facing, not the player.
-        Vector3 camForward = playerCamera.forward;
-        Vector3 camRight = playerCamera.right;
+        Vector3 camForward = player_GhostCamera.forward;
+        Vector3 camRight = player_GhostCamera.right;
 
         // Flatten Y so looking up/down doesn't slow you down
         camForward.y = 0;
@@ -248,7 +333,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // --- 5. ANIMATOR ---
-        animator.SetFloat("Speed", movementDirection.magnitude * (speed / sprintSpeed));
+        //animator.SetFloat("Speed", movementDirection.magnitude * (speed / sprintSpeed));
 
     }
     //private void OnCollisionStay(Collision collision)
@@ -280,6 +365,7 @@ public class PlayerController : MonoBehaviour
 
     private void HandleTorchToggle()
     {
+            if (!IsOwner) return;
         if (Input.GetKeyDown(torchToggleKey) && torchLight != null)
         {
             isTorchOn = !isTorchOn;
@@ -302,13 +388,13 @@ public class PlayerController : MonoBehaviour
         verticalLookRotation -= mouseY;
         verticalLookRotation = Mathf.Clamp(verticalLookRotation, -maxLookAngle, maxLookAngle);
 
-        playerCamera.localRotation = Quaternion.Euler(verticalLookRotation, horizontalLookRotation, 0);
+        player_GhostCamera.localRotation = Quaternion.Euler(verticalLookRotation, horizontalLookRotation, 0);
     }
 
     private void HandleTurnInPlace()
     {
         // 1. Get the camera direction, but ignore Up/Down (flatten it)
-        Vector3 camForward = playerCamera.forward;
+        Vector3 camForward = player_GhostCamera.forward;
         camForward.y = 0;
         camForward.Normalize();
 

@@ -1082,6 +1082,7 @@ MonoBehaviour:
     photoType: 0
     photoId: 0
   ItemDataSO: {fileID: 11400000, guid: 081114c93467eb74ca53acbc54c96091, type: 2}
+  inspection: {fileID: 0}
   networkObject: {fileID: 0}
 --- !u!114 &1392419672695617844
 MonoBehaviour:
@@ -1101,7 +1102,6 @@ MonoBehaviour:
   isInspecting: 0
   meshRenderers: []
   outlineMat: {fileID: 0}
-  collider: {fileID: 0}
 --- !u!65 &4056507842654779843
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1138,7 +1138,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3

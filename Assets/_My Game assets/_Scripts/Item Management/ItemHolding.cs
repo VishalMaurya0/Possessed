@@ -314,7 +314,7 @@ public class ItemHolding : NetworkBehaviour
 
                 ItemDataSO idso = ScriptableObjectFinder.FindItemSO(Inventory.inventorySlots[i].itemData);
                 GameObject obj = heldItemPrefabs[i] = Instantiate(idso.dummyItemPrefab);
-                //obj.GetComponent<NetworkObject>().Spawn();
+                obj.GetComponent<NetworkObject>().Spawn();
                 var dummy = obj.AddComponent<DummyScriptForClassifyingItems>();
                 dummy.toFollow = heldItemPosition;
                 dummy.ItemData = Inventory.inventorySlots[i].itemData;

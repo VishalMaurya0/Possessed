@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 6214040492802412030}
   - component: {fileID: 2796328996737373585}
   - component: {fileID: 7979914785864164276}
-  m_Layer: 0
+  - component: {fileID: 3610295550028536897}
+  m_Layer: 11
   m_Name: Pure Powder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,6 +108,27 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!135 &3610295550028536897
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 973157267671511159}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.38
+  m_Center: {x: 0, y: 0.36, z: 0}
 --- !u!1 &1442025330795239445
 GameObject:
   m_ObjectHideFlags: 0

@@ -286,7 +286,7 @@ public class Network_Manager : NetworkBehaviour
         {
             runOnce = false;
 
-            Transform cameraTransform_ = player.transform.childCount > 0 ? player.transform.GetChild(0) : null;
+            Transform cameraTransform_ = player.transform.childCount > 0 ? player.GetComponent<PlayerController>().player_GhostCamera.transform : null;
             if (cameraTransform_ != null)
             {
                 cameraMovement.cameraTransform = cameraTransform_;

@@ -73,7 +73,8 @@ GameObject:
   - component: {fileID: 4052644312508887773}
   - component: {fileID: 5246649620936731314}
   - component: {fileID: 53775290705042583}
-  m_Layer: 0
+  - component: {fileID: -7670361773857259337}
+  m_Layer: 11
   m_Name: Voodoo Doll
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -169,6 +170,29 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!136 &-7670361773857259337
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7169747105544572756}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1.9601038
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.015819073, z: 0}
 --- !u!1 &8791673009192740662
 GameObject:
   m_ObjectHideFlags: 0
