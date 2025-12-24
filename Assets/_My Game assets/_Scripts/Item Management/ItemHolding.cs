@@ -281,7 +281,7 @@ public class ItemHolding : NetworkBehaviour
                 continue;
             }
 
-            if (Inventory.inventorySlots[i] != null && heldItemPrefabs[i] == null)
+            if (Inventory.inventorySlots[i] != null && heldItemPrefabs[i] == null && Inventory.inventorySlots[i].itemData != null)
             {
                 itemTypeFlag[i] = true;
                 continue;
@@ -334,7 +334,6 @@ public class ItemHolding : NetworkBehaviour
                 {
                     NetworkObject oldNetObj = heldItemPrefabs[i].GetComponent<NetworkObject>();
 
-        Debug.LogError("fg");
                     if (oldNetObj != null)
                     {
                         if (IsOwner)
@@ -353,8 +352,8 @@ public class ItemHolding : NetworkBehaviour
                 if (IsOwner)
                 {
                     ItemData itemData = Inventory.inventorySlots[i].itemData;
-                    PermissionToSpawnServerRPC((int)itemData.itemType, i);
                     _isSlotPendingSpawn[i] = true;
+                    PermissionToSpawnServerRPC((int)itemData.itemType, i);
                 }
             }
         }
@@ -364,7 +363,6 @@ public class ItemHolding : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void RequestDespawnServerRPC(ulong networkObjectId)
     {
-        Debug.LogError("fg");
         if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(networkObjectId, out NetworkObject netObj))
         {
             netObj.Despawn();

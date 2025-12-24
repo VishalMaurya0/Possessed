@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4152039754868849439}
   - component: {fileID: 6231830732810960480}
   - component: {fileID: -4253608166200692985}
-  - component: {fileID: 2336031472030148251}
   m_Layer: 0
   m_Name: Prop 4
   m_TagString: Untagged
@@ -143,21 +142,6 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
---- !u!114 &2336031472030148251
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3227288110940223800}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30f0af295a6eb32419d68de0f113a631, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  propID: 0
-  positions:
-  - {fileID: 0}
 --- !u!1001 &459567454207473219
 PrefabInstance:
   m_ObjectHideFlags: 0
