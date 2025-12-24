@@ -62,6 +62,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\TutorialInfo\Scripts\Editor\ReadmeEditor.cs" />
+    <Compile Include="Assets\Outside Assets\Dark UI\Editor\InitDarkUI.cs" />
+    <Compile Include="Assets\Outside Assets\Dungeon\_SNAPS_PrototypingAssets\Scripts\Editor\PackageChecker\PackageChecker.cs" />
+    <Compile Include="Assets\Outside Assets\Props\Prototype Collection\Assets\Editor\StartScreen.cs" />
+    <Compile Include="Assets\Outside Assets\Props\Prototype Collection\Assets\Editor\Preferences.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Library\PackageCache\com.unity.collab-proxy@1e5e48aff19d\Lib\Editor\Localization\commontypes.ko.txt" />
@@ -140,6 +144,7 @@
     <None Include="Library\PackageCache\com.unity.collab-proxy@1e5e48aff19d\Lib\Editor\Localization\semantic.zh-Hans.txt" />
     <None Include="Library\PackageCache\com.unity.collab-proxy@1e5e48aff19d\Lib\Editor\Localization\differences.zh-Hant.txt" />
     <None Include="Library\PackageCache\com.unity.postprocessing@94edadb6c5ab\PostProcessing\Shaders\Editor\CurveGrid.shader" />
+    <None Include="Assets\Outside Assets\Dungeon\_SNAPS_PrototypingAssets\Scripts\Editor\PackageChecker\settings\PackageImportList_ShaderGraph.txt" />
     <None Include="Library\PackageCache\com.unity.collab-proxy@1e5e48aff19d\Lib\Editor\Localization\basecommands.zh-Hant.txt" />
     <None Include="Library\PackageCache\com.unity.collab-proxy@1e5e48aff19d\Lib\Editor\Localization\differences.ko.txt" />
     <None Include="Library\PackageCache\com.unity.collab-proxy@1e5e48aff19d\Lib\Editor\Localization\guihelp.ja.txt" />
@@ -165,6 +170,7 @@
     <None Include="Library\PackageCache\com.unity.collab-proxy@1e5e48aff19d\Lib\Editor\Localization\clientcommon.en.txt" />
     <None Include="Library\PackageCache\com.unity.collab-proxy@1e5e48aff19d\Lib\Editor\zlib64Plastic.dll" />
     <None Include="Library\PackageCache\com.unity.collab-proxy@1e5e48aff19d\Lib\Editor\Localization\workspaceserver.es.txt" />
+    <None Include="Assets\Outside Assets\Dungeon\_SNAPS_PrototypingAssets\Scripts\Editor\PackageChecker\PackageImportList.txt" />
     <None Include="Library\PackageCache\com.unity.collab-proxy@1e5e48aff19d\Lib\Editor\Localization\xdiff.zh-Hans.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -1269,10 +1275,6 @@
     <ProjectReference Include="Unity.Multiplayer.Center.Editor.csproj">
       <Project>{1E2306D2-2D6D-38E1-D04D-95B65B47F9D5}</Project>
       <Name>Unity.Multiplayer.Center.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="OutsideAssets.csproj">
-      <Project>{D4F68138-4C86-A611-BA2A-E4FFED7330D5}</Project>
-      <Name>OutsideAssets</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.RenderPipelines.Core.Samples.Editor.csproj">
       <Project>{B2FE46FE-5906-B648-3AB9-5D14CDB259AE}</Project>

@@ -9,13 +9,14 @@ public class ProcedureCompletion : ProcedureBase
 {
     [Header("References")]
     ProcedureBase procedureBase;
-    public ProcedureDataSO procedureData;
+    public ProcedureDataSO procedureDataSO;
     public GameObject procedurePrefab;
     public triggerProcedurePointScript triggerScript;
     public Animator winLoseAnimator;
 
     [Header("Procedure Specific Variables")]
     public Transform VFXPosition;
+    public int procedureID; 
     public TotalItemsNeeded totalItemsNeeded = new();
     int totalItems;
     public int barometerReading, temperatureReading, EMFReading, EnergyDetectorReading;
@@ -41,12 +42,11 @@ public class ProcedureCompletion : ProcedureBase
         isShuttingDown = true;
     }
 
-    void Start()
+    void Awake()
     {
-        //Debug.Log("Initializing procedure...");
-        for (int i = 0; i < procedureData.itemsNeeded.Count; i++)
+        for (int i = 0; i < procedureDataSO.itemsNeeded.Count; i++)
         {
-            totalItemsNeeded.itemNeeded.Add(procedureData.itemsNeeded[i]); // Copying itemsNeeded
+            totalItemsNeeded.itemNeeded.Add(procedureDataSO.itemsNeeded[i]); // Copying itemsNeeded
             totalItemsNeeded.addedAmount.Add(0);
         }
 
@@ -54,22 +54,25 @@ public class ProcedureCompletion : ProcedureBase
         //Debug.Log($"Total items needed: {totalItems}");
 
         procedureBase = GameManager.Instance.procedureBase;
-        StartCoroutine(AddProcedureToGameManager());
+        AddProcedureToGameManager();
 
         if (procedureBase != null)
         {
-            procedureBase.allProcedures[procedureData.procedureIndex] = this;
-            procedureBase.position[procedureData.procedureIndex] = transform.position;
+            procedureBase.allProcedures[procedureDataSO.procedureIndex] = this;
+            procedureBase.position[procedureDataSO.procedureIndex] = transform.position;
             //Debug.Log($"Procedure registered at index {procedureData.procedureIndex}");
         }
 
         InitializeVisuals();
     }
 
-    IEnumerator AddProcedureToGameManager()
+    void AddProcedureToGameManager()
     {
-        yield return new WaitForSeconds(0.1f * procedureData.procedureIndex);
-        GameManager.Instance.AllProcedures.Add(this);
+        while (GameManager.Instance.AllProcedures.Count <= procedureDataSO.procedureIndex)
+        {
+            GameManager.Instance.AllProcedures.Add(null);
+        }
+        GameManager.Instance.AllProcedures[procedureID] = this;
     }
 
     private void InitializeVisuals()
@@ -205,9 +208,9 @@ public class ProcedureCompletion : ProcedureBase
         if (forceComplete || totalItemsNeeded.itemNeeded[totalItems - 1].orderId < currentOrder.Value)
         {
             isCompleted.Value = true;
-            GameManager.Instance.completedProcedures.Add(procedureData.procedureIndex);
-            if (!GameManager.Instance.completedProcedure.ContainsValue(procedureData.procedure))
-                GameManager.Instance.completedProcedure.Add(NetworkManager.Singleton.ConnectedClients[rpcParams.Receive.SenderClientId].PlayerObject.gameObject, procedureData.procedure);
+            GameManager.Instance.completedProcedures.Add(procedureDataSO.procedureIndex);
+            if (!GameManager.Instance.completedProcedure.ContainsValue(procedureDataSO.procedure))
+                GameManager.Instance.completedProcedure.Add(NetworkManager.Singleton.ConnectedClients[rpcParams.Receive.SenderClientId].PlayerObject.gameObject, procedureDataSO.procedure);
             //Debug.Log("All orders completed!");
         }
 

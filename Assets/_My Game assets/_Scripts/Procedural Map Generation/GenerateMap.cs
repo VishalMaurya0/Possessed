@@ -933,6 +933,24 @@ public class GenerateMap : NetworkBehaviour
                 return false;
             }
 
+            if (GameManager.Instance.AllProcedures == null || GameManager.Instance.AllProcedures.Count < 8)
+            {
+                Debug.LogError("All procedures are available in GameManager.  Taking time to search for procedures");
+
+                GameObject[] objs = GameObject.FindGameObjectsWithTag("Procedure");
+                foreach (var obj in objs)
+                {
+                    ProcedureCompletion procedureCompletion = obj.GetComponent<ProcedureCompletion>();
+                    if (procedureCompletion != null)
+                    {
+                        while (GameManager.Instance.AllProcedures.Count <= procedureCompletion.procedureDataSO.procedureIndex)
+                        {
+                            GameManager.Instance.AllProcedures.Add(null);
+                        }
+                        GameManager.Instance.AllProcedures[procedureCompletion.procedureDataSO.procedureIndex] = procedureCompletion;
+                    }
+                }
+            }
 
             Room.ProcedureLocation procedureLocation = new();
             procedureLocation.Procedure = procedures[procedureIndex];
@@ -948,9 +966,10 @@ public class GenerateMap : NetworkBehaviour
                 cell.spaceOccupied = true;
             }
 
+
             foreach (var procedure in GameManager.Instance.AllProcedures)
             {
-                if (procedure.procedureData.procedure == procedureLocation.Procedure)
+                if (procedure.procedureDataSO.procedure == procedureLocation.Procedure)
                 {
                     procedureLocation.ProcedureCompletion = procedure;
                     procedureLocation.ProcedureCompletion.procedurePrefab = procedure.gameObject;

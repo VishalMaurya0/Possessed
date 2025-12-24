@@ -25,6 +25,7 @@ public class GameManager : NetworkBehaviour
 
     [Header("One Time Variables")]
     [Tooltip("Maintained on Server")] public int noOfPlayers;             //----------maintained on server---------//
+    public int alivePlayers;          //----------maintained on server---------//
     public int inventorySlots = 5;
     public float maxWeight = 15;
     public Color playerIndicatorColor;
@@ -317,15 +318,22 @@ public class GameManager : NetworkBehaviour
     {
         if (IsHost)
         {
-            ShowLoadingPanelClientRpc(); // Optional visual effect
+            ShowLoadingPanelClientRpc(true); // Optional visual effect
             NetworkManager.SceneManager.LoadScene("Procedural Generation", LoadSceneMode.Single);
         }
     }
 
-    [ClientRpc]
-    private void ShowLoadingPanelClientRpc()
+    public void ShowLoadingPanel(bool show)
     {
-        LoadingPanel.SetActive(true); // Optional: show loading UI before transition
+        LoadingPanel.SetActive(show);
+            ShowLoadingPanelClientRpc(show); // Optional visual effect
+    }
+
+    [ClientRpc]
+    private void ShowLoadingPanelClientRpc(bool show)
+    {
+        Debug.Log("Toggling Loading Panel: " + show);
+        LoadingPanel.SetActive(show);
     }
 
     private void HandleClientConnected(ulong clientId)

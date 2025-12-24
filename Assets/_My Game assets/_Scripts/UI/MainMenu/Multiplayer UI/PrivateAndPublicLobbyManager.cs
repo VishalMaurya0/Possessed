@@ -16,6 +16,8 @@ public class PrivateAndPublicLobbyManager : NetworkBehaviour
 
     public bool isLobbyPrivate_GetTheValue;
 
+    public static event Action OnAllPlayersAreActiveInLobby;
+
     void Start()
     {
         isPrivate_ToggleWhileHostingGame.onValueChanged.AddListener(OnToggleChanged_WhileHostingInGame);
@@ -94,6 +96,7 @@ public class PrivateAndPublicLobbyManager : NetworkBehaviour
         {
             await LobbyService.Instance.UpdateLobbyAsync(lobbyId, options);
             Debug.Log($"Lobby visibility updated to {(isPrivate ? "private" : "public")}");
+            PlayersAreActive();
         }
         catch (LobbyServiceException ex)
         {
@@ -149,5 +152,24 @@ public class PrivateAndPublicLobbyManager : NetworkBehaviour
 
 
         isPrivate_ToggleAfterHosting.isOn = isLobbyPrivate_GetTheValue;
+    }
+
+
+    List<ulong> activePlayers = new List<ulong>();
+    //[ServerRpc(RequireOwnership = false)]
+    private void PlayersAreActive(ServerRpcParams serverRpcParams = default)
+    {
+        //ulong clientId = serverRpcParams.Receive.SenderClientId;
+        //if (!activePlayers.Contains(clientId))
+        //{
+            //activePlayers.Add(clientId);
+            //Debug.Log($"Player {clientId} is active in the lobby.");
+        //}
+
+        //if (activePlayers.Count == NetworkManager.Singleton.ConnectedClients.Count)
+        //{
+            //Debug.Log("All players are active in the lobby.");
+            OnAllPlayersAreActiveInLobby?.Invoke();
+        //}
     }
 }

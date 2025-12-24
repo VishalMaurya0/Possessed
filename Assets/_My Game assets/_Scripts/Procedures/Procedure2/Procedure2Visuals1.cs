@@ -61,7 +61,7 @@ public class Procedure2Visuals : NetworkBehaviour
     {
         for (int i = 0; i < GameManager.Instance.completedProcedure.Count; i++)
         {
-            if (GameManager.Instance.completedProcedure.ElementAtOrDefault(i).Value == procedureCompletion.procedureData.procedure)
+            if (GameManager.Instance.completedProcedure.ElementAtOrDefault(i).Value == procedureCompletion.procedureDataSO.procedure)
             {
                 watchingPlayer = GameManager.Instance.completedProcedure.ElementAtOrDefault(i).Key;
             }

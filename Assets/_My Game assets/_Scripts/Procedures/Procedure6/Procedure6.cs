@@ -117,21 +117,28 @@ public class Procedure6 : NetworkBehaviour
 
         ShowAnimClientRPC(inspectionItems.Count);
 
-        if (inspectionItems.Count == 4)
+        if (inspectionItems.Count == GameManager.Instance.alivePlayers)
         {
             CheckCompletionOfProcedure();
         }
 
         void CheckCompletionOfProcedure()
         {
+            int correctCount = 0;
             for (int i = 0; i < inspectionItems.Count; i++)
             {
                 if (!items.Contains(inspectionItems[i].Value))
                 {
-                    GameManager.Instance.HelpInstructions.text = "You need to inspect the correct items!";
-                    GameManager.Instance.helpInstructionDisplayTime = 3f;
-                    return;
+                    continue;
                 }
+                correctCount++;
+            }
+
+            if (correctCount != GameManager.Instance.alivePlayers)
+            {
+                GameManager.Instance.HelpInstructions.text = "You need to inspect the correct items!";
+                GameManager.Instance.helpInstructionDisplayTime = 3f;
+                return;
             }
             procedureCompletion.ShowVFXClientRPC();
             procedureCompletion.CheckForProcedureCompletionServerRPC(true);
