@@ -198,7 +198,7 @@ public class ItemCrafting : MonoBehaviour
         ItemState C = itemCraftingDataSO.itemStateCraftingRecipes[id].CraftedItemState;
 
 
-        ItemData craftedItem = new ItemData(idso, C.amount, C.currentState);
+        ItemData craftedItem = new ItemData(idso, C.amount, C.currentState, selectedInventorySlot.itemData.photoType, selectedInventorySlot.itemData.photoId);
         
         
         if (!B.isContainer)

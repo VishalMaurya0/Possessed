@@ -6,12 +6,14 @@ public class ItemPickup : NetworkBehaviour
 {
     public ItemData itemData;
     public ItemDataSO ItemDataSO;
+    public DummyScriptForClassifyingItems dsfci;
     private ItemHolding it;
     public Inspection inspection;
     public NetworkObject networkObject;
 
     private void Start()
     {
+        dsfci = GetComponent<DummyScriptForClassifyingItems>();
         if (GameManager.Instance.serverStarted && GameManager.Instance.ownerPlayer != null)
         {
             it = GameManager.Instance.ownerPlayer.GetComponent<ItemHolding>();
@@ -28,10 +30,18 @@ public class ItemPickup : NetworkBehaviour
                 if (images.Length > 0)
                     images[0].sprite = GameManager.Instance.GetPhotoSprite(itemData.photoType, itemData.photoId);
             }
-            else
+            else if (!dsfci)
             {
-                itemData = new ItemData(ItemDataSO, itemData.amount, itemData.currentState);
+                itemData = new ItemData(itemData);
+            }else if (dsfci.ItemData != null)
+            {
+                itemData = dsfci.ItemData;
             }
+        }
+
+        if (dsfci && dsfci.ItemData != null)
+        {
+            itemData = dsfci.ItemData;
         }
 
         inspection = GetComponent<Inspection>();

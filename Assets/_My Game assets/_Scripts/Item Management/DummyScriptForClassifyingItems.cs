@@ -3,6 +3,7 @@ using UnityEngine;
 public class DummyScriptForClassifyingItems : MonoBehaviour
 {
     public ItemData ItemData;
+    public ItemPickup itemPickup;
     ItemDataSO ItemDataSO;
     public Transform toFollow;
     public float followSpeed = 10f;
@@ -12,9 +13,17 @@ public class DummyScriptForClassifyingItems : MonoBehaviour
     public float damping = 50f;         // higher = less oscillation; 2 * sqrt(stiffness) = critical damping;
     private Vector3 lastPos;
 
+    public ulong playerID;
+
     private void Start()
     {
         ItemDataSO = ScriptableObjectFinder.Instance.FindItemSO(ItemData);
+        itemPickup = GetComponent<ItemPickup>();
+        if (itemPickup != null)
+        {
+            if (itemPickup.itemData != ItemData)
+                itemPickup.itemData = ItemData;
+        }
     }
 
     private Vector3 velocity;

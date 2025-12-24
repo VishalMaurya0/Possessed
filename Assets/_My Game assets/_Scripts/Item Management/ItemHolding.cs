@@ -162,9 +162,8 @@ public class ItemHolding : NetworkBehaviour
         GameObject itemInstance = Instantiate(ScriptableObjectFinder.Instance.FindItemSO(item).itemPrefab, spawnPos, spawnRot);//----------Instantiate it
         itemInstance.GetComponent<NetworkObject>().Spawn(true);                                                                        //-----------spawn
 
-        ItemData newItemData = itemInstance.GetComponent<ItemPickup>().itemData;//----------get itemdata of spawned object and set values
-        newItemData.amount = quan;
-        newItemData.currentState = item.currentState;
+        //----------get itemdata of spawned object and set values
+        ItemData newItemData = itemInstance.GetComponent<ItemPickup>().itemData = new ItemData(item);
         spawnedObject = itemInstance;
 
 
@@ -381,11 +380,11 @@ public class ItemHolding : NetworkBehaviour
 
         netObj.SpawnWithOwnership(serverRpcParams.Receive.SenderClientId);
 
-        InformClientClientRPC(new NetworkObjectReference(netObj), slotIndex);
+        InformClientClientRPC(new NetworkObjectReference(netObj), slotIndex, serverRpcParams.Receive.SenderClientId);
     }
 
     [ClientRpc]
-    private void InformClientClientRPC(NetworkObjectReference netObjRef, int slotIndex)
+    private void InformClientClientRPC(NetworkObjectReference netObjRef, int slotIndex, ulong id = 0)
     {
         if (netObjRef.TryGet(out NetworkObject netObj))
         {
@@ -395,6 +394,10 @@ public class ItemHolding : NetworkBehaviour
             var dummy = obj.AddComponent<DummyScriptForClassifyingItems>();
             dummy.toFollow = heldItemPosition;
             dummy.ItemData = Inventory.inventorySlots[slotIndex].itemData;
+            dummy.playerID = id;
+
+            //Debug.LogError(dummy.ItemData.GetHashCode());
+            //Debug.LogError(Inventory.inventorySlots[slotIndex].itemData.GetHashCode());
             if (_isSlotPendingSpawn != null && slotIndex < _isSlotPendingSpawn.Length)
             {
                 _isSlotPendingSpawn[slotIndex] = false;

@@ -11,11 +11,13 @@ public class ItemData : INetworkSerializable
     public int photoType = 0; // 0 = normal, 1 = procedure, 2 = statue
     public int photoId = 0;
 
-    public ItemData(ItemDataSO idSO, int amount, int CurrentState) 
+    public ItemData(ItemDataSO idSO, int amount, int CurrentState, int photoType, int photoID)
     {
         itemType = idSO.itemType;
         currentState = CurrentState;
         this.amount = amount;
+        this.photoType = photoType;
+        this.photoId = photoID;
     }
 
     public ItemData(ItemData itemData)
@@ -44,6 +46,8 @@ public class ItemData : INetworkSerializable
         serializer.SerializeValue(ref amount);
         serializer.SerializeValue(ref itemType);
         serializer.SerializeValue(ref isOn);
+        serializer.SerializeValue(ref photoType);
+        serializer.SerializeValue(ref photoId);
     }
 }
 

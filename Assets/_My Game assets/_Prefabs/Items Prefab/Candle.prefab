@@ -219,6 +219,7 @@ GameObject:
   - component: {fileID: -913701108965247333}
   - component: {fileID: -2377024887794213282}
   - component: {fileID: -4506530624061892803}
+  - component: {fileID: 4203198905414050850}
   m_Layer: 0
   m_Name: Candle
   m_TagString: Untagged
@@ -470,6 +471,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+--- !u!114 &4203198905414050850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6905787541895510452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62985cf4ad59f2b46b687992c3600fff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemPickup: {fileID: 0}
+  burningTime: 200
+  timer: 0
+  isBurning: 0
 --- !u!1 &7873662335090830125
 GameObject:
   m_ObjectHideFlags: 0

@@ -159,7 +159,7 @@ public class Inventory : NetworkBehaviour
             return 0;
         }
         ItemDataSO itemDataSO = ScriptableObjectFinder.Instance.FindItemSO(itemDataOriginal);
-        ItemData itemData = new ItemData(itemDataSO, itemDataOriginal.amount, itemDataOriginal.currentState);
+        ItemData itemData = new ItemData(itemDataOriginal);
 
 
 
@@ -239,7 +239,7 @@ public class Inventory : NetworkBehaviour
 
 
                 //Debug.Log($"Add new : {itemData.amount} amount of {itemData.itemType}");
-                slot.itemData = new ItemData(itemDataSO, 1, itemData.currentState);
+                slot.itemData = new ItemData(itemData);
                 slot.quantity = 1;
                 weight.Value += itemDataSO.weight;
                 slots.Value += itemDataSO.inventorySlots;
@@ -389,6 +389,7 @@ public class Inventory : NetworkBehaviour
         InventorySlot slot = inventorySlots[slotNumber];
         int totalAmountInItem = itemDataSO.noOfStates - 1;
         int currentState = slot.itemData.currentState;
+        ItemData itemData = slot.itemData;
 
         //Debug.Log($"Total states in item: {totalAmountInItem}, Current state: {currentState}, Slot quantity: {slot.quantity}.");
 
@@ -421,9 +422,9 @@ public class Inventory : NetworkBehaviour
 
 
         List<ItemData> itemsToAdd = new(); 
-        itemsToAdd.Add (new ItemData(itemDataSO, noOfChangingItems, changeOnFinal));
-        itemsToAdd.Add (new ItemData(itemDataSO, noOfUnchangedItems, currentState));
-        itemsToAdd.Add (new ItemData(itemDataSO, noOfEmptyItems, totalAmountInItem));
+        itemsToAdd.Add (new ItemData(itemDataSO, noOfChangingItems, changeOnFinal, itemData.photoType, itemData.photoId));
+        itemsToAdd.Add (new ItemData(itemDataSO, noOfUnchangedItems, currentState, itemData.photoType, itemData.photoId));
+        itemsToAdd.Add (new ItemData(itemDataSO, noOfEmptyItems, totalAmountInItem, itemData.photoType, itemData.photoId));
 
 
         // Add all
