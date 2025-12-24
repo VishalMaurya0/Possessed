@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 2796328996737373585}
   - component: {fileID: 7979914785864164276}
   - component: {fileID: 3610295550028536897}
+  - component: {fileID: -3336394624473678722}
+  - component: {fileID: -556904135511115447}
   m_Layer: 11
   m_Name: Pure Powder
   m_TagString: Untagged
@@ -129,6 +131,41 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.38
   m_Center: {x: 0, y: 0.36, z: 0}
+--- !u!114 &-3336394624473678722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 973157267671511159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ba5c76948ff9d54c8e095d98194cbac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-556904135511115447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 973157267671511159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bd1421350672e84ca60e54f9506ac87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  itemData:
+    itemType: 4
+    currentState: 0
+    amount: 1
+    isOn: 0
+    photoType: 0
+    photoId: 0
+  ItemDataSO: {fileID: 11400000, guid: 00cf7645084f520478f82c601fdeaff6, type: 2}
+  inspection: {fileID: 0}
+  networkObject: {fileID: 0}
 --- !u!1 &1442025330795239445
 GameObject:
   m_ObjectHideFlags: 0

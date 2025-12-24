@@ -41,9 +41,13 @@ public class ItemHolding : NetworkBehaviour
 
     Inventory Inventory;
 
-    void Start()
+    private void Awake()
     {
         Inventory = GetComponent<Inventory>();
+    }
+
+    void Start()
+    {
         playerCamera = Camera.main;
         inventoryUI = FindAnyObjectByType<InventoryUI>();
         inventorySlotTracker = FindAnyObjectByType<InventorySlotTracker>();
@@ -330,6 +334,7 @@ public class ItemHolding : NetworkBehaviour
                 {
                     NetworkObject oldNetObj = heldItemPrefabs[i].GetComponent<NetworkObject>();
 
+        Debug.LogError("fg");
                     if (oldNetObj != null)
                     {
                         if (IsOwner)
@@ -359,6 +364,7 @@ public class ItemHolding : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void RequestDespawnServerRPC(ulong networkObjectId)
     {
+        Debug.LogError("fg");
         if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(networkObjectId, out NetworkObject netObj))
         {
             netObj.Despawn();
@@ -381,7 +387,7 @@ public class ItemHolding : NetworkBehaviour
     }
 
     [ClientRpc]
-    private void InformClientClientRPC(NetworkObjectReference netObjRef, int slotIndex, ClientRpcParams clientRpcParams = default)
+    private void InformClientClientRPC(NetworkObjectReference netObjRef, int slotIndex)
     {
         if (netObjRef.TryGet(out NetworkObject netObj))
         {
@@ -402,10 +408,17 @@ public class ItemHolding : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        // Subscribe to the slot change event on ALL clients
+        // Now Inventory is guaranteed to be assigned
         if (Inventory != null && Inventory.slotNo != null)
         {
             Inventory.slotNo.OnValueChanged += OnSlotChanged;
+
+            // OPTIONAL: Manually call it once to sync the initial state
+            OnSlotChanged(0, Inventory.slotNo.Value);
+        }
+        else
+        {
+            Debug.LogError("Inventory or slotNo is NULL in OnNetworkSpawn!");
         }
     }
 
@@ -422,6 +435,5 @@ public class ItemHolding : NetworkBehaviour
     private void OnSlotChanged(int oldVal, int newVal)
     {
         CheckForCorrectInventorySelectedSlot();
-        Debug.LogError($"[OnSlotChanged] Slot changed from {oldVal} to {newVal} on client {NetworkManager.Singleton.LocalClientId}");
     }
 }

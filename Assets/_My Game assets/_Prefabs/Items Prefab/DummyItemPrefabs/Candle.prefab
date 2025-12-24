@@ -76,6 +76,8 @@ GameObject:
   - component: {fileID: 8709247290053397737}
   - component: {fileID: 3507637923793042124}
   - component: {fileID: 8016269403963518433}
+  - component: {fileID: 5119143178868658905}
+  - component: {fileID: -4990180098614995557}
   m_Layer: 11
   m_Name: Candle
   m_TagString: Untagged
@@ -195,6 +197,41 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5119143178868658905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6022053005563209999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ba5c76948ff9d54c8e095d98194cbac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-4990180098614995557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6022053005563209999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bd1421350672e84ca60e54f9506ac87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  itemData:
+    itemType: 5
+    currentState: 0
+    amount: 1
+    isOn: 0
+    photoType: 0
+    photoId: 0
+  ItemDataSO: {fileID: 11400000, guid: b0f89460af4a27840a30737c3ae94662, type: 2}
+  inspection: {fileID: 0}
+  networkObject: {fileID: 0}
 --- !u!1 &6989646331717548950
 GameObject:
   m_ObjectHideFlags: 0

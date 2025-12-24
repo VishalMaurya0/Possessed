@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 8123345048628032457}
   - component: {fileID: 4092434056620475884}
   - component: {fileID: 1689100972400301447}
+  - component: {fileID: 2908364473934454519}
+  - component: {fileID: 8028957129257149342}
   m_Layer: 11
   m_Name: Wood
   m_TagString: Untagged
@@ -131,6 +133,41 @@ CapsuleCollider:
   m_Height: 2.48
   m_Direction: 0
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2908364473934454519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6625987203332265519}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ba5c76948ff9d54c8e095d98194cbac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8028957129257149342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6625987203332265519}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bd1421350672e84ca60e54f9506ac87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  itemData:
+    itemType: 0
+    currentState: 0
+    amount: 1
+    isOn: 0
+    photoType: 0
+    photoId: 0
+  ItemDataSO: {fileID: 11400000, guid: 1b99ee0caa102eb42860807ae7834750, type: 2}
+  inspection: {fileID: 0}
+  networkObject: {fileID: 0}
 --- !u!1001 &3101699421944167679
 PrefabInstance:
   m_ObjectHideFlags: 0
