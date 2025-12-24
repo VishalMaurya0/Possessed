@@ -143,6 +143,7 @@ public class PrivateAndPublicLobbyManager : NetworkBehaviour
             if (lobby.Data != null && lobby.Data.TryGetValue("visibility", out var visibilityData))
             {
                 Debug.Log($"Lobby 'visibility' tag: {visibilityData.Value}");
+                PlayersAreActive();
             }
         }
         catch (LobbyServiceException ex)

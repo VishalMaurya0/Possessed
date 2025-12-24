@@ -23,10 +23,13 @@ public class ItemHolding : NetworkBehaviour
     public GameObject itemPrefab;
     public bool isInspecting;
 
+
+
     [Header("Showing Held Items")]
     public Transform heldItemPosition;
     public Transform heldItemParent;
-    public List<GameObject> heldItemPrefabs; 
+    public List<GameObject> heldItemPrefabs;
+    private bool[] _isSlotPendingSpawn;
 
     [Header("UI")]
     public InventoryUI inventoryUI;
@@ -47,6 +50,10 @@ public class ItemHolding : NetworkBehaviour
         for (int i = 0; i < 5; i++)
         {
             heldItemPrefabs.Add(null);
+        }
+        if (Inventory.inventorySlots != null)
+        {
+            _isSlotPendingSpawn = new bool[Inventory.inventorySlots.Count];
         }
     }
 
@@ -239,11 +246,19 @@ public class ItemHolding : NetworkBehaviour
             inventorySlotTracker.UpdateTracker(true);        //============== Update The Tracker without animating ===========//
     }
 
+
+
     private void HandleHeldItems()
     {
+        //if (!IsOwner) return;
+
+
         int slotCount = Inventory.inventorySlots.Count;
 
         List<bool> itemTypeFlag = new(slotCount);
+
+        if (_isSlotPendingSpawn == null || _isSlotPendingSpawn.Length != slotCount)
+            _isSlotPendingSpawn = new bool[slotCount];
 
         // Fill the lists with default false values
         for (int i = 0; i < slotCount; i++)
@@ -253,6 +268,9 @@ public class ItemHolding : NetworkBehaviour
 
         for (int i = 0; i < slotCount; i++)
         {
+            if (_isSlotPendingSpawn[i]) continue;
+
+
             if (Inventory.inventorySlots[i] == null && heldItemPrefabs[i] != null)
             {
                 itemTypeFlag[i] = true;
@@ -314,7 +332,8 @@ public class ItemHolding : NetworkBehaviour
 
                     if (oldNetObj != null)
                     {
-                        RequestDespawnServerRPC(oldNetObj.NetworkObjectId);
+                        if (IsOwner)
+                            RequestDespawnServerRPC(oldNetObj.NetworkObjectId);
                     }
                     else
                     {
@@ -326,14 +345,18 @@ public class ItemHolding : NetworkBehaviour
 
                 if (Inventory.inventorySlots[i].itemData == null) continue;
 
-                ItemData itemData = Inventory.inventorySlots[i].itemData;
-                PermissionToSpawnServerRPC((int)itemData.itemType, i);
+                if (IsOwner)
+                {
+                    ItemData itemData = Inventory.inventorySlots[i].itemData;
+                    PermissionToSpawnServerRPC((int)itemData.itemType, i);
+                    _isSlotPendingSpawn[i] = true;
+                }
             }
         }
     }
 
 
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     private void RequestDespawnServerRPC(ulong networkObjectId)
     {
         if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(networkObjectId, out NetworkObject netObj))
@@ -354,15 +377,7 @@ public class ItemHolding : NetworkBehaviour
 
         netObj.SpawnWithOwnership(serverRpcParams.Receive.SenderClientId);
 
-        ClientRpcParams clientRpcParams = new ClientRpcParams
-        {
-            Send = new ClientRpcSendParams
-            {
-                TargetClientIds = new ulong[] { serverRpcParams.Receive.SenderClientId }
-            }
-        };
-
-        InformClientClientRPC(new NetworkObjectReference(netObj), slotIndex, clientRpcParams);
+        InformClientClientRPC(new NetworkObjectReference(netObj), slotIndex);
     }
 
     [ClientRpc]
@@ -376,6 +391,37 @@ public class ItemHolding : NetworkBehaviour
             var dummy = obj.AddComponent<DummyScriptForClassifyingItems>();
             dummy.toFollow = heldItemPosition;
             dummy.ItemData = Inventory.inventorySlots[slotIndex].itemData;
+            if (_isSlotPendingSpawn != null && slotIndex < _isSlotPendingSpawn.Length)
+            {
+                _isSlotPendingSpawn[slotIndex] = false;
+            }
+
+            CheckForCorrectInventorySelectedSlot();
         }
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        // Subscribe to the slot change event on ALL clients
+        if (Inventory != null && Inventory.slotNo != null)
+        {
+            Inventory.slotNo.OnValueChanged += OnSlotChanged;
+        }
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        // Good practice to unsubscribe
+        if (Inventory != null && Inventory.slotNo != null)
+        {
+            Inventory.slotNo.OnValueChanged -= OnSlotChanged;
+        }
+    }
+
+    // This function runs on ALL clients automatically when the variable changes
+    private void OnSlotChanged(int oldVal, int newVal)
+    {
+        CheckForCorrectInventorySelectedSlot();
+        Debug.LogError($"[OnSlotChanged] Slot changed from {oldVal} to {newVal} on client {NetworkManager.Singleton.LocalClientId}");
     }
 }

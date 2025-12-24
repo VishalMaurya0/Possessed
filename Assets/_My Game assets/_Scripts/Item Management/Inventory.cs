@@ -542,10 +542,11 @@ public class Inventory : NetworkBehaviour
     [ClientRpc]
     public void UpdateSlotClientRpc(ItemData itemData, int quantity, int i, bool lockMovement = false)
     {
-        if (!IsOwner) { return; }
+        //if (inventorySlots.Count <= i) { inventorySlots.Add(new InventorySlot()); }
         //Debug.Log($"[Inventory] Updating slot {i} on client. Item: {itemData?.itemType}, Quantity: {quantity}");
         inventorySlots[i].itemData = itemData;
         inventorySlots[i].quantity = quantity;
+        if (!IsOwner) { return; }
         if (!lockMovement)
             SelectInventorySlot(slotNo.Value, false);
     }
