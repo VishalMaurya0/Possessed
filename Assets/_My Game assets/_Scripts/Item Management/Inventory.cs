@@ -422,7 +422,7 @@ public class Inventory : NetworkBehaviour
 
 
         List<ItemData> itemsToAdd = new(); 
-        itemsToAdd.Add (new ItemData(itemDataSO, noOfChangingItems, changeOnFinal, itemData.photoType, itemData.photoId));
+        itemsToAdd.Add (new ItemData(itemDataSO, noOfChangingItems, currentState + changeOnFinal, itemData.photoType, itemData.photoId));
         itemsToAdd.Add (new ItemData(itemDataSO, noOfUnchangedItems, currentState, itemData.photoType, itemData.photoId));
         itemsToAdd.Add (new ItemData(itemDataSO, noOfEmptyItems, totalAmountInItem, itemData.photoType, itemData.photoId));
 

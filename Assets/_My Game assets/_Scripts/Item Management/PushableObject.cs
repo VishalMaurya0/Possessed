@@ -6,13 +6,21 @@ public class PushableObject : NetworkBehaviour
     // Cooldown to prevent spamming the Server with requests every frame
     private float lastOwnershipRequestTime;
     private float requestCooldown = 0.5f;
+    public ulong ownerClientId;
+    public NetworkObject networkObject;
 
+
+    private void Start()
+    {
+        networkObject = GetComponent<NetworkObject>();
+    }
     private void OnCollisionEnter(Collision collision)
     {
         // 1. Check if the thing touching me is a Player
         // (Make sure your Player prefab has the tag "Player")
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player") && collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
+            if (!GameManager.Instance.ownerPlayer == collision.gameObject) return;
             // 2. If I (the local client) am NOT the owner yet...
             if (!IsOwner && Time.time > lastOwnershipRequestTime + requestCooldown)
             {
@@ -28,9 +36,10 @@ public class PushableObject : NetworkBehaviour
     {
         // 4. The Server agrees and transfers ownership to the client who asked
         ulong senderClientId = rpcParams.Receive.SenderClientId;
-        if (NetworkObject.OwnerClientId != senderClientId)
+        if (networkObject.OwnerClientId != senderClientId)
         {
-            NetworkObject.ChangeOwnership(senderClientId);
+            networkObject.ChangeOwnership(senderClientId);
+            ownerClientId = senderClientId;
         }
     }
 

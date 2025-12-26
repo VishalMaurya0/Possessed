@@ -84,6 +84,14 @@ public class DummyFotRigidbodyProps : MonoBehaviour
 
         if (isNetworked && isClient) return;
 
+        if (networkTransform)
+        {    
+            if (networkTransform.OwnerClientId != GameManager.Instance.OwnerClientId && !NetworkManager.Singleton.IsServer)
+            {
+                return;
+            }  
+        }
+
         if (rb != null)
         {
             if (wakeUp)

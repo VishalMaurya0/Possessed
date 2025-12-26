@@ -13,15 +13,19 @@ public class ItemActiveTrigger : NetworkBehaviour
         // Only run on Server (for networked items) or Owner (for local debris)
         if (!IsServer && !IsOwner)
         {
+            gameObject.SetActive (false);
             enabled = false;
             return;
         }
 
-        Collider myCollider = GetComponent<Collider>();
-        if (myCollider != null)
+        if (IsServer)
         {
-            myCollider.isTrigger = true;
-            InitialScan(myCollider);
+            Collider myCollider = GetComponent<Collider>();
+            if (myCollider != null)
+            {
+                myCollider.isTrigger = true;
+                InitialScan(myCollider);
+            }
         }
     }
 
@@ -82,7 +86,8 @@ public class ItemActiveTrigger : NetworkBehaviour
         if (isNetworkedItem)
         {
             // Only Server wakes up networked items
-            if (IsServer) SetItemPhysics(props, enter);
+            if (props.networkTransform.OwnerClientId == GameManager.Instance.OwnerClientId || IsServer) 
+                SetItemPhysics(props, enter);
         }
         else
         {

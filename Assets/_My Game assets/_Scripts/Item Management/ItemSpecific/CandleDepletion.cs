@@ -1,3 +1,5 @@
+using System;
+using Unity.Netcode;
 using UnityEngine;
 
 public class CandleDepletion : MonoBehaviour
@@ -11,7 +13,8 @@ public class CandleDepletion : MonoBehaviour
     ItemData ItemData;
     DummyScriptForClassifyingItems dsfci;
 
-        Inventory inventory = null;
+    Inventory inventory = null;
+    ulong currentPlayerID = 0;
     public float timerOfUpdate;
 
     private void Update() {
@@ -47,6 +50,8 @@ public class CandleDepletion : MonoBehaviour
             }
         }
 
+
+        // local inventory update
         if (!inventory && dsfci && dsfci.playerID == GameManager.Instance.OwnerClientId)
         {
             inventory = GameManager.Instance.ownerPlayer.GetComponent<Inventory>();
@@ -55,13 +60,28 @@ public class CandleDepletion : MonoBehaviour
             timerOfUpdate -= Time.deltaTime;
         if (inventory && timerOfUpdate < 0 && dsfci && dsfci.playerID == GameManager.Instance.OwnerClientId)
         {
-            timerOfUpdate = 2;
+            timerOfUpdate = 3;
             InventorySlot slot = inventory.inventorySlots[inventory.slotNo.Value];
             if (slot != null && slot.itemData.itemType == ItemData.itemType)
             {
                 slot.itemData.photoId = ItemData.photoId;
             }
+
+            UpdateServerRPC(slot.itemData.photoId, inventory.slotNo.Value);
         }
         //Debug.LogError(inventory.inventorySlots[inventory.slotNo.Value].itemData == ItemData);
+    }
+
+
+    // server invent update
+    [ServerRpc(RequireOwnership = false)]
+    private void UpdateServerRPC(int id, int slotNo, ServerRpcParams serverRpcParams = default)
+    {
+        if (inventory == null || currentPlayerID != serverRpcParams.Receive.SenderClientId)
+        {
+            inventory = GameManager.Instance.connectedClientsData.Find(data => data.clientID == serverRpcParams.Receive.SenderClientId).playerGameobject.GetComponent<Inventory>();
+            currentPlayerID = serverRpcParams.Receive.SenderClientId;
+        }
+        inventory.inventorySlots[slotNo].itemData.photoId = id;
     }
 }
