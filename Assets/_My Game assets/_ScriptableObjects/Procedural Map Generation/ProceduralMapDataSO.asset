@@ -32,8 +32,14 @@ MonoBehaviour:
       RoomFloorTiles:
       - prop: {fileID: 6613996105818949032, guid: f1d7cc25e830be345ae5da398a3ca906, type: 3}
         chancesIn100: 100
-      RoofTiles: []
-      RoomRoofTiles: []
+      RoofTiles:
+      - prop: {fileID: 6613996105818949032, guid: f4428d3562107434680dc00f99b4e265, type: 3}
+        chancesIn100: 100
+      - prop: {fileID: 6613996105818949032, guid: 13ab7798d5a5e8c49800ed86a9a8e05c, type: 3}
+        chancesIn100: 50
+      RoomRoofTiles:
+      - prop: {fileID: 6613996105818949032, guid: f4428d3562107434680dc00f99b4e265, type: 3}
+        chancesIn100: 100
       Pillars:
       - prop: {fileID: 6172254224933744502, guid: c09094a737e132349a2f64e812921d7c, type: 3}
         chancesIn100: 100

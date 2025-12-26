@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 7271765467812140965}
   - component: {fileID: 2042073267839582869}
   - component: {fileID: 4808000376471638845}
+  - component: {fileID: -4004755746310736195}
   m_Layer: 0
   m_Name: SpotLight_base
   m_TagString: Untagged
@@ -144,7 +145,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1408075171160558967}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
   m_Name: 
@@ -210,6 +211,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-4004755746310736195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1408075171160558967}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44d5a02085a10134f934d2d2a5f9d321, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noOfWatchers: 0
 --- !u!1 &3632207186363523600
 GameObject:
   m_ObjectHideFlags: 0

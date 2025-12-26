@@ -199,6 +199,7 @@ GameObject:
   - component: {fileID: -2377024887794213282}
   - component: {fileID: -7094455517721680514}
   - component: {fileID: -6808386134717432249}
+  - component: {fileID: 4016087803655975665}
   m_Layer: 0
   m_Name: Mirror
   m_TagString: Untagged
@@ -294,6 +295,8 @@ MonoBehaviour:
     photoType: 0
     photoId: 0
   ItemDataSO: {fileID: 11400000, guid: 1d22ce0d639f8804cbfed471e44b479a, type: 2}
+  dsfci: {fileID: 0}
+  inspection: {fileID: 0}
   networkObject: {fileID: 0}
 --- !u!114 &4389121194185173623
 MonoBehaviour:
@@ -364,7 +367,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -383,7 +386,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   NetworkRigidbodyBaseExpanded: 0
   UseRigidBodyForMotion: 0
-  AutoUpdateKinematicState: 1
+  AutoUpdateKinematicState: 0
   AutoSetKinematicOnDespawn: 1
 --- !u!114 &-913701108965247333
 MonoBehaviour:
@@ -403,7 +406,6 @@ MonoBehaviour:
   isInspecting: 0
   meshRenderers: []
   outlineMat: {fileID: 0}
-  collider: {fileID: 0}
 --- !u!114 &-2377024887794213282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -431,7 +433,7 @@ MonoBehaviour:
   forward: {fileID: 1025529405631690183}
   mirrorSurface: {fileID: 7425413343024482496}
   referenceMat: {fileID: 2100000, guid: c176e2db8cda4914e8a1c61b5aafd6af, type: 2}
-  GoAccordingToPlayer: 1
+  GoAccordingToPlayer: 0
 --- !u!114 &-6808386134717432249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -445,6 +447,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+--- !u!114 &4016087803655975665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6905787541895510452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44d5a02085a10134f934d2d2a5f9d321, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noOfWatchers: 0
+  networkTransform: {fileID: 0}
 --- !u!1 &8075723469075855652
 GameObject:
   m_ObjectHideFlags: 0
@@ -462,7 +478,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4896630450703363653
 Transform:
   m_ObjectHideFlags: 0
@@ -531,7 +547,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6170840984871193236
 Transform:
   m_ObjectHideFlags: 0
@@ -586,7 +602,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 1966071
+    m_Bits: 14540535
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: 6ecb4b6551f64f942bc96afb85bbb83e, type: 2}
   m_TargetDisplay: 0

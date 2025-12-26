@@ -207,6 +207,7 @@ GameObject:
   - component: {fileID: 7353930592384615067}
   - component: {fileID: 7808271477408839247}
   - component: {fileID: 2196041114947042545}
+  - component: {fileID: 5821456698324272057}
   m_Layer: 0
   m_Name: Ore_Holder_exp_2
   m_TagString: Untagged
@@ -331,6 +332,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &5821456698324272057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2506842236302696918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44d5a02085a10134f934d2d2a5f9d321, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noOfWatchers: 0
 --- !u!1 &3017703631409571207
 GameObject:
   m_ObjectHideFlags: 0
@@ -344,6 +358,7 @@ GameObject:
   - component: {fileID: 6242237798662691272}
   - component: {fileID: 1211743020308431607}
   - component: {fileID: 7958730334648253705}
+  - component: {fileID: 183465213669779657}
   m_Layer: 0
   m_Name: Ore_Holder_exp_1
   m_TagString: Untagged
@@ -468,6 +483,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &183465213669779657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3017703631409571207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44d5a02085a10134f934d2d2a5f9d321, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noOfWatchers: 0
 --- !u!1 &3799851267288575963
 GameObject:
   m_ObjectHideFlags: 0
@@ -481,6 +509,7 @@ GameObject:
   - component: {fileID: 565373326923778065}
   - component: {fileID: 8709586034068893400}
   - component: {fileID: 7560228896379046993}
+  - component: {fileID: 6276263704712170995}
   m_Layer: 0
   m_Name: Ore_Holder_exp
   m_TagString: Untagged
@@ -605,6 +634,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &6276263704712170995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3799851267288575963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44d5a02085a10134f934d2d2a5f9d321, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noOfWatchers: 0
 --- !u!1 &4482755293841807915
 GameObject:
   m_ObjectHideFlags: 0
@@ -951,7 +993,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5278697217928993044}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
   m_Name: 

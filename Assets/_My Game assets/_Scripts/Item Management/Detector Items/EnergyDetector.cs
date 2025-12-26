@@ -60,7 +60,7 @@ public class EnergyDetector : NetworkBehaviour
     private void Update()
     {
 
-        if (Input.GetMouseButtonUp(1))
+        if (Input.GetMouseButtonUp(1) && itemPickup.dsfci)
         {
             if (inventory == null)
                 inventory = GameManager.Instance.ownerPlayer.GetComponent<Inventory>();

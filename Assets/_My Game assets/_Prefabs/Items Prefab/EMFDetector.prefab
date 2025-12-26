@@ -277,6 +277,7 @@ GameObject:
   - component: {fileID: 1547149646854594066}
   - component: {fileID: 7057951159155878312}
   - component: {fileID: 6082999259620685614}
+  - component: {fileID: -232552235198801909}
   m_Layer: 0
   m_Name: EMFDetector
   m_TagString: Untagged
@@ -392,7 +393,10 @@ MonoBehaviour:
     photoType: 0
     photoId: 0
   ItemDataSO: {fileID: 11400000, guid: db710f28dea54b341b74dc0430a83510, type: 2}
+  dsfci: {fileID: 0}
+  inspection: {fileID: 0}
   networkObject: {fileID: 7411244890179075922}
+  noOfWatchers: 0
 --- !u!54 &654380536711809464
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -416,7 +420,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -435,7 +439,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   NetworkRigidbodyBaseExpanded: 0
   UseRigidBodyForMotion: 0
-  AutoUpdateKinematicState: 1
+  AutoUpdateKinematicState: 0
   AutoSetKinematicOnDespawn: 1
 --- !u!65 &5818985939799186824
 BoxCollider:
@@ -497,7 +501,6 @@ MonoBehaviour:
   isInspecting: 0
   meshRenderers: []
   outlineMat: {fileID: 0}
-  collider: {fileID: 0}
 --- !u!114 &7057951159155878312
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -541,6 +544,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+--- !u!114 &-232552235198801909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6777455753283693364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44d5a02085a10134f934d2d2a5f9d321, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7683568704812809573
 GameObject:
   m_ObjectHideFlags: 0

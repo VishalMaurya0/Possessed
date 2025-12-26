@@ -13,6 +13,7 @@ public class MapVisual : NetworkBehaviour
     public GameObject propContainer;
     public GameObject photosContainer;
     public GameObject itemsContainer;
+    public GameObject roofContainer;
 
     [Header("Extracted Values")]
     int rowCells;
@@ -167,6 +168,21 @@ public class MapVisual : NetworkBehaviour
                     obj.transform.position = cell.position;
                     obj.name = $"Cell ({i}, {j})";
                     cell.FloorTileGameobject = obj;
+                }
+                
+                List<PropsProbablity> roofTilePrefabsList = GetBuildingBlock(cell.roofTile);
+
+                GameObject newPrefabRoof = FindPrefabWithTheirProbablity(roofTilePrefabsList);
+
+                if (newPrefabRoof != null)
+                {
+                    GameObject obj = Instantiate(newPrefabRoof, roofContainer.transform);
+                    NetworkObject netobj = obj.GetComponent<NetworkObject>();
+                    netobj.Spawn();
+                    netobj.TrySetParent(roofContainer.transform, false);
+                    obj.transform.position = cell.position;
+                    obj.name = $"Roof ({i}, {j})";
+                    cell.RoofTileGameobject = obj;
                 }
             }
         }

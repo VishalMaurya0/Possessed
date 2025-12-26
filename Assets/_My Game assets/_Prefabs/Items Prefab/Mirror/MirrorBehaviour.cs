@@ -12,26 +12,26 @@ public class MirrorBehaviour : MonoBehaviour
     public bool GoAccordingToPlayer = true;
     private void Start()
     {
-        camera = GetComponentInChildren<Camera>();
+        camera = GameObject.FindWithTag("Ghost").GetComponentInChildren<Camera>();
 
 
-        runtimeRT = new RenderTexture(1024, 1024, 16, RenderTextureFormat.ARGB32);
-        runtimeRT.Create();
+        //runtimeRT = new RenderTexture(1024, 1024, 16, RenderTextureFormat.ARGB32);
+        //runtimeRT.Create();
 
         // Step 2: Assign to mirror camera
-        if (camera != null)
-        {
-            camera.targetTexture = runtimeRT;
-        }
+        //if (camera != null)
+        //{
+        //    camera.targetTexture = runtimeRT;
+        //}
 
-        runtimeMaterial = new Material(referenceMat);
-        runtimeMaterial.mainTexture = runtimeRT;
+        //runtimeMaterial = new Material(referenceMat);
+        //runtimeMaterial.mainTexture = runtimeRT;
 
         // Step 4: Apply material to the mirror surface
-        if (mirrorSurface != null)
-        {
-            mirrorSurface.material = runtimeMaterial;
-        }
+        //if (mirrorSurface != null)
+        //{
+        //    mirrorSurface.material = runtimeMaterial;
+        //}
     }
 
     private void Update()
@@ -52,7 +52,7 @@ public class MirrorBehaviour : MonoBehaviour
         Vector3 dir = new(x, y, z);
 
         float camZ = Vector3.Dot(dir, forward.transform.position - transform.position);
-        Vector3 final = dir - (forward.transform.position - transform.position )* camZ*2;
+        Vector3 final = dir - (forward.transform.position - transform.position) * camZ * 2;
 
         camera.transform.localPosition = final;
     }

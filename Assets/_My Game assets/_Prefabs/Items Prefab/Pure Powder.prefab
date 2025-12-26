@@ -320,6 +320,7 @@ GameObject:
   - component: {fileID: 3617511984824371447}
   - component: {fileID: 4271315303644653013}
   - component: {fileID: -4896108471077466489}
+  - component: {fileID: 8481958701948567557}
   m_Layer: 0
   m_Name: Pure Powder
   m_TagString: Untagged
@@ -392,7 +393,10 @@ MonoBehaviour:
     photoType: 0
     photoId: 0
   ItemDataSO: {fileID: 11400000, guid: 00cf7645084f520478f82c601fdeaff6, type: 2}
+  dsfci: {fileID: 0}
+  inspection: {fileID: 0}
   networkObject: {fileID: 0}
+  noOfWatchers: 0
 --- !u!114 &4389121194185173623
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -462,7 +466,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -481,7 +485,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   NetworkRigidbodyBaseExpanded: 0
   UseRigidBodyForMotion: 0
-  AutoUpdateKinematicState: 1
+  AutoUpdateKinematicState: 0
   AutoSetKinematicOnDespawn: 1
 --- !u!114 &-913701108965247333
 MonoBehaviour:
@@ -501,7 +505,6 @@ MonoBehaviour:
   isInspecting: 0
   meshRenderers: []
   outlineMat: {fileID: 2100000, guid: d60380747ae929f4fb905e022db95b3d, type: 2}
-  collider: {fileID: 0}
 --- !u!114 &3617511984824371447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -548,6 +551,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+--- !u!114 &8481958701948567557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6905787541895510452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44d5a02085a10134f934d2d2a5f9d321, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8439994608654346107
 GameObject:
   m_ObjectHideFlags: 0

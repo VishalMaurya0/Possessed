@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3575831392023347599}
   - component: {fileID: 6309213205823007003}
   - component: {fileID: 6228881579947210768}
+  - component: {fileID: 8519085874970070809}
   m_Layer: 0
   m_Name: Container_UpDoor
   m_TagString: Untagged
@@ -158,6 +159,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &8519085874970070809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1720683307233103947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44d5a02085a10134f934d2d2a5f9d321, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noOfWatchers: 0
 --- !u!1 &3304267105708540696
 GameObject:
   m_ObjectHideFlags: 0
@@ -224,7 +238,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3304267105708540696}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
   m_Name: 

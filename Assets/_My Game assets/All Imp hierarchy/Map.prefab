@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1728756650
+  GlobalObjectIdHash: 3998660621
   InScenePlacedSourceGlobalObjectIdHash: 449907750
   DeferredDespawnTick: 0
   Ownership: 1
@@ -114,6 +114,63 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
+--- !u!1 &4583724590935963172
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4630690338945368831}
+  - component: {fileID: 8584893370078213919}
+  m_Layer: 0
+  m_Name: Items
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4630690338945368831
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4583724590935963172}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5879470629063330843}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8584893370078213919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4583724590935963172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 3030216862
+  InScenePlacedSourceGlobalObjectIdHash: 449907750
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 0
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1 &5567805926515344832
 GameObject:
   m_ObjectHideFlags: 0
@@ -159,6 +216,63 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 1064746515
+  InScenePlacedSourceGlobalObjectIdHash: 449907750
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 0
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
+--- !u!1 &5918701518400600301
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8486087907220505749}
+  - component: {fileID: 4857827611135320745}
+  m_Layer: 0
+  m_Name: Items In Props
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8486087907220505749
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5918701518400600301}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5879470629063330843}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4857827611135320745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5918701518400600301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 989847345
   InScenePlacedSourceGlobalObjectIdHash: 449907750
   DeferredDespawnTick: 0
   Ownership: 1
@@ -299,6 +413,7 @@ GameObject:
   - component: {fileID: 3871107611542198189}
   - component: {fileID: 3787195191445701074}
   - component: {fileID: 7134979611891112981}
+  - component: {fileID: 3307745382010156207}
   m_Layer: 0
   m_Name: Map
   m_TagString: Untagged
@@ -324,6 +439,8 @@ Transform:
   - {fileID: 6593974366455255687}
   - {fileID: 3943225604909304635}
   - {fileID: 8915201026188526018}
+  - {fileID: 4630690338945368831}
+  - {fileID: 8486087907220505749}
   - {fileID: 3063717076659176342}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -387,7 +504,8 @@ MonoBehaviour:
   mapVisualTemp: {fileID: 0}
   mapVisual: {fileID: 0}
   proceduralMapDataSO: {fileID: 11400000, guid: a8cd5636d38d84b4b8a162e6c8b564cb, type: 2}
-  photoContainerSO: {fileID: 0}
+  photoContainerSO: {fileID: 11400000, guid: d4ce5fe9f77309c4f9daf84c79334a46, type: 2}
+  itemSpawningSettingsSO: {fileID: 11400000, guid: b145763d8e3828740af998ff1b0e95e9, type: 2}
   taskManager: {fileID: 0}
   CellObj: {fileID: 6613996105818949032, guid: c065f9592642ef8448e646e2cba0a3d0, type: 3}
   totalRooms: 30
@@ -407,6 +525,7 @@ MonoBehaviour:
     id: {x: 0, y: 0}
     visited: 0
     inRoom: 0
+    isEdgeCell: 0
     roomID: 0
     wall: 
     pillar: 
@@ -427,6 +546,9 @@ MonoBehaviour:
     wallGTemporary: []
   InitialGateRooms: []
   rooms: []
+  photoDataForCells: []
+  itemDataToSpawnForCells: []
+  photosNotGenerated: 1
 --- !u!114 &3787195191445701074
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -467,6 +589,22 @@ MonoBehaviour:
   tileContainer: {fileID: 5567805926515344832}
   propContainer: {fileID: 6492423263865099681}
   photosContainer: {fileID: 3189751123762648346}
+  itemsContainer: {fileID: 4583724590935963172}
+--- !u!114 &3307745382010156207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7604951027499454770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21ff915316e2ac6419d8443025abbec1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemSpawningSettingsSO: {fileID: 11400000, guid: b145763d8e3828740af998ff1b0e95e9, type: 2}
+  itemSpawningInPropsManagerRuntimeDatas: []
+  itemsContainer: {fileID: 5918701518400600301}
 --- !u!1 &7875158109531038162
 GameObject:
   m_ObjectHideFlags: 0

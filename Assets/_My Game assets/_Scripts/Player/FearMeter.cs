@@ -52,7 +52,11 @@ public class FearMeter : MonoBehaviour
         maxMoveDistanceWhenGettingPossessed = playerDataSO.maxFearDistance;
         revivedFear = playerDataSO.revivedFear;
 
-        fearBar = FindAnyObjectByType<Slider>();
+        if (fearBar == null)
+        {
+            //Debug.LogError("Galat bar");
+            fearBar = GameObject.FindWithTag("FearUI").GetComponent<Slider>();
+        }
     }
 
     private void Update()

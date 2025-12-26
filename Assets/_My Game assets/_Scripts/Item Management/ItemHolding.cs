@@ -162,6 +162,8 @@ public class ItemHolding : NetworkBehaviour
         GameObject itemInstance = Instantiate(ScriptableObjectFinder.Instance.FindItemSO(item).itemPrefab, spawnPos, spawnRot);//----------Instantiate it
         itemInstance.GetComponent<NetworkObject>().Spawn(true);                                                                        //-----------spawn
 
+        itemInstance.GetComponent<Rigidbody>().isKinematic = false;
+
         //----------get itemdata of spawned object and set values
         ItemData newItemData = itemInstance.GetComponent<ItemPickup>().itemData = new ItemData(item);
         spawnedObject = itemInstance;

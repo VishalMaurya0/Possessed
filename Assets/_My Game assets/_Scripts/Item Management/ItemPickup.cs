@@ -205,6 +205,21 @@ public class ItemPickup : NetworkBehaviour
         {
             RequestDataServerRpc();
         }
+
+
+        if (IsServer) // Only Server calculates physics
+        {
+            // 1. Force physics ON immediately so it drops to the floor
+            Rigidbody rb = GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.isKinematic = false;
+                rb.detectCollisions = true;
+            }
+
+            // 2. Schedule it to freeze after 3 seconds (enough time to settle)
+            Invoke(nameof(FreezeItem), 3.0f);
+        }
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -233,4 +248,15 @@ public class ItemPickup : NetworkBehaviour
 
 
     #endregion
+
+
+    private void FreezeItem()
+    {
+        // Only freeze if no player is currently holding it or standing near it
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.isKinematic = true;
+        }
+    }
 }

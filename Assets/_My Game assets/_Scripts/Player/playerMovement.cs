@@ -289,6 +289,8 @@ public class PlayerController : NetworkBehaviour
 
         currentStamina = Mathf.Clamp(currentStamina, 0, maxStamina);
         staminaSlider.value = currentStamina / maxStamina * 100;
+        //Debug.LogError(currentStamina);
+        //Debug.LogError(staminaSlider.value);
         if (staminaBuildingStage)
         {
             staminaImage.color = buildingStaminaColor;

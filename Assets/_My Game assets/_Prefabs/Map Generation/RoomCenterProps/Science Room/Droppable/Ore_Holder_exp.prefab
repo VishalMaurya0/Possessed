@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 4021547027419198528}
   - component: {fileID: 1627617954942577717}
   - component: {fileID: 5937973524071004549}
+  - component: {fileID: 4916865151241709951}
   m_Layer: 0
   m_Name: Ore_Holder_exp
   m_TagString: Untagged
@@ -123,7 +124,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 896454351296144147}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
   m_Name: 
@@ -210,6 +211,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.9201837, y: 0.9476061, z: 1.0052865}
   m_Center: {x: 0.0000030994415, y: 0.0000054240227, z: 0.0000002682209}
+--- !u!114 &4916865151241709951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 896454351296144147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44d5a02085a10134f934d2d2a5f9d321, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noOfWatchers: 0
 --- !u!1 &8984166755428590419
 GameObject:
   m_ObjectHideFlags: 0
