@@ -46,16 +46,10 @@ public class ItemPickup : NetworkBehaviour
 
         inspection = GetComponent<Inspection>();
     }
-
-    private void Update()
+    
+    public void RequestPickup()
     {
-        // Don't allow pickup if we are dead/despawning
-        if (!IsSpawned) return;
-
-        if (Input.GetKeyDown(KeyCode.E) && (!inspection.isInspecting))
-        {
-            TryPickupItem();
-        }
+                PickupItemServerRpc();
     }
 
     private void TryPickupItem()
@@ -65,7 +59,6 @@ public class ItemPickup : NetworkBehaviour
         {
             if (hit.collider.gameObject == this.gameObject)
             {
-                PickupItemServerRpc();
             }
         }
     }
@@ -217,8 +210,6 @@ public class ItemPickup : NetworkBehaviour
                 rb.detectCollisions = true;
             }
 
-            // 2. Schedule it to freeze after 3 seconds (enough time to settle)
-            Invoke(nameof(FreezeItem), 3.0f);
         }
     }
 
@@ -248,15 +239,4 @@ public class ItemPickup : NetworkBehaviour
 
 
     #endregion
-
-
-    private void FreezeItem()
-    {
-        // Only freeze if no player is currently holding it or standing near it
-        Rigidbody rb = GetComponent<Rigidbody>();
-        if (rb != null)
-        {
-            rb.isKinematic = true;
-        }
-    }
 }

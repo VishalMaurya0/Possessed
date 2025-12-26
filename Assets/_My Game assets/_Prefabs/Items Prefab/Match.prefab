@@ -5753,7 +5753,6 @@ MonoBehaviour:
   dsfci: {fileID: 0}
   inspection: {fileID: 0}
   networkObject: {fileID: 0}
-  noOfWatchers: 0
 --- !u!114 &4389121194185173623
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5798,7 +5797,7 @@ MonoBehaviour:
   UseHalfFloatPrecision: 0
   InLocalSpace: 0
   SwitchTransformSpaceWhenParented: 0
-  Interpolate: 1
+  Interpolate: 0
   SlerpPosition: 0
 --- !u!54 &1382738338096327746
 Rigidbody:
@@ -5823,7 +5822,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
@@ -5842,7 +5841,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   NetworkRigidbodyBaseExpanded: 0
   UseRigidBodyForMotion: 0
-  AutoUpdateKinematicState: 0
+  AutoUpdateKinematicState: 1
   AutoSetKinematicOnDespawn: 1
 --- !u!114 &-913701108965247333
 MonoBehaviour:
@@ -5899,6 +5898,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44d5a02085a10134f934d2d2a5f9d321, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  noOfWatchers: 0
+  networkTransform: {fileID: 0}
 --- !u!1 &6987105849464502743
 GameObject:
   m_ObjectHideFlags: 0

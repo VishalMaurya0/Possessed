@@ -10,10 +10,7 @@ public class ItemActiveTrigger : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        // LOGIC: 
-        // 1. Server must run to handle Networked Items.
-        // 2. Owner must run to handle Local Debris/Props.
-        // 3. Other Clients (proxy players) should NOT run to save performance.
+        // Only run on Server (for networked items) or Owner (for local debris)
         if (!IsServer && !IsOwner)
         {
             enabled = false;
@@ -78,78 +75,36 @@ public class ItemActiveTrigger : NetworkBehaviour
     // --- SEPARATION LOGIC HERE ---
     private void HandleObjectDetection(DummyFotRigidbodyProps props, bool enter)
     {
-        // Check if this is a Networked Item
-        bool isNetworkedItem = props.TryGetComponent(out ItemPickup itemPickup);
+        // Determine if we are allowed to touch this object
+        bool isNetworkedItem = props.GetComponent<NetworkObject>() != null;
+        if (!isNetworkedItem)  isNetworkedItem = props.networkTransform != null;
 
         if (isNetworkedItem)
         {
-            // CASE 1: Networked Item -> ONLY SERVER allowed to touch
-            if (IsServer)
-            {
-                SetItemPhysics(props, enter);
-            }
+            // Only Server wakes up networked items
+            if (IsServer) SetItemPhysics(props, enter);
         }
         else
         {
-            // CASE 2: Local Prop (No ItemPickup) -> ONLY OWNER allowed to touch
-            // (These are client-side debris/objects not synced over network)
-            if (IsOwner || IsServer)
-            {
-                SetItemPhysics(props, enter);
-            }
+            // Owner wakes up local debris
+            if (IsOwner) SetItemPhysics(props, enter);
         }
     }
-
     private void SetItemPhysics(DummyFotRigidbodyProps item, bool enablePhysics)
     {
-        // Ref Counting Logic
         if (enablePhysics)
         {
-            if (_watchedItems.Add(item))
-            {
-                item.noOfWatchers++;
-            }
+            if (_watchedItems.Add(item)) item.noOfWatchers++;
         }
         else
         {
-            if (_watchedItems.Remove(item))
-            {
-                item.noOfWatchers--;
-            }
+            if (_watchedItems.Remove(item)) item.noOfWatchers--;
         }
 
-        // Physics Application Logic
-        Rigidbody rb = item.GetComponent<Rigidbody>();
-        if (rb == null) return;
+        if (item.noOfWatchers < 0) item.noOfWatchers = 0;
 
-        if (item.noOfWatchers > 0)
-        {
-            // If it is asleep, wake it up
-            if (rb.isKinematic)
-            {
-                rb.isKinematic = false;
-                rb.detectCollisions = true;
-            }
-            if (item.networkTransform != null)
-            {
-                item.networkTransform.enabled = true;
-            }
-        }
-        else
-        {
-            // If no one is watching, put to sleep
-            // Ensure we don't go negative
-            if (item.noOfWatchers < 0) item.noOfWatchers = 0;
-
-            if (item.noOfWatchers == 0 && !rb.isKinematic)
-            {
-                rb.isKinematic = true;
-                rb.detectCollisions = false;
-            }
-            if (item.networkTransform != null)
-            {
-                item.networkTransform.enabled = false;
-            }
-        }
+        // Use the helper method on the prop itself
+        bool shouldWakeUp = item.noOfWatchers > 0;
+        item.SetSleepState(shouldWakeUp);
     }
 }

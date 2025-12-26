@@ -10,6 +10,6 @@ public class DetectorForFallingObjects : MonoBehaviour
             rb.linearVelocity = Vector3.zero;
         }
 
-        other.transform.position += new Vector3(0, -other.transform.position.y + 5, 0);
+        other.transform.position += new Vector3(0, -other.transform.position.y + 3, 0);
     }
 }

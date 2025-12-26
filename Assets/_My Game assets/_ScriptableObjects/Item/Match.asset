@@ -18,15 +18,20 @@ MonoBehaviour:
   dummyItemPrefab: {fileID: 9103390304153275461, guid: 28059978c4352124e8e60aa48e766710, type: 3}
   itemType: 1
   isContainer: 1
-  noOfStates: 4
+  noOfStates: 9
   states:
   - Initial State
-  - After First Use
-  - After Second Use
+  - 7 Stick
+  - 6 Stick
+  - 5 Stick
+  - 4 Stick
+  - 3 Stick
+  - 2 Stick
+  - 1 Stick
   - Empty State
   statesPrefab: []
   currentState: 0
   isStackable: 1
-  maxStackSize: 10
+  maxStackSize: 2
   inventorySlots: 1
   weight: 0.01
