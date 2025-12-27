@@ -27,10 +27,12 @@ public class SelectingThreeProcedures : NetworkBehaviour
     {
         if (notifyClients)
         {
-            NotifyClientsAboutSelectedProceduresClientRpc(threeProcedureIndex);
             if (IsServer)
+            {
                 GameManager.Instance.selectedProceduresIndex = threeProcedureIndex;
-            notifyClients = false;
+                NotifyClientsAboutSelectedProceduresClientRpc(threeProcedureIndex);
+                notifyClients = false;
+            }
         }
 
 

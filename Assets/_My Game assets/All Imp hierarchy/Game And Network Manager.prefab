@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2414213928891276075}
-  - component: {fileID: 4480574489279584503}
+  - component: {fileID: 5811726690603107404}
   - component: {fileID: 7931250053765984012}
   - component: {fileID: 3491250806943052933}
   - component: {fileID: 7816311691814989854}
@@ -38,7 +38,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4480574489279584503
+--- !u!114 &5811726690603107404
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -50,8 +50,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3436930068
-  InScenePlacedSourceGlobalObjectIdHash: 3296060542
+  GlobalObjectIdHash: 2433347123
+  InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
   AlwaysReplicateAsRoot: 0
@@ -100,12 +100,16 @@ MonoBehaviour:
   gameStarted: 0
   gameEnd: 0
   noOfPlayers: 0
+  alivePlayers: 0
   inventorySlots: 5
   maxWeight: 15
-  playerIndicatorColor: {r: 0, g: 0, b: 0, a: 0}
+  playerIndicatorColor: {r: 0.4481132, g: 0.4481132, b: 0.4481132, a: 0.85490197}
   connectedClientsData: []
+  connectedClientsNumber:
+    m_InternalValue: 0
   selectedProceduresIndex: 
   completedProcedures: 
+  collectedPhotos: []
   timeInSecElapsed: 0
   lockCurser: 1
   handlePlayerLookWithMouse: 1
@@ -116,7 +120,9 @@ MonoBehaviour:
   AllProcedures: []
   taskManager: {fileID: 0}
   HelpInstructions: {fileID: 0}
+  helpInstructionDisplayTime: 0
   winLoseAnimator: {fileID: 0}
+  photoAlbum: {fileID: 0}
   PlayButton: {fileID: 0}
   PublicPrivateToggle: {fileID: 0}
   LoadingPanel: {fileID: 0}
@@ -191,6 +197,8 @@ MonoBehaviour:
     currentState: 0
     amount: 0
     isOn: 0
+    photoType: 0
+    photoId: 0
   finalItemState:
     itemType: 0
     isContainer: 0

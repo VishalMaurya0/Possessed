@@ -2,6 +2,7 @@
 using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.UIElements;
 using static Room;
 
 public class GenerateMap : NetworkBehaviour
@@ -18,7 +19,7 @@ public class GenerateMap : NetworkBehaviour
 
 
     [Header("Inputs")]
-    public int seed;
+    public NetworkVariable <int> seed = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public GameObject CellObj;
     public int totalRooms;
     public int roomMinLength;
@@ -44,12 +45,18 @@ public class GenerateMap : NetworkBehaviour
 
     [Header("Properties")]
     public bool photosNotGenerated = true;
+    public bool spawnPhotos = false;
 
     public void HandleServerStarted()       //======== Start ========//
     {
         if (!IsServer)
         {
-            return;
+            Debug.LogError("Client Started Map Generation");
+        }
+
+        if (IsServer)
+        {
+            seed.Value = (int)System.DateTime.Now.Ticks;
         }
 
         typeOfRooms = proceduralMapDataSO.typeOfRooms;
@@ -63,7 +70,6 @@ public class GenerateMap : NetworkBehaviour
         START_GENERATION();
     }
 
-
     private void OnValidate()
     {
         generateAgain = true;
@@ -72,18 +78,18 @@ public class GenerateMap : NetworkBehaviour
 
     private void Update()
     {
-        if (!IsServer)
-        {
-            return;
-        }
-
         if (generateAgain)
         {
             generateAgain = false;
             //GenerateAgain();
         }
 
-        if (photosNotGenerated && GameManager.Instance.taskManager)
+        //if (MYRandom == null)
+        //{
+        //    MYRandom = new SeededRandom(seed.Value);
+        //}
+
+        if (photosNotGenerated && GameManager.Instance.taskManager && spawnPhotos)
         {
             photosNotGenerated = false;
             SpawnPhotos();
@@ -127,8 +133,8 @@ public class GenerateMap : NetworkBehaviour
     }
     private void START_GENERATION()
     {
-        MYRandom = new SeededRandom(seed);
-
+        MYRandom = new SeededRandom(seed.Value);
+        //Debug.LogError($"Map Generation Started with Seed: {seed.Value}");
         MarkEdgeCells();
         CentreGeneration();               //======= 3x3 centre generated =====//
         ChooseGate();                        //======= gate are chosen in all direction in the center randomly ========//
@@ -141,11 +147,15 @@ public class GenerateMap : NetworkBehaviour
         CreateJoinedPillers();
         CreateTiles();
         CreateWindows();
-        SpawnProcedures();
+        if (IsServer)
+            SpawnProcedures();
         GENERATE_PROPS();
-        //SpawnPhotos();
-        SpawnItems();
-
+        if (IsServer)
+        {
+            spawnPhotos = true;
+            //SpawnPhotos();
+            SpawnItems();
+        }
 
         ////======== Visuals & NavMesh ========////
         if (generateTemp)
@@ -154,13 +164,22 @@ public class GenerateMap : NetworkBehaviour
         }
         if (generateActual)
         {
+            mapVisual.MYRandom = MYRandom;
             mapVisual.GenerateBuildingBlocks();
             mapVisual.GenerateRoomProps();
-            mapVisual.SpawnItems();
-            ItemSpawningInPropsManager.instance.StartItemSpawn();
+            if (IsServer)
+            {
+                mapVisual.SpawnItems();
+                ItemSpawningInPropsManager.instance.StartItemSpawn();
+            }
             mapVisual.OptimizeStaticMeshes();
         }
-        GameManager.Instance.bakeNavMeshAgain = true;
+        if (IsServer)
+        {
+            GameManager.Instance.bakeNavMeshAgain = true;
+
+            GameManager.Instance.readyToGenerateMapInClients.Value = true;
+        }
     }
     private void GENERATE_PROPS()
     {
@@ -169,7 +188,8 @@ public class GenerateMap : NetworkBehaviour
         GenerateWindowSideProps();
         int tries = 0;
         int totalTries = 50;
-        SpawnTasks(tries, totalTries);
+        if (IsServer)
+            SpawnTasks(tries, totalTries);
         GenerateRoomCenterProps();
     }
 

@@ -20,7 +20,7 @@ public class Network_Manager : NetworkBehaviour
 
 
 
-
+    #region Start / Awake / Update
     public void Awake()
     {
         if (NetworkManager.Singleton != null && NetworkManager.Singleton.SceneManager != null && !subscribeSceneLoadEvents)
@@ -30,6 +30,26 @@ public class Network_Manager : NetworkBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (IsServer)
+        {
+            UpdateAllNoiseValues();
+        }
+        if (!subscribeEvents && NetworkManager.Singleton.IsListening)
+        {
+            subscribeEvents = true;
+            SubscribeEvents();
+        }
+        if (NetworkManager.Singleton != null && NetworkManager.Singleton.IsListening && runStartOnceAfterStartingServer)
+        {
+            MyStart();
+            runStartOnceAfterStartingServer = false;
+        }
+    }
+
+
+    // Subscribe to events if not done in Awake
     private void SubscribeEvents()
     {
         if (NetworkManager.Singleton != null && NetworkManager.Singleton.SceneManager != null)
@@ -43,6 +63,7 @@ public class Network_Manager : NetworkBehaviour
             NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
         }
     }
+
 
     private void MyStart()
     {
@@ -71,14 +92,56 @@ public class Network_Manager : NetworkBehaviour
         }
     }
 
+    #endregion
+
+
+    // Generate Map and Spawns Player
+    private void OnSceneLoadComplete(ulong clientId, string sceneName, LoadSceneMode mode)
+    {
+        if (sceneName != "Procedural Generation") return;
+
+        // 1. Handle Map Generation First
+        if (!generated && generateMap != null)
+        {
+            StartCoroutine(GENERATE_MAP());
+            //generated = true;
+            //generateMap.HandleServerStarted();
+        }
+
+        if (!IsServer) return;
+        // 2. Check if this specific client already has a player
+        if (NetworkManager.Singleton.ConnectedClients.TryGetValue(clientId, out var client))
+        {
+            if (client.PlayerObject != null)
+            {
+                Debug.Log($"[Server] Client {clientId} already has a player object. Skipping.");
+                return;
+            }
+
+            // 3. Spawn only if they don't have one
+            Debug.Log($"[Server] Spawning player for clientId: {clientId}");
+            Vector3 spawnPos = GetSpawnPosition();
+            GameObject playerInstance = Instantiate(playerPrefab, spawnPos, Quaternion.identity);
+
+            // Safety check before spawning
+            NetworkObject netObj = playerInstance.GetComponent<NetworkObject>();
+            if (netObj != null)
+            {
+                netObj.SpawnAsPlayerObject(clientId, true); // 'true' destroys the object if the scene changes
+            }
+        }
+    }
+    // same thing done again just in case not startd from main menu
     private void HandleSceneInit()
     {
         if (generateMap != null && !generated)
         {
-            generated = true;
-            generateMap.HandleServerStarted();
+            StartCoroutine(GENERATE_MAP());
+            //generated = true;
+            //generateMap.HandleServerStarted();
         }
 
+        if (!IsServer) return;
         foreach (var clientPair in NetworkManager.Singleton.ConnectedClients)
         {
             ulong clientID = clientPair.Key;
@@ -93,6 +156,14 @@ public class Network_Manager : NetworkBehaviour
     }
 
 
+    IEnumerator GENERATE_MAP()
+    {
+        if (!IsServer)
+            yield return new WaitUntil(() => GameManager.Instance != null && GameManager.Instance.readyToGenerateMapInClients.Value);
+        generated = true;
+        generateMap.HandleServerStarted();
+    }
+
     private void OnDisable()
     {
         if (NetworkManager.Singleton != null && NetworkManager.Singleton.SceneManager != null)
@@ -102,129 +173,6 @@ public class Network_Manager : NetworkBehaviour
             NetworkManager.Singleton.OnClientDisconnectCallback -= OnClientDisconnected;
         }
     }
-
-    private void Update()
-    {
-        if (IsServer)
-        {
-            UpdateAllNoiseValues();
-        }
-        if (!subscribeEvents && NetworkManager.Singleton.IsListening)
-        {
-            subscribeEvents = true;
-            SubscribeEvents();
-        }
-        if (NetworkManager.Singleton != null && NetworkManager.Singleton.IsListening && runStartOnceAfterStartingServer)
-        {
-            MyStart();
-            runStartOnceAfterStartingServer = false;
-        }
-    }
-
-    private void OnSceneLoadComplete(ulong clientId, string sceneName, LoadSceneMode mode)
-    {
-        if (sceneInitDone)
-        {
-            Debug.LogWarning("[OnSceneLoadComplete] Scene already initialized. Skipping duplicate call.");
-            return;
-        }
-        sceneInitDone = true;
-        Debug.Log($"[OnSceneLoadComplete] Triggered for clientId: {clientId}, sceneName: {sceneName}");
-
-        if (!IsServer)
-        {
-            Debug.Log("[OnSceneLoadComplete] Not the server. Exiting.");
-            return;
-        }
-
-
-        if (sceneName == "Procedural Generation")
-        {
-            HandleSceneInit();
-        }
-
-        if (sceneName == "Procedural Generation")
-        {
-            Debug.Log("[Server] Procedural Generation scene loaded.");
-
-            if (generateMap == null)
-            {
-                Debug.LogWarning("[Server] generateMap is null. Trying to find it in the scene.");
-            }
-
-            if (generateMap != null && !generated)
-            {
-                Debug.Log("[Server] generateMap found and generation not yet triggered. Calling HandleServerStarted().");
-                generated = true;
-                generateMap.HandleServerStarted();
-            }
-            else if (generated)
-            {
-                Debug.LogWarning("[Server] Map has already been generated.");
-            }
-            else
-            {
-                Debug.LogError("[Server] generateMap is still null after search.");
-            }
-
-
-
-
-
-
-
-
-            Debug.Log("[Server] Spawning players if not already spawned...");
-            foreach (var clientPair in NetworkManager.Singleton.ConnectedClients)
-            {
-                ulong clientID = clientPair.Key;
-                Debug.Log($"[Server] Checking player for clientID: {clientID}");
-
-                if (clientPair.Value.PlayerObject != null)
-                {
-                    Debug.Log($"[Server] PlayerObject already exists for clientID: {clientID}, skipping spawn.");
-                    continue;
-                }
-
-                if (playerPrefab == null)
-                {
-                    Debug.LogError("[Server] playerPrefab is null! Cannot instantiate player.");
-                    continue;
-                }
-
-                Vector3 spawnPosition = GetSpawnPosition();
-                Debug.Log($"[Server] Spawning player for clientID: {clientID} at position: {spawnPosition}");
-
-                GameObject playerInstance = Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
-                NetworkObject netObj = playerInstance.GetComponent<NetworkObject>();
-
-                if (netObj == null)
-                {
-                    Debug.LogError("[Server] Instantiated player prefab does not have a NetworkObject component!");
-                    Destroy(playerInstance);
-                    continue;
-                }
-
-                netObj.SpawnAsPlayerObject(clientID);
-                Debug.Log($"[Server] PlayerObject spawned and assigned to clientID: {clientID}");
-            }
-        }
-        else
-        {
-            Debug.Log($"[OnSceneLoadComplete] Scene '{sceneName}' is not handled in this method.");
-        }
-    }
-
-
-    private Vector3 GetSpawnPosition()
-    {
-        return new Vector3(68, 4, 68) + new Vector3(Random.Range(-2f, 2f), 0, Random.Range(-2f, 2f));
-    }
-
-
-
-
-
 
     private void OnClientConnected(ulong clientId)
     {
@@ -269,9 +217,35 @@ public class Network_Manager : NetworkBehaviour
 
         GameManager.Instance.noOfPlayers++;
 
+        UpdateSelectedProceduresForNewClientRPC(GameManager.Instance.selectedProceduresIndex);
+
+        UpdateConnectedClients();
+    }
+    [ClientRpc]
+    private void UpdateSelectedProceduresForNewClientRPC(int[] indicies)
+    {
+        GameManager.Instance.selectedProceduresIndex = indicies;
+    }
+
+    private void OnClientDisconnected(ulong clientId)
+    {
+        if (!IsServer || GameManager.Instance == null) return;
+
+        GameManager.Instance.noOfPlayers--;
         UpdateConnectedClients();
     }
 
+
+
+
+
+
+
+    // Helper fn
+    private Vector3 GetSpawnPosition()
+    {
+        return new Vector3(68, 4, 68) + new Vector3(Random.Range(-2f, 2f), 0, Random.Range(-2f, 2f));
+    }
 
     private IEnumerator HandleLocalCamera(ulong clientId)
     {
@@ -302,14 +276,6 @@ public class Network_Manager : NetworkBehaviour
     }
 
 
-    private void OnClientDisconnected(ulong clientId)
-    {
-        if (!IsServer || GameManager.Instance == null) return;
-
-        GameManager.Instance.noOfPlayers--;
-        UpdateConnectedClients();
-    }
-
     private void UpdateConnectedClients()
     {
         if (GameManager.Instance == null || NetworkManager.Singleton == null) return;
@@ -325,6 +291,16 @@ public class Network_Manager : NetworkBehaviour
                 GameManager.Instance.NotifyClientAboutConnectedClientsServerRpc();
                 GameManager.Instance.connectedClientsNumber.Value = GameManager.Instance.connectedClientsData.Count;
                 //GameManager.Instance.playerIndicatorColors.Add(client, Color.); TODO 
+            }
+        }
+
+        foreach (var data in GameManager.Instance.connectedClientsData.ToArray())
+        {
+            if (!NetworkManager.Singleton.ConnectedClients.ContainsKey(data.clientID))
+            {
+                GameManager.Instance.connectedClientsData.Remove(data);
+                GameManager.Instance.NotifyClientAboutConnectedClientsServerRpc();
+                GameManager.Instance.connectedClientsNumber.Value = GameManager.Instance.connectedClientsData.Count;
             }
         }
     }

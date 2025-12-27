@@ -5,7 +5,7 @@ using UnityEngine;
 public class MapVisual : NetworkBehaviour
 {
     [Header("References")]
-    SeededRandom MYRandom;
+    public SeededRandom MYRandom;
     public GenerateMap generateMap;
     public ProceduralMapDataSO proceduralMapDataSO;
     public GameObject wallContainer;
@@ -19,14 +19,6 @@ public class MapVisual : NetworkBehaviour
     [Header("Extracted Values")]
     int rowCells;
     int columnCells;
-
-    private void Update()
-    {
-        if (MYRandom == null)
-        {
-            MYRandom = generateMap.MYRandom;
-        }
-    }
 
     ////======== For Building Blocks =======//
 
@@ -52,7 +44,7 @@ public class MapVisual : NetworkBehaviour
                     {
                         if (cell.wallGTemporary[k] != null)
                         {
-                            cell.wallGTemporary[k].GetComponent<NetworkObject>().Despawn();
+                            //cell.wallGTemporary[k].GetComponent<NetworkObject>().Despawn();
                             Destroy(cell.WallGameobject[k]);
                             cell.wallGTemporary[k] = null;
                         }
@@ -289,6 +281,7 @@ public class MapVisual : NetworkBehaviour
     ////======== For Room Props =======//
     public void GenerateRoomProps()
     {
+        if (!IsServer) return;
         //rowCells = generateMap.mapCells.GetLength(0);
         //columnCells = generateMap.mapCells.GetLength(1);
 
@@ -341,11 +334,19 @@ public class MapVisual : NetworkBehaviour
                 GameObject propPrefab = FindPropGameObj(cell);
                 if (propPrefab == null) continue;
 
+                // 1.Check if it should be static (No Rigidbody)
+                bool isPhysicsProp = propPrefab.GetComponentInChildren<Rigidbody>(true) != null;
+
+                // 2. Instantiate
                 GameObject propGameobject = Instantiate(propPrefab, propContainer.transform);
                 propGameobject.transform.position = cell.position;
-                //propGameobject.isStatic = true;
-                //SetStaticRecursively(propGameobject);
                 cell.PropGameobject = propGameobject;
+
+                // 3. Apply Optimization ONLY if it's not a physics object
+                if (!isPhysicsProp)
+                {
+                    SetStaticRecursively(propGameobject); // Mark static
+                }
 
                 // Rotation Logic
                 ApplyPropRotation(cell, propGameobject);
@@ -355,6 +356,7 @@ public class MapVisual : NetworkBehaviour
 
     public void DropDroppablesInRoom()
     {
+        if (!IsServer) return;
         List<Room> rooms = generateMap.rooms;
         for (int i = 0; i < rooms.Count; i++)
         {
@@ -385,6 +387,11 @@ public class MapVisual : NetworkBehaviour
     //======= Photo Album Props ======//
     public void SpawnPhotos()
     {
+        if (MYRandom == null)
+        {
+            MYRandom = generateMap.MYRandom;
+        }
+        if (!IsServer) return;
         List<PhotoDataForCell> photoDataForCells = generateMap.photoDataForCells;
 
         foreach (var photoData in photoDataForCells)
@@ -407,6 +414,7 @@ public class MapVisual : NetworkBehaviour
 
     public void SpawnItems()
     {
+        if (!IsServer) return;
         List<ItemDataToSpawnForCell> itemDataToSpawnForCells = generateMap.itemDataToSpawnForCells;
         foreach (var itemData in itemDataToSpawnForCells)
         {

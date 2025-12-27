@@ -21,6 +21,7 @@ public class GameManager : NetworkBehaviour
     public bool serverStarted = false;
     public bool gameStarted = false;
     public bool gameEnd = false;
+    public NetworkVariable <bool> readyToGenerateMapInClients = new NetworkVariable<bool> (false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
 
     [Header("One Time Variables")]
