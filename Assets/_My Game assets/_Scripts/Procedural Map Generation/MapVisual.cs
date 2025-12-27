@@ -5,6 +5,7 @@ using UnityEngine;
 public class MapVisual : NetworkBehaviour
 {
     [Header("References")]
+    SeededRandom MYRandom;
     public GenerateMap generateMap;
     public ProceduralMapDataSO proceduralMapDataSO;
     public GameObject wallContainer;
@@ -19,15 +20,22 @@ public class MapVisual : NetworkBehaviour
     int rowCells;
     int columnCells;
 
-    private void Start()
+    private void Update()
     {
-        
+        if (MYRandom == null)
+        {
+            MYRandom = generateMap.MYRandom;
+        }
     }
 
     ////======== For Building Blocks =======//
 
     public void GenerateBuildingBlocks()
     {
+        if (MYRandom == null)
+        {
+            MYRandom = generateMap.MYRandom;
+        }
         rowCells = generateMap.mapCells.GetLength(0);
         columnCells = generateMap.mapCells.GetLength(1);
 
@@ -126,7 +134,7 @@ public class MapVisual : NetworkBehaviour
                         netobj.Spawn();
                         netobj.TrySetParent(pillarContainer.transform, false);
                         newPillar.transform.position = cell.GetPillarPosition(k, cell);
-                        newPillar.transform.rotation = cell.GetPillarRotation(k);
+                        newPillar.transform.rotation = cell.GetPillarRotation(k, MYRandom);
                         newPillar.SetActive(true); // Ensure it's visible
 
                         cell.PillarGameobject[k] = newPillar;
@@ -220,7 +228,7 @@ public class MapVisual : NetworkBehaviour
                     if (cell.wall[k] == Type.Walls)
                     {
                         propGameobject.transform.Rotate(new Vector3(0, (k-iter)*(-90f), 0)); 
-                        if (Random.Range(0, 2) == 0)
+                        if (MYRandom.Range(0, 2) == 0)
                         {
                             iter = 0;
                             break;
@@ -240,23 +248,23 @@ public class MapVisual : NetworkBehaviour
             Room room = rooms[i];
             if (room == null) continue;
 
-            int amountOfDroppablesTypesToSpawn = room.AllCells.Length + Random.Range(-2, 8);
+            int amountOfDroppablesTypesToSpawn = room.AllCells.Length + MYRandom.Range(-2, 8);
             List<PropsProbablity> propsProbablities = proceduralMapDataSO.MapMakingPrefabs.RoomProps.RoomTypes[room.roomType].Droppables;
 
             for (int j = 0; j < amountOfDroppablesTypesToSpawn; j++)
             {
-                //PropsProbablity droppableToSpawn = propsProbablities[Random.Range(0, propsProbablities.Count)];
+                //PropsProbablity droppableToSpawn = propsProbablities[MYRandom.Range(0, propsProbablities.Count)];
                 if (propsProbablities == null || propsProbablities.Count <= 0) break;
 
-                MapCell cell = room.AllCells[Random.Range(0, room.AllCells.Length)];
+                MapCell cell = room.AllCells[MYRandom.Range(0, room.AllCells.Length)];
                 if (cell == null) Debug.LogError("fgh");
-                Vector3 randomPos = new Vector3(Random.Range(0.1f, cell.width), cell.heightForSpawningObjects, Random.Range(0.1f, cell.width));
+                Vector3 randomPos = new Vector3(MYRandom.Range(0.1f, cell.width), cell.heightForSpawningObjects, MYRandom.Range(0.1f, cell.width));
                 GameObject itemObj = Instantiate(FindPrefabWithTheirProbablity(propsProbablities), propContainer.transform);
                 NetworkObject netobj = itemObj.GetComponent<NetworkObject>();
                 netobj.Spawn();
                 netobj.TrySetParent(itemsContainer.transform, false);
                 itemObj.transform.position = cell.position + randomPos;
-                itemObj.transform.rotation = Random.rotation;
+                itemObj.transform.rotation = MYRandom.Rotation();
             }
         }
     }
@@ -274,9 +282,9 @@ public class MapVisual : NetworkBehaviour
             netobj.TrySetParent(photosContainer.transform, false);
 
             MapCell cell = photoData.cell;
-            Vector3 randomPos = new Vector3(Random.Range(0.1f, cell.width), Random.Range(1f, cell.heightForSpawningObjects), Random.Range(0.1f, cell.width));
+            Vector3 randomPos = new Vector3(MYRandom.Range(0.1f, cell.width), MYRandom.Range(1f, cell.heightForSpawningObjects), MYRandom.Range(0.1f, cell.width));
             photoObj.transform.position = cell.position + randomPos;
-            photoObj.transform.rotation = Random.rotation;
+            photoObj.transform.rotation = MYRandom.Rotation();
             ItemPickup item = photoObj.GetComponent<ItemPickup>();
             item.itemData.photoId = photoData.photoData.photoID;
             item.itemData.photoType = (photoData.photoData.ProcedurePhoto) ? 1 : 0;
@@ -295,9 +303,9 @@ public class MapVisual : NetworkBehaviour
             netobj.TrySetParent(itemsContainer.transform, false);
 
             MapCell cell = itemData.cell;
-            Vector3 randomPos = new Vector3(Random.Range(0.1f, cell.width), Random.Range(1f, cell.heightForSpawningObjects), Random.Range(0.1f, cell.width));
+            Vector3 randomPos = new Vector3(MYRandom.Range(0.1f, cell.width), MYRandom.Range(1f, cell.heightForSpawningObjects), MYRandom.Range(0.1f, cell.width));
             itemObj.transform.position = cell.position + randomPos;
-            itemObj.transform.rotation = Random.rotation;
+            itemObj.transform.rotation = MYRandom.Rotation();
             
             itemObj.GetComponent<ItemPickup>().itemData = new ItemData(itemData.itemData);
         }
@@ -316,7 +324,7 @@ public class MapVisual : NetworkBehaviour
         AllProps allProps = GetRoomProps(roomType, prop);
         if (allProps.Props.Count <= 0)
             return null;
-        PropsVariation propsVariation = allProps.Props[Random.Range(0, allProps.Props.Count)];
+        PropsVariation propsVariation = allProps.Props[MYRandom.Range(0, allProps.Props.Count)];
         return FindPrefabWithTheirProbablity(propsVariation.Prop);
     }
 
@@ -334,7 +342,7 @@ public class MapVisual : NetworkBehaviour
             totalChances += prefab.chancesIn100;
         }
 
-        int random = Random.Range(0, totalChances);
+        int random = MYRandom.Range(0, totalChances);
 
         foreach (var prefab in PrefabsList)
         {

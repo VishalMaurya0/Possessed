@@ -14,9 +14,11 @@ public class GenerateMap : NetworkBehaviour
     public PhotoContainerSO photoContainerSO;
     public ItemSpawningSettingsSO itemSpawningSettingsSO;
     public TaskManager taskManager;
+    public SeededRandom MYRandom;
 
 
     [Header("Inputs")]
+    public int seed;
     public GameObject CellObj;
     public int totalRooms;
     public int roomMinLength;
@@ -125,6 +127,8 @@ public class GenerateMap : NetworkBehaviour
     }
     private void START_GENERATION()
     {
+        MYRandom = new SeededRandom(seed);
+
         MarkEdgeCells();
         CentreGeneration();               //======= 3x3 centre generated =====//
         ChooseGate();                        //======= gate are chosen in all direction in the center randomly ========//
@@ -215,11 +219,11 @@ public class GenerateMap : NetworkBehaviour
         int centerRow = rowCount / 2;
         int centerCol = colCount / 2;
 
-        System.Random rand = new();
+        //System.MYRandom rand = new();
 
         for (int i = -1; i < 2; i += 2)   ///choosing direction Left and Right
         {
-            int j = rand.Next(-1, 2);   // -1 , 0, 1 
+            int j = MYRandom.Range(-1, 2);   // -1 , 0, 1 
             MapCell cell = mapCells[i + centerRow, j + centerCol];
             switch (i)
             {
@@ -231,7 +235,7 @@ public class GenerateMap : NetworkBehaviour
 
         for (int i = -1; i < 2; i += 2)   ///choosing direction North and south
         {
-            int j = rand.Next(-1, 2);   // -1 , 0, 1 
+            int j = MYRandom.Range(-1, 2);   // -1 , 0, 1 
             MapCell cell = mapCells[j + centerRow, i + centerCol];
             switch (i)
             {
@@ -283,8 +287,8 @@ public class GenerateMap : NetworkBehaviour
     }
     private void CreateARoom(int roomMinLength, int roomMaxLength)
     {
-        int length = Random.Range(roomMinLength, roomMaxLength + 1);
-        int width = Random.Range(roomMinLength, roomMaxLength + 1);
+        int length = MYRandom.Range(roomMinLength, roomMaxLength + 1);
+        int width = MYRandom.Range(roomMinLength, roomMaxLength + 1);
 
 
         //======= check for no of 3x3 rooms =========//
@@ -300,7 +304,7 @@ public class GenerateMap : NetworkBehaviour
             }
         }
 
-        Vector2 start = new(Random.Range(0, grid.length), Random.Range(0, grid.width));
+        Vector2 start = new(MYRandom.Range(0, grid.length), MYRandom.Range(0, grid.width));
 
         bool flag = false;
 
@@ -410,14 +414,14 @@ public class GenerateMap : NetworkBehaviour
         RemoveWalls(mapCells[x, y + width - 1], 0, 1, 1, 0);
         RemoveWalls(mapCells[x + length - 1, y + width - 1], 1, 1, 0, 0);
 
-        //===========Make A Random Gate==========//
+        //===========Make A MYRandom Gate==========//
 
-        int gateIndexX = Random.Range(x, x + length);
-        int gateIndexY = Random.Range(y, y + width);
+        int gateIndexX = MYRandom.Range(x, x + length);
+        int gateIndexY = MYRandom.Range(y, y + width);
         MapCell gateCell = null;
         int gateDir = -1;
 
-        switch (Random.Range(0, 4))
+        switch (MYRandom.Range(0, 4))
         {
             case 0: RemoveWalls(mapCells[x + length - 1, gateIndexY], 2, -1, -1, -1); gateCell = mapCells[x + length - 1, gateIndexY]; gateDir = 0; break;
             case 1: RemoveWalls(mapCells[gateIndexX, y + width - 1], -1, 2, -1, -1); gateCell = mapCells[gateIndexX, y + width - 1]; gateDir = 1; break;
@@ -428,7 +432,7 @@ public class GenerateMap : NetworkBehaviour
 
         // ========= Store It =====//
         Room newRoom = new(start, length, width, gateCell, gateDir, this);
-        newRoom.roomType = Random.Range(0, typeOfRooms);
+        newRoom.roomType = MYRandom.Range(0, typeOfRooms);
 
         // ======== store corner cells =======//
         newRoom.cornercells[0] = mapCells[x + length - 1, y + width - 1];
@@ -463,7 +467,7 @@ public class GenerateMap : NetworkBehaviour
 
         while (newIncrements.Count > 0)
         {
-            MapCell cell = newIncrements[Random.Range(0, newIncrements.Count)];
+            MapCell cell = newIncrements[MYRandom.Range(0, newIncrements.Count)];
             Increment(cell);
         }
 
@@ -474,7 +478,7 @@ public class GenerateMap : NetworkBehaviour
 
         //while (roomGates.Count > 0)
         //{
-        //    MapCell mapCell = roomGates[Random.Range(0, roomGates.Count)];
+        //    MapCell mapCell = roomGates[MYRandom.Range(0, roomGates.Count)];
         //    Increment(mapCell, roomGates, true);
         //}
     }
@@ -520,7 +524,7 @@ public class GenerateMap : NetworkBehaviour
             return;
         }
 
-        //////////============= select a random dir all found directions ==============////////////////
+        //////////============= select a MYRandom dir all found directions ==============////////////////
         int SelectRandomDir()
         {
             // ======= if no direction left ===========//
@@ -536,7 +540,7 @@ public class GenerateMap : NetworkBehaviour
             }
 
 
-            int randomIndex = Random.Range(0, incrementDir.Count);
+            int randomIndex = MYRandom.Range(0, incrementDir.Count);
             int randomDir = incrementDir[randomIndex];
             incrementDir.RemoveAt(randomIndex);
 
@@ -796,7 +800,7 @@ public class GenerateMap : NetworkBehaviour
                     continue;
                 }
 
-                int windowIndex = Random.Range(1, boundaryCell.Length - 1);   //==== not choosing corner cells =====//
+                int windowIndex = MYRandom.Range(1, boundaryCell.Length - 1);   //==== not choosing corner cells =====//
                 MapCell targetCell = boundaryCell[windowIndex];
 
                 for (int k = 0; k < targetCell.wall.Length; k++)
@@ -837,7 +841,7 @@ public class GenerateMap : NetworkBehaviour
         while (selectedRooms.Count < 8 && noOfTrials < totalTrials)
         {
             noOfTrials++;
-            int index = Random.Range(0, allRooms.Count);
+            int index = MYRandom.Range(0, allRooms.Count);
             if (allRooms[index].length <= 3 || allRooms[index].width <= 3)
             {
                 continue;
@@ -863,8 +867,8 @@ public class GenerateMap : NetworkBehaviour
         {
             attempts++;
 
-            int roomIndex = Random.Range(0, selectedRooms.Count);
-            int procedureIndex = Random.Range(0, procedures.Count);
+            int roomIndex = MYRandom.Range(0, selectedRooms.Count);
+            int procedureIndex = MYRandom.Range(0, procedures.Count);
 
             if (IsCompatibleToSpawnAProcedureAndSpawnIt(selectedRooms[roomIndex], procedureIndex))
             {
@@ -913,7 +917,7 @@ public class GenerateMap : NetworkBehaviour
             while (i > 0 && !posFound)
             {
                 i--;
-                pos = new Vector2(Random.Range((int)room.start.x, (int)room.start.x + room.length), Random.Range((int)room.start.y, (int)room.start.y + room.width));
+                pos = new Vector2(MYRandom.Range((int)room.start.x, (int)room.start.x + room.length), MYRandom.Range((int)room.start.y, (int)room.start.y + room.width));
 
                 bool flag = false;
                 if (mapCells[(int)pos.x, (int)pos.y].spawnNoProcedures) flag = true;
@@ -1016,10 +1020,10 @@ public class GenerateMap : NetworkBehaviour
 
             //====select only 2-4 of them===//
 
-            int remove = Random.Range(0, 3);
+            int remove = MYRandom.Range(0, 3);
             for (int j = 0; j < remove; j++)
             {
-                selectedCornerCells.RemoveAt(Random.Range(0, selectedCornerCells.Count));
+                selectedCornerCells.RemoveAt(MYRandom.Range(0, selectedCornerCells.Count));
             }
 
 
@@ -1126,7 +1130,7 @@ public class GenerateMap : NetworkBehaviour
             int removeCells = selectedEdgeCells.Count / 3;
             for (int j = 0; j < removeCells; j++)
             {
-                selectedEdgeCells.RemoveAt(Random.Range(0, selectedEdgeCells.Count));
+                selectedEdgeCells.RemoveAt(MYRandom.Range(0, selectedEdgeCells.Count));
             }
 
             //========= Assign Props =========//
@@ -1171,8 +1175,8 @@ public class GenerateMap : NetworkBehaviour
 
 
             //====== Randomly deselect 1 in a 50% chance ========//
-            if (Random.Range(0, 2) == 0)
-                selectedCells.RemoveAt(Random.Range(0, selectedCells.Count));
+            if (MYRandom.Range(0, 2) == 0)
+                selectedCells.RemoveAt(MYRandom.Range(0, selectedCells.Count));
 
 
             //========= Assign Props =========//
@@ -1208,12 +1212,12 @@ public class GenerateMap : NetworkBehaviour
         {
             tries++;
             TaskEntry taskToPlace = leftTasks[0];
-            Room room = allRooms[Random.Range(0, allRooms.Count)];
+            Room room = allRooms[MYRandom.Range(0, allRooms.Count)];
             if (room.Procedures.Count > 1)
                 continue;
 
-            int x = Random.Range((int)room.start.x, (int)room.start.x + room.length);
-            int y = Random.Range((int)room.start.y, (int)room.start.y + room.width);
+            int x = MYRandom.Range((int)room.start.x, (int)room.start.x + room.length);
+            int y = MYRandom.Range((int)room.start.y, (int)room.start.y + room.width);
             MapCell cell = mapCells[x, y];
 
             if (cell.spaceOccupied)
@@ -1246,13 +1250,13 @@ public class GenerateMap : NetworkBehaviour
             cell.spaceOccupied = true;
 
             taskToPlace.taskPrefab.transform.position = cell.position;
-            taskToPlace.taskPrefab.transform.rotation = Quaternion.Euler(0f, yAngles[Random.Range(0, yAngles.Length)], 0f);
+            taskToPlace.taskPrefab.transform.rotation = Quaternion.Euler(0f, yAngles[MYRandom.Range(0, yAngles.Length)], 0f);
 
             //// 1) Instantiate your root prefab (with children already parented in prefab)
             //GameObject obj = Instantiate(
             //    taskToPlace.taskPrefab,
             //    cell.position,
-            //    Quaternion.Euler(0f, yAngles[Random.Range(0, yAngles.Length)], 0f)
+            //    Quaternion.Euler(0f, yAngles[MYRandom.Range(0, yAngles.Length)], 0f)
             //);
 
             //// 2) Spawn the root (now it's a network object)
@@ -1365,12 +1369,12 @@ public class GenerateMap : NetworkBehaviour
 
             //====== Randomly deselect 60% to 20% ========//
             int total = selectedCells.Count;
-            int toFillPercent = Random.Range(proceduralMapDataSO.MinChanceoOfFillingCenterCells, proceduralMapDataSO.MaxChanceoOfFillingCenterCells);
+            int toFillPercent = MYRandom.Range(proceduralMapDataSO.MinChanceoOfFillingCenterCells, proceduralMapDataSO.MaxChanceoOfFillingCenterCells);
             int toRemove = total * (100 - toFillPercent) / 100;
 
             for (int j = 0; j < toRemove; j++)
             {
-                selectedCells.RemoveAt(Random.Range(0, selectedCells.Count));
+                selectedCells.RemoveAt(MYRandom.Range(0, selectedCells.Count));
             }
 
 
@@ -1403,7 +1407,7 @@ public class GenerateMap : NetworkBehaviour
         int safety = 1000;
         while (safety --> 0)
         {
-            int randIndex = Random.Range(0, 8);
+            int randIndex = MYRandom.Range(0, 8);
             if (randIndex != impIndex && countsPerProc[randIndex] < limit)
             {
                 countsPerProc[randIndex]++;
@@ -1449,8 +1453,8 @@ public class GenerateMap : NetworkBehaviour
             while (attempts < 100)
             {
                 attempts++;
-                int r = Random.Range(0, rowCells);
-                int c = Random.Range(0, columnCells);
+                int r = MYRandom.Range(0, rowCells);
+                int c = MYRandom.Range(0, columnCells);
 
                 MapCell cell = mapCells[r, c];
                 Vector2Int coord = new Vector2Int(r, c);
@@ -1492,7 +1496,7 @@ public class GenerateMap : NetworkBehaviour
         for (int i = 0; i < itemSpawningSettings.Count; i++)
         {
             ItemSpawningData_inCell itemData = itemSpawningSettings[i];
-            itemData.amountToSpawn = Random.Range(itemData.minAmountToSpawn, itemData.maxAmountToSpawn + 1);
+            itemData.amountToSpawn = MYRandom.Range(itemData.minAmountToSpawn, itemData.maxAmountToSpawn + 1);
             Debug.Log($"Setup: Item [{i}] needs <b>{itemData.amountToSpawn}</b> copies.");
         }
 
@@ -1503,7 +1507,7 @@ public class GenerateMap : NetworkBehaviour
 
         while (totalAmountToSpawn > 0 && safety-- > 0)
         {
-            int index = Random.Range(0, itemSpawningSettings.Count);
+            int index = MYRandom.Range(0, itemSpawningSettings.Count);
             ItemSpawningData_inCell itemData = itemSpawningSettings[index];
             if (itemData.amountToSpawn <= 0) continue;
 
@@ -1516,8 +1520,8 @@ public class GenerateMap : NetworkBehaviour
             while (attempts < 100)
             {
                 attempts++;
-                int r = Random.Range(0, mapCells.GetLength(0));
-                int c = Random.Range(0, mapCells.GetLength(1));
+                int r = MYRandom.Range(0, mapCells.GetLength(0));
+                int c = MYRandom.Range(0, mapCells.GetLength(1));
 
                 MapCell cell = mapCells[r, c];
 
@@ -1749,9 +1753,9 @@ public class MapCell
         return pillarPos0;
     }
 
-    public Quaternion GetPillarRotation(int wallIndex)
+    public Quaternion GetPillarRotation(int wallIndex, SeededRandom MYRandom)
     {
-        float randomRotaionY = new float[] { 0f, 90f, 180f, -90f }[Random.Range(0, 4)];
+        float randomRotaionY = new float[] { 0f, 90f, 180f, -90f }[MYRandom.Range(0, 4)];
 
         return Quaternion.Euler(new Vector3(0,randomRotaionY,0));
     }
