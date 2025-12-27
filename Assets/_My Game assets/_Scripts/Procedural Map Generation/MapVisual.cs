@@ -73,24 +73,45 @@ public class MapVisual : NetworkBehaviour
 
                     if (cell.WallGameobject[k] == null)
                     {
-                        GameObject newWall = Instantiate(prefab, Vector3.zero, Quaternion.identity);
-                        NetworkObject netObj = newWall.GetComponent<NetworkObject>();
+                        //GameObject newWall = Instantiate(prefab, Vector3.zero, Quaternion.identity);
+                        //NetworkObject netObj = newWall.GetComponent<NetworkObject>();
 
-                        // Spawn without setting the transform from prefab (we'll set it manually after parenting)
-                        netObj.Spawn(true);
+                        //// Spawn without setting the transform from prefab (we'll set it manually after parenting)
+                        //netObj.Spawn(true);
 
-                        // Set parent via Netcode-safe API
-                        netObj.TrySetParent(wallContainer.transform, false); // worldPositionStays = false for exact positioning
+                        //// Set parent via Netcode-safe API
+                        //netObj.TrySetParent(wallContainer.transform, false); // worldPositionStays = false for exact positioning
 
-                        // Set transform
+                        //// Set transform
+                        //newWall.transform.position = cell.GetWallPosition(k, cell);
+                        //newWall.transform.rotation = cell.GetWallRotation(k);
+
+                        //newWall.SetActive(true);
+
+                        //cell.WallGameobject[k] = newWall;
+
+                        //// Sync opposite wall
+                        //int oppositeIndex = (k + 2) % 4;
+                        //if (cell.adjCell[k] != null && cell.adjCell[k].WallGameobject[oppositeIndex] == null)
+                        //{
+                        //    cell.adjCell[k].WallGameobject[oppositeIndex] = newWall;
+                        //}
+
+                        // JUST INSTANTIATE (No Network Spawn)
+                        GameObject newWall = Instantiate(prefab, wallContainer.transform);
+
+                        // Set Transform manually
                         newWall.transform.position = cell.GetWallPosition(k, cell);
                         newWall.transform.rotation = cell.GetWallRotation(k);
-
                         newWall.SetActive(true);
+
+                        // Mark as static for optimization
+                        //newWall.isStatic = true;
+                        SetStaticRecursively(newWall);
 
                         cell.WallGameobject[k] = newWall;
 
-                        // Sync opposite wall
+                        // Link adjacent references locally
                         int oppositeIndex = (k + 2) % 4;
                         if (cell.adjCell[k] != null && cell.adjCell[k].WallGameobject[oppositeIndex] == null)
                         {
@@ -100,107 +121,213 @@ public class MapVisual : NetworkBehaviour
                 }
 
                 //======= pillars spawning ======//
+                //for (int k = 0; k < cell.wall.Length; k++)
+                //{
+                //    if (cell.pillar[k] == Type.NoPillar)
+                //    {
+                //        if (cell.PillarGameobject[k] != null)
+                //        {
+                //            Destroy(cell.PillarGameobject[k]);
+                //            cell.PillarGameobject[k] = null;
+                //        }
+                //        continue;
+                //    }
+
+                //    List<PropsProbablity> pillarPrefabsList = GetBuildingBlock(cell.pillar[k]);
+
+                //    GameObject prefab = FindPrefabWithTheirProbablity(pillarPrefabsList);
+
+                //    //List<PropsProbablity> joinedPillarPrefabsList = GetBuildingBlock(cell.pillar[k]);
+
+                //    //prefab = FindPrefabWithTheirProbablity(joinedPillarPrefabsList);
+
+
+
+                //    if (prefab == null)
+                //    {
+                //        continue;
+                //    }
+
+                //    if (cell.PillarGameobject[k] == null)
+                //    {
+                //        GameObject newPillar = Instantiate(prefab, pillarContainer.transform);
+                //        NetworkObject netobj = newPillar.GetComponent<NetworkObject>();
+                //        netobj.Spawn();
+                //        netobj.TrySetParent(pillarContainer.transform, false);
+                //        newPillar.transform.position = cell.GetPillarPosition(k, cell);
+                //        newPillar.transform.rotation = cell.GetPillarRotation(k, MYRandom);
+                //        newPillar.SetActive(true); // Ensure it's visible
+
+                //        cell.PillarGameobject[k] = newPillar;
+
+                //        // Sync opposite pillars
+                //        int adjIndex = k;
+                //        int oppositeIndex = (k + 1) % 4;
+                //        if (cell.adjCell[adjIndex] != null && cell.adjCell[adjIndex].PillarGameobject[oppositeIndex] == null)
+                //        {
+                //            cell.adjCell[adjIndex].PillarGameobject[oppositeIndex] = newPillar;
+                //        }
+
+                //        adjIndex = (k + 1) % 4;
+                //        oppositeIndex = (k + 3) % 4;
+                //        if (cell.adjCell[adjIndex] != null && cell.adjCell[adjIndex].PillarGameobject[oppositeIndex] == null)
+                //        {
+                //            cell.adjCell[adjIndex].PillarGameobject[oppositeIndex] = newPillar;
+                //        }
+
+                //        oppositeIndex = (k + 2) % 4;
+                //        if (cell.adjCell[adjIndex] != null && cell.adjCell[adjIndex].adjCell[k] != null && cell.adjCell[adjIndex].adjCell[k].PillarGameobject[oppositeIndex] == null)
+                //        {
+                //            cell.adjCell[adjIndex].adjCell[k].PillarGameobject[oppositeIndex] = newPillar;
+                //        }
+                //    }
+                //}
+
                 for (int k = 0; k < cell.wall.Length; k++)
                 {
-                    if (cell.pillar[k] == Type.NoPillar)
-                    {
-                        if (cell.PillarGameobject[k] != null)
-                        {
-                            Destroy(cell.PillarGameobject[k]);
-                            cell.PillarGameobject[k] = null;
-                        }
-                        continue;
-                    }
+                    if (cell.pillar[k] == Type.NoPillar) continue;
+                    if (cell.PillarGameobject[k] != null) Destroy(cell.PillarGameobject[k]);
 
                     List<PropsProbablity> pillarPrefabsList = GetBuildingBlock(cell.pillar[k]);
-
                     GameObject prefab = FindPrefabWithTheirProbablity(pillarPrefabsList);
 
-                    //List<PropsProbablity> joinedPillarPrefabsList = GetBuildingBlock(cell.pillar[k]);
-
-                    //prefab = FindPrefabWithTheirProbablity(joinedPillarPrefabsList);
-
-
-
-                    if (prefab == null)
-                    {
-                        continue;
-                    }
-
-                    if (cell.PillarGameobject[k] == null)
+                    if (prefab != null)
                     {
                         GameObject newPillar = Instantiate(prefab, pillarContainer.transform);
-                        NetworkObject netobj = newPillar.GetComponent<NetworkObject>();
-                        netobj.Spawn();
-                        netobj.TrySetParent(pillarContainer.transform, false);
+
                         newPillar.transform.position = cell.GetPillarPosition(k, cell);
                         newPillar.transform.rotation = cell.GetPillarRotation(k, MYRandom);
-                        newPillar.SetActive(true); // Ensure it's visible
+                        newPillar.SetActive(true);
+                        //newPillar.isStatic = true;
+                        SetStaticRecursively(newPillar);
 
                         cell.PillarGameobject[k] = newPillar;
 
-                        // Sync opposite pillars
-                        int adjIndex = k;
-                        int oppositeIndex = (k + 1) % 4;
-                        if (cell.adjCell[adjIndex] != null && cell.adjCell[adjIndex].PillarGameobject[oppositeIndex] == null)
-                        {
-                            cell.adjCell[adjIndex].PillarGameobject[oppositeIndex] = newPillar;
-                        }
-
-                        adjIndex = (k + 1) % 4;
-                        oppositeIndex = (k + 3) % 4;
-                        if (cell.adjCell[adjIndex] != null && cell.adjCell[adjIndex].PillarGameobject[oppositeIndex] == null)
-                        {
-                            cell.adjCell[adjIndex].PillarGameobject[oppositeIndex] = newPillar;
-                        }
-
-                        oppositeIndex = (k + 2) % 4;
-                        if (cell.adjCell[adjIndex] != null && cell.adjCell[adjIndex].adjCell[k] != null && cell.adjCell[adjIndex].adjCell[k].PillarGameobject[oppositeIndex] == null)
-                        {
-                            cell.adjCell[adjIndex].adjCell[k].PillarGameobject[oppositeIndex] = newPillar;
-                        }
+                        // Sync references (Visual only)
+                        UpdatePillarReferences(cell, k, newPillar);
                     }
                 }
 
-                //======= Tile Spawning ======//
-                List<PropsProbablity> floorTilePrefabsList = GetBuildingBlock(cell.floorTile);
+                ////======= Tile Spawning ======//
+                //List<PropsProbablity> floorTilePrefabsList = GetBuildingBlock(cell.floorTile);
 
-                GameObject newPrefab = FindPrefabWithTheirProbablity(floorTilePrefabsList);
+                //GameObject newPrefab = FindPrefabWithTheirProbablity(floorTilePrefabsList);
 
-                if (newPrefab != null)
-                {
-                    GameObject obj = Instantiate(newPrefab, tileContainer.transform);
-                    NetworkObject netobj = obj.GetComponent<NetworkObject>();
-                    netobj.Spawn();
-                    netobj.TrySetParent(tileContainer.transform, false);
-                    obj.transform.position = cell.position;
-                    obj.name = $"Cell ({i}, {j})";
-                    cell.FloorTileGameobject = obj;
-                }
-                
-                List<PropsProbablity> roofTilePrefabsList = GetBuildingBlock(cell.roofTile);
+                //if (newPrefab != null)
+                //{
+                //    GameObject obj = Instantiate(newPrefab, tileContainer.transform);
+                //    NetworkObject netobj = obj.GetComponent<NetworkObject>();
+                //    netobj.Spawn();
+                //    netobj.TrySetParent(tileContainer.transform, false);
+                //    obj.transform.position = cell.position;
+                //    obj.name = $"Cell ({i}, {j})";
+                //    cell.FloorTileGameobject = obj;
+                //}
 
-                GameObject newPrefabRoof = FindPrefabWithTheirProbablity(roofTilePrefabsList);
+                //List<PropsProbablity> roofTilePrefabsList = GetBuildingBlock(cell.roofTile);
 
-                if (newPrefabRoof != null)
-                {
-                    GameObject obj = Instantiate(newPrefabRoof, roofContainer.transform);
-                    NetworkObject netobj = obj.GetComponent<NetworkObject>();
-                    netobj.Spawn();
-                    netobj.TrySetParent(roofContainer.transform, false);
-                    obj.transform.position = cell.position;
-                    obj.name = $"Roof ({i}, {j})";
-                    cell.RoofTileGameobject = obj;
-                }
+                //GameObject newPrefabRoof = FindPrefabWithTheirProbablity(roofTilePrefabsList);
+
+                //if (newPrefabRoof != null)
+                //{
+                //    GameObject obj = Instantiate(newPrefabRoof, roofContainer.transform);
+                //    NetworkObject netobj = obj.GetComponent<NetworkObject>();
+                //    netobj.Spawn();
+                //    netobj.TrySetParent(roofContainer.transform, false);
+                //    obj.transform.position = cell.position;
+                //    obj.name = $"Roof ({i}, {j})";
+                //    cell.RoofTileGameobject = obj;
+                //}
+
+            
+
+                // --- Floor Tiles ---
+                SpawnStaticTile(cell.floorTile, cell.position, tileContainer, ref cell.FloorTileGameobject, $"Cell ({i}, {j})");
+
+                // --- Roof Tiles ---
+                SpawnStaticTile(cell.roofTile, cell.position, roofContainer, ref cell.RoofTileGameobject, $"Roof ({i}, {j})");
             }
         }
-    }
+
+        void SpawnStaticTile(Type tileType, Vector3 pos, GameObject container, ref GameObject cellRef, string name)
+        {
+            List<PropsProbablity> prefabs = GetBuildingBlock(tileType);
+            GameObject prefab = FindPrefabWithTheirProbablity(prefabs);
+
+            if (prefab != null)
+            {
+                GameObject obj = Instantiate(prefab, container.transform);
+                obj.transform.position = pos;
+                obj.name = name;
+                //obj.isStatic = true;
+                SetStaticRecursively(obj);
+                cellRef = obj;
+            }
+        }
+
+        void UpdatePillarReferences(MapCell cell, int k, GameObject newPillar)
+        {
+            // (Moved your complex pillar neighbor logic here to keep code clean)
+            int adjIndex = k;
+            int oppositeIndex = (k + 1) % 4;
+            if (cell.adjCell[adjIndex] != null && cell.adjCell[adjIndex].PillarGameobject[oppositeIndex] == null)
+                cell.adjCell[adjIndex].PillarGameobject[oppositeIndex] = newPillar;
+
+            adjIndex = (k + 1) % 4;
+            oppositeIndex = (k + 3) % 4;
+            if (cell.adjCell[adjIndex] != null && cell.adjCell[adjIndex].PillarGameobject[oppositeIndex] == null)
+                cell.adjCell[adjIndex].PillarGameobject[oppositeIndex] = newPillar;
+
+            oppositeIndex = (k + 2) % 4;
+            if (cell.adjCell[adjIndex] != null && cell.adjCell[adjIndex].adjCell[k] != null && cell.adjCell[adjIndex].adjCell[k].PillarGameobject[oppositeIndex] == null)
+                cell.adjCell[adjIndex].adjCell[k].PillarGameobject[oppositeIndex] = newPillar;
+        }
+}
 
 
 
     ////======== For Room Props =======//
     public void GenerateRoomProps()
     {
+        //rowCells = generateMap.mapCells.GetLength(0);
+        //columnCells = generateMap.mapCells.GetLength(1);
+
+        //for (int i = 0; i < rowCells; i++)
+        //{
+        //    for (int j = 0; j < columnCells; j++)
+        //    {
+        //        MapCell cell = generateMap.mapCells[i, j];
+
+        //        if (!cell.inRoom)
+        //            continue;
+
+        //        GameObject propPrefab = FindPropGameObj(cell);
+        //        if (propPrefab == null) continue;
+        //        GameObject propGameobject = Instantiate(propPrefab, propContainer.transform);
+        //        NetworkObject netobj = propGameobject.GetComponent<NetworkObject>();
+        //        netobj.Spawn();
+        //        netobj.TrySetParent(propContainer.transform, false);
+        //        cell.PropGameobject = propGameobject;
+        //        propGameobject.transform.position = cell.position;
+        //        //TODO Rotation
+        //        int iter = 0;
+        //        for (int k = 0; k < cell.wall.Length; k++)
+        //        {
+        //            if (cell.wall[k] == Type.Walls)
+        //            {
+        //                propGameobject.transform.Rotate(new Vector3(0, (k-iter)*(-90f), 0)); 
+        //                if (MYRandom.Range(0, 2) == 0)
+        //                {
+        //                    iter = 0;
+        //                    break;
+        //                }
+        //                iter += k;
+        //            }
+        //        }
+        //    }
+        //}
+
+        // Similar logic: Instantiate static props locally, no NetworkSpawn
         rowCells = generateMap.mapCells.GetLength(0);
         columnCells = generateMap.mapCells.GetLength(1);
 
@@ -209,33 +336,19 @@ public class MapVisual : NetworkBehaviour
             for (int j = 0; j < columnCells; j++)
             {
                 MapCell cell = generateMap.mapCells[i, j];
-
-                if (!cell.inRoom)
-                    continue;
+                if (!cell.inRoom) continue;
 
                 GameObject propPrefab = FindPropGameObj(cell);
                 if (propPrefab == null) continue;
+
                 GameObject propGameobject = Instantiate(propPrefab, propContainer.transform);
-                NetworkObject netobj = propGameobject.GetComponent<NetworkObject>();
-                netobj.Spawn();
-                netobj.TrySetParent(propContainer.transform, false);
-                cell.PropGameobject = propGameobject;
                 propGameobject.transform.position = cell.position;
-                //TODO Rotation
-                int iter = 0;
-                for (int k = 0; k < cell.wall.Length; k++)
-                {
-                    if (cell.wall[k] == Type.Walls)
-                    {
-                        propGameobject.transform.Rotate(new Vector3(0, (k-iter)*(-90f), 0)); 
-                        if (MYRandom.Range(0, 2) == 0)
-                        {
-                            iter = 0;
-                            break;
-                        }
-                        iter += k;
-                    }
-                }
+                //propGameobject.isStatic = true;
+                //SetStaticRecursively(propGameobject);
+                cell.PropGameobject = propGameobject;
+
+                // Rotation Logic
+                ApplyPropRotation(cell, propGameobject);
             }
         }
     }
@@ -311,6 +424,46 @@ public class MapVisual : NetworkBehaviour
         }
     }
 
+    public void OptimizeStaticMeshes()
+    {
+        // This function merges all static objects in these containers into 
+        // internal batched meshes for high performance.
+        Debug.Log("Optimizing Static Meshes...");
+        StaticBatchingUtility.Combine(wallContainer);
+        StaticBatchingUtility.Combine(pillarContainer);
+        StaticBatchingUtility.Combine(tileContainer);
+        StaticBatchingUtility.Combine(roofContainer);
+        //StaticBatchingUtility.Combine(propContainer);
+    }
+
+
+    // ====== Helper Methods ======//
+
+    private void ApplyPropRotation(MapCell cell, GameObject propGameobject)
+    {
+        int iter = 0;
+        for (int k = 0; k < cell.wall.Length; k++)
+        {
+            if (cell.wall[k] == Type.Walls)
+            {
+                propGameobject.transform.Rotate(new Vector3(0, (k - iter) * (-90f), 0));
+                if (MYRandom.Range(0, 2) == 0)
+                {
+                    iter = 0;
+                    break;
+                }
+                iter += k;
+            }
+        }
+    }
+    void SetStaticRecursively(GameObject obj)
+    {
+        obj.isStatic = true;
+        foreach (Transform child in obj.transform)
+        {
+            SetStaticRecursively(child.gameObject);
+        }
+    }
 
     private GameObject FindPropGameObj(MapCell cell)
     {
