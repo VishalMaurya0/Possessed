@@ -145,8 +145,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4152039754868849439}
-  - component: {fileID: 6231830732810960480}
-  - component: {fileID: -4253608166200692985}
   - component: {fileID: 2336031472030148251}
   m_Layer: 0
   m_Name: Prop 1
@@ -172,77 +170,6 @@ Transform:
   - {fileID: 777580077666221245}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6231830732810960480
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3227288110940223800}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 594777046
-  InScenePlacedSourceGlobalObjectIdHash: 0
-  DeferredDespawnTick: 0
-  Ownership: 1
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
-  SyncOwnerTransformWhenParented: 1
-  AllowOwnerToParent: 0
---- !u!114 &-4253608166200692985
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3227288110940223800}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  NetworkTransformExpanded: 0
-  AutoOwnerAuthorityTickOffset: 1
-  PositionInterpolationType: 0
-  RotationInterpolationType: 0
-  ScaleInterpolationType: 0
-  PositionLerpSmoothing: 1
-  PositionMaxInterpolationTime: 0.1
-  RotationLerpSmoothing: 1
-  RotationMaxInterpolationTime: 0.1
-  ScaleLerpSmoothing: 1
-  ScaleMaxInterpolationTime: 0.1
-  AuthorityMode: 0
-  TickSyncChildren: 0
-  UseUnreliableDeltas: 0
-  SyncPositionX: 1
-  SyncPositionY: 1
-  SyncPositionZ: 1
-  SyncRotAngleX: 0
-  SyncRotAngleY: 1
-  SyncRotAngleZ: 0
-  SyncScaleX: 0
-  SyncScaleY: 0
-  SyncScaleZ: 0
-  PositionThreshold: 0.001
-  RotAngleThreshold: 0.01
-  ScaleThreshold: 0.01
-  UseQuaternionSynchronization: 0
-  UseQuaternionCompression: 0
-  UseHalfFloatPrecision: 0
-  InLocalSpace: 0
-  SwitchTransformSpaceWhenParented: 0
-  Interpolate: 1
-  SlerpPosition: 0
 --- !u!114 &2336031472030148251
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -617,6 +544,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!4 &1075118363192761308 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 471f79d8a96bfde4f9e1a293e7f7361d, type: 3}
@@ -854,6 +783,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!4 &621844735003784513 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 8a4aa8011446a5d409ec1e4d3549b583, type: 3}
@@ -1119,6 +1050,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!4 &3435522009326478438 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 82c5bf8db4f44694a9f60476aad774e8, type: 3}
@@ -1230,6 +1163,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!4 &3163514337826565107 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 9d383aa37b39fe249b548c32408b9d02, type: 3}
@@ -1489,6 +1424,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!4 &3022930152530764055 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 240aa151473f7404c8455dfb4869b593, type: 3}
@@ -1647,6 +1584,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!1001 &3894578610161019430
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1800,6 +1739,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!1001 &3964343354138799676
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1953,6 +1894,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!1001 &4268354424423495855
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2101,6 +2044,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!4 &4374830076215680836 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 711d74a3645060e43b4c6c2cc20c54bd, type: 3}
@@ -2254,6 +2199,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!4 &4229431949887489606 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c3489ed0cb4476b429f04de9f89b0a6c, type: 3}
@@ -2407,6 +2354,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!4 &4131919634174596676 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 44d5df41eb2bff84eac7e4c99a05dde7, type: 3}
@@ -2640,6 +2589,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!1001 &5438682484221965830
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2952,6 +2903,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!1001 &6353859790646012545
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3100,6 +3053,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!4 &6892698403301133674 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a8a4d20ce77d57145937695d1c21eef2, type: 3}
@@ -3328,6 +3283,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!4 &6827146424293188281 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 14f2837993714674bb122799de8153ec, type: 3}
@@ -3556,6 +3513,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!4 &6663979229938166161 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: fbefc2e875a47824eb596aa1f4a2511d, type: 3}
@@ -3652,6 +3611,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!23 &6750466119761829146 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 2300004, guid: 70a9f025618f589429496d9fee55ca0d, type: 3}
@@ -3816,6 +3777,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!4 &6430381994055351749 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 06ad15d7819965f47936bc40e4e8be40, type: 3}
@@ -4027,6 +3990,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!1001 &7197783104742938009
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4180,6 +4145,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!1001 &7364898416866185044
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4333,6 +4300,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!1001 &7491681269221596264
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4486,6 +4455,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!1001 &7625832216123057057
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4634,6 +4605,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!4 &7953036443826504778 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 39a8b7fbca88eb842b946df761cdaa86, type: 3}
@@ -4876,6 +4849,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!1001 &8748509259063185300
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5113,6 +5088,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!4 &8913235982965680130 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400004, guid: b4e655cdeb2ef2146a97ce5d8418ceca, type: 3}

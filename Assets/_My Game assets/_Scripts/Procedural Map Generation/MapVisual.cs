@@ -281,7 +281,6 @@ public class MapVisual : NetworkBehaviour
     ////======== For Room Props =======//
     public void GenerateRoomProps()
     {
-        if (!IsServer) return;
         //rowCells = generateMap.mapCells.GetLength(0);
         //columnCells = generateMap.mapCells.GetLength(1);
 

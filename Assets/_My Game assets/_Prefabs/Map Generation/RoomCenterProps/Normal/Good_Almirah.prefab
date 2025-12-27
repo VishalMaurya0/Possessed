@@ -102,8 +102,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3261459144244768204}
-  - component: {fileID: -8883757685166954407}
-  - component: {fileID: -2201319630173137775}
   - component: {fileID: 5335834357163239261}
   - component: {fileID: 7614378022200298255}
   m_Layer: 0
@@ -129,77 +127,6 @@ Transform:
   - {fileID: 4331689129878281426}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
---- !u!114 &-8883757685166954407
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3359686189502329311}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3325883150
-  InScenePlacedSourceGlobalObjectIdHash: 0
-  DeferredDespawnTick: 0
-  Ownership: 1
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
-  SyncOwnerTransformWhenParented: 1
-  AllowOwnerToParent: 0
---- !u!114 &-2201319630173137775
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3359686189502329311}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  NetworkTransformExpanded: 0
-  AutoOwnerAuthorityTickOffset: 1
-  PositionInterpolationType: 0
-  RotationInterpolationType: 0
-  ScaleInterpolationType: 0
-  PositionLerpSmoothing: 1
-  PositionMaxInterpolationTime: 0.1
-  RotationLerpSmoothing: 1
-  RotationMaxInterpolationTime: 0.1
-  ScaleLerpSmoothing: 1
-  ScaleMaxInterpolationTime: 0.1
-  AuthorityMode: 0
-  TickSyncChildren: 0
-  UseUnreliableDeltas: 0
-  SyncPositionX: 1
-  SyncPositionY: 1
-  SyncPositionZ: 1
-  SyncRotAngleX: 0
-  SyncRotAngleY: 1
-  SyncRotAngleZ: 0
-  SyncScaleX: 0
-  SyncScaleY: 0
-  SyncScaleZ: 0
-  PositionThreshold: 0.001
-  RotAngleThreshold: 0.01
-  ScaleThreshold: 0.01
-  UseQuaternionSynchronization: 0
-  UseQuaternionCompression: 0
-  UseHalfFloatPrecision: 0
-  InLocalSpace: 0
-  SwitchTransformSpaceWhenParented: 0
-  Interpolate: 1
-  SlerpPosition: 0
 --- !u!114 &5335834357163239261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -889,6 +816,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!1001 &286343980413275862
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1042,6 +971,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!1001 &547215495894559925
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1195,6 +1126,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!1001 &1239497189481122304
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1348,6 +1281,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!1001 &1311114247413350977
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1501,6 +1436,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!1001 &1706466239173236854
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1654,6 +1591,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!1001 &2116695333141582979
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1802,6 +1741,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!4 &1939567432282469224 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7a96eff1648e86445b9006ae68966fef, type: 3}
@@ -1960,6 +1901,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!1001 &3344165076640358620
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2108,6 +2051,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!4 &3018085846425732919 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 9e510e0678cfcb8428151515b1c24389, type: 3}
@@ -2266,6 +2211,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!1001 &3983479640280382022
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2419,6 +2366,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!1001 &4288546759231639450
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2567,6 +2516,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!4 &4326063628896364657 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 136a21140d24ad1498cc9e9a9aef5330, type: 3}
@@ -2720,6 +2671,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!4 &4316847232101111226 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 8a35bef12d415a34c8c6fdf2c66f2d73, type: 3}
@@ -2873,6 +2826,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!4 &4237883482445994607 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 25b1a2c214aa2494e85518ad6711b3d2, type: 3}
@@ -3031,6 +2986,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!1001 &5130148844266165857
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3184,6 +3141,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!1001 &5378936039467024952
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3332,6 +3291,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!4 &5561779141013398995 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 715e1235133b098439c3c597a082c597, type: 3}
@@ -3485,6 +3446,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!4 &5194254998173283076 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 38c928c4da6a2564fa142dd6ce356b1b, type: 3}
@@ -3638,6 +3601,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!4 &6859389003839719480 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b18a3a85eee41da4c8ee7b64e142639c, type: 3}
@@ -3791,6 +3756,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!4 &6500235001068435969 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c49eba0198a94334a92aeab515e20052, type: 3}
@@ -3949,6 +3916,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!1001 &7176966722932714883
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4102,6 +4071,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!1001 &7423911391464584596
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4255,6 +4226,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!1001 &7427900487226549834
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4408,6 +4381,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!1001 &7532689367882006783
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4556,6 +4531,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!4 &7999453333578671892 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 80d350825c0110c4595203ab7f4c1fb2, type: 3}
@@ -4709,6 +4686,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!4 &7874471624951651689 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 30b2d5ef486e90c4f84072fe791deea3, type: 3}
@@ -4862,6 +4841,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!4 &7634959006696796338 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a1c0e373d3f284a42967f0da362ec240, type: 3}
@@ -5020,6 +5001,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!1001 &8331526943711931973
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5173,6 +5156,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!1001 &9031741223621088060
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5321,6 +5306,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!4 &8853383861947774167 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a2755a7d91fd4c847b80b09deb54ec58, type: 3}
@@ -5474,6 +5461,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noOfWatchers: 0
+  networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!4 &8818089710395717212 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: aa0687ec75352ff44aec1586d8afa2d6, type: 3}

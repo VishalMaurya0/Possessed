@@ -51,7 +51,7 @@ public class GenerateMap : NetworkBehaviour
     {
         if (!IsServer)
         {
-            Debug.LogError("Client Started Map Generation");
+            //Debug.LogError("Client Started Map Generation");
         }
 
         if (IsServer)
@@ -91,9 +91,12 @@ public class GenerateMap : NetworkBehaviour
 
         if (photosNotGenerated && GameManager.Instance.taskManager && spawnPhotos)
         {
-            photosNotGenerated = false;
-            SpawnPhotos();
-            mapVisual.SpawnPhotos();
+            if (IsServer)
+            {
+                photosNotGenerated = false;
+                SpawnPhotos();
+                mapVisual.SpawnPhotos();
+            }
             mapVisual.DropDroppablesInRoom();
         }
     }
@@ -147,15 +150,11 @@ public class GenerateMap : NetworkBehaviour
         CreateJoinedPillers();
         CreateTiles();
         CreateWindows();
-        if (IsServer)
-            SpawnProcedures();
+        SpawnProcedures();
         GENERATE_PROPS();
-        if (IsServer)
-        {
-            spawnPhotos = true;
-            //SpawnPhotos();
-            SpawnItems();
-        }
+        spawnPhotos = true;
+        //SpawnPhotos();
+        SpawnItems();
 
         ////======== Visuals & NavMesh ========////
         if (generateTemp)
@@ -188,8 +187,8 @@ public class GenerateMap : NetworkBehaviour
         GenerateWindowSideProps();
         int tries = 0;
         int totalTries = 50;
-        if (IsServer)
-            SpawnTasks(tries, totalTries);
+        //if (IsServer)
+        SpawnTasks(tries, totalTries);
         GenerateRoomCenterProps();
     }
 
@@ -973,6 +972,7 @@ public class GenerateMap : NetworkBehaviour
                             GameManager.Instance.AllProcedures.Add(null);
                         }
                         GameManager.Instance.AllProcedures[procedureCompletion.procedureDataSO.procedureIndex] = procedureCompletion;
+                        Debug.LogError($"Procedure {procedureCompletion.procedureDataSO.procedure} added to GameManager.");
                     }
                 }
             }
@@ -1018,8 +1018,11 @@ public class GenerateMap : NetworkBehaviour
             }
             pos = pos / 4;
 
-            procedureLocation.ProcedureCompletion.procedurePrefab.transform.position = pos;
-            //TODO Rotation//
+            if (IsServer)
+            {
+                procedureLocation.ProcedureCompletion.procedurePrefab.transform.position = pos;
+                //TODO Rotation//
+            }
         }
     }
 
