@@ -922,7 +922,6 @@ GameObject:
   - component: {fileID: 4056507842654779843}
   - component: {fileID: 3549840390974523850}
   - component: {fileID: 4207758564326250930}
-  - component: {fileID: 3912848242786387874}
   - component: {fileID: 2203565352127638070}
   m_Layer: 0
   m_Name: EnergyDetector
@@ -1182,19 +1181,6 @@ MonoBehaviour:
   noEffectColor: {r: 0, g: 0, b: 0, a: 0}
   midEffectColor: {r: 0, g: 0, b: 0, a: 0}
   fullEffectColor: {r: 0, g: 0, b: 0, a: 0}
---- !u!114 &3912848242786387874
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7736469045731537671}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6152772822895e147aa2b885d92b745f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!114 &2203565352127638070
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1209,6 +1195,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   noOfWatchers: 0
   networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!1 &8276918548436582839
 GameObject:
   m_ObjectHideFlags: 0

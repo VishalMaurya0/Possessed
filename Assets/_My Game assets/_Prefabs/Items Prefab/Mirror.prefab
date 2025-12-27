@@ -198,7 +198,6 @@ GameObject:
   - component: {fileID: -913701108965247333}
   - component: {fileID: -2377024887794213282}
   - component: {fileID: -7094455517721680514}
-  - component: {fileID: -6808386134717432249}
   - component: {fileID: 4016087803655975665}
   m_Layer: 0
   m_Name: Mirror
@@ -434,19 +433,6 @@ MonoBehaviour:
   mirrorSurface: {fileID: 7425413343024482496}
   referenceMat: {fileID: 2100000, guid: c176e2db8cda4914e8a1c61b5aafd6af, type: 2}
   GoAccordingToPlayer: 0
---- !u!114 &-6808386134717432249
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6905787541895510452}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6152772822895e147aa2b885d92b745f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!114 &4016087803655975665
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -461,6 +447,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   noOfWatchers: 0
   networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!1 &8075723469075855652
 GameObject:
   m_ObjectHideFlags: 0

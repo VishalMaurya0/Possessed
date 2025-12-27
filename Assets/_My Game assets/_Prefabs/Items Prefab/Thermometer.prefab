@@ -228,7 +228,6 @@ GameObject:
   - component: {fileID: 4474540336291435697}
   - component: {fileID: 8903701401391921856}
   - component: {fileID: 1341005440037107144}
-  - component: {fileID: 9054925500368718878}
   - component: {fileID: 7363741329286567597}
   m_Layer: 0
   m_Name: Thermometer
@@ -467,19 +466,6 @@ MonoBehaviour:
   bar: {fileID: 4074459485463390484}
   minPressureScale: 0.2
   maxPressureScale: 3.5
---- !u!114 &9054925500368718878
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6619242658483551009}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6152772822895e147aa2b885d92b745f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!114 &7363741329286567597
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -494,6 +480,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   noOfWatchers: 0
   networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!1 &6795819470241032073
 GameObject:
   m_ObjectHideFlags: 0

@@ -319,7 +319,6 @@ GameObject:
   - component: {fileID: -913701108965247333}
   - component: {fileID: 3617511984824371447}
   - component: {fileID: 4271315303644653013}
-  - component: {fileID: -4896108471077466489}
   - component: {fileID: 8481958701948567557}
   m_Layer: 0
   m_Name: Pure Powder
@@ -537,19 +536,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.4037819
   m_Center: {x: 0, y: 0.36, z: 0.0039482117}
---- !u!114 &-4896108471077466489
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6905787541895510452}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6152772822895e147aa2b885d92b745f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!114 &8481958701948567557
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -564,6 +550,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   noOfWatchers: 0
   networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!1 &8439994608654346107
 GameObject:
   m_ObjectHideFlags: 0

@@ -276,7 +276,6 @@ GameObject:
   - component: {fileID: 589755610101703485}
   - component: {fileID: 1547149646854594066}
   - component: {fileID: 7057951159155878312}
-  - component: {fileID: 6082999259620685614}
   - component: {fileID: -232552235198801909}
   m_Layer: 0
   m_Name: EMFDetector
@@ -530,19 +529,6 @@ MonoBehaviour:
   isFlickeringExtreme: 0
   subtractFlicker: 0
   waitTime: 0
---- !u!114 &6082999259620685614
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6777455753283693364}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6152772822895e147aa2b885d92b745f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!114 &-232552235198801909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -557,6 +543,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   noOfWatchers: 0
   networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!1 &7683568704812809573
 GameObject:
   m_ObjectHideFlags: 0

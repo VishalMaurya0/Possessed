@@ -255,7 +255,6 @@ GameObject:
   - component: {fileID: -913701108965247333}
   - component: {fileID: -4099602978446259901}
   - component: {fileID: 3050705545690770184}
-  - component: {fileID: -8333890661437349915}
   - component: {fileID: 4042684371930203951}
   m_Layer: 0
   m_Name: Wood
@@ -475,19 +474,6 @@ CapsuleCollider:
   m_Height: 2.4442384
   m_Direction: 0
   m_Center: {x: 0, y: -0.03, z: 0.01}
---- !u!114 &-8333890661437349915
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6905787541895510452}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6152772822895e147aa2b885d92b745f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!114 &4042684371930203951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -502,6 +488,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   noOfWatchers: 0
   networkTransform: {fileID: 0}
+  netObj: {fileID: 0}
 --- !u!1001 &3398254402696156004
 PrefabInstance:
   m_ObjectHideFlags: 0

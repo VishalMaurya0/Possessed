@@ -288,7 +288,6 @@ GameObject:
   - component: {fileID: -2377024887794213282}
   - component: {fileID: 5007955969876353414}
   - component: {fileID: -3123985595645158576}
-  - component: {fileID: 5838245257373294791}
   m_Layer: 0
   m_Name: Blood Bottle
   m_TagString: Untagged
@@ -518,20 +517,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   noOfWatchers: 0
   networkTransform: {fileID: 0}
---- !u!114 &5838245257373294791
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6905787541895510452}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6152772822895e147aa2b885d92b745f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  ownerClientId: 0
+  netObj: {fileID: 0}
 --- !u!1 &8439994608654346107
 GameObject:
   m_ObjectHideFlags: 0

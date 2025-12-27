@@ -87,7 +87,7 @@ public class ItemActiveTrigger : NetworkBehaviour
         {
 
             // Only Server wakes up networked items
-            if (IsServer) 
+            if (props.networkTransform.OwnerClientId == GameManager.Instance.OwnerClientId || IsServer)
                 SetItemPhysics(props, enter);
         }
         else

@@ -6,6 +6,7 @@ public class DummyFotRigidbodyProps : MonoBehaviour
 {
     public int noOfWatchers = 0;
     public NetworkTransform networkTransform;
+    public NetworkObject netObj;
     private Rigidbody rb;
 
     private void OnEnable()
@@ -22,6 +23,7 @@ public class DummyFotRigidbodyProps : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         networkTransform = GetComponent<NetworkTransform>();
+        netObj = GetComponent<NetworkObject>();
     }
 
     private void Start()
@@ -56,6 +58,11 @@ public class DummyFotRigidbodyProps : MonoBehaviour
 
         // Schedule sleep to save performance
         Invoke(nameof(FreezeItem), 3.0f);
+    }
+
+    private void Update()
+    {
+        //FixSlowMoFalling();
     }
 
     private void OnServerStarted()
@@ -118,4 +125,22 @@ public class DummyFotRigidbodyProps : MonoBehaviour
         if (noOfWatchers > 0) return;
         SetSleepState(false);
     }
+
+
+    //private void FixSlowMoFalling()
+    //{
+    //    // Requirements
+    //    //var rb = GetComponent<Rigidbody>();
+    //    //var netObj = GetComponent<NetworkObject>();
+
+    //    if (rb == null) return;
+
+    //    // Logic: If we are networked and NOT the owner, we must be Kinematic.
+    //    if (networkTransform != null && netObj.IsSpawned && !netObj.IsOwner)
+    //    {
+    //        rb.isKinematic = true;
+    //    }
+    //    // Note: We do NOT force isKinematic = false for the Owner here,
+    //    // because your logic might want the object to be asleep (kinematic) intentionally.
+    //}
 }
