@@ -9,6 +9,9 @@ public class DummyFotRigidbodyProps : MonoBehaviour
     public NetworkObject netObj;
     private Rigidbody rb;
 
+    // Timer to prevent rapid freezing/unfreezing
+    private Coroutine _sleepCoroutine;
+
     private void OnEnable()
     {
         GameManager.onServerStarted += OnServerStarted;
@@ -28,119 +31,118 @@ public class DummyFotRigidbodyProps : MonoBehaviour
 
     private void Start()
     {
-        // Ignore if this is an ItemPickup (handled elsewhere)
         if (TryGetComponent<ItemPickup>(out var ip)) return;
 
-        // --- THE FIX IS HERE ---
         bool isNetworked = networkTransform != null;
         bool isClient = NetworkManager.Singleton != null && NetworkManager.Singleton.IsClient && !NetworkManager.Singleton.IsServer;
 
-        // If this is a Networked object and we are just a Client, 
-        // we MUST be Kinematic. No physics allowed.
+        // 1. Client Logic (Visuals only)
         if (isNetworked && isClient)
         {
             if (rb != null)
             {
                 rb.isKinematic = true;
-                rb.detectCollisions = false;
+                rb.detectCollisions = true; // Keep collisions so players don't walk through it
             }
-            // Disable this script's logic so we don't accidentally turn it on later
             return;
         }
 
-        // --- SERVER or LOCAL DEBRIS LOGIC ---
-        // If we reached here, we are either the Server OR it's a local non-networked prop.
+        // 2. Server / Local Logic
+        // Ensure physics is ON at start so it falls to the ground
         if (rb != null)
         {
             rb.isKinematic = false;
             rb.detectCollisions = true;
         }
 
-        // Schedule sleep to save performance
-        Invoke(nameof(FreezeItem), 3.0f);
-    }
-
-    private void Update()
-    {
-        //FixSlowMoFalling();
+        // Allow it to fall for 3 seconds before first sleep check
+        CancelSleep();
+        Invoke(nameof(AttemptFreeze), 3.0f);
     }
 
     private void OnServerStarted()
     {
-        // This runs when the Host starts the server
         networkTransform = GetComponent<NetworkTransform>();
 
-        // Since we are the Server (Host), we want physics ON initially
         if (rb != null)
         {
             rb.isKinematic = false;
             rb.detectCollisions = true;
         }
 
-        //if (networkTransform != null) return;
         if (NetworkManager.Singleton.IsServer)
-            Invoke(nameof(FreezeItem), 3.0f);
+        {
+            CancelSleep();
+            Invoke(nameof(AttemptFreeze), 3.0f);
+        }
     }
 
-    // Helper method called by ItemActiveTrigger
     public void SetSleepState(bool wakeUp)
     {
-        // Safety check: Clients should never run this for networked items
+        // Safety: Clients ignore physics commands for networked items
         bool isNetworked = networkTransform != null;
         bool isClient = NetworkManager.Singleton != null && NetworkManager.Singleton.IsClient && !NetworkManager.Singleton.IsServer;
-
         if (isNetworked && isClient) return;
 
-        if (networkTransform)
-        {    
-            if (networkTransform.OwnerClientId != GameManager.Instance.OwnerClientId && !NetworkManager.Singleton.IsServer)
-            {
-                return;
-            }  
-        }
-
-        if (rb != null)
+        // If wakeUp is TRUE, we must wake up IMMEDIATELY
+        if (wakeUp)
         {
-            if (wakeUp)
-            {
-                rb.isKinematic = false;
-                rb.detectCollisions = true;
-            }
-            else
-            {
-                rb.isKinematic = true;
-                rb.detectCollisions = false;
-            }
+            CancelSleep(); // Stop any pending freeze
+            ApplyPhysicsState(true);
         }
-
-        // Optimization: Disable NetworkTransform when sleeping
-        if (networkTransform != null)
+        else
         {
-            networkTransform.enabled = wakeUp;
+            // If wakeUp is FALSE, don't freeze instantly. 
+            // Give it a buffer (e.g. 1.0 second) to see if it enters another trigger 
+            // or if it's just jittering on the edge.
+            if (_sleepCoroutine == null)
+            {
+                _sleepCoroutine = StartCoroutine(SleepWithDelay(1.0f));
+            }
         }
     }
 
-    private void FreezeItem()
+    private System.Collections.IEnumerator SleepWithDelay(float delay)
     {
-        if (noOfWatchers > 0) return;
-        SetSleepState(false);
+        yield return new WaitForSeconds(delay);
+        // If we are still here and watchers are 0, then freeze.
+        ApplyPhysicsState(false);
+        _sleepCoroutine = null;
     }
 
+    private void CancelSleep()
+    {
+        if (_sleepCoroutine != null)
+        {
+            StopCoroutine(_sleepCoroutine);
+            _sleepCoroutine = null;
+        }
+        CancelInvoke(nameof(AttemptFreeze));
+    }
 
-    //private void FixSlowMoFalling()
-    //{
-    //    // Requirements
-    //    //var rb = GetComponent<Rigidbody>();
-    //    //var netObj = GetComponent<NetworkObject>();
+    private void ApplyPhysicsState(bool isAwake)
+    {
+        if (rb == null) return;
 
-    //    if (rb == null) return;
+        if (isAwake)
+        {
+            rb.isKinematic = false;
+            rb.detectCollisions = true;
+            if (networkTransform) networkTransform.enabled = true;
+        }
+        else
+        {
+            // Only freeze if no one is watching
+            if (noOfWatchers > 0) return;
 
-    //    // Logic: If we are networked and NOT the owner, we must be Kinematic.
-    //    if (networkTransform != null && netObj.IsSpawned && !netObj.IsOwner)
-    //    {
-    //        rb.isKinematic = true;
-    //    }
-    //    // Note: We do NOT force isKinematic = false for the Owner here,
-    //    // because your logic might want the object to be asleep (kinematic) intentionally.
-    //}
+            rb.isKinematic = true;
+            rb.detectCollisions = true; // Still solid
+            if (networkTransform) networkTransform.enabled = false;
+        }
+    }
+
+    private void AttemptFreeze()
+    {
+        ApplyPhysicsState(false);
+    }
 }

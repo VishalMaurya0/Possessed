@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4613901408192750934}
   - component: {fileID: 9077486732545417340}
   - component: {fileID: 2965832125123055848}
-  - component: {fileID: 1845136017473940656}
+  - component: {fileID: 3774157790659103948}
   m_Layer: 0
   m_Name: Item Active Trigger
   m_TagString: Untagged
@@ -53,7 +53,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 15
+  m_Radius: 5
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2965832125123055848
 MonoBehaviour:
@@ -68,7 +68,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
---- !u!54 &1845136017473940656
+--- !u!54 &3774157790659103948
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,7 +94,7 @@ Rigidbody:
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!1 &1392038066776441736
 GameObject:
   m_ObjectHideFlags: 0

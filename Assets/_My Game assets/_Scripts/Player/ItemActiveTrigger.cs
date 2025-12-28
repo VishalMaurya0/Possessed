@@ -62,8 +62,10 @@ public class ItemActiveTrigger : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        //Debug.LogError(other.name + " entered trigger of " + gameObject.name);
         if (other.TryGetComponent(out DummyFotRigidbodyProps props))
         {
+            //Debug.LogError("Handling object detection for " + other.name);
             HandleObjectDetection(props, true);
         }
     }

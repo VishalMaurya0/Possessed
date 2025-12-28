@@ -374,9 +374,9 @@ public class MapVisual : NetworkBehaviour
                 if (cell == null) Debug.LogError("fgh");
                 Vector3 randomPos = new Vector3(MYRandom.Range(0.1f, cell.width), cell.heightForSpawningObjects, MYRandom.Range(0.1f, cell.width));
                 GameObject itemObj = Instantiate(FindPrefabWithTheirProbablity(propsProbablities), propContainer.transform);
-                NetworkObject netobj = itemObj.GetComponent<NetworkObject>();
-                netobj.Spawn();
-                netobj.TrySetParent(itemsContainer.transform, false);
+                //NetworkObject netobj = itemObj.GetComponent<NetworkObject>();
+                //netobj.Spawn();
+                //netobj.TrySetParent(itemsContainer.transform, false);
                 itemObj.transform.position = cell.position + randomPos;
                 itemObj.transform.rotation = MYRandom.Rotation();
             }
