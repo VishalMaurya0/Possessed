@@ -56,7 +56,10 @@ public class GenerateMap : NetworkBehaviour
 
         if (IsServer)
         {
-            seed.Value = (int)System.DateTime.Now.Ticks;
+            if (GameDataRuntime.Instance != null && !GameDataRuntime.Instance.useRandomSeed)
+                seed.Value = GameDataRuntime.Instance.seed;
+            else
+                seed.Value = (int)System.DateTime.Now.Ticks;
         }
 
         typeOfRooms = proceduralMapDataSO.typeOfRooms;
@@ -136,6 +139,7 @@ public class GenerateMap : NetworkBehaviour
     }
     private void START_GENERATION()
     {
+        
         MYRandom = new SeededRandom(seed.Value);
         //Debug.LogError($"Map Generation Started with Seed: {seed.Value}");
         MarkEdgeCells();

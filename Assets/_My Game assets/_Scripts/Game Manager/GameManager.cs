@@ -64,12 +64,12 @@ public class GameManager : NetworkBehaviour
     public Animator winLoseAnimator;
     public PhotoAlbum photoAlbum;
 
-    [Header("Host Accessible")]
+    [Header("Main Menu (Host Accessible)")]
     public Button PlayButton;
     public Toggle PublicPrivateToggle;
     public GameObject LoadingPanel;
 
-    [Header("Player Names")]
+    [Header("Main Menu (Player Names)")]
     public TMP_InputField playerName_InputFieldA;
     public TMP_InputField playerName_InputFieldB;
     bool updatingFields = false;
@@ -80,7 +80,6 @@ public class GameManager : NetworkBehaviour
 
     [Header("Win Lose Condition")]
     public TMP_Text winText;
-
 
     public static event Action onServerStarted;
 

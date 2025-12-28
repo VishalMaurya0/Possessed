@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8433946783187699740}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: State 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8662094983167791518}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: State 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -202,7 +202,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9027388821960852843}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: State 0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -276,6 +276,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: c40e02fd85e6ebb4bb8a49ca713e2239, type: 3}
       propertyPath: m_Name
       value: DollWithTexture
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c40e02fd85e6ebb4bb8a49ca713e2239, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -37,8 +37,10 @@ public class InventorySlotTracker : MonoBehaviour
             return;
         }
 
+
         inventory = GameManager.Instance.ownerPlayer.GetComponent<Inventory>();
-        inventoryUI = FindAnyObjectByType<InventoryUI>();
+        if (inventoryUI == null)
+            inventoryUI = FindAnyObjectByType<InventoryUI>();
 
         leftSlot = new LeftSlot();
         rightSlot = new RightSlot();

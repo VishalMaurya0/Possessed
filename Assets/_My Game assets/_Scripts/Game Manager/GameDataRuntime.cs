@@ -6,6 +6,9 @@ public class GameDataRuntime : MonoBehaviour
     public Color playerIndicatorColor;
     public List<ConnectedClientsData> connectedClientsData = new();
 
+    [Header("Main Menu (Host Accessible)")]
+    public bool useRandomSeed = true;
+    public int seed;
 
     public static GameDataRuntime Instance { get; private set; }
 
@@ -16,6 +19,7 @@ public class GameDataRuntime : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+        useRandomSeed = true;
 
         Instance = this;
         DontDestroyOnLoad(gameObject);

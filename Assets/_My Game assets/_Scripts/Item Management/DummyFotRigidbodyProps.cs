@@ -97,7 +97,7 @@ public class DummyFotRigidbodyProps : MonoBehaviour
             // or if it's just jittering on the edge.
             if (_sleepCoroutine == null)
             {
-                _sleepCoroutine = StartCoroutine(SleepWithDelay(1.0f));
+                _sleepCoroutine = StartCoroutine(SleepWithDelay(3.0f));
             }
         }
     }

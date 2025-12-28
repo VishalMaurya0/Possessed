@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TMPro;
 using Unity.Netcode;
 using Unity.Services.Authentication;
 using Unity.Services.Lobbies;
@@ -14,6 +15,7 @@ using UnityEngine.UI;
 
 public class MenuManager : NetworkBehaviour
 {
+    [Header("Animators")]
     public Animator mainMenuAnimator;
     public Animator MultiplayerMenuAnimator;
     public Animator HostGamePanelAnimator;
@@ -22,6 +24,10 @@ public class MenuManager : NetworkBehaviour
     public Animator ChooseColorPanelAnimator;
     public Animator ChooseColorButtonAnimator;
 
+    [Header("Refe")]
+    public TMP_InputField Seed_InputField;
+    
+    [Header("Player Name")]
     public LogListener logListener;
     public SetPlayerName setPlayerName;
 
@@ -57,6 +63,28 @@ public class MenuManager : NetworkBehaviour
         GameManager.Instance.ShowLoadingPanel(true);
     }
 
+    private void Start()
+    {
+        if (Seed_InputField != null)
+        {
+            Seed_InputField.onValueChanged.AddListener(OnSeed_InputFieldChanged);
+        }
+
+    }
+
+    private void OnSeed_InputFieldChanged(string arg0)
+    {
+        if (arg0 == "")
+        {
+            GameDataRuntime.Instance.useRandomSeed = true;
+            return;
+        }
+        GameDataRuntime.Instance.useRandomSeed = false;
+        if (int.TryParse(arg0, out int seed))
+        {
+            GameDataRuntime.Instance.seed = seed;
+        }
+    }
 
     private void Update()
     {

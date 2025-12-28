@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6561033198994064110}
   - component: {fileID: 604428610105206757}
   - component: {fileID: 7286172940808044688}
-  m_Layer: 5
+  m_Layer: 11
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 6982894656930482977}
   - component: {fileID: 1274534680591437019}
   - component: {fileID: 3104415597112493641}
-  m_Layer: 5
+  m_Layer: 11
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -191,7 +191,7 @@ GameObject:
   - component: {fileID: 6372339415309622580}
   - component: {fileID: 5323863344163967360}
   - component: {fileID: 692709985433004096}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Thermometer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -353,7 +353,7 @@ GameObject:
   - component: {fileID: 3597306992583887644}
   - component: {fileID: 934265804242750983}
   - component: {fileID: 6561302478212950145}
-  m_Layer: 5
+  m_Layer: 11
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -546,9 +546,17 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 0.21
       objectReference: {fileID: 0}
+    - target: {fileID: -5722315222512314903, guid: eccaabfac7ee29040a4da00914230511, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: eccaabfac7ee29040a4da00914230511, type: 3}
       propertyPath: m_Name
       value: Thermometer
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: eccaabfac7ee29040a4da00914230511, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 9141816029861474070, guid: eccaabfac7ee29040a4da00914230511, type: 3}
       propertyPath: m_Layer

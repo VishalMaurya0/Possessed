@@ -15,7 +15,7 @@ public class ItemFrameUI : MonoBehaviour
         {
             activated = true;
             frame.color = new Color(1, 1, 1, 1);
-            itemAmountAndNameUI.SetActive(true);
+            //itemAmountAndNameUI.SetActive(true);
             LeanTween.alpha(frame.GetComponent<RectTransform>(), 0, animTime).setLoopPingPong().setEase(LeanTweenType.easeInOutExpo);
         }
     }
@@ -26,7 +26,7 @@ public class ItemFrameUI : MonoBehaviour
         {
             activated = false;
             frame.color = new Color(1, 1, 1, 0);
-            itemAmountAndNameUI.SetActive(false);
+            //itemAmountAndNameUI.SetActive(false);
             LeanTween.cancel(frame.gameObject);
         }
     }

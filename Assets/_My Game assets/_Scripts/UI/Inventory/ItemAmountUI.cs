@@ -9,6 +9,7 @@ public class ItemAmountUI : MonoBehaviour
     TMP_Text totalAmountText;
     TMP_Text itemNameText;
     TMP_Text amountInContainerText;
+    TMP_Text stateText;
 
 
     public string Equip = "Press 'E' to Equip an Item";
@@ -20,6 +21,8 @@ public class ItemAmountUI : MonoBehaviour
         totalAmountText = transform.GetChild(2).GetComponent<TMP_Text>();
         itemNameText = transform.GetChild(3).GetComponent<TMP_Text>();
         amountInContainerText = transform.GetChild(4).GetComponent<TMP_Text>();
+        stateText = transform.GetChild(5).GetComponent<TMP_Text>();
+        itemNameText.SetText(Equip);
     }
 
     private void Update()
@@ -44,12 +47,15 @@ public class ItemAmountUI : MonoBehaviour
             int amountInContainer;
             if (idso.isContainer)
             {
+                amountInContainerText.gameObject.SetActive(true);
                 amountInContainer = (idso.states.Length - 1) - inventory.selectedInventorySlot.itemData.currentState;
+                amountInContainerText.SetText($"{amountInContainer}");
+                stateText.SetText("");
             }else
             {
-                amountInContainer = 1;
+                amountInContainerText.gameObject.SetActive(false);
+                stateText.SetText($"State: {itemData.currentState}");
             }
-            amountInContainerText.SetText($"{amountInContainer}");
             UpdateCurrentAmountUI();
         }else
         {
@@ -57,6 +63,7 @@ public class ItemAmountUI : MonoBehaviour
             amountText.SetText(Null);
             itemNameText.SetText(Equip);
             amountInContainerText.SetText(Null);
+            stateText.SetText(Null);
         }
 
     }
