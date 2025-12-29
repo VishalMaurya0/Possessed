@@ -20,7 +20,7 @@ public class LookingCursedIncreasesFear : MonoBehaviour
 
     private void MyStart()    
     {
-        playerCamera = FindAnyObjectByType<Camera>();
+        playerCamera = GameManager.Instance.playerCamera;
         ghostAI = FindAnyObjectByType<GhostAI>();
         fearMeter = GetComponent<FearMeter>();
 

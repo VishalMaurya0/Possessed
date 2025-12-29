@@ -50,8 +50,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2433347123
-  InScenePlacedSourceGlobalObjectIdHash: 0
+  GlobalObjectIdHash: 2103998821
+  InScenePlacedSourceGlobalObjectIdHash: 1027426998
   DeferredDespawnTick: 0
   Ownership: 1
   AlwaysReplicateAsRoot: 0
@@ -99,6 +99,8 @@ MonoBehaviour:
   serverStarted: 0
   gameStarted: 0
   gameEnd: 0
+  readyToGenerateMapInClients:
+    m_InternalValue: 0
   noOfPlayers: 0
   alivePlayers: 0
   inventorySlots: 5

@@ -53,8 +53,15 @@ public class ProcedureCompletion : ProcedureBase
         totalItems = totalItemsNeeded.itemNeeded.Count;
         //Debug.Log($"Total items needed: {totalItems}");
 
-        procedureBase = GameManager.Instance.procedureBase;
+
+        InitializeVisuals();
+    }
+
+    private void Start()
+    {
         AddProcedureToGameManager();
+
+        procedureBase = GameManager.Instance.procedureBase;   // TODO is this doing anything????
 
         if (procedureBase != null)
         {
@@ -62,8 +69,6 @@ public class ProcedureCompletion : ProcedureBase
             procedureBase.position[procedureDataSO.procedureIndex] = transform.position;
             //Debug.Log($"Procedure registered at index {procedureData.procedureIndex}");
         }
-
-        InitializeVisuals();
     }
 
     void AddProcedureToGameManager()

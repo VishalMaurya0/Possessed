@@ -64,6 +64,15 @@ public class GameManager : NetworkBehaviour
     public Animator winLoseAnimator;
     public PhotoAlbum photoAlbum;
 
+    [Header("Ghost look Post Process")]
+    public GameObject GhostLookPostProcess;
+    public Coroutine GhostLookPostProcess_corotine;
+    public bool isComing;
+    public float ghostLookPostProcess_duration = 0.4f;
+    public float ghostLookPostProcess_timer = 0;
+    public float ghostLookPostProcess_startY = -5f;
+    public float ghostLookPostProcess_endY = 1f;
+
     [Header("Main Menu (Host Accessible)")]
     public Button PlayButton;
     public Toggle PublicPrivateToggle;
@@ -496,6 +505,50 @@ public class GameManager : NetworkBehaviour
             return photoAlbum.PhotoContainerSO.StatuePhotos[photoId].photoSprite;
         }
         return null;
+    }
+
+    public void PostProcessEffect(bool come)
+    {
+        if (isComing == come) return;
+
+        if (GhostLookPostProcess_corotine != null)
+        {
+            StopCoroutine(GhostLookPostProcess_corotine);
+        }
+
+        isComing = come;
+
+
+        GhostLookPostProcess.transform.position = ownerPlayer.transform.position + new Vector3(0, ghostLookPostProcess_startY, 0);
+
+        GhostLookPostProcess_corotine = StartCoroutine(LerpYPosition(!come));
+    }
+
+    private IEnumerator LerpYPosition(bool reverse)
+    {
+        ghostLookPostProcess_timer = 0f;
+
+        float currentX = GhostLookPostProcess.transform.position.x;
+        float currentZ = GhostLookPostProcess.transform.position.z;
+
+        float actualStart = reverse ? ghostLookPostProcess_endY : ghostLookPostProcess_startY;
+        float actualEnd = reverse ? ghostLookPostProcess_startY : ghostLookPostProcess_endY;
+
+        while (ghostLookPostProcess_timer < ghostLookPostProcess_duration)
+        {
+            float t = ghostLookPostProcess_timer / ghostLookPostProcess_duration;
+            float smoothT = Mathf.SmoothStep(0, 1, t);
+
+            float newY = Mathf.Lerp(actualStart, actualEnd, smoothT);
+
+            GhostLookPostProcess.transform.position = new Vector3(currentX, newY, currentZ);
+
+            ghostLookPostProcess_timer += Time.deltaTime;
+            yield return null;
+        }
+
+        GhostLookPostProcess.transform.position = new Vector3(currentX, actualEnd, currentZ);
+        GhostLookPostProcess_corotine = null;
     }
 }
 

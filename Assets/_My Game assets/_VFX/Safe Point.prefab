@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7200552050634308277}
   - component: {fileID: 5156988710305373390}
   m_Layer: 0
-  m_Name: Completion
+  m_Name: Safe Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41,7 +41,7 @@ VisualEffect:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6139768488881502135}
   m_Enabled: 1
-  m_Asset: {fileID: 8926484042661614526, guid: 506d623eff7f2d64cb991cdeaa7c2bfb, type: 3}
+  m_Asset: {fileID: 8926484042661614526, guid: f6448458863c1654e861a08dee214b4b, type: 3}
   m_InitialEventName: OnPlay
   m_InitialEventNameOverriden: 0
   m_StartSeed: 0
@@ -50,7 +50,13 @@ VisualEffect:
   m_ResourceVersion: 1
   m_PropertySheet:
     m_Float:
-      m_Array: []
+      m_Array:
+      - m_Value: 50
+        m_Name: RotationSpeed
+        m_Overridden: 1
+      - m_Value: 100
+        m_Name: DurationOfSphere
+        m_Overridden: 1
     m_Vector2f:
       m_Array: []
     m_Vector3f:
@@ -76,7 +82,33 @@ VisualEffect:
     m_Matrix4x4f:
       m_Array: []
     m_AnimationCurve:
-      m_Array: []
+      m_Array:
+      - m_Value:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        m_Name: SpawnAnimCurve
+        m_Overridden: 1
     m_Gradient:
       m_Array: []
     m_NamedObject:

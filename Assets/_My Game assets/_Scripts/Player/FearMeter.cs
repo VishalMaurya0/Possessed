@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class FearMeter : MonoBehaviour
 {
-    [Header("Unchangable Data")]
+    [Header("Unchangable Data from SO")]
     public PlayerDataSO playerDataSO;
     public LookingCursedIncreasesFear lookingCursedIncreasesFear;
     public float normalFearRate;
@@ -100,11 +100,19 @@ public class FearMeter : MonoBehaviour
         else { UnFreeze(); }
         if (SAFE) { regenFear -= regenFearRate*Time.deltaTime; }
 
+        if (isLookingDoll || isGhostLooking || isLookingGhost)
+        {
+            GameManager.Instance.PostProcessEffect(true);
+        }else
+        {
+            GameManager.Instance.PostProcessEffect(false);
+        }
+
         //----------------------Possess and Revive-------------------//
-        if (instantPossess) 
+        if (instantPossess)
         {
             instantPossess = false;
-            instantKillFear = 100; 
+            instantKillFear = 100;
         }
 
         if (revived) 

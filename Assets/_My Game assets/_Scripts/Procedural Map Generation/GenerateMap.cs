@@ -963,7 +963,7 @@ public class GenerateMap : NetworkBehaviour
 
             if (GameManager.Instance.AllProcedures == null || GameManager.Instance.AllProcedures.Count < 8)
             {
-                Debug.LogError("All procedures are available in GameManager.  Taking time to search for procedures");
+                Debug.Log("All procedures are available in GameManager.  Taking time to search for procedures");
 
                 GameObject[] objs = GameObject.FindGameObjectsWithTag("Procedure");
                 foreach (var obj in objs)
@@ -976,7 +976,7 @@ public class GenerateMap : NetworkBehaviour
                             GameManager.Instance.AllProcedures.Add(null);
                         }
                         GameManager.Instance.AllProcedures[procedureCompletion.procedureDataSO.procedureIndex] = procedureCompletion;
-                        Debug.LogError($"Procedure {procedureCompletion.procedureDataSO.procedure} added to GameManager.");
+                        Debug.Log($"Procedure {procedureCompletion.procedureDataSO.procedure} added to GameManager.");
                     }
                 }
             }
@@ -1311,7 +1311,7 @@ public class GenerateMap : NetworkBehaviour
         if (tries >= totalTries)                       /////  TODO still not tested TODO  /////
         {
             RestartTaskGeneration(triess, totalTriess);
-            Debug.Log("Restarting...");
+            //Debug.Log("Restarting...");
         }
     }
     private void RestartTaskGeneration(int tries, int totalTries)
@@ -1516,7 +1516,7 @@ public class GenerateMap : NetworkBehaviour
             return;
         }
 
-        Debug.Log($"<color=cyan>--- START SPAWN ITEMS ---</color>");
+        //Debug.Log($"<color=cyan>--- START SPAWN ITEMS ---</color>");
 
         List<ItemSpawningData_inCell> itemSpawningSettings = itemSpawningSettingsSO.itemSpawningDataInCellList;
         List<ItemSpawningData_inCell> leftItems = new();
@@ -1525,11 +1525,11 @@ public class GenerateMap : NetworkBehaviour
         {
             ItemSpawningData_inCell itemData = itemSpawningSettings[i];
             itemData.amountToSpawn = MYRandom.Range(itemData.minAmountToSpawn, itemData.maxAmountToSpawn + 1);
-            Debug.Log($"Setup: Item [{i}] needs <b>{itemData.amountToSpawn}</b> copies.");
+            //Debug.Log($"Setup: Item [{i}] needs <b>{itemData.amountToSpawn}</b> copies.");
         }
 
         int totalAmountToSpawn = itemSpawningSettings.Sum(item => item.amountToSpawn);
-        Debug.Log($"<color=yellow>Total items to spawn across all types: {totalAmountToSpawn}</color>");
+        //Debug.Log($"<color=yellow>Total items to spawn across all types: {totalAmountToSpawn}</color>");
 
         int safety = 10000;
 
@@ -1575,9 +1575,9 @@ public class GenerateMap : NetworkBehaviour
         // 3. Final Report
         if (safety <= 0) Debug.LogError("HIT SAFETY LIMIT - Infinite loop prevention triggered.");
 
-        Debug.Log($"<color=cyan>--- FINISHED SPAWNING ---</color>");
-        Debug.Log($"Items that failed to find a spot: {leftItems.Count}");
-        Debug.Log($"Total Global Count Left (Should be 0): {totalAmountToSpawn}");
+        //Debug.Log($"<color=cyan>--- FINISHED SPAWNING ---</color>");
+        //Debug.Log($"Items that failed to find a spot: {leftItems.Count}");
+        //Debug.Log($"Total Global Count Left (Should be 0): {totalAmountToSpawn}");
     }
 
 
