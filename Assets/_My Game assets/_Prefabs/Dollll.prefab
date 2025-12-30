@@ -158,7 +158,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 2.5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -182,7 +182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2072137635
+  GlobalObjectIdHash: 721744384
   InScenePlacedSourceGlobalObjectIdHash: 721744384
   DeferredDespawnTick: 0
   Ownership: 1
@@ -298,8 +298,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  player: []
-  playerDataSO: []
+  players: []
+  playerDataSOs: []
   agent: {fileID: 3386510548348217366}
   animator: {fileID: 3795440439760870497}
   playerDetectionRange: 500
@@ -309,8 +309,8 @@ MonoBehaviour:
   reactionTimeOfDoll: 0.4
   playerInSight: {fileID: 0}
   posOfPlayer: {x: 0, y: 0, z: 0}
-  timerForCheck: 0
-  timeForCheck: 0.2
+  currentState: 0
+  aiUpdateInterval: 0.1
 --- !u!1001 &5109506382524365822
 PrefabInstance:
   m_ObjectHideFlags: 0

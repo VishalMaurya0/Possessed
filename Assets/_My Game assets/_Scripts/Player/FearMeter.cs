@@ -167,7 +167,7 @@ public class FearMeter : MonoBehaviour
     public void UnFreeze()
     {
         freezing = false;
-        additionalMovementFearWhenPossessing = 0f;
+        //additionalMovementFearWhenPossessing = 0f;
     }
 
     private void UpdateFearBarUI()

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic; // Added for List optimization
 using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
@@ -8,14 +9,15 @@ using UnityEngine.AI;
 public class DollAI : NetworkBehaviour
 {
     [Header("References")]
-    public Transform[] player;
-    public PlayerDataSO[] playerDataSO;
+    // We use a List for easier management, but keep arrays if you prefer specific indexing
+    public Transform[] players;
+    public PlayerDataSO[] playerDataSOs;
     public NavMeshAgent agent;
     public Animator animator;
 
     [Header("Settings")]
-    public float playerDetectionRange = 500f;
-    public float viewAngle = 30f;
+    public float playerDetectionRange = 50.0f; // Adjusted to reasonable default
+    public float viewAngle = 60f; // Adjusted to reasonable default (30 is very narrow)
     public float attackRange = 1.5f;
     public Transform[] patrolPoints;
     public float reactionTimeOfDoll = 0f;
@@ -23,46 +25,93 @@ public class DollAI : NetworkBehaviour
     [Header("Values")]
     public GameObject playerInSight;
     public Vector3 posOfPlayer;
+
     private enum DollState { Idle, Chasing, Frozen, Attacking }
-    private DollState currentState = DollState.Idle;
+    [SerializeField] private DollState currentState = DollState.Idle; // Serialized for debug
     bool isFreezing = false;
 
     [Header("Optimization")]
-    public float timerForCheck = 0;
-    public float timeForCheck = 0.2f;
-    
+    public float aiUpdateInterval = 0.1f; // How often AI "thinks"
+    private float aiTimer;
+    private float playerListCheckTimer;
+
+    // Cache LayerMasks to avoid calculating them every loop
+    private int sightLayerMask;
+    private int viewBlockLayerMask;
 
     void Start()
     {
-        animator.SetFloat("IdleIndex", UnityEngine.Random.Range(0, 2));
-        animator.SetFloat("CrawlIndex", UnityEngine.Random.Range(0, 3));
+        // Randomize initial animation to avoid all dolls looking identical
+        if (animator)
+        {
+            animator.SetFloat("IdleIndex", UnityEngine.Random.Range(0, 2));
+            animator.SetFloat("CrawlIndex", UnityEngine.Random.Range(0, 3));
+        }
+
+        // OPTIMIZATION: Cache LayerMasks once on startup
+        // Include all layers except "IgnoreRaycast"
+        sightLayerMask = ~(1 << LayerMask.NameToLayer("IgnoreRaycast"));
+
+        // Blocked by everything except IgnoreRaycast, Player, and Trigger
+        viewBlockLayerMask = ~((1 << LayerMask.NameToLayer("IgnoreRaycast")) |
+                               (1 << LayerMask.NameToLayer("Player")) |
+                               (1 << LayerMask.NameToLayer("Trigger")));
+
+        // OPTIMIZATION: Stagger AI updates so 20 dolls don't think on the same frame
+        aiTimer = UnityEngine.Random.Range(0f, aiUpdateInterval);
+
         if (!IsServer) { return; }
     }
 
-    private void SetAllConnectedPlayers()
+    private void UpdateConnectedPlayers()
     {
-        player = new Transform[GameManager.Instance.connectedClientsData.Count];
-        playerDataSO = new PlayerDataSO[player.Length];
-        for (int i = 0; i < GameManager.Instance.connectedClientsData.Count; i++)
+        var clients = GameManager.Instance.connectedClientsData;
+
+        if (players == null || players.Length != clients.Count)
         {
-            player[i] = GameManager.Instance.connectedClientsData.ElementAtOrDefault(i).playerGameobject.transform;
-            playerDataSO[i] = player[i].GetComponent<PlayerController>().playerData;
+            players = new Transform[clients.Count];
+            playerDataSOs = new PlayerDataSO[clients.Count];
+
+            for (int i = 0; i < clients.Count; i++)
+            {
+                if (clients[i].playerGameobject != null)
+                {
+                    players[i] = clients[i].playerGameobject.transform;
+                    var controller = players[i].GetComponent<PlayerController>();
+                    if (controller != null)
+                        playerDataSOs[i] = controller.playerData;
+                }
+            }
         }
     }
 
     void Update()
     {
-        if (!GameManager.Instance.serverStarted || !IsServer) return;
-        if (agent == null || animator == null)  
+        if (!IsServer || !GameManager.Instance.serverStarted) return;
+
+        if (agent == null) agent = GetComponent<NavMeshAgent>();
+        if (animator == null) animator = GetComponentInChildren<Animator>();
+
+        playerListCheckTimer += Time.deltaTime;
+        if (playerListCheckTimer > 5.0f)
         {
-            agent = GetComponent<NavMeshAgent>();
-            animator = GetComponentInChildren<Animator>();
-        }
-        if (player.Length < GameManager.Instance.connectedClientsData.Count)
-        {
-            SetAllConnectedPlayers();
+            UpdateConnectedPlayers();
+            playerListCheckTimer = 0;
         }
 
+        // 3. AI Logic Throttling
+        // The AI only "thinks" when aiTimer exceeds interval. 
+        // Movement/Animation continues smoothly, but decision making is throttled.
+        aiTimer += Time.deltaTime;
+        if (aiTimer >= aiUpdateInterval)
+        {
+            aiTimer = 0; // Reset timer
+            RunAIStateMachine();
+        }
+    }
+
+    void RunAIStateMachine()
+    {
         switch (currentState)
         {
             case DollState.Frozen:
@@ -75,33 +124,25 @@ public class DollAI : NetworkBehaviour
                 HandleIdleState();
                 break;
             case DollState.Attacking:
-                AttackPlayer();
+                // Attacking usually needs immediate execution, but check is fine here
+                if (currentState == DollState.Attacking) AttackPlayer();
                 break;
         }
-
-        //if (IsPlayerInSight())
-        //{
-        //    posOfPlayer = playerInSight.transform.position;
-        //}
     }
 
     void HandleIdleState()
     {
         animator.SetBool("Idle", true);
-        timerForCheck += Time.deltaTime;
-        if (timerForCheck > timeForCheck + 0.3f)
+
+        if (IsPlayerInSight())
         {
-            timerForCheck = 0;
-            if (IsPlayerInSight())
+            if (IsPlayerLookingAtDoll())
             {
-                if (IsPlayerLookingAtDoll())
-                {
-                    Freeze();
-                }
-                else
-                {
-                    currentState = DollState.Chasing;
-                }
+                StartCoroutine(FreezeRoutine());
+            }
+            else
+            {
+                currentState = DollState.Chasing;
             }
         }
     }
@@ -109,110 +150,121 @@ public class DollAI : NetworkBehaviour
     void HandleChaseState()
     {
         animator.SetBool("Idle", false);
-        timerForCheck += Time.deltaTime;
-        if (timerForCheck > timeForCheck)
+
+        if (IsPlayerLookingAtDoll())
         {
-            timerForCheck = 0;
-
-            if (IsPlayerLookingAtDoll())
+            if (!isFreezing)
             {
-                if (!isFreezing)
-                {
-                    StartCoroutine(Freeze());
-                }
-                return;
+                StartCoroutine(FreezeRoutine());
             }
+            return;
+        }
 
-            if (playerInSight != null)
-                posOfPlayer = playerInSight.transform.position;
-
-            animator.speed = 0.6f;
+        // 2. Update Pathfinding
+        if (playerInSight != null)
+        {
+            posOfPlayer = playerInSight.transform.position;
             agent.isStopped = false;
-
+            animator.speed = 0.6f;
             agent.SetDestination(posOfPlayer);
+        }
 
-            if (IsPlayerInAttackRange())
-            {
-                currentState = DollState.Attacking;
-            }
+        // 3. Attack Check
+        if (IsPlayerInAttackRange())
+        {
+            currentState = DollState.Attacking;
         }
     }
 
     void HandleFrozenState()
     {
+        // Optimization: This now runs 5-10 times a second instead of 60+
+        // This is plenty fast enough for a "statue" mechanic
         if (!IsPlayerLookingAtDoll())
         {
             currentState = DollState.Chasing;
             agent.isStopped = false;
+            animator.speed = 0.6f; // Restore anim speed
         }
     }
-    
+
     void AttackPlayer()
     {
-        // TODO Attack Animations
+        if (playerInSight == null)
+        {
+            currentState = DollState.Idle;
+            return;
+        }
 
-        // Player Death
-  
         FearMeter fearMeter = playerInSight.GetComponent<FearMeter>();
-        fearMeter.instantPossess_Trigger = true;
+        if (fearMeter != null)
+        {
+            fearMeter.instantPossess_Trigger = true;
+        }
+
         currentState = DollState.Idle;
     }
 
-
-
-
-
-
-
-
-    IEnumerator Freeze()
+    IEnumerator FreezeRoutine()
     {
+        // Guard clause to prevent double freezing
+        if (currentState == DollState.Frozen || isFreezing) yield break;
+
         isFreezing = true;
-        yield return new WaitForSeconds(reactionTimeOfDoll);
+
+        // Small delay before freezing (Reaction time)
+        if (reactionTimeOfDoll > 0)
+            yield return new WaitForSeconds(reactionTimeOfDoll);
+
         animator.speed = 0;
+
         if (agent.isOnNavMesh)
         {
             agent.isStopped = true;
             agent.velocity = Vector3.zero;
-            currentState = DollState.Frozen;
-            isFreezing = false;
         }
+
+        currentState = DollState.Frozen;
+        isFreezing = false;
     }
 
     bool IsPlayerInSight()
     {
-        foreach (var playerr in player)
-        {
-            if (playerr == null)
-            {
-                continue;
-            }
-            // Eliminating Dead Players
-            int index = Array.IndexOf(player, playerr);
-            if (!GameManager.Instance.connectedClientsData[index].isAlive) continue;
+        if (players == null) return false;
 
+        for (int i = 0; i < players.Length; i++)
+        {
+            Transform targetPlayer = players[i];
+            if (targetPlayer == null) continue;
+
+            // Use direct index access instead of Array.IndexOf
+            if (!GameManager.Instance.connectedClientsData[i].isAlive) continue;
 
             Vector3 origin = transform.position + Vector3.up * 0.5f;
-            Vector3 directionToPlayer = (playerr.transform.position - origin).normalized;
-            float distanceToPlayer = Vector3.Distance(origin, playerr.transform.position);
+            Vector3 targetPos = targetPlayer.position;
+            float distanceToPlayer = Vector3.Distance(origin, targetPos);
 
-            // Include all layers except "IgnoreRaycast"
-            int layerMask = ~(1 << LayerMask.NameToLayer("IgnoreRaycast"));    ////Champt Gpt////
+            // Optimization: Simple distance check before Raycast
+            if (distanceToPlayer > playerDetectionRange) continue;
 
-            Debug.DrawRay(origin, directionToPlayer * (distanceToPlayer + 5f), Color.yellow);
+            Vector3 directionToPlayer = (targetPos - origin).normalized;
 
-            if (Physics.Raycast(origin, directionToPlayer, out RaycastHit hit, distanceToPlayer + 5f, layerMask, QueryTriggerInteraction.Ignore))
+            // Debug can remain, but consider commenting out for final build
+            // Debug.DrawRay(origin, directionToPlayer * (distanceToPlayer + 5f), Color.yellow);
+
+            if (Physics.Raycast(origin, directionToPlayer, out RaycastHit hit, distanceToPlayer + 5f, sightLayerMask, QueryTriggerInteraction.Ignore))
             {
-                //Debug.Log($"Raycast hit: {hit.collider.name} (layer: {LayerMask.LayerToName(hit.collider.gameObject.layer)})");
-
-                if (hit.collider.gameObject == playerr.gameObject)
+                if (hit.collider.gameObject == targetPlayer.gameObject)
                 {
-                    playerInSight = playerr.gameObject;
+                    playerInSight = targetPlayer.gameObject;
                     posOfPlayer = playerInSight.transform.position;
                     return true;
                 }
             }
         }
+
+        // Only clear playerInSight if NO ONE is in sight. 
+        // Note: Your original logic cleared it immediately if loop finished.
         playerInSight = null;
         return false;
     }
@@ -220,95 +272,49 @@ public class DollAI : NetworkBehaviour
     bool IsPlayerLookingAtDoll()
     {
         if (GameManager.Instance.gameEnd) return false;
-        foreach (var playerr in player)
+        if (players == null) return false;
+
+        for (int i = 0; i < players.Length; i++)
         {
-            // Eliminating Dead Players
-            int index = Array.IndexOf(player, playerr);
-            if (!GameManager.Instance.connectedClientsData[index].isAlive) continue;
+            Transform targetPlayer = players[i];
+            if (targetPlayer == null) continue;
 
+            // Use direct index access
+            if (!GameManager.Instance.connectedClientsData[i].isAlive) continue;
 
-            Vector3 eyePosition = playerr.position + playerDataSO[playerr.GetComponentIndex()].eyePosition;
+            // Access data safely
+            if (playerDataSOs[i] == null) continue;
+
+            Vector3 eyePosition = targetPlayer.position + playerDataSOs[i].eyePosition;
             Vector3 directionToDoll = (transform.position - eyePosition).normalized;
             float distanceToDoll = Vector3.Distance(eyePosition, transform.position);
 
-            Debug.DrawRay(eyePosition, directionToDoll * (distanceToDoll + 5), Color.red, 0.1f);
-
             if (distanceToDoll < playerDetectionRange)
             {
-                float angle = Vector3.Angle(playerr.GetChild(0).transform.forward, directionToDoll);
+                // Optimization: GetChild(0) is usually Camera. Make sure this structure is consistent!
+                // It is better to cache the Camera transform in UpdateConnectedPlayers if possible.
+                Transform playerCam = targetPlayer.GetChild(0);
+
+                float angle = Vector3.Angle(playerCam.forward, directionToDoll);
                 if (angle < viewAngle)
                 {
-                    int layerMask = ~((1 << LayerMask.NameToLayer("IgnoreRaycast")) | (1 << LayerMask.NameToLayer("Player")) | (1 << LayerMask.NameToLayer("Trigger")));
-
-                    if (Physics.Raycast(eyePosition, directionToDoll, out RaycastHit hit, distanceToDoll + 5, layerMask, QueryTriggerInteraction.Ignore))
+                    if (Physics.Raycast(eyePosition, directionToDoll, out RaycastHit hit, distanceToDoll + 5, viewBlockLayerMask, QueryTriggerInteraction.Ignore))
                     {
                         if (hit.collider.gameObject == this.gameObject)
                         {
-                            Debug.DrawLine(eyePosition, hit.point, Color.green); // Visual Debug
-                            return true;
-                        }
-                        else
-                        {
-                            Debug.DrawLine(eyePosition, hit.point, Color.red); // Visual Debug
+                            return true; // As soon as ONE player sees us, we return true
                         }
                     }
                 }
             }
         }
-        
-
         return false;
     }
 
-
-
     bool IsPlayerInAttackRange()
     {
-        float distanceToPlayer = Vector3.Distance(transform.position, playerInSight ? playerInSight.transform.position : Vector3.zero);
+        if (playerInSight == null) return false;
+        float distanceToPlayer = Vector3.Distance(transform.position, playerInSight.transform.position);
         return distanceToPlayer <= attackRange;
     }
-
-
-    //void OnDrawGizmos()
-    //{
-    //    // 1. Draw Attack Range (Red Sphere)
-    //    Gizmos.color = new Color(1, 0, 0, 0.3f);
-    //    Gizmos.DrawWireSphere(transform.position, attackRange);
-
-    //    // 2. Draw Detection Range (Cyan Wire)
-    //    Gizmos.color = Color.cyan;
-    //    Gizmos.DrawWireSphere(transform.position, playerDetectionRange);
-
-    //    // 3. Draw "Current Target" Line (Yellow)
-    //    if (playerInSight != null)
-    //    {
-    //        Gizmos.color = Color.yellow;
-    //        Gizmos.DrawLine(transform.position + Vector3.up, playerInSight.transform.position + Vector3.up);
-    //        Gizmos.DrawWireSphere(playerInSight.transform.position + Vector3.up, 0.5f);
-    //    }
-
-    //    // 4. Draw Player View Cones (Purple)
-    //    if (player != null)
-    //    {
-    //        foreach (var p in player)
-    //        {
-    //            if (p == null) continue;
-    //            Transform cam = p.GetChild(0);
-    //            if (cam != null)
-    //            {
-    //                Gizmos.color = Color.magenta;
-    //                Vector3 direction = cam.forward;
-    //                // Draw a simple line representing the center of their view
-    //                Gizmos.DrawRay(cam.position, direction * 5f);
-
-    //                // Optional: Draw the "Angle" limits approximately
-    //                // (Visualizing a 3D cone is hard in simple Gizmos, but lines help)
-    //                Vector3 left = Quaternion.Euler(0, -viewAngle, 0) * direction;
-    //                Vector3 right = Quaternion.Euler(0, viewAngle, 0) * direction;
-    //                Gizmos.DrawRay(cam.position, left * 5f);
-    //                Gizmos.DrawRay(cam.position, right * 5f);
-    //            }
-    //        }
-    //    }
-    //}
 }
