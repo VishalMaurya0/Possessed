@@ -10,8 +10,8 @@ public class DollAI : NetworkBehaviour
     [Header("References")]
     public Transform[] player;
     public PlayerDataSO[] playerDataSO;
-    private NavMeshAgent agent;
-    Animator animator;
+    public NavMeshAgent agent;
+    public Animator animator;
 
     [Header("Settings")]
     public float playerDetectionRange = 500f;
@@ -34,6 +34,8 @@ public class DollAI : NetworkBehaviour
 
     void Start()
     {
+        animator.SetFloat("IdleIndex", UnityEngine.Random.Range(0, 2));
+        animator.SetFloat("CrawlIndex", UnityEngine.Random.Range(0, 3));
         if (!IsServer) { return; }
     }
 
@@ -85,6 +87,7 @@ public class DollAI : NetworkBehaviour
 
     void HandleIdleState()
     {
+        animator.SetBool("Idle", true);
         timerForCheck += Time.deltaTime;
         if (timerForCheck > timeForCheck + 0.3f)
         {
@@ -105,6 +108,7 @@ public class DollAI : NetworkBehaviour
 
     void HandleChaseState()
     {
+        animator.SetBool("Idle", false);
         timerForCheck += Time.deltaTime;
         if (timerForCheck > timeForCheck)
         {
