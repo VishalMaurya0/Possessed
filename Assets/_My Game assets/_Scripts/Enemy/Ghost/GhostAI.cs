@@ -11,53 +11,81 @@ public class GhostAI : NetworkBehaviour
     public GhostState HuntingState;
     public GhostState DyingState;
 
-    public NavMeshAgent navMeshAgent;
+    [HideInInspector]public NavMeshAgent navMeshAgent;  //should not reference this directly in inspectors
     public Animator animator;
     public GhostData ghostData;
+
+    // State flags
     public bool isHunting;
     public bool stopHunt;
     public bool photoClicked;
 
+    // Timers
     public float huntToStartTimer = 0;
     float timeBetweenHuntDuration;
 
+    // Optimization: Throttling visibility checks
+    private float _visibilityTimer;
+    private const float VISIBILITY_CHECK_INTERVAL = 0.15f; // Check approx 6 times per second, not 60+
+    private KeyValuePair<ulong, GameObject> _cachedTargetPlayer; // Store the last known target
+
     public TMP_Text text;
 
+    int visibilityLayerMask; 
+    
+    void Start()
+    {
+        visibilityLayerMask = ~(1 << LayerMask.NameToLayer("IgnoreRaycast"));
+    }
 
     private void Update()
     {
         if (!IsServer) return;
-        if (navMeshAgent == null)
+
+        // Initialization (Safety Check)
+        if (navMeshAgent == null) InitializeAI();
+
+        // Animation Handling
+        HandleAnimation();
+
+        // State Update
+        Currentstate.UpdateState();
+
+        // Hunt Timer Logic
+        HandleHuntTimer();
+    }
+
+    private void InitializeAI()
+    {
+        navMeshAgent = this.GetComponent<NavMeshAgent>();
+        if (RoamingState == null || HuntingState == null || DyingState == null)
         {
-            navMeshAgent = this.GetComponent<NavMeshAgent>();
-            if (RoamingState == null || HuntingState == null || DyingState == null)
-            {
-                huntToStartTimer = 0;
-                timeBetweenHuntDuration = ghostData.timeBetweenHuntDuration + Random.Range(-ghostData.timeBetweenHuntDurationRange, ghostData.timeBetweenHuntDurationRange);
-                RoamingState = new GhostRoamingState(this);
-                HuntingState = new GhostHuntingState(this);
-                DyingState = new GhostDyingState(this);
-                ChangeState(RoamingState);
-            }
+            huntToStartTimer = 0;
+            timeBetweenHuntDuration = ghostData.timeBetweenHuntDuration + Random.Range(-ghostData.timeBetweenHuntDurationRange, ghostData.timeBetweenHuntDurationRange);
+            RoamingState = new GhostRoamingState(this);
+            HuntingState = new GhostHuntingState(this);
+            DyingState = new GhostDyingState(this);
+            ChangeState(RoamingState);
         }
+    }
+
+    private void HandleAnimation()
+    {
         if (navMeshAgent.isOnNavMesh)
         {
-            if (navMeshAgent.isStopped || navMeshAgent.remainingDistance < 1)
+            // Optimization: compare squared magnitude to avoid square root calc
+            bool isMoving = !navMeshAgent.isStopped && navMeshAgent.velocity.sqrMagnitude > 0.1f;
+
+            if (animator.GetBool("Walking") != isMoving) // Only set if changed
             {
-                animator.SetBool("Walking", false);
-                animator.SetFloat("IdleIndex", Random.Range(0, 2));
-            }
-            else
-            {
-                animator.SetBool("Walking", true);
+                animator.SetBool("Walking", isMoving);
+                if (!isMoving) animator.SetFloat("IdleIndex", Random.Range(0, 2));
             }
         }
+    }
 
-
-            Currentstate.UpdateState();
-
-
-        //-----------------------------Hunt Time-------------------------------//
+    private void HandleHuntTimer()
+    {
         huntToStartTimer += Time.deltaTime;
         if (huntToStartTimer > timeBetweenHuntDuration && !isHunting)
         {
@@ -76,174 +104,145 @@ public class GhostAI : NetworkBehaviour
         Currentstate?.ExitState();
         Currentstate = newState;
         Currentstate?.EnterState();
-        text.text = newState.ToString();
+        if (text != null) text.text = newState.ToString();
     }
 
-    public Vector3[] FindPlayersPosition()
-    {
-        int noOfPlayersAlive = 0;
-        for (int i = 0; i < GameManager.Instance.connectedClientsData.Count; i++)
-        {
-            if (GameManager.Instance.connectedClientsData[i].isAlive)
-                noOfPlayersAlive++;
-        }
-        Vector3[] pos = new Vector3[noOfPlayersAlive];
-        int index = 0;
-        for (int i = 0; i < GameManager.Instance.connectedClientsData.Count; i++)
-        {
-            var player = GameManager.Instance.connectedClientsData[i];
-            if (!player.isAlive) continue;
-
-
-            if (player.playerGameobject == null)
-            {
-                Debug.LogError("Error!");
-                return default;
-            }
-            pos[index] = player.playerGameobject.transform.position;
-            index++;
-        }
-        return pos;
-    }
+    // ---------------- OPTIMIZED VISIBILITY LOGIC ---------------- //
 
     public bool CheckPlayerVisibility(out KeyValuePair<ulong, GameObject> player)
     {
         player = default;
 
+        // Optimization: Only run this heavy logic based on interval
+        _visibilityTimer += Time.deltaTime;
+        if (_visibilityTimer < VISIBILITY_CHECK_INTERVAL)
+        {
+            // Return the cached result from the last check so other scripts don't break
+            if (_cachedTargetPlayer.Value != null)
+            {
+                player = _cachedTargetPlayer;
+                return true;
+            }
+            return false;
+        }
+
+        _visibilityTimer = 0f; // Reset timer
+
         if (GameManager.Instance == null || GameManager.Instance.gameEnd || ghostData == null)
             return false;
 
-        Vector3[] allPlayersPositions = FindPlayersPosition();
-        if (allPlayersPositions == null || allPlayersPositions.Length == 0)
-            return false;
+        float minDisSqr = float.MaxValue;
+        KeyValuePair<ulong, GameObject> bestTarget = default;
+        bool foundTarget = false;
 
-        Dictionary<ulong, GameObject> players = new();
-
-        foreach (var pos in allPlayersPositions)
+        // Loop directly through connected clients. No new arrays. No dictionaries.
+        foreach (var clientData in GameManager.Instance.connectedClientsData)
         {
-            Vector3 targetDir = pos - transform.position;
-            Vector3 targetPos = pos - (transform.position + (ghostData?.eyePosition ?? Vector3.zero)) + Vector3.down * 0.25f;
+            if (!clientData.isAlive || clientData.playerGameobject == null) continue;
+
+            Vector3 targetPos = clientData.playerGameobject.transform.position;
+            Vector3 toPlayer = targetPos - transform.position;
+            float distSqr = toPlayer.sqrMagnitude;
+            float lookDistSqr = ghostData.ghostLookDistance * ghostData.ghostLookDistance;
+
+            // 1. Distance Check (Fastest)
+            if (distSqr > lookDistSqr) continue;
+
+            // 2. Angle Check (Fast)
             Vector3 lookDir = transform.forward;
+            Vector3 targetDirNorm = toPlayer.normalized;
 
-            targetDir.Normalize();
-            lookDir.Normalize();
-
-            float angle = Vector3.Angle(lookDir, targetDir);
-            if (angle < 40)
+            // Optimization: Dot product is faster than Angle. 
+            // 40 degrees ~ 0.766 dot product. If dot > 0.766, it's within angle.
+            // Using Angle for readability here, but Vector3.Dot is better for raw speed.
+            if (Vector3.Angle(lookDir, targetDirNorm) < 40)
             {
-                if (RaycastCheckIfPlayerIsVisible(targetDir, targetPos, out player) && player.Value != null && !players.ContainsKey(player.Key))
+                // 3. Raycast Check (Slowest - do this last)
+                if (RaycastCheckIfPlayerIsVisible(targetDirNorm, targetPos, clientData.playerGameobject))
                 {
-                    players.Add(player.Key, player.Value);
-                }
-            }
-        }
-
-        if (players.Count > 0)
-        {
-            KeyValuePair<ulong, GameObject> finalPlayer = default;
-            float minDis = float.MaxValue;
-
-            foreach (var playerr in players)
-            {
-                if (playerr.Value != null)
-                {
-                    float distance = (playerr.Value.transform.position - transform.position).sqrMagnitude;
-                    if (distance < minDis)
+                    // We found a visible player. Is he closer than the previous one we found?
+                    if (distSqr < minDisSqr)
                     {
-                        minDis = distance;
-                        finalPlayer = playerr;
+                        minDisSqr = distSqr;
+                        bestTarget = new KeyValuePair<ulong, GameObject>(clientData.clientID, clientData.playerGameobject);
+                        foundTarget = true;
                     }
                 }
             }
-
-            if (finalPlayer.Value != null)
-            {
-                player = finalPlayer;
-                return true;
-            }
         }
 
+        if (foundTarget)
+        {
+            _cachedTargetPlayer = bestTarget;
+            player = bestTarget;
+            return true;
+        }
+
+        _cachedTargetPlayer = default;
         return false;
     }
 
-
-    public bool RaycastCheckIfPlayerIsVisible(Vector3 targetDir, Vector3 targetPos, out KeyValuePair<ulong, GameObject> player)
+    // Modified to take the specific target GameObject to avoid searching lists again
+    public bool RaycastCheckIfPlayerIsVisible(Vector3 targetDir, Vector3 targetPos, GameObject targetObject)
     {
         Vector3 rayOrigin = transform.position + ghostData.eyePosition;
-        Debug.DrawRay(rayOrigin, targetDir * ghostData.ghostLookDistance, Color.red, 1f);
 
+        // Use a static LayerMask if possible, getting it by name string every frame is slow
+        int layerMask = visibilityLayerMask; // Assuming 2 is IgnoreRaycast. Ideally, store this in Start().
 
-        // Include all layers except "IgnoreRaycast"
-        int layerMask = ~(1 << LayerMask.NameToLayer("IgnoreRaycast"));    ////Champt Gpt////
-
+        // Check 1: Raycast to center
         if (Physics.Raycast(rayOrigin, targetDir, out RaycastHit hit, ghostData.ghostLookDistance, layerMask, QueryTriggerInteraction.Ignore))
         {
-            Debug.DrawRay(rayOrigin, targetDir * hit.distance, Color.green, 1f);  // Green ray to hit point
-            Debug.DrawRay(hit.point, Vector3.up * 1f, Color.blue, 1f);
-            foreach (var playerr in GameManager.Instance.connectedClientsData)
-            {
-                if (hit.collider.gameObject == playerr.playerGameobject)
-                {
-                    KeyValuePair<ulong, GameObject> temp = new (playerr.clientID, playerr.playerGameobject);
-                    player = temp;
-                    return true;
-                }
-            }
+            // Optimization: Direct comparison. No list looping.
+            if (hit.collider.gameObject == targetObject) return true;
+            // If collider is child of player, use: hit.collider.transform.root.gameObject == targetObject
         }
-        
-        if (Physics.Raycast(rayOrigin, targetPos, out RaycastHit hit2, ghostData.ghostLookDistance))
+
+        // Check 2: Raycast to slightly adjusted position (eye level)
+        // Optimization: Calculate exact target eye position instead of generic calculation if possible
+        Vector3 playerEyePos = targetPos + Vector3.up * 1.6f; // Assuming 1.6m height
+        Vector3 dirToEyes = (playerEyePos - rayOrigin).normalized;
+
+        if (Physics.Raycast(rayOrigin, dirToEyes, out RaycastHit hit2, ghostData.ghostLookDistance, layerMask, QueryTriggerInteraction.Ignore))
         {
-            foreach (var playerr in GameManager.Instance.connectedClientsData)
-            {
-                if (hit2.collider.gameObject == playerr.playerGameobject)
-                {
-                    Debug.Log("player found");
-                    KeyValuePair<ulong, GameObject> temp = new(playerr.clientID, playerr.playerGameobject);
-                    player = temp;
-                    return true;
-                }
-            }
+            if (hit2.collider.gameObject == targetObject) return true;
         }
-        
-        player = default;
+
         return false;
     }
 
     [ClientRpc]
     public void NotifyPlayersAMessageClientRPC(string message, int time)
     {
-        GameManager.Instance.HelpInstructions.text = message;
-        GameManager.Instance.helpInstructionDisplayTime = time;
+        // Null check to prevent errors
+        if (GameManager.Instance != null && GameManager.Instance.HelpInstructions != null)
+        {
+            GameManager.Instance.HelpInstructions.text = message;
+            GameManager.Instance.helpInstructionDisplayTime = time;
+        }
     }
-
 
     private void OnCollisionEnter(Collision collision)
     {
         if (!IsServer) return;
+
+        // CompareTag is fast, this is fine.
         if (isHunting && collision.collider.CompareTag("Player"))
         {
             GameObject player = collision.collider.gameObject;
-            FearMeter fearMeter = player.GetComponent<FearMeter>();
-
-            if (fearMeter != null)
+            // TryGetComponent is slightly faster and safer (no null exception if missing)
+            if (player.TryGetComponent<FearMeter>(out var fearMeter))
             {
                 fearMeter.instantPossess_Trigger = true;
             }
 
-            //ulong clientId = player.GetComponent<NetworkObject>().OwnerClientId;
-            //GameManager.Instance.GetClientThroughID(clientId).isAlive = false;
-
             ChangeState(RoamingState);
             photoClicked = true;
-            //player.GetComponent<PlayerDeathManager>().DieClientRpc();
         }
 
         if (Currentstate == RoamingState)
         {
             photoClicked = true;
         }
-
-
-        //GameManager.Instance.CheckIfEveryPlayerDied();
     }
 }

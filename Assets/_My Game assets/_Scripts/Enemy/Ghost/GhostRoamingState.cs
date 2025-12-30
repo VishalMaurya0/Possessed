@@ -147,11 +147,31 @@ public class RoamWanderingState : GhostState
 
     void FindPositionOfRandomPlayer()
     {
-        Vector3[] allPosition = ghostAI.FindPlayersPosition();
+        // Don't create a new array via FindPlayersPosition(). 
+        // Access the GameManager list directly.
+        var clients = GameManager.Instance.connectedClientsData;
+
+        if (clients.Count == 0) return;
+
+        // Filter alive players first
+        // Note: Creating a temporary list here is cheaper than a specialized method, 
+        // but ideally, GameManager maintains a list of 'AlivePlayers' separate from 'ConnectedClients'.
+        List<Vector3> alivePositions = new List<Vector3>();
+        foreach (var client in clients)
+        {
+            if (client.isAlive && client.playerGameobject != null)
+                alivePositions.Add(client.playerGameobject.transform.position);
+        }
+
+        if (alivePositions.Count == 0) return;
+
         float offsetRadius = ghostAI.ghostData.playerPosOffsetRadius;
-        Vector3 offset = new(Random.Range(-offsetRadius, offsetRadius), 0f, Random.Range(-offsetRadius, offsetRadius));
-        Vector3 pos = allPosition[Random.Range(0, allPosition.Length)] + offset;
-        if (NavMesh.SamplePosition(pos, out NavMeshHit hit, ghostAI.ghostData.playerPosOffsetRadius, NavMesh.AllAreas))
+        Vector3 offset = new Vector3(Random.Range(-offsetRadius, offsetRadius), 0f, Random.Range(-offsetRadius, offsetRadius));
+
+        Vector3 targetPos = alivePositions[Random.Range(0, alivePositions.Count)] + offset;
+
+        // SamplePosition is expensive. Ensure we are actually near navmesh?
+        if (NavMesh.SamplePosition(targetPos, out NavMeshHit hit, ghostAI.ghostData.playerPosOffsetRadius, NavMesh.AllAreas))
         {
             playerPosition = hit.position;
         }
@@ -304,7 +324,7 @@ public class RoamChooseSpawnLocationState : GhostState
         foreach (var player in GameManager.Instance.connectedClientsData)
         {
             if (!player.isAlive) continue;
-            if (Physics.Raycast(eyePos, player.playerGameobject.transform.position - eyePos, out RaycastHit hit, Vector3.Distance(pos, player.playerGameobject.transform.position)))
+            if (Physics.Raycast(eyePos, player.playerGameobject.transform.position - eyePos, out RaycastHit hit, (pos - player.playerGameobject.transform.position).sqrMagnitude))
             {
                 if (hit.collider.gameObject == player.playerGameobject)
                 {
