@@ -7,8 +7,9 @@ public class FireScriptForVoodooDoll : NetworkBehaviour
 {
     [SerializeField] GameObject dollPrefab;
     GameObject newDoll;
-    [SerializeField] int spawnRadius = 20;
+    [SerializeField] int spawnRadius = 80;
     [SerializeField] TaskVoodooDoll taskVoodooDoll__parent;
+    [SerializeField] Vector3 centerPos = new Vector3 (68, 0, 68);
     public ParticleSystem fire;
     public bool activated = true;
 
@@ -30,18 +31,19 @@ public class FireScriptForVoodooDoll : NetworkBehaviour
         if (collision.gameObject.CompareTag("Doll") && activated)
         {
             activated = false;
-            Debug.Log("Collided with Doll! Starting despawn and respawn process.");
+            //Debug.Log("Collided with Doll! Starting despawn and respawn process.");
 
             fire.Stop();
 
             NetworkObject doll = collision.gameObject.GetComponent<NetworkObject>();
             Vector3 storedPos = collision.transform.position;
-            Debug.Log("Stored old doll position: " + storedPos);
+            //Debug.Log("Stored old doll position: " + storedPos);
 
             if (doll != null)
             {
-                Debug.Log("Despawn Doll!");
-                doll.Despawn();
+                //Debug.Log("Despawn Doll!");
+                doll.gameObject.SetActive(false);
+                taskVoodooDoll__parent.dollsInMap--;
             }
             else
             {
@@ -50,24 +52,42 @@ public class FireScriptForVoodooDoll : NetworkBehaviour
 
             taskVoodooDoll__parent.dollsAdded++;
 
-            if (FindNavMeshPosition(storedPos, out Vector3 result))
+            if (FindNavMeshPosition(centerPos, out Vector3 result))
             {
-                Debug.Log("Found new NavMesh position: " + result);
+                //Debug.Log("Found new NavMesh position: " + result);
 
-                newDoll = Instantiate(dollPrefab, result, Quaternion.identity);
-                doll = newDoll.GetComponent<NetworkObject>();
+                doll.transform.position = result;
+                //newDoll = Instantiate(dollPrefab, result, Quaternion.identity);
+                //doll = newDoll.GetComponent<NetworkObject>();
+                doll.gameObject.SetActive(true);
 
-                newDoll.transform.position = result;
-                Debug.Log("New doll instantiated at: " + newDoll.transform.position);
+                //newDoll.transform.position = result;
+                //Debug.Log("New doll instantiated at: " + newDoll.transform.position);
 
-                doll.Spawn();
-                Debug.Log("New doll spawned on server.");
+                //doll.Spawn();
+                //Debug.Log("New doll spawned on server.");
             }
             else
             {
                 Debug.LogError("Failed to find valid NavMesh position for new doll.");
             }
         }
+    }
+
+
+    public bool SpawnADoll()
+    {
+                if (!IsServer) return false;
+        if (FindNavMeshPosition(centerPos, out Vector3 result))
+        {
+            newDoll = Instantiate(dollPrefab, result, Quaternion.identity);
+            NetworkObject doll = newDoll.GetComponent<NetworkObject>();
+            doll.Spawn();
+            doll.TrySetParent(taskVoodooDoll__parent.enemiesContainer.transform, false);
+            taskVoodooDoll__parent.dollsInMap++;
+            return true;
+        }
+        return false;
     }
 
 

@@ -542,6 +542,11 @@ public class GameManager : NetworkBehaviour
     {
         ghostLookPostProcess_timer = 0f;
 
+        if (ownerPlayer == null)
+        {
+            Debug.LogWarning("Owner player is not assigned. Cannot perform Ghost Look Post Process.");
+            yield break; // Exit if ownerPlayer is not assigned
+        }
         float currentX = ownerPlayer.transform.position.x;
         float currentZ = ownerPlayer.transform.position.z;
 

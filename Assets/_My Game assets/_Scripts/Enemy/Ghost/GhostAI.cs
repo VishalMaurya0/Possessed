@@ -40,16 +40,18 @@ public class GhostAI : NetworkBehaviour
                 ChangeState(RoamingState);
             }
         }
-
-        if (navMeshAgent.isStopped || navMeshAgent.remainingDistance < 1)
+        if (navMeshAgent.isOnNavMesh)
         {
-            animator.SetBool("Walking", false);
-            animator.SetFloat("IdleIndex", Random.Range(0, 2));
-        }else
-        {
-            animator.SetBool("Walking", true);
+            if (navMeshAgent.isStopped || navMeshAgent.remainingDistance < 1)
+            {
+                animator.SetBool("Walking", false);
+                animator.SetFloat("IdleIndex", Random.Range(0, 2));
+            }
+            else
+            {
+                animator.SetBool("Walking", true);
+            }
         }
-
 
 
             Currentstate.UpdateState();

@@ -12,6 +12,10 @@ public class TaskVoodooDoll : NetworkBehaviour
     public int dollsAdded = 0;
     FireScriptForVoodooDoll[] fireScriptForVoodooDolls = new FireScriptForVoodooDoll[3];
 
+    public int dollsInMap = 0;
+    public int dollsToSpawnInMap = 17;
+    public GameObject enemiesContainer;
+
     void Start()
     {
         for (int i = 0; i < fireScriptForVoodooDolls.Length; i++)
@@ -27,6 +31,11 @@ public class TaskVoodooDoll : NetworkBehaviour
         if (dollsAdded >= dollsNeeded && IsServer)
         {
             SpawnNewDoll();
+        }
+
+        if (dollsInMap < dollsToSpawnInMap && IsServer)
+        {
+            fireScriptForVoodooDolls[0].SpawnADoll();
         }
     }
 
