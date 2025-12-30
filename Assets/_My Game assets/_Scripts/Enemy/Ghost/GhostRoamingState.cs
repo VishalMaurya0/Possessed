@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -84,7 +85,7 @@ public class RoamWanderingState : GhostState
     public override void UpdateState()
     {
         if (GameManager.Instance.gameEnd) return;
-        if (ghostAI.navMeshAgent.isOnNavMesh && ghostAI.navMeshAgent.remainingDistance < 1f)
+        if (ghostAI.navMeshAgent.isOnNavMesh && !ghostAI.navMeshAgent.pathPending && ghostAI.navMeshAgent.remainingDistance < 1f)
         {
             idleTimer += Time.deltaTime;
             if (idleTimer >= ghostAI.ghostData.idleDuration)
@@ -187,11 +188,23 @@ public class RoamPossessingState : GhostState
 
     public override void EnterState()
     {
+        NotifyPlayersAboutPossessionClientRPC(roamingState.seenPlayer.Key);
         if (ghostAI.navMeshAgent.isOnNavMesh)
         {
             ghostAI.navMeshAgent.isStopped = true;
             roamingState.seenPlayer.Value.GetComponent<FearMeter>().isGhostLooking = true;
         }
+
+        ghostAI.animator.SetBool("Possess", true);
+        ghostAI.animator.SetFloat("PossessIndex", Random.Range(0, 2));
+
+    }
+
+    [ClientRpc]
+    private void NotifyPlayersAboutPossessionClientRPC(ulong id)
+    {
+        if (GameManager.Instance.localID == id) return;
+        GameManager.Instance.HelpInstructions.text = "Ghost is Possessing Someone, Find and Distract the Ghost";
     }
 
     public override void UpdateState()
@@ -200,6 +213,7 @@ public class RoamPossessingState : GhostState
         if (roamingState.stopPossession__Trigger)
         {
             roamingState.stopPossession__Trigger = false;
+            ghostAI.NotifyPlayersAMessageClientRPC($"Ghost is regaining its Powers and gone for {ghostAI.ghostData.spawnCooldownDuration} secs", 4);
             roamingState.SetCurrentRoamSubState(roamingState.RoamChooseSpawnLocationState);
         }
     }
@@ -208,13 +222,16 @@ public class RoamPossessingState : GhostState
     {
         ghostAI.navMeshAgent.isStopped = false;
         roamingState.seenPlayer.Value.GetComponent<FearMeter>().isGhostLooking = false;
+        
+        
+        ghostAI.animator.SetBool("Possess", false);
     }
 
     void CheckForPossessionStop()
     {
         if (roamingState.seenPlayer.Value.GetComponent<FearMeter>().fearValue >= 100 || ghostAI.photoClicked)
         {
-            roamingState.stopPossession__Trigger = true;                //=======goto #197 ==========//
+            roamingState.stopPossession__Trigger = true;
         }
     }
 }
@@ -268,9 +285,9 @@ public class RoamChooseSpawnLocationState : GhostState
     {
         
     }
-    private Vector3 FindNewLocation()         //TODO============***Change the roaming radius to new var in this case ***==============//
+    private Vector3 FindNewLocation()     
     {
-        Vector3 randomPosition = Random.insideUnitSphere * ghostAI.ghostData.roamingRadius;
+        Vector3 randomPosition = Random.insideUnitSphere * ghostAI.ghostData.spawnRadiusAfterCaught;
         randomPosition += ghostAI.transform.position;
 
         if (NavMesh.SamplePosition(randomPosition, out NavMeshHit hit, ghostAI.ghostData.endRadius, NavMesh.AllAreas))
@@ -340,6 +357,10 @@ public class RoamShowingNearPPState : GhostState
         ghostAI.navMeshAgent.isStopped = true;
         showingDuration = Random.Range(ghostAI.ghostData.shownPPDurationMin, ghostAI.ghostData.shownPPDurationMax);
         ShowNearPP();
+
+
+        ghostAI.animator.SetBool("ShowPP", true);
+        ghostAI.animator.SetFloat("ShowPPIndex", Random.Range(0, 3));
     }
 
     public override void UpdateState()
@@ -356,6 +377,9 @@ public class RoamShowingNearPPState : GhostState
         ghostAI.transform.SetPositionAndRotation(initialPosition, Quaternion.Euler(initialRotation));
         ghostAI.navMeshAgent.SetDestination(initialTargetPos);
         ghostAI.navMeshAgent.isStopped = false;
+
+
+        ghostAI.animator.SetBool("ShowPP", false);
     }
 
 
@@ -365,7 +389,7 @@ public class RoamShowingNearPPState : GhostState
         int selectedIndex = threePPIndex[Random.Range(0, 3)];
         float sr = ghostAI.ghostData.spawnRadiusNearPP;
         Vector3 pos = GameManager.Instance.procedureBase.position[selectedIndex] + new Vector3(Random.Range(-sr, sr), ghostAI.ghostData.height / 2 , Random.Range(-sr, sr));
-        Debug.Log(pos);
+        Debug.Log(pos + "Show near PP");
         ghostAI.transform.position = pos;
         
     }

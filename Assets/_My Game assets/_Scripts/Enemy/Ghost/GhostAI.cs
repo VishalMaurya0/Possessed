@@ -12,6 +12,7 @@ public class GhostAI : NetworkBehaviour
     public GhostState DyingState;
 
     public NavMeshAgent navMeshAgent;
+    public Animator animator;
     public GhostData ghostData;
     public bool isHunting;
     public bool stopHunt;
@@ -28,18 +29,30 @@ public class GhostAI : NetworkBehaviour
         if (!IsServer) return;
         if (navMeshAgent == null)
         {
-            huntToStartTimer = 0;
-            timeBetweenHuntDuration = ghostData.timeBetweenHuntDuration + Random.Range(-ghostData.timeBetweenHuntDurationRange, ghostData.timeBetweenHuntDurationRange);
-            RoamingState = new GhostRoamingState(this);
-            HuntingState = new GhostHuntingState(this);
-            DyingState = new GhostDyingState(this);
             navMeshAgent = this.GetComponent<NavMeshAgent>();
-            ChangeState(RoamingState);
+            if (RoamingState == null || HuntingState == null || DyingState == null)
+            {
+                huntToStartTimer = 0;
+                timeBetweenHuntDuration = ghostData.timeBetweenHuntDuration + Random.Range(-ghostData.timeBetweenHuntDurationRange, ghostData.timeBetweenHuntDurationRange);
+                RoamingState = new GhostRoamingState(this);
+                HuntingState = new GhostHuntingState(this);
+                DyingState = new GhostDyingState(this);
+                ChangeState(RoamingState);
+            }
+        }
+
+        if (navMeshAgent.isStopped || navMeshAgent.remainingDistance < 1)
+        {
+            animator.SetBool("Walking", false);
+            animator.SetFloat("IdleIndex", Random.Range(0, 2));
+        }else
+        {
+            animator.SetBool("Walking", true);
         }
 
 
 
-        Currentstate.UpdateState();
+            Currentstate.UpdateState();
 
 
         //-----------------------------Hunt Time-------------------------------//
@@ -114,7 +127,7 @@ public class GhostAI : NetworkBehaviour
             lookDir.Normalize();
 
             float angle = Vector3.Angle(lookDir, targetDir);
-            if (angle < 60)
+            if (angle < 40)
             {
                 if (RaycastCheckIfPlayerIsVisible(targetDir, targetPos, out player) && player.Value != null && !players.ContainsKey(player.Key))
                 {
@@ -194,6 +207,13 @@ public class GhostAI : NetworkBehaviour
         return false;
     }
 
+    [ClientRpc]
+    public void NotifyPlayersAMessageClientRPC(string message, int time)
+    {
+        GameManager.Instance.HelpInstructions.text = message;
+        GameManager.Instance.helpInstructionDisplayTime = time;
+    }
+
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -201,12 +221,23 @@ public class GhostAI : NetworkBehaviour
         if (isHunting && collision.collider.CompareTag("Player"))
         {
             GameObject player = collision.collider.gameObject;
+            FearMeter fearMeter = player.GetComponent<FearMeter>();
+
+            if (fearMeter != null)
+            {
+                fearMeter.instantPossess_Trigger = true;
+            }
 
             ulong clientId = player.GetComponent<NetworkObject>().OwnerClientId;
             GameManager.Instance.GetClientThroughID(clientId).isAlive = false;
 
 
             player.GetComponent<PlayerDeathManager>().DieClientRpc();
+        }
+
+        if (Currentstate == RoamingState)
+        {
+            photoClicked = true;
         }
 
 

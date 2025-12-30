@@ -21,9 +21,9 @@ public class GhostHuntingState : GhostState
     [Header("Hunt Settings")]
     float huntDuration;
     float huntDurationTimer = 0;
-    float averageHuntDuration;
-    public float baseIgnorance = 10f;
-    public float posChaseIgnorance = 20;
+    float startingHuntDuration;
+    public float baseIgnorance;
+    public float posChaseIgnorance;
     public bool sightChasing = false;
     public GameObject seenPlayer;
 
@@ -35,13 +35,18 @@ public class GhostHuntingState : GhostState
     public Vector3 huntChaseTheNoisePosition = Vector3.zero;
 
 
+
     public override void EnterState()
     {
+        ghostAI.NotifyPlayersAMessageClientRPC("Ghost is Highly Active, Be Careful!", 3);
         huntDurationTimer = 0;
         SetCurrentHuntSubState(huntWanderState);
         ghostAI.isHunting = true;
-        averageHuntDuration = ghostAI.ghostData.averageHuntDuration;
-        huntDuration = averageHuntDuration * ((GameManager.Instance.completedProcedures.Count / ghostAI.ghostData.proceduresAfterWhichHuntHuntDurDoubles) + 1) * ((GameManager.Instance.timeInSecElapsed / ghostAI.ghostData.timeAfterWhichHuntHuntDurDoubles) + 1);
+        startingHuntDuration = ghostAI.ghostData.startingHuntDuration;
+        huntDuration = startingHuntDuration * ((GameManager.Instance.completedProcedures.Count / ghostAI.ghostData.proceduresAfterWhichHuntHuntDurDoubles) + 1) * ((GameManager.Instance.timeInSecElapsed / ghostAI.ghostData.timeAfterWhichHuntHuntDurDoubles) + 1);
+
+        baseIgnorance = ghostAI.ghostData.baseIgnorance;
+        posChaseIgnorance = ghostAI.ghostData.posChaseIgnorance;
     }
 
     public override void UpdateState()
@@ -60,6 +65,12 @@ public class GhostHuntingState : GhostState
             Debug.Log("timeeeee");
             ghostAI.huntToStartTimer = 0;
             ghostAI.stopHunt = true;
+        }
+
+
+        if (ignoreNoises > baseIgnorance)
+        {
+            ignoreNoises -= ghostAI.ghostData.noiseForgettingRate * Time.deltaTime;
         }
     }
 
@@ -83,7 +94,7 @@ public class GhostHuntingState : GhostState
         float maxNoise = 0f;
         for (int i = 0; i < GameManager.Instance.connectedClientsData.Count; i++)
         {
-            if (GameManager.Instance.connectedClientsData[i].noiseValue > maxNoise && GameManager.Instance.connectedClientsData[i].noiseValue > ignoreNoises)
+            if (GameManager.Instance.connectedClientsData[i].noiseValue >= maxNoise && GameManager.Instance.connectedClientsData[i].noiseValue >= ignoreNoises)
             {
                 maxNoise = GameManager.Instance.connectedClientsData[i].noiseValue;
                 maxNoiseIndex = i;
@@ -153,6 +164,9 @@ public class HuntWanderState : GhostState
     bool againChaseCentre;       //=======global one time var========//
     float againChaseCentreTimer;
 
+    private float noiseUpdateTimer = 0f;
+    private float noiseUpdateInterval = 0.3f;
+
     public override void EnterState()
     {
         centrePosToChase = FindCentreOfPlayersPosition();
@@ -160,6 +174,20 @@ public class HuntWanderState : GhostState
 
     public override void UpdateState()
     {
+        noiseUpdateTimer += Time.deltaTime;
+
+        if (noiseUpdateTimer >= noiseUpdateInterval)
+        {
+            huntingState.FindMaxNoiseIndexAndSetChasePosition();
+            noiseUpdateTimer = 0f; 
+        }
+
+        if (huntingState.ignoreNoises > huntingState.baseIgnorance && huntingState.huntChaseTheNoisePosition != Vector3.zero)
+        {
+            HuntNoisePosition();
+            return;
+        }
+
         if (huntingState.huntChaseTheNoisePosition == Vector3.zero)
         {
             if (atCentreOfPlayers)
@@ -167,16 +195,11 @@ public class HuntWanderState : GhostState
             else
                 HuntToCentre();
         }
-        else
-        {
-            HuntNoisePosition();
-        }
-        huntingState.FindMaxNoiseIndexAndSetChasePosition();
     }
 
     private void HuntRoam()
     {
-        if (ghostAI.navMeshAgent.remainingDistance < 1)
+        if (!ghostAI.navMeshAgent.pathPending && ghostAI.navMeshAgent.remainingDistance < 1)
         {
             ghostAI.navMeshAgent.SetDestination(FindHuntRoamPosition());
         }
@@ -205,7 +228,7 @@ public class HuntWanderState : GhostState
     void HuntNoisePosition()
     {
         ghostAI.navMeshAgent.SetDestination(huntingState.huntChaseTheNoisePosition);
-        if (ghostAI.navMeshAgent.remainingDistance < 1)
+        if (!ghostAI.navMeshAgent.pathPending && ghostAI.navMeshAgent.remainingDistance < 1)
         {
             huntingState.huntChaseTheNoisePosition = Vector3.zero;
             huntingState.ignoreNoises = huntingState.baseIgnorance;
@@ -289,6 +312,13 @@ public class HuntSightChaseState : GhostState
         this.huntingState = huntingState;
     }
 
+    float timer;
+    float timeToCheckPlayerVisibility = 1f;
+
+    float timerForLoosingSeenPlayer = 0;
+    float timeForLoosingSeenPlayer = 0.2f;
+    bool startTimerForLoosingSeenPlayer = false;
+
     public override void EnterState()
     {
 
@@ -296,13 +326,31 @@ public class HuntSightChaseState : GhostState
 
     public override void UpdateState()
     {
-        if (ghostAI.CheckPlayerVisibility(out KeyValuePair<ulong, GameObject> player))
+        timer += Time.deltaTime;
+        if (timer > timeToCheckPlayerVisibility)
         {
-            huntingState.seenPlayer = player.Value;
+            timer = 0;
+            if (ghostAI.CheckPlayerVisibility(out KeyValuePair<ulong, GameObject> player))
+            {
+                startTimerForLoosingSeenPlayer = false;
+                timerForLoosingSeenPlayer = 0;
+                huntingState.seenPlayer = player.Value;
+            }
+            else
+            {
+                startTimerForLoosingSeenPlayer = true;
+            }
         }
-        else
+                
+        if (startTimerForLoosingSeenPlayer)
         {
-            huntingState.seenPlayer = null;
+            timerForLoosingSeenPlayer += Time.deltaTime;
+            if (timerForLoosingSeenPlayer > timeForLoosingSeenPlayer)
+            {
+                startTimerForLoosingSeenPlayer = false;
+                timerForLoosingSeenPlayer = 0;
+                huntingState.seenPlayer = null;
+            }
         }
 
         if (huntingState.seenPlayer != null)
@@ -318,9 +366,15 @@ public class HuntSightChaseState : GhostState
     }
 
 
+    float repathTimer = 0;
     private void ChasePlayer()
     {
-        ghostAI.navMeshAgent.SetDestination(huntingState.seenPlayer.transform.position);
+        repathTimer += Time.deltaTime;
+        if (repathTimer > 0.2f)
+        {
+            repathTimer = 0;
+            ghostAI.navMeshAgent.SetDestination(huntingState.seenPlayer.transform.position);
+        }
     }
 
     public override void ExitState()

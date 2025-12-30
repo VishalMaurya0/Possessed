@@ -29,9 +29,13 @@ MonoBehaviour:
   shownPPDurationMax: 2
   spawnRadiusNearPP: 0
   spawnCooldownDuration: 5
-  averageHuntDuration: 30
+  spawnRadiusAfterCaught: 100
+  startingHuntDuration: 60
   timeAfterWhichHuntHuntDurDoubles: 1200
   proceduresAfterWhichHuntHuntDurDoubles: 2
+  baseIgnorance: 10
+  posChaseIgnorance: 20
+  noiseForgettingRate: 1
   huntRoamingRadius: 10
   huntEndRadius: 5
   timeAfterWhichGhostStartWalkingToCentre: 120

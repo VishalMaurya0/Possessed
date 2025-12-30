@@ -30,7 +30,7 @@ public class FearMeter : MonoBehaviour
     public bool isLookingDoll;
     public bool isLookingGhost;
     public bool SAFE;
-    public bool instantPossess;
+    public bool instantPossess_Trigger;
     public bool revived;
     private bool freezing;
 
@@ -109,9 +109,11 @@ public class FearMeter : MonoBehaviour
         }
 
         //----------------------Possess and Revive-------------------//
-        if (instantPossess)
+        if (instantPossess_Trigger)
         {
-            instantPossess = false;
+            instantPossess_Trigger = false;
+            if (SAFE)
+                return;
             instantKillFear = 100;
         }
 

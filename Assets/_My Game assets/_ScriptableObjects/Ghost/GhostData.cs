@@ -32,13 +32,19 @@ public class GhostData : ScriptableObject
 
     [Header("ChooseSpawn")]
     public float spawnCooldownDuration = 5f;
+    public float spawnRadiusAfterCaught = 100f;
 
 
 
     [Header("HuntingState")]
-    public float averageHuntDuration = 15f;
+    [Tooltip("Starting Hunt Duration")]public float startingHuntDuration = 15f;
     public float timeAfterWhichHuntHuntDurDoubles = 1200;
     public float proceduresAfterWhichHuntHuntDurDoubles = 2;
+    
+    [Header("Noise Settings")]
+    public float baseIgnorance = 10f;
+    public float posChaseIgnorance = 20;
+    public float noiseForgettingRate = 1f;
 
     [Header("Wander")]
     public float huntRoamingRadius = 10;

@@ -1227,7 +1227,7 @@ MonoBehaviour:
   playerVisual: {fileID: 3635968934060461195}
   player_GhostCamera: {fileID: 7644840573191448947}
   wallDetection: {fileID: 5250367066418796619}
-  animator: {fileID: 1415286437295232965}
+  animator: {fileID: 0}
   collisionNormal: {x: 0, y: 0, z: 0}
   playerData: {fileID: 11400000, guid: 90e601a80ebcdd34284ea39b4ff2a519, type: 2}
 --- !u!114 &-6953325095380937464
@@ -1468,7 +1468,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   TransitionStateInfoList: []
-  m_Animator: {fileID: 1415286437295232965}
+  m_Animator: {fileID: 0}
 --- !u!1 &8661401823799451394
 GameObject:
   m_ObjectHideFlags: 0
@@ -1598,11 +1598,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 8402079832328462486}
   m_SourcePrefab: {fileID: 100100000, guid: 954c74b7108eff84c95538f68dcbc632, type: 3}
---- !u!95 &1415286437295232965 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 5144409151373392802, guid: 954c74b7108eff84c95538f68dcbc632, type: 3}
-  m_PrefabInstance: {fileID: 6107029914400599143}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4991175106506313151 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1262327350077219288, guid: 954c74b7108eff84c95538f68dcbc632, type: 3}
