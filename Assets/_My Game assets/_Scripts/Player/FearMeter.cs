@@ -105,10 +105,22 @@ public class FearMeter : MonoBehaviour
         else { UnFreeze(); }
         if (SAFE) { regenFear -= regenFearRate*Time.deltaTime; }
 
-        if (isLookingDoll || isGhostLooking || isLookingGhost)
+        if (isGhostLooking)
         {
             GameManager.Instance.PostProcessEffect(true);
-        }else
+        }
+        
+        if (isLookingDoll)
+        {
+            GameManager.Instance.PostProcessEffect(true, noOfDollsVisible/5.0f);
+        }
+        
+        if (isLookingGhost)
+        {
+            GameManager.Instance.PostProcessEffect(true, 0.5f);
+        }
+        
+        if (!isGhostLooking && !isLookingDoll && !isLookingGhost)
         {
             GameManager.Instance.PostProcessEffect(false);
         }

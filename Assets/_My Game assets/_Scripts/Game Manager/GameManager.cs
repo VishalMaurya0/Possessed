@@ -68,6 +68,7 @@ public class GameManager : NetworkBehaviour
     public GameObject GhostLookPostProcess;
     public Coroutine GhostLookPostProcess_corotine;
     public bool isComing;
+    public float currentPower = 0f;
     public float ghostLookPostProcess_duration = 0.4f;
     public float ghostLookPostProcess_timer = 0;
     public float ghostLookPostProcess_startY = -5f;
@@ -206,6 +207,12 @@ public class GameManager : NetworkBehaviour
                 NotifyClientAboutConnectedClientsServerRpc();
             }
         }
+
+
+        // GhostLook Post Processes=======
+        if (ownerPlayer != null)
+            GhostLookPostProcess.transform.position = new Vector3(ownerPlayer.transform.position.x, GhostLookPostProcess.transform.position.y, ownerPlayer.transform.position.z);
+        //================================
     }
 
 
@@ -506,40 +513,47 @@ public class GameManager : NetworkBehaviour
         }
         return null;
     }
-
-    public void PostProcessEffect(bool come)
+    public void PostProcessEffect(bool come, float power = 1)
     {
-        if (isComing == come) return;
-
+        if (
+        isComing == come &&
+        currentPower == power)
+        {
+            return;
+        }
+        // 1. If we are already running a routine, stop it so we can start a new one from the CURRENT position
         if (GhostLookPostProcess_corotine != null)
         {
             StopCoroutine(GhostLookPostProcess_corotine);
         }
 
         isComing = come;
+        currentPower = power;
 
+        // 2. Determine where we want to go (The Target)
+        // If coming, target is based on Power. If going (reverse), target is StartY.
+        float targetY = come ? Mathf.Lerp(ghostLookPostProcess_startY, ghostLookPostProcess_endY, power) : ghostLookPostProcess_startY;
 
-        GhostLookPostProcess.transform.position = ownerPlayer.transform.position + new Vector3(0, ghostLookPostProcess_startY, 0);
-
-        GhostLookPostProcess_corotine = StartCoroutine(LerpYPosition(!come));
+        // 3. Start animating from WHERE WE ARE RIGHT NOW to the TARGET
+        GhostLookPostProcess_corotine = StartCoroutine(LerpYToTarget(targetY));
     }
 
-    private IEnumerator LerpYPosition(bool reverse)
+    private IEnumerator LerpYToTarget(float targetY)
     {
         ghostLookPostProcess_timer = 0f;
 
-        float currentX = GhostLookPostProcess.transform.position.x;
-        float currentZ = GhostLookPostProcess.transform.position.z;
+        float currentX = ownerPlayer.transform.position.x;
+        float currentZ = ownerPlayer.transform.position.z;
 
-        float actualStart = reverse ? ghostLookPostProcess_endY : ghostLookPostProcess_startY;
-        float actualEnd = reverse ? ghostLookPostProcess_startY : ghostLookPostProcess_endY;
+        // CRITICAL: Start exactly where the object is right now to prevent snapping
+        float startY = GhostLookPostProcess.transform.position.y;
 
         while (ghostLookPostProcess_timer < ghostLookPostProcess_duration)
         {
             float t = ghostLookPostProcess_timer / ghostLookPostProcess_duration;
             float smoothT = Mathf.SmoothStep(0, 1, t);
 
-            float newY = Mathf.Lerp(actualStart, actualEnd, smoothT);
+            float newY = Mathf.Lerp(startY, targetY, smoothT);
 
             GhostLookPostProcess.transform.position = new Vector3(currentX, newY, currentZ);
 
@@ -547,7 +561,8 @@ public class GameManager : NetworkBehaviour
             yield return null;
         }
 
-        GhostLookPostProcess.transform.position = new Vector3(currentX, actualEnd, currentZ);
+        // Ensure we end exactly on the target
+        GhostLookPostProcess.transform.position = new Vector3(currentX, targetY, currentZ);
         GhostLookPostProcess_corotine = null;
     }
 }
