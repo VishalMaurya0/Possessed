@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
@@ -17,13 +18,19 @@ public class DollAI : NetworkBehaviour
     public float viewAngle = 30f;
     public float attackRange = 1.5f;
     public Transform[] patrolPoints;
+    public float reactionTimeOfDoll = 0f;
 
     [Header("Values")]
     public GameObject playerInSight;
     public Vector3 posOfPlayer;
     private enum DollState { Idle, Chasing, Frozen, Attacking }
     private DollState currentState = DollState.Idle;
+    bool isFreezing = false;
 
+    [Header("Optimization")]
+    public float timerForCheck = 0;
+    public float timeForCheck = 0.2f;
+    
 
     void Start()
     {
@@ -70,42 +77,60 @@ public class DollAI : NetworkBehaviour
                 break;
         }
 
-        if (IsPlayerInSight())
-        {
-            posOfPlayer = playerInSight.transform.position;
-        }
+        //if (IsPlayerInSight())
+        //{
+        //    posOfPlayer = playerInSight.transform.position;
+        //}
     }
 
     void HandleIdleState()
     {
-        if (IsPlayerInSight())
+        timerForCheck += Time.deltaTime;
+        if (timerForCheck > timeForCheck + 0.3f)
         {
-            if (IsPlayerLookingAtDoll())
+            timerForCheck = 0;
+            if (IsPlayerInSight())
             {
-                Freeze();
-            }
-            else
-            {
-                currentState = DollState.Chasing;
+                if (IsPlayerLookingAtDoll())
+                {
+                    Freeze();
+                }
+                else
+                {
+                    currentState = DollState.Chasing;
+                }
             }
         }
     }
 
     void HandleChaseState()
     {
-        if (IsPlayerLookingAtDoll())
+        timerForCheck += Time.deltaTime;
+        if (timerForCheck > timeForCheck)
         {
-            Freeze();
-            return;
-        }
+            timerForCheck = 0;
 
-        animator.speed = 0.6f;
-        agent.isStopped = false;
-        agent.SetDestination(posOfPlayer);
+            if (IsPlayerLookingAtDoll())
+            {
+                if (!isFreezing)
+                {
+                    StartCoroutine(Freeze());
+                }
+                return;
+            }
 
-        if (IsPlayerInAttackRange())
-        {
-            currentState = DollState.Attacking;
+            if (playerInSight != null)
+                posOfPlayer = playerInSight.transform.position;
+
+            animator.speed = 0.6f;
+            agent.isStopped = false;
+
+            agent.SetDestination(posOfPlayer);
+
+            if (IsPlayerInAttackRange())
+            {
+                currentState = DollState.Attacking;
+            }
         }
     }
 
@@ -126,6 +151,7 @@ public class DollAI : NetworkBehaviour
   
         FearMeter fearMeter = playerInSight.GetComponent<FearMeter>();
         fearMeter.instantPossess_Trigger = true;
+        currentState = DollState.Idle;
     }
 
 
@@ -135,13 +161,17 @@ public class DollAI : NetworkBehaviour
 
 
 
-    void Freeze()
+    IEnumerator Freeze()
     {
+        isFreezing = true;
+        yield return new WaitForSeconds(reactionTimeOfDoll);
         animator.speed = 0;
         if (agent.isOnNavMesh)
         {
             agent.isStopped = true;
+            agent.velocity = Vector3.zero;
             currentState = DollState.Frozen;
+            isFreezing = false;
         }
     }
 
@@ -151,11 +181,12 @@ public class DollAI : NetworkBehaviour
         {
             if (playerr == null)
             {
-                return false;
+                continue;
             }
             // Eliminating Dead Players
             int index = Array.IndexOf(player, playerr);
-            if (!GameManager.Instance.connectedClientsData[index].isAlive) return false;
+            if (!GameManager.Instance.connectedClientsData[index].isAlive) continue;
+
 
             Vector3 origin = transform.position + Vector3.up * 0.5f;
             Vector3 directionToPlayer = (playerr.transform.position - origin).normalized;
@@ -173,6 +204,7 @@ public class DollAI : NetworkBehaviour
                 if (hit.collider.gameObject == playerr.gameObject)
                 {
                     playerInSight = playerr.gameObject;
+                    posOfPlayer = playerInSight.transform.position;
                     return true;
                 }
             }
@@ -199,14 +231,21 @@ public class DollAI : NetworkBehaviour
 
             if (distanceToDoll < playerDetectionRange)
             {
-                float angle = Vector3.Angle(playerr.transform.forward, directionToDoll);
+                float angle = Vector3.Angle(playerr.GetChild(0).transform.forward, directionToDoll);
                 if (angle < viewAngle)
                 {
-                    if (Physics.Raycast(eyePosition, directionToDoll, out RaycastHit hit, distanceToDoll + 5))
+                    int layerMask = ~((1 << LayerMask.NameToLayer("IgnoreRaycast")) | (1 << LayerMask.NameToLayer("Player")) | (1 << LayerMask.NameToLayer("Trigger")));
+
+                    if (Physics.Raycast(eyePosition, directionToDoll, out RaycastHit hit, distanceToDoll + 5, layerMask, QueryTriggerInteraction.Ignore))
                     {
                         if (hit.collider.gameObject == this.gameObject)
                         {
+                            Debug.DrawLine(eyePosition, hit.point, Color.green); // Visual Debug
                             return true;
+                        }
+                        else
+                        {
+                            Debug.DrawLine(eyePosition, hit.point, Color.red); // Visual Debug
                         }
                     }
                 }
@@ -225,25 +264,47 @@ public class DollAI : NetworkBehaviour
         return distanceToPlayer <= attackRange;
     }
 
-    
 
     //void OnDrawGizmos()
     //{
-    //    Gizmos.color = Color.yellow;
-    //    Gizmos.DrawWireSphere(transform.position, detectionRange);
-
-    //    Gizmos.color = Color.red;
+    //    // 1. Draw Attack Range (Red Sphere)
+    //    Gizmos.color = new Color(1, 0, 0, 0.3f);
     //    Gizmos.DrawWireSphere(transform.position, attackRange);
 
-    //    Vector3 viewAngleA = DirectionFromAngle(-viewAngle / 2);
-    //    Vector3 viewAngleB = DirectionFromAngle(viewAngle / 2);
-    //    Gizmos.color = Color.blue;
-    //    Gizmos.DrawLine(transform.position, transform.position + viewAngleA * detectionRange);
-    //    Gizmos.DrawLine(transform.position, transform.position + viewAngleB * detectionRange);
-    //}
+    //    // 2. Draw Detection Range (Cyan Wire)
+    //    Gizmos.color = Color.cyan;
+    //    Gizmos.DrawWireSphere(transform.position, playerDetectionRange);
 
-    //Vector3 DirectionFromAngle(float angleInDegrees)
-    //{
-    //    return Quaternion.Euler(0, angleInDegrees, 0) * transform.forward;
+    //    // 3. Draw "Current Target" Line (Yellow)
+    //    if (playerInSight != null)
+    //    {
+    //        Gizmos.color = Color.yellow;
+    //        Gizmos.DrawLine(transform.position + Vector3.up, playerInSight.transform.position + Vector3.up);
+    //        Gizmos.DrawWireSphere(playerInSight.transform.position + Vector3.up, 0.5f);
+    //    }
+
+    //    // 4. Draw Player View Cones (Purple)
+    //    if (player != null)
+    //    {
+    //        foreach (var p in player)
+    //        {
+    //            if (p == null) continue;
+    //            Transform cam = p.GetChild(0);
+    //            if (cam != null)
+    //            {
+    //                Gizmos.color = Color.magenta;
+    //                Vector3 direction = cam.forward;
+    //                // Draw a simple line representing the center of their view
+    //                Gizmos.DrawRay(cam.position, direction * 5f);
+
+    //                // Optional: Draw the "Angle" limits approximately
+    //                // (Visualizing a 3D cone is hard in simple Gizmos, but lines help)
+    //                Vector3 left = Quaternion.Euler(0, -viewAngle, 0) * direction;
+    //                Vector3 right = Quaternion.Euler(0, viewAngle, 0) * direction;
+    //                Gizmos.DrawRay(cam.position, left * 5f);
+    //                Gizmos.DrawRay(cam.position, right * 5f);
+    //            }
+    //        }
+    //    }
     //}
 }

@@ -46,7 +46,7 @@ public class FearMeter : MonoBehaviour
 
     private void Start()
     {
-        lookingCursedIncreasesFear = FindAnyObjectByType<LookingCursedIncreasesFear>();
+        lookingCursedIncreasesFear = GetComponent<LookingCursedIncreasesFear>();
 
 
         normalFearRate = playerDataSO.normalFearRate;
@@ -132,6 +132,7 @@ public class FearMeter : MonoBehaviour
             regenFear = 0;
             instantKillFear = 0;
             revived = false;
+            isDead = false;
         }
 
 

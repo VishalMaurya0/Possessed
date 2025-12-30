@@ -1227,7 +1227,7 @@ MonoBehaviour:
   playerVisual: {fileID: 3635968934060461195}
   player_GhostCamera: {fileID: 7644840573191448947}
   wallDetection: {fileID: 5250367066418796619}
-  animator: {fileID: 0}
+  animator: {fileID: 6346011714273370546}
   collisionNormal: {x: 0, y: 0, z: 0}
   playerData: {fileID: 11400000, guid: 90e601a80ebcdd34284ea39b4ff2a519, type: 2}
 --- !u!114 &-6953325095380937464
@@ -1357,8 +1357,9 @@ MonoBehaviour:
   isLookingDoll: 0
   isLookingGhost: 0
   SAFE: 0
-  instantPossess: 0
+  instantPossess_Trigger: 0
   revived: 0
+  playerController: {fileID: 3572352050843919341}
   fearBar: {fileID: 0}
 --- !u!114 &4044883036853315306
 MonoBehaviour:
@@ -1397,12 +1398,11 @@ MonoBehaviour:
   playerCamera: {fileID: 0}
   obstructionMask:
     serializedVersion: 2
-    m_Bits: 0
-  allPos: []
+    m_Bits: 262913
+  checkInterval: 0.2
   ghostAI: {fileID: 0}
   dollAI:
   - {fileID: 0}
-  dollCollider: []
   noOfDollsVisible: 0
 --- !u!114 &783850877177941694
 MonoBehaviour:
@@ -1468,7 +1468,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   TransitionStateInfoList: []
-  m_Animator: {fileID: 0}
+  m_Animator: {fileID: 6346011714273370546}
 --- !u!1 &8661401823799451394
 GameObject:
   m_ObjectHideFlags: 0
@@ -1623,6 +1623,11 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   targetCamera: {fileID: 7644840573191448947}
   lookWeight: 1
+--- !u!95 &6346011714273370546 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 923545038891470293, guid: 954c74b7108eff84c95538f68dcbc632, type: 3}
+  m_PrefabInstance: {fileID: 6107029914400599143}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8886482963032696171
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -8,129 +7,127 @@ public class LookingCursedIncreasesFear : MonoBehaviour
     public PlayerDataSO playerDataSO;
     FearMeter fearMeter;
     public Camera playerCamera;
-    public LayerMask obstructionMask;
 
+    [Header("Settings")]
+    public LayerMask obstructionMask; // Make sure this includes Walls, Default, AND the Enemy Layer!
+    public float checkInterval = 0.2f; // Optimization: Don't run this every frame
 
-    public Vector3[] allPos;
+    [Header("References")]
     [SerializeField] GhostAI ghostAI;
-    [SerializeField] List<DollAI> dollAI;
-    [SerializeField] List<Collider> dollCollider;
+    [SerializeField] List<DollAI> dollAI = new List<DollAI>(); // Initialize to avoid null errors
+
+    // Cache the frustum planes to save memory allocation
+    private Plane[] cameraFrustum;
     public int noOfDollsVisible = 0;
+    private float timer = 0;
 
-
-    private void MyStart()    
+    private void Start()
     {
         playerCamera = GameManager.Instance.playerCamera;
         ghostAI = FindAnyObjectByType<GhostAI>();
         fearMeter = GetComponent<FearMeter>();
 
         DollsAdded();
-        
     }
 
-    private void DollsAdded()          //=========== run when new doll spawned ==========//
+    public void DollsAdded()
     {
         dollAI.Clear();
+        // FindObjectsByType is slow, only call this when necessary
         dollAI.AddRange(FindObjectsByType<DollAI>(FindObjectsSortMode.None));
-        dollCollider.Clear();
-        foreach (var dollAi in dollAI)
-        {
-            if (dollAi != null)
-                dollCollider.Add(dollAi.gameObject.GetComponent<Collider>());
-        }
+
+        // Remove nulls just in case
+        dollAI.RemoveAll(item => item == null);
     }
 
     private void Update()
     {
-        if (dollAI == null || playerCamera == null || dollCollider == null)
-        {
-            MyStart();
-        }
-        if (fearMeter == null)
-            fearMeter = GetComponent<FearMeter>();
+        // FAILSAFE: Recover references if lost
+        if (playerCamera == null) playerCamera = GameManager.Instance.playerCamera;
+        if (fearMeter == null) fearMeter = GetComponent<FearMeter>();
 
+        // OPTIMIZATION: Run visibility checks 5 times a second, not 60+
+        timer += Time.deltaTime;
+        if (timer < checkInterval) return;
+        timer = 0;
 
-        if (CheckGhostVisibility())
-        {
-            fearMeter.isLookingGhost = true;
-        }
-        else
-        {
-            fearMeter.isLookingGhost = false;   
-        }
+        // Calculate Frustum once per check
+        cameraFrustum = GeometryUtility.CalculateFrustumPlanes(playerCamera);
 
-        if (CheckDollVisibility())
-        {
-            fearMeter.isLookingDoll = true;
-        }
-        else
-        {
-            fearMeter.isLookingDoll = false;
-        }
+        fearMeter.isLookingGhost = CheckGhostVisibility();
+        fearMeter.isLookingDoll = CheckDollVisibility();
     }
 
     public bool CheckGhostVisibility()
     {
-        if (ghostAI == null)
-            return false;
-        Plane[] cameraFrustum = GeometryUtility.CalculateFrustumPlanes(playerCamera);
+        if (ghostAI == null) return false;
+
         Collider ghostCollider = ghostAI.GetComponent<Collider>();
+        if (ghostCollider == null) return false;
 
-        if (ghostCollider != null && GeometryUtility.TestPlanesAABB(cameraFrustum, ghostCollider.bounds))
+        // 1. Frustum Check (Is it on screen?)
+        if (GeometryUtility.TestPlanesAABB(cameraFrustum, ghostCollider.bounds))
         {
-            Vector3 directionToGhost = ghostAI.transform.position - playerCamera.transform.position;
-            float distanceToGhost = Vector3.Distance(playerCamera.transform.position, ghostAI.transform.position);
+            // 2. Line of Sight Check (Raycast)
+            // TARGETING CENTER (Better than pivot/feet)
+            Vector3 targetCenter = ghostCollider.bounds.center;
 
-            if (Physics.Raycast(playerCamera.transform.position, directionToGhost, out RaycastHit hit, distanceToGhost + 5))
+            // TARGETING EYES (If defined)
+            Vector3 targetEyes = ghostAI.transform.position + ghostAI.ghostData.eyePosition;
+
+            if (CanSeeTarget(targetCenter, ghostAI.transform) || CanSeeTarget(targetEyes, ghostAI.transform))
             {
-                if (hit.collider.transform == ghostAI.transform)
-                {
-                    Debug.DrawLine(playerCamera.transform.position, hit.point, Color.green);
-                    return true;
-                }
-            }
-            if (Physics.Raycast(playerCamera.transform.position, directionToGhost + ghostAI.ghostData.eyePosition, out RaycastHit hit2, distanceToGhost + 5))
-            {
-                if (hit2.collider.transform == ghostAI.transform)
-                {
-                    Debug.DrawLine(playerCamera.transform.position, hit2.point, Color.green);
-                    return true;
-                }
+                return true;
             }
         }
-
         return false;
     }
 
-
     public bool CheckDollVisibility()
     {
-        Plane[] cameraFrustum = GeometryUtility.CalculateFrustumPlanes(playerCamera);
         noOfDollsVisible = 0;
 
-        for (int i = 0; i < dollAI.Count; i++)
+        foreach (var doll in dollAI)
         {
-            if (dollCollider != null && dollCollider.ElementAtOrDefault(i) != null && GeometryUtility.TestPlanesAABB(cameraFrustum, dollCollider.ElementAtOrDefault(i).bounds))
-            {
-                Vector3 directionToDoll = dollAI.ElementAtOrDefault(i).transform.position - playerCamera.transform.position;
-                float distanceToDoll = Vector3.Distance(playerCamera.transform.position, dollAI.ElementAtOrDefault(i).transform.position);
+            if (doll == null) continue;
 
-                if (Physics.Raycast(playerCamera.transform.position, directionToDoll, out RaycastHit hit, distanceToDoll + 5))
+            Collider col = doll.GetComponent<Collider>();
+            if (col == null) continue;
+
+            // 1. Frustum Check
+            if (GeometryUtility.TestPlanesAABB(cameraFrustum, col.bounds))
+            {
+                // 2. Line of Sight Check
+                // Aim for the center of the collider (usually chest/torso)
+                if (CanSeeTarget(col.bounds.center, doll.transform))
                 {
-                    if (hit.collider.transform == dollAI.ElementAtOrDefault(i).transform)
-                    {
-                        Debug.DrawLine(playerCamera.transform.position, hit.point, Color.green);
-                        noOfDollsVisible++;
-                    }
+                    noOfDollsVisible++;
                 }
             }
         }
-        if (noOfDollsVisible > 0)
+
+        return noOfDollsVisible > 0;
+    }
+
+    private bool CanSeeTarget(Vector3 targetPos, Transform targetTransform)
+    {
+        Vector3 origin = playerCamera.transform.position;
+        Vector3 direction = targetPos - origin; // Correct Vector Math: Destination - Origin
+        float distance = direction.magnitude;
+
+        if (Physics.Raycast(origin, direction, out RaycastHit hit, distance + 1f, obstructionMask, QueryTriggerInteraction.Ignore))
         {
-            return true;
+            if (hit.collider.transform == targetTransform || hit.collider.transform.IsChildOf(targetTransform))
+            {
+                Debug.DrawLine(origin, hit.point, Color.green, 0.2f);
+                return true;
+            }
+            else
+            {
+                 //Uncomment to debug what is blocking the view
+                 Debug.Log("Blocked by: " + hit.collider.name);
+            }
         }
         return false;
     }
 }
-
-
