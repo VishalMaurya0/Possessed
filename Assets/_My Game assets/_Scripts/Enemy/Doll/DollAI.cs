@@ -123,12 +123,9 @@ public class DollAI : NetworkBehaviour
         // TODO Attack Animations
 
         // Player Death
-        ulong id = playerInSight.GetComponent<NetworkObject>().OwnerClientId;
-        GameManager.Instance.GetClientThroughID(id).isAlive = false;
-
-        playerInSight.GetComponent<PlayerDeathManager>().DieClientRpc();
-        
-        GameManager.Instance.CheckIfEveryPlayerDied();
+  
+        FearMeter fearMeter = playerInSight.GetComponent<FearMeter>();
+        fearMeter.instantPossess_Trigger = true;
     }
 
 

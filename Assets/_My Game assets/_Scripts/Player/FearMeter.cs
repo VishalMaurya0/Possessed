@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -33,8 +34,12 @@ public class FearMeter : MonoBehaviour
     public bool instantPossess_Trigger;
     public bool revived;
     private bool freezing;
+    bool isDead;
 
     int noOfDollsVisible = 0;
+
+    [Header("Refe")]
+    public PlayerController playerController;
 
     [Header("UI Elements")]
     public Slider fearBar;
@@ -119,6 +124,7 @@ public class FearMeter : MonoBehaviour
 
         if (revived) 
         {
+            playerController.animator.SetBool("Dead", false);
             normalFear = revivedFear;
             ghostWatchingFear = 0;
             watchingDollFear = 0;
@@ -131,6 +137,18 @@ public class FearMeter : MonoBehaviour
 
         fearValue = Mathf.Clamp(fearValue, 0, 100);
 
+
+        if (fearValue >= 100 && !isDead)
+        {
+            isDead = true;
+            playerController.animator.SetBool("Dead", true);
+            playerController.animator.SetFloat("DeathIndex", Random.Range(0, 7));
+
+
+
+
+            gameObject.GetComponent<PlayerDeathManager>().DieClientRpc();
+        }
     }
 
     public void UnFreeze()

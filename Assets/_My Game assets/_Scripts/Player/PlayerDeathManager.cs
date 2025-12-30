@@ -19,17 +19,22 @@ public class PlayerDeathManager : NetworkBehaviour
     public void DieClientRpc()
     {
         if (IsOwner)
+        {
+            ulong clientId = gameObject.GetComponent<NetworkObject>().OwnerClientId;
+            GameManager.Instance.GetClientThroughID(clientId).isAlive = false;
             GameManager.Instance.handleMovement = false;
-
+        }
         ServerChangesServerRpc();
         
         playerIndicator.SetActive(false);
-        playerCharacter.SetActive(false);
-        ashes.SetActive(true);
+        //playerCharacter.SetActive(false);
+        //ashes.SetActive(true);
         // remove noise TODO
 
         GameManager.Instance.alivePlayers--;
         GameManager.Instance.NotifyClientAboutConnectedClientsServerRpc();
+
+        GameManager.Instance.CheckIfEveryPlayerDied();
     }
 
     [ServerRpc(RequireOwnership = false)]

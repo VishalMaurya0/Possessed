@@ -228,11 +228,12 @@ public class GhostAI : NetworkBehaviour
                 fearMeter.instantPossess_Trigger = true;
             }
 
-            ulong clientId = player.GetComponent<NetworkObject>().OwnerClientId;
-            GameManager.Instance.GetClientThroughID(clientId).isAlive = false;
+            //ulong clientId = player.GetComponent<NetworkObject>().OwnerClientId;
+            //GameManager.Instance.GetClientThroughID(clientId).isAlive = false;
 
-
-            player.GetComponent<PlayerDeathManager>().DieClientRpc();
+            ChangeState(RoamingState);
+            photoClicked = true;
+            //player.GetComponent<PlayerDeathManager>().DieClientRpc();
         }
 
         if (Currentstate == RoamingState)
@@ -241,6 +242,6 @@ public class GhostAI : NetworkBehaviour
         }
 
 
-        GameManager.Instance.CheckIfEveryPlayerDied();
+        //GameManager.Instance.CheckIfEveryPlayerDied();
     }
 }

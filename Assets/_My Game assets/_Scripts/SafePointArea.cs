@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
@@ -14,7 +15,7 @@ public class SafePointArea : NetworkBehaviour
     public NetworkVariable<float> safepointTimer = new NetworkVariable<float>(10f);
 
     private NetworkVariable<ZoneState> networkState = new NetworkVariable<ZoneState>(ZoneState.Idle);
-
+    public List<FearMeter> safePlayers = new List<FearMeter>();
     public int noOfPlayers;
 
     [Header("Visuals")]
@@ -48,8 +49,7 @@ public class SafePointArea : NetworkBehaviour
 
         if (other.CompareTag("Player"))
         {
-            FearMeter fearMeter = other.GetComponent<FearMeter>();
-            if (fearMeter) fearMeter.SAFE = true;
+            safePlayers.Add(other.gameObject.GetComponent<FearMeter>());
             noOfPlayers++;
         }
     }
@@ -60,17 +60,36 @@ public class SafePointArea : NetworkBehaviour
 
         if (other.CompareTag("Player"))
         {
-            FearMeter fearMeter = other.GetComponent<FearMeter>();
-            if (fearMeter) fearMeter.SAFE = false;
+            FearMeter fearMeter = other.gameObject.GetComponent<FearMeter>();
+            fearMeter.SAFE = false;
+            safePlayers.Remove(fearMeter);
             noOfPlayers--;
         }
     }
 
+    float timer = 0;
+    float toCheckTime = 1;
     private void Update()
     {
         if (IsServer)
         {
             CalculateLogic();
+        }
+
+        timer += Time.deltaTime;
+        if (safePlayers.Count > 0 && timer > toCheckTime)
+        {
+            timer = 0;
+            foreach (var fearMeter in safePlayers)
+            {
+                if (fearMeter)
+                {
+                    if (active.Value)
+                        fearMeter.SAFE = true;
+                    else
+                        fearMeter.SAFE = false;
+                }
+            }
         }
 
         ZoneState currentSyncedState = networkState.Value;
