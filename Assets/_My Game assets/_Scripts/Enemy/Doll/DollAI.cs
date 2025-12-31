@@ -240,6 +240,8 @@ public class DollAI : NetworkBehaviour
             // Use direct index access instead of Array.IndexOf
             if (!GameManager.Instance.connectedClientsData[i].isAlive) continue;
 
+            if (GameManager.Instance.connectedClientsData[i].playerGameobject.GetComponent<FearMeter>().SAFE) continue;
+
             Vector3 origin = transform.position + Vector3.up * 0.5f;
             Vector3 targetPos = targetPlayer.position;
             float distanceToPlayer = Vector3.Distance(origin, targetPos);

@@ -55,7 +55,7 @@ public class NoiseHandler : MonoBehaviour
         if (timeDurationTimer > playerData.timeDurationForCalculatingFootNoise)
         {
             currentPos = transform.position;
-            if ((currentPos - initianPos).magnitude >= playerData.walkDist)
+            if ((currentPos - initianPos).sqrMagnitude >= playerData.walkDist*playerData.walkDist)
             {
                 //Debug.Log((currentPos-initianPos).magnitude);
                 footNoise = CalculateNoise(footNoiseData);
