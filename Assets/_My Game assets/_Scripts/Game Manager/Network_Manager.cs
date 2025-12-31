@@ -10,6 +10,7 @@ public class Network_Manager : NetworkBehaviour
     public GameObject playerPrefab;
     public GenerateMap generateMap;
     public CameraMovement cameraMovement;
+    public GameObject ghost;
 
     private bool generated = false;
     private bool runOnce = true;
@@ -90,6 +91,8 @@ public class Network_Manager : NetworkBehaviour
                 OnClientConnected(client.Key);
             }
         }
+
+        ghost.transform.position = new Vector3(68, 4, 68) + new Vector3(Random.Range(-60, 60), 0, Random.Range(-60, 60));
     }
 
     #endregion

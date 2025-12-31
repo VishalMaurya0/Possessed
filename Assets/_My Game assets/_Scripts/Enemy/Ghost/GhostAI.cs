@@ -120,8 +120,11 @@ public class GhostAI : NetworkBehaviour
             // Return the cached result from the last check so other scripts don't break
             if (_cachedTargetPlayer.Value != null)
             {
-                player = _cachedTargetPlayer;
-                return true;
+                if (!_cachedTargetPlayer.Value.GetComponent<FearMeter>().SAFE)
+                {
+                    player = _cachedTargetPlayer;
+                    return true;
+                }
             }
             return false;
         }
@@ -147,6 +150,10 @@ public class GhostAI : NetworkBehaviour
 
             // 1. Distance Check (Fastest)
             if (distSqr > lookDistSqr) continue;
+
+            //chck if player is in safe mode
+            FearMeter fearMeter = clientData.playerGameobject.GetComponent<FearMeter>();
+            if (fearMeter != null && fearMeter.SAFE) continue;
 
             // 2. Angle Check (Fast)
             Vector3 lookDir = transform.forward;

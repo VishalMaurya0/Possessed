@@ -79,6 +79,7 @@ MonoBehaviour:
   playerPrefab: {fileID: 8596613677294679421, guid: 9381a5b89870b5947802a981bdc9214c, type: 3}
   generateMap: {fileID: 0}
   cameraMovement: {fileID: 0}
+  ghost: {fileID: 0}
 --- !u!114 &3491250806943052933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,6 +126,13 @@ MonoBehaviour:
   helpInstructionDisplayTime: 0
   winLoseAnimator: {fileID: 0}
   photoAlbum: {fileID: 0}
+  GhostLookPostProcess: {fileID: 0}
+  isComing: 0
+  currentPower: 0
+  ghostLookPostProcess_duration: 3
+  ghostLookPostProcess_timer: 0
+  ghostLookPostProcess_startY: -2.5
+  ghostLookPostProcess_endY: 2
   PlayButton: {fileID: 0}
   PublicPrivateToggle: {fileID: 0}
   LoadingPanel: {fileID: 0}
