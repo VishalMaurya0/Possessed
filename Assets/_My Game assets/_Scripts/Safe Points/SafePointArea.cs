@@ -47,6 +47,8 @@ public class SafePointArea : NetworkBehaviour
     {
         if (!IsServer) return;
 
+        if (other.isTrigger) return;
+
         if (other.CompareTag("Player"))
         {
             safePlayers.Add(other.gameObject.GetComponent<FearMeter>());

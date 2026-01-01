@@ -29,7 +29,7 @@ public class MiniMapManager : NetworkBehaviour
     {
         if (!IsSpawned) return;
 
-        if (Input.GetKeyDown(KeyCode.M))
+        if (Input.GetKeyDown(KeyCode.L))
         {
             Vector3 pos = GameManager.Instance.ownerPlayer.transform.position;
 
