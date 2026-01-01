@@ -436,10 +436,10 @@ public class MapVisual : NetworkBehaviour
         // This function merges all static objects in these containers into 
         // internal batched meshes for high performance.
         Debug.Log("Optimizing Static Meshes...");
-        StaticBatchingUtility.Combine(wallContainer);
-        StaticBatchingUtility.Combine(pillarContainer);
-        StaticBatchingUtility.Combine(tileContainer);
-        StaticBatchingUtility.Combine(roofContainer);
+        MeshCombiner.CombineContainerChunks(wallContainer);
+        MeshCombiner.CombineContainerChunks(pillarContainer);
+        MeshCombiner.CombineContainerChunks(tileContainer);
+        MeshCombiner.CombineContainerChunks(roofContainer);
         //StaticBatchingUtility.Combine(propContainer);
     }
 

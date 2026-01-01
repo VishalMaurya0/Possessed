@@ -36,12 +36,15 @@ public class GhostAI : NetworkBehaviour
     void Start()
     {
         visibilityLayerMask = ~(1 << LayerMask.NameToLayer("IgnoreRaycast"));
+        _animWalkingID = Animator.StringToHash("Walking");
+        _animIdleIndexID = Animator.StringToHash("IdleIndex");
     }
 
     private void Update()
     {
         if (!IsServer) return;
 
+        repathTimer += Time.deltaTime;
         // Initialization (Safety Check)
         if (navMeshAgent == null) InitializeAI();
 
@@ -69,6 +72,9 @@ public class GhostAI : NetworkBehaviour
         }
     }
 
+    bool isMovingForOptimization = false;
+    int _animWalkingID;
+    int _animIdleIndexID;
     private void HandleAnimation()
     {
         if (navMeshAgent.isOnNavMesh)
@@ -76,10 +82,11 @@ public class GhostAI : NetworkBehaviour
             // Optimization: compare squared magnitude to avoid square root calc
             bool isMoving = !navMeshAgent.isStopped && navMeshAgent.velocity.sqrMagnitude > 0.1f;
 
-            if (animator.GetBool("Walking") != isMoving) // Only set if changed
+            if (isMovingForOptimization != isMoving) // Only set if changed
             {
-                animator.SetBool("Walking", isMoving);
-                if (!isMoving) animator.SetFloat("IdleIndex", Random.Range(0, 2));
+                isMovingForOptimization = isMoving;
+                animator.SetBool(_animWalkingID, isMoving);
+                if (!isMoving) animator.SetFloat(_animIdleIndexID, Random.Range(0, 2));
             }
         }
     }
@@ -226,6 +233,19 @@ public class GhostAI : NetworkBehaviour
         {
             GameManager.Instance.HelpInstructions.text = message;
             GameManager.Instance.helpInstructionDisplayTime = time;
+        }
+    }
+
+    public float repathTimer = 0;
+    public void SetDestination(Vector3 pos)
+    {
+        if (repathTimer > 1)
+        {
+            if (navMeshAgent != null && navMeshAgent.isOnNavMesh)
+            {
+                repathTimer = 0;
+                navMeshAgent.SetDestination(pos);
+            }
         }
     }
 

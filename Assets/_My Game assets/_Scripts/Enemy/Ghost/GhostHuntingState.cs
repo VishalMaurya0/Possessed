@@ -49,16 +49,19 @@ public class GhostHuntingState : GhostState
         posChaseIgnorance = ghostAI.ghostData.posChaseIgnorance;
     }
 
+    float checkPlayerVisibilityTimer = 0;
     public override void UpdateState()
     {
-        
         currentGhostHuntSubState.UpdateState();
-        if (ghostAI.CheckPlayerVisibility(out KeyValuePair<ulong, GameObject> player) && !sightChasing)
+        if (checkPlayerVisibilityTimer > 0.5f)
         {
-            sightChasing = true;
-            SetCurrentHuntSubState(HuntSightChaseState);
+            checkPlayerVisibilityTimer = 0;
+            if (ghostAI.CheckPlayerVisibility(out KeyValuePair<ulong, GameObject> player) && !sightChasing)
+            {
+                sightChasing = true;
+                SetCurrentHuntSubState(HuntSightChaseState);
+            }
         }
-
         huntDurationTimer += Time.deltaTime;
         if (huntDurationTimer > huntDuration)
         {
@@ -117,7 +120,12 @@ public class GhostHuntingState : GhostState
 
 
         //--------------------------- Adjust positionPresitionRadius based on noise value-----------------------------//
-        NoiseHandler noiseHandler = chasePlayer.GetComponent<NoiseHandler>();
+        NoiseHandler noiseHandler = GameManager.Instance.connectedClientsData.ElementAtOrDefault(maxNoiseIndex).noiseHandler;
+        if (noiseHandler == null)
+        {
+            noiseHandler = chasePlayer.GetComponent<NoiseHandler>();
+            GameManager.Instance.connectedClientsData.ElementAtOrDefault(maxNoiseIndex).noiseHandler = noiseHandler;
+        }
         float noiseValue = noiseHandler.noiseValue;
         float positionPrecitionRadius = noiseHandler.positionPresitionRadius;
         float a = noiseValue / ghostAI.ghostData.maxNoiseClamp;
@@ -201,7 +209,10 @@ public class HuntWanderState : GhostState
     {
         if (!ghostAI.navMeshAgent.pathPending && ghostAI.navMeshAgent.remainingDistance < 1)
         {
-            ghostAI.navMeshAgent.SetDestination(FindHuntRoamPosition());
+            if (ghostAI.repathTimer > 1)
+            {
+                ghostAI.SetDestination(FindHuntRoamPosition());
+            }
         }
         if (!againChaseCentre)
             return;
@@ -219,15 +230,19 @@ public class HuntWanderState : GhostState
 
     void HuntToCentre()
     {
-        centrePosToChase = FindCentreOfPlayersPosition();
-        ghostAI.navMeshAgent.SetDestination(centrePosToChase);
+        if (centrePosToChase == Vector3.zero)
+        {
+            Debug.LogError("UNOPTIMISED");
+            centrePosToChase = FindCentreOfPlayersPosition();
+            ghostAI.SetDestination(centrePosToChase);
+        }
         if (centrePosToChase != Vector3.zero)
             atCentreOfPlayers = true;
     }
 
     void HuntNoisePosition()
     {
-        ghostAI.navMeshAgent.SetDestination(huntingState.huntChaseTheNoisePosition);
+        ghostAI.SetDestination(huntingState.huntChaseTheNoisePosition);
         if (!ghostAI.navMeshAgent.pathPending && ghostAI.navMeshAgent.remainingDistance < 1)
         {
             huntingState.huntChaseTheNoisePosition = Vector3.zero;
@@ -373,7 +388,7 @@ public class HuntSightChaseState : GhostState
         if (repathTimer > 0.2f)
         {
             repathTimer = 0;
-            ghostAI.navMeshAgent.SetDestination(huntingState.seenPlayer.transform.position);
+            ghostAI.SetDestination(huntingState.seenPlayer.transform.position);
         }
     }
 

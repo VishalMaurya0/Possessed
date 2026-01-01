@@ -581,6 +581,7 @@ public class ConnectedClientsData
     public string ClientName;
     public Color playerIndicatorColor;
     public float noiseValue;
+    public NoiseHandler noiseHandler;
 
     public ConnectedClientsData(ulong clientID, GameObject playerGameobject, bool isAlive)
     {

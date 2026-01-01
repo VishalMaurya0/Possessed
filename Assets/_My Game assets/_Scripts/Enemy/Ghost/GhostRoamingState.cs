@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
@@ -82,10 +83,11 @@ public class RoamWanderingState : GhostState
         SetNewDestination();
     }
 
+    float visibilityCheckTimer;
     public override void UpdateState()
     {
         if (GameManager.Instance.gameEnd) return;
-        if (ghostAI.navMeshAgent.isOnNavMesh && !ghostAI.navMeshAgent.pathPending && ghostAI.navMeshAgent.remainingDistance < 1f)
+        if (ghostAI.navMeshAgent.isOnNavMesh && !ghostAI.navMeshAgent.pathPending && (ghostAI.navMeshAgent.remainingDistance < 1f || ghostAI.navMeshAgent.isStopped))
         {
             idleTimer += Time.deltaTime;
             if (idleTimer >= ghostAI.ghostData.idleDuration)
@@ -102,12 +104,16 @@ public class RoamWanderingState : GhostState
             FindPositionOfRandomPlayer();
         }
 
-        if (ghostAI.CheckPlayerVisibility(out KeyValuePair<ulong, GameObject> seenPlayer))
+        visibilityCheckTimer += Time.deltaTime;
+        if (visibilityCheckTimer > 0.5f)
         {
-            roamingState.seenPlayer = seenPlayer;
-            roamingState.SetCurrentRoamSubState(roamingState.RoamPossessingState);
+            visibilityCheckTimer = 0f;
+            if (ghostAI.CheckPlayerVisibility(out KeyValuePair<ulong, GameObject> seenPlayer))
+            {
+                roamingState.seenPlayer = seenPlayer;
+                roamingState.SetCurrentRoamSubState(roamingState.RoamPossessingState);
+            }
         }
-
         showNearPPTimer += Time.deltaTime;
         if (showNearPPTimer >= ghostAI.ghostData.showNearPPDuration - Mathf.Clamp(GameManager.Instance.timeInSecElapsed/6, 0, ghostAI.ghostData.showNearPPDuration - 10))
         {
@@ -125,10 +131,12 @@ public class RoamWanderingState : GhostState
     {
         if (playerPosition == Vector3.zero && ghostAI.navMeshAgent.isOnNavMesh)
         {
-            ghostAI.navMeshAgent.SetDestination(FindRoamingPosition());
+            //Debug.LogError("running");
+            playerPosition = FindRoamingPosition();
+            ghostAI.SetDestination(playerPosition);
         }else if (ghostAI.navMeshAgent.isOnNavMesh)
         {
-            ghostAI.navMeshAgent.SetDestination(playerPosition);
+            ghostAI.SetDestination(playerPosition);
             playerPosition = Vector3.zero;
         }
     }
@@ -145,6 +153,7 @@ public class RoamWanderingState : GhostState
         return ghostAI.transform.position;
     }
 
+    private List<Vector3> _cachedAlivePositions = new List<Vector3>();
     void FindPositionOfRandomPlayer()
     {
         // Don't create a new array via FindPlayersPosition(). 
@@ -156,19 +165,19 @@ public class RoamWanderingState : GhostState
         // Filter alive players first
         // Note: Creating a temporary list here is cheaper than a specialized method, 
         // but ideally, GameManager maintains a list of 'AlivePlayers' separate from 'ConnectedClients'.
-        List<Vector3> alivePositions = new List<Vector3>();
+        _cachedAlivePositions.Clear();
         foreach (var client in clients)
         {
             if (client.isAlive && client.playerGameobject != null)
-                alivePositions.Add(client.playerGameobject.transform.position);
+                _cachedAlivePositions.Add(client.playerGameobject.transform.position);
         }
 
-        if (alivePositions.Count == 0) return;
+        if (_cachedAlivePositions.Count == 0) return;
 
         float offsetRadius = ghostAI.ghostData.playerPosOffsetRadius;
         Vector3 offset = new Vector3(Random.Range(-offsetRadius, offsetRadius), 0f, Random.Range(-offsetRadius, offsetRadius));
 
-        Vector3 targetPos = alivePositions[Random.Range(0, alivePositions.Count)] + offset;
+        Vector3 targetPos = _cachedAlivePositions[Random.Range(0, _cachedAlivePositions.Count)] + offset;
 
         // SamplePosition is expensive. Ensure we are actually near navmesh?
         if (NavMesh.SamplePosition(targetPos, out NavMeshHit hit, ghostAI.ghostData.playerPosOffsetRadius, NavMesh.AllAreas))
@@ -206,13 +215,16 @@ public class RoamPossessingState : GhostState
         this.roamingState = roamingState;
     }
 
+    FearMeter fearMeter;
+
     public override void EnterState()
     {
         NotifyPlayersAboutPossessionClientRPC(roamingState.seenPlayer.Key);
         if (ghostAI.navMeshAgent.isOnNavMesh)
         {
             ghostAI.navMeshAgent.isStopped = true;
-            roamingState.seenPlayer.Value.GetComponent<FearMeter>().isGhostLooking = true;
+            fearMeter = roamingState.seenPlayer.Value.GetComponent<FearMeter>();
+            fearMeter.isGhostLooking = true;
         }
 
         ghostAI.animator.SetBool("Possess", true);
@@ -241,7 +253,7 @@ public class RoamPossessingState : GhostState
     public override void ExitState()
     {
         ghostAI.navMeshAgent.isStopped = false;
-        roamingState.seenPlayer.Value.GetComponent<FearMeter>().isGhostLooking = false;
+        fearMeter.isGhostLooking = false;
         
         
         ghostAI.animator.SetBool("Possess", false);
@@ -249,7 +261,7 @@ public class RoamPossessingState : GhostState
 
     void CheckForPossessionStop()
     {
-        if (roamingState.seenPlayer.Value.GetComponent<FearMeter>().fearValue >= 100 || ghostAI.photoClicked)
+        if (fearMeter.fearValue >= 100 || ghostAI.photoClicked || fearMeter.SAFE)
         {
             roamingState.stopPossession__Trigger = true;
         }
@@ -395,7 +407,7 @@ public class RoamShowingNearPPState : GhostState
     public override void ExitState()
     {
         ghostAI.transform.SetPositionAndRotation(initialPosition, Quaternion.Euler(initialRotation));
-        ghostAI.navMeshAgent.SetDestination(initialTargetPos);
+        ghostAI.SetDestination(initialTargetPos);
         ghostAI.navMeshAgent.isStopped = false;
 
 

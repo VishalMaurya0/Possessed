@@ -59,6 +59,7 @@ public class SafePointArea : NetworkBehaviour
     private void OnTriggerExit(Collider other)
     {
         if (!IsServer) return;
+        if (other.isTrigger) return;
 
         if (other.CompareTag("Player"))
         {
@@ -184,8 +185,18 @@ public class SafePointArea : NetworkBehaviour
 
     }
 
+    private float lastDisplayedTime = -1f; // Cache the last value
+
     private void UpdateTimerUI()
     {
-        timerText.text = $"{safepointTimer.Value:F1} secs Left";
+        float currentTime = safepointTimer.Value;
+
+        // Only update if the difference is significant enough to show up in "F1"
+        // (We check if the difference is greater than 0.1)
+        if (Mathf.Abs(currentTime - lastDisplayedTime) >= 0.1)
+        {
+            timerText.text = $"{currentTime:F1} secs Left";
+            lastDisplayedTime = currentTime;
+        }
     }
 }

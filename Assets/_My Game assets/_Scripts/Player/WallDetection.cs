@@ -12,6 +12,7 @@ public class WallDetection : MonoBehaviour
         {
             return;
         }
+        if (other.isTrigger) return;
         // Only process if it's part of the environment (add your own tag/layer check if needed)
         if (other.attachedRigidbody == null)
         {
