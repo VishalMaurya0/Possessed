@@ -11,6 +11,10 @@ public class RotateYMatcher : MonoBehaviour
     void Update()
     {
         // 1. Safety check to prevent crash if slot is empty
+        if (referenceObject == null && GameManager.Instance.ownerPlayer != null)
+        {
+            referenceObject = GameManager.Instance.ownerPlayer.transform.GetChild(0);
+        }
         if (referenceObject == null) return;
 
         // 2. Get the current rotation of this object

@@ -1,56 +1,87 @@
 using UnityEngine;
+using System.Collections;
 
 public class SkyObjectTrigger : MonoBehaviour
 {
     [Header("Settings")]
-    [Tooltip("How close the player needs to be (horizontally) to trigger this.")]
     public float triggerRadius = 5f;
-
-    [Tooltip("If true, this script will disable itself after triggering to save performance.")]
     public bool triggerOnce = true;
 
-    private bool hasTriggered = false;
+    [Tooltip("Time in seconds between checks. 0.3 = ~3 times per second.")]
+    public float checkInterval = 0.3f;
+
+    [Header("Debug Info")]
+    public int id = -1;
+    public bool hasTriggered = false;
 
     private void Start()
     {
-        // Optional: Ensure children are hidden at start
-        SetChildrenActive(false); 
+        if (MiniMapManager.Instance != null && MiniMapManager.Instance.refeDone)
+        {
+            MiniMapManager.Instance.RegisterTrigger(this);
+        }
+
+        SetChildrenActive(false);
+
+        StartCoroutine(CheckDistanceRoutine());
     }
 
-    private void Update()
+    private IEnumerator CheckDistanceRoutine()
     {
-        // 1. Guard clauses: Stop if triggered or player doesn't exist yet
-        if (hasTriggered && triggerOnce) return;
-        if (GameManager.Instance == null || GameManager.Instance.ownerPlayer == null) return;
+        // OPTIMIZATION: Wait a random tiny amount before starting the loop.
+        // This ensures not all 20 objects check on the exact same frame (Load Balancing).
+        yield return new WaitForSeconds(Random.Range(0f, 0.5f));
 
-        // 2. Get positions
+        // Cache the wait so we don't create garbage memory every loop
+        WaitForSeconds wait = new WaitForSeconds(checkInterval);
+
+        while (true)
+        {
+            // 1. Guard Clauses
+            // If we triggered and only want to trigger once, stop this coroutine entirely.
+            if (hasTriggered && triggerOnce) yield break;
+
+            // If game isn't ready, wait and try again next loop
+            if (GameManager.Instance != null && GameManager.Instance.ownerPlayer != null)
+            {
+                PerformCheck();
+            }
+
+            // Pause here for 0.3 seconds before looping again
+            yield return wait;
+        }
+    }
+
+    private void PerformCheck()
+    {
         Vector3 playerPos = GameManager.Instance.ownerPlayer.transform.position;
         Vector3 myPos = transform.position;
 
-        // 3. FLATTEN THE POSITIONS (Ignore Y axis)
         playerPos.y = 0;
         myPos.y = 0;
 
-        // 4. Check Distance
-        if (Vector3.Distance(playerPos, myPos) <= triggerRadius)
+        if ((playerPos - myPos).sqrMagnitude <= triggerRadius * triggerRadius)
         {
-            ActivateChildren();
+            AttemptActivation();
         }
     }
 
-    private void ActivateChildren()
+    private void AttemptActivation()
     {
-        // Loop through all direct children of this object
-        foreach (Transform child in transform)
-        {
-            child.gameObject.SetActive(true);
-        }
+        if (hasTriggered) return;
 
-        hasTriggered = true;
-        Debug.Log($"[SkyObjectTrigger] Player reached {gameObject.name}. Children activated.");
+        if (MiniMapManager.Instance != null)
+        {
+            MiniMapManager.Instance.RequestActivateSkyObject(id);
+        }
     }
 
-    // Helper to hide children initially if needed
+    public void ActivateVisuals()
+    {
+        SetChildrenActive(true);
+        hasTriggered = true;
+    }
+
     private void SetChildrenActive(bool state)
     {
         foreach (Transform child in transform)
@@ -59,23 +90,12 @@ public class SkyObjectTrigger : MonoBehaviour
         }
     }
 
-    // =========================================================
-    // VISUALIZATION
-    // This draws a yellow cylinder in the Scene view so you can 
-    // see the trigger zone even if the object is high up.
-    // =========================================================
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
-
-        // Draw the sphere at the object's actual height
         Gizmos.DrawWireSphere(transform.position, triggerRadius);
-
-        // Draw a line down to the "ground" (assuming ground is roughly 0) to help you align it
-        Gizmos.DrawLine(transform.position, new Vector3(transform.position.x, 0, transform.position.z));
-
-        // Draw a circle on the ground (Y=0) representing the trigger zone
         Vector3 groundPos = new Vector3(transform.position.x, 0, transform.position.z);
         Gizmos.DrawWireSphere(groundPos, triggerRadius);
+        Gizmos.DrawLine(transform.position, groundPos);
     }
 }

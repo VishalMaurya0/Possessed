@@ -924,7 +924,7 @@ MonoBehaviour:
   flashlight: {fileID: 2286757787952385109}
   minIntensity: 0.5
   maxIntensity: 100
-  minDistance: 2
+  minDistance: 1.2
   maxDistance: 7
   smoothSpeed: 10
   obstructionMask:
@@ -1205,7 +1205,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   walkSpeed: 3
   sprintSpeed: 6
-  crouchSpeed: 1.5
+  crouchSpeed: 1
   rotationSpeed: 5
   lookSensitivity: 2
   maxLookAngle: 80
@@ -1219,6 +1219,14 @@ MonoBehaviour:
   staminaImage: {fileID: 0}
   normalStaminaColor: {r: 0.45767334, g: 0.8207547, b: 0.24390352, a: 1}
   buildingStaminaColor: {r: 0.9150943, g: 0.23740657, b: 0.23740657, a: 1}
+  playerCollider: {fileID: 5085386328965983326}
+  crouchHeight: 1
+  standingHeight: 2
+  crouchTransitionSpeed: 10
+  crouchCenter: {x: 0, y: 0.5, z: 0}
+  standingCenter: {x: 0, y: 1, z: 0}
+  camCrouchHeight: 0
+  camNormalHeight: 1
   torchLight: {fileID: 2286757787952385109}
   torchToggleSound: {fileID: 0}
   sprintKey: 304
@@ -1229,6 +1237,7 @@ MonoBehaviour:
   wallDetection: {fileID: 5250367066418796619}
   animator: {fileID: 6346011714273370546}
   collisionNormal: {x: 0, y: 0, z: 0}
+  isCrouching: 0
   playerData: {fileID: 11400000, guid: 90e601a80ebcdd34284ea39b4ff2a519, type: 2}
 --- !u!114 &-6953325095380937464
 MonoBehaviour:
@@ -1277,7 +1286,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  pickupRange: 3
+  pickupRange: 5
 --- !u!114 &2444064589015234413
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1622,7 +1631,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   targetCamera: {fileID: 7644840573191448947}
+  playerController: {fileID: 3572352050843919341}
   lookWeight: 1
+  crouchPos: {x: 0.108902, y: -0.5, z: 0}
+  NormalPos: {x: 0.108902, y: 0, z: 0}
 --- !u!95 &6346011714273370546 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 923545038891470293, guid: 954c74b7108eff84c95538f68dcbc632, type: 3}

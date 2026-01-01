@@ -1,3 +1,4 @@
+using System;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -31,6 +32,16 @@ public class PlayerController : NetworkBehaviour
     public Color normalStaminaColor;
     public Color buildingStaminaColor;
 
+    [Header("Crouch Settings")] 
+    public CapsuleCollider playerCollider;
+    public float crouchHeight = 1.0f;
+    public float standingHeight = 2.0f;
+    public float crouchTransitionSpeed = 10f; // How fast we go up/down
+    public Vector3 crouchCenter = new Vector3(0, 0.5f, 0);
+    public Vector3 standingCenter = new Vector3(0, 0.9f, 0);
+    public float camCrouchHeight = 0;
+    public float camNormalHeight = 1f;
+
     [Header("Torch Settings")]
     public Light torchLight;
     public AudioClip torchToggleSound;
@@ -50,7 +61,7 @@ public class PlayerController : NetworkBehaviour
     private Rigidbody rb;
     public Vector3 collisionNormal;
     private Vector3 movementInput;
-    private bool isCrouching = false;
+    public bool isCrouching = false;
     private bool isSprinting = false;
     private float verticalLookRotation = 0f;
     private float horizontalLookRotation = 0f;
@@ -136,13 +147,22 @@ public class PlayerController : NetworkBehaviour
         sprintKey = playerData.sprintKey;
         crouchKey = playerData.crouchKey;
         torchToggleKey = playerData.torchToggleKey;
-    }
+        crouchHeight = playerData.crouchHeight;
+        standingHeight = playerData.standingHeight;
+        crouchTransitionSpeed = playerData.crouchTransitionSpeed;
+        crouchCenter = playerData.crouchCenter;
+        standingCenter = playerData.standingCenter;
+        camCrouchHeight = playerData.camCrouchHeight;
+        camNormalHeight = playerData.canNormalHeight;
+
+}
 
     void Update()
     {
         float currentSpeed = 0f;
         if (IsOwner)
         {
+            HandleCrouch();
             if (GameManager.Instance.handleMovement)
             {
                 HandleMovementInput();
@@ -215,6 +235,41 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
+    private void HandleCrouch()
+    {
+        float targetHeight = isCrouching ? crouchHeight : standingHeight;
+        float targetCamHeight = isCrouching ? camCrouchHeight : camNormalHeight;
+        Vector3 targetCenter = isCrouching ? crouchCenter : standingCenter;
+
+        float step = Time.deltaTime * crouchTransitionSpeed;
+
+        playerCollider.height = Mathf.Lerp(playerCollider.height, targetHeight, step);
+        playerCollider.center = Vector3.Lerp(playerCollider.center, targetCenter, step);
+
+        Vector3 currentCamPos = player_GhostCamera.localPosition;
+        currentCamPos.y = Mathf.Lerp(currentCamPos.y, targetCamHeight, step);
+        player_GhostCamera.localPosition = currentCamPos;
+
+        if (Mathf.Abs(playerCollider.height - targetHeight) < 0.001f)
+        {
+            playerCollider.height = targetHeight;
+            playerCollider.center = targetCenter;
+
+            Vector3 finalCamPos = player_GhostCamera.localPosition;
+            finalCamPos.y = targetCamHeight;
+            player_GhostCamera.localPosition = finalCamPos;
+        }
+    }
+
+    private bool CheckCeiling()
+    {
+        Vector3 origin = transform.position;
+        float distance = standingHeight + 0.1f; // A bit of buffer
+
+        bool hitCeiling = Physics.SphereCast(origin, playerCollider.radius, Vector3.up, out RaycastHit hit, distance);
+
+        return hitCeiling;
+    }
 
     void FixedUpdate()
     {
@@ -235,7 +290,14 @@ public class PlayerController : NetworkBehaviour
         
         if (Input.GetKeyDown(crouchKey))
         {
-            isCrouching = !isCrouching;
+            isCrouching = true;
+        }
+        else if (Input.GetKeyUp(crouchKey))
+        {
+            if (!CheckCeiling())
+            {
+                isCrouching = false;
+            }
         }
 
         if (Input.GetKeyDown(sprintKey))
@@ -272,19 +334,26 @@ public class PlayerController : NetworkBehaviour
         {
             staminaBuildingStage = false; 
         }
-        
-        if (Input.GetKey(sprintKey) && currentStamina > 0 && !staminaBuildingStage && movementInput.magnitude > 0)
+
+        if (isCrouching)
         {
-            speed = sprintSpeed;
-            currentStamina -= staminaDepletionRate * Time.deltaTime;
-        }
-        else if (staminaBuildingStage)
-        {
-            currentStamina += staminaRecoveryRate * Time.deltaTime;
+            speed = crouchSpeed;
         }
         else
         {
-            currentStamina += staminaRecoveryRate * Time.deltaTime * XfasterStaminaRecoveryRate;
+            if (Input.GetKey(sprintKey) && currentStamina > 0 && !staminaBuildingStage && movementInput.magnitude > 0)
+            {
+                speed = sprintSpeed;
+                currentStamina -= staminaDepletionRate * Time.deltaTime;
+            }
+            else if (staminaBuildingStage)
+            {
+                currentStamina += staminaRecoveryRate * Time.deltaTime;
+            }
+            else
+            {
+                currentStamina += staminaRecoveryRate * Time.deltaTime * XfasterStaminaRecoveryRate;
+            }
         }
 
         currentStamina = Mathf.Clamp(currentStamina, 0, maxStamina);

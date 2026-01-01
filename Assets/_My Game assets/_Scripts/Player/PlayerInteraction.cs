@@ -20,14 +20,14 @@ public class PlayerInteraction : NetworkBehaviour
     private void TryPickup()
     {
         Ray ray = Camera.main.ScreenPointToRay(new Vector2(Screen.width / 2, Screen.height / 2));
-        
-        if (Physics.Raycast(ray, out RaycastHit hit, pickupRange))
+
+        int layerMask = ~LayerMask.GetMask("Player", "Ignore Raycast");
+
+        if (Physics.Raycast(ray, out RaycastHit hit, pickupRange, layerMask, QueryTriggerInteraction.Ignore))
         {
-            // Try to get the ItemPickup component on the object we hit
             if (hit.collider.TryGetComponent<ItemPickup>(out var item))
             {
-                // Call a public method on the item to start the RPC
-                item.RequestPickup(); 
+                item.RequestPickup();
             }
         }
     }

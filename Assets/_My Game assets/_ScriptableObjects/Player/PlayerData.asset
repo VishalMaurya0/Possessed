@@ -23,6 +23,13 @@ MonoBehaviour:
   staminaRecoveryRate: 0.7
   XfasterStaminaRecoveryRate: 1.5
   staminaDepletionRate: 2
+  crouchHeight: 1
+  standingHeight: 2
+  crouchTransitionSpeed: 10
+  crouchCenter: {x: 0, y: 0.5, z: 0}
+  standingCenter: {x: 0, y: 1, z: 0}
+  camCrouchHeight: 1
+  canNormalHeight: 2
   torchLight: {fileID: 0}
   sprintKey: 304
   crouchKey: 306
