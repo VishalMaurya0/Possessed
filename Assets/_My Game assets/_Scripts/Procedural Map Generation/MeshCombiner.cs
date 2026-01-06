@@ -5,7 +5,7 @@ public static class MeshCombiner
 {
     private const float CHUNK_SIZE = 30f;
 
-    public static void CombineContainerChunks(GameObject containerRoot)
+    public static void CombineContainerChunks(GameObject containerRoot, LayerMask layerMask)
     {
         if (containerRoot == null) return;
 
@@ -71,20 +71,41 @@ public static class MeshCombiner
         int chunksCreated = 0;
         foreach (var chunkEntry in chunkGroups)
         {
-            CreateChunk(containerRoot, chunkEntry.Key, chunkEntry.Value);
+            CreateChunk(containerRoot, chunkEntry.Key, chunkEntry.Value, layerMask);
             chunksCreated++;
         }
 
         Debug.Log($"[MeshCombiner] Finished. Created {chunksCreated} chunks.");
     }
-
-    private static void CreateChunk(GameObject root, Vector3Int coord, List<MeshFilter> filters)
+    private static void CreateChunk(GameObject root, Vector3Int coord, List<MeshFilter> filters, LayerMask layerMask)
     {
+        // --- NEW: Convert LayerMask to Layer Index ---
+        // Unity's GameObject.layer expects an int (0-31), not the bitmask value.
+        // We find the index of the first bit set to 1 in the mask.
+        int layerIndex = 0; // Default to "Default" layer
+        int maskValue = layerMask.value;
+
+        if (maskValue > 0)
+        {
+            for (int i = 0; i < 32; i++)
+            {
+                if ((maskValue & (1 << i)) != 0)
+                {
+                    layerIndex = i;
+                    break;
+                }
+            }
+        }
+        // ---------------------------------------------
+
         GameObject chunkObj = new GameObject($"Chunk_{coord.x}_{coord.y}_{coord.z}");
         chunkObj.transform.SetParent(root.transform);
         chunkObj.transform.localPosition = Vector3.zero;
         chunkObj.transform.localRotation = Quaternion.identity;
         chunkObj.transform.localScale = Vector3.one;
+
+        // Assign Layer to Parent
+        chunkObj.layer = layerIndex;
 
         // Sort meshes by Material
         Dictionary<Material, List<CombineInstance>> matGroups = new Dictionary<Material, List<CombineInstance>>();
@@ -130,11 +151,15 @@ public static class MeshCombiner
             meshObj.transform.localRotation = Quaternion.identity;
             meshObj.transform.localScale = Vector3.one;
 
+            // Assign Layer to Child Mesh Object
+            meshObj.layer = layerIndex;
+
             MeshFilter mf = meshObj.AddComponent<MeshFilter>();
             MeshRenderer mr = meshObj.AddComponent<MeshRenderer>();
             mr.sharedMaterial = mat;
 
             Mesh newMesh = new Mesh();
+            // Use UInt32 to support large meshes (over 65k vertices)
             newMesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
             newMesh.CombineMeshes(combines.ToArray(), true, true);
 

@@ -112,6 +112,7 @@ public class RoamWanderingState : GhostState
             {
                 roamingState.seenPlayer = seenPlayer;
                 roamingState.SetCurrentRoamSubState(roamingState.RoamPossessingState);
+                return;
             }
         }
         showNearPPTimer += Time.deltaTime;

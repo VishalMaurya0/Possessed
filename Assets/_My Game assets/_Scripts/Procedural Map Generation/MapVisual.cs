@@ -16,6 +16,12 @@ public class MapVisual : NetworkBehaviour
     public GameObject itemsContainer;
     public GameObject roofContainer;
 
+    public LayerMask wallLayer;
+    public LayerMask pillarLayer;
+    public LayerMask roofLayer;
+    public LayerMask tileLayer;
+
+
     [Header("Extracted Values")]
     int rowCells;
     int columnCells;
@@ -436,10 +442,10 @@ public class MapVisual : NetworkBehaviour
         // This function merges all static objects in these containers into 
         // internal batched meshes for high performance.
         Debug.Log("Optimizing Static Meshes...");
-        MeshCombiner.CombineContainerChunks(wallContainer);
-        MeshCombiner.CombineContainerChunks(pillarContainer);
-        MeshCombiner.CombineContainerChunks(tileContainer);
-        MeshCombiner.CombineContainerChunks(roofContainer);
+        MeshCombiner.CombineContainerChunks(wallContainer, wallLayer);
+        MeshCombiner.CombineContainerChunks(pillarContainer, pillarLayer);
+        MeshCombiner.CombineContainerChunks(tileContainer, tileLayer);
+        MeshCombiner.CombineContainerChunks(roofContainer, roofLayer);
         //StaticBatchingUtility.Combine(propContainer);
     }
 
