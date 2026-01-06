@@ -262,6 +262,12 @@ public class RoamPossessingState : GhostState
 
     void CheckForPossessionStop()
     {
+        if (fearMeter == null)
+        {
+            Debug.LogError("fear meter null");
+            roamingState.stopPossession__Trigger = true;
+            return;
+        }
         if (fearMeter.fearValue >= 100 || ghostAI.photoClicked || fearMeter.SAFE)
         {
             roamingState.stopPossession__Trigger = true;
