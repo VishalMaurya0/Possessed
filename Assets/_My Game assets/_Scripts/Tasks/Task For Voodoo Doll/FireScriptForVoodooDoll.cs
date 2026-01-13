@@ -20,7 +20,7 @@ public class FireScriptForVoodooDoll : NetworkBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        Debug.Log("Collision detected with: " + collision.gameObject.name);
+        //Debug.Log("Collision detected with: " + collision.gameObject.name);
 
         if (!IsServer)
         {
