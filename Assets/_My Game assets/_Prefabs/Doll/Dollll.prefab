@@ -277,7 +277,7 @@ NavMeshAgent:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6295269428804838718}
   m_Enabled: 1
-  m_AgentTypeID: 0
+  m_AgentTypeID: -334000983
   m_Radius: 0.5
   m_Speed: 2.5
   m_Acceleration: 8
@@ -290,7 +290,7 @@ NavMeshAgent:
   m_Height: 1
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 3
 --- !u!114 &2507271144330016309
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -423,6 +423,8 @@ MonoBehaviour:
   playerDataSOs: []
   agent: {fileID: 3386510548348217366}
   animator: {fileID: 3795440439760870497}
+  reversed:
+    m_InternalValue: 0
   playerDetectionRange: 500
   viewAngle: 45
   attackRange: 1.5
@@ -432,6 +434,7 @@ MonoBehaviour:
   posOfPlayer: {x: 0, y: 0, z: 0}
   currentState: 0
   aiUpdateInterval: 0.1
+  fearMeters: []
 --- !u!1 &8673424843171381345
 GameObject:
   m_ObjectHideFlags: 0

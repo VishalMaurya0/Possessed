@@ -148,13 +148,10 @@ public class DollAI : NetworkBehaviour
         // LOGIC SPLIT FOR REVERSED MODE
         if (reversed.Value)
         {
-            // REVERSE MODE: 
-            // Only chase if they ARE looking at me.
             if (isLookingAtMe)
             {
                 currentState = DollState.Chasing;
             }
-            // If they are not looking, stay Idle.
         }
         else
         {
@@ -180,8 +177,6 @@ public class DollAI : NetworkBehaviour
         // LOGIC SPLIT FOR REVERSED MODE
         if (reversed.Value)
         {
-            // REVERSE MODE:
-            // If they STOP looking at me, I should freeze/stop.
             if (!isLookingAtMe)
             {
                 if (!isFreezing)
@@ -384,7 +379,7 @@ public class DollAI : NetworkBehaviour
             {
                 Transform playerCam = targetPlayer.GetChild(0);
                 float angle = Vector3.Angle(playerCam.forward, directionToDollCenter);
-                float effectiveViewAngle = (distanceToDoll_sq < 62.5f) ? 8f : viewAngle;
+                float effectiveViewAngle = (distanceToDoll_sq < 2.5f) ? 100f : viewAngle;
 
                 if (angle < effectiveViewAngle)
                 {
