@@ -43,7 +43,7 @@ public class DollAI : NetworkBehaviour
         if (IsServer)
         {
             reversed.Value = UnityEngine.Random.value > 0.5f;
-            Debug.Log($"Doll Spawned. Reversed Mode: {reversed}");
+            //Debug.Log($"Doll Spawned. Reversed Mode: {reversed}");
         }
 
         if (animator)
