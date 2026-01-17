@@ -75,11 +75,13 @@ public class ItemHolding : NetworkBehaviour
             isZoomed = true; 
             GetZoomPosAndRot(out Vector3 pos, out Quaternion rot); 
             SpawnItemInstanceServerRpc(heldItemData, 1, false, default, pos, rot);
+            AudioManager.PlaySound(AudioType.ItemInspect);
         }
 
         if (Input.GetKeyDown(KeyCode.Q) && isZoomed)
         {
             HandleUnZoom();
+            AudioManager.PlaySound(AudioType.ItemThrow);
         }
     }
 
@@ -104,6 +106,7 @@ public class ItemHolding : NetworkBehaviour
         if (Input.GetKeyDown(KeyCode.G))
         {
             isInspecting = false;
+            AudioManager.PlaySound(AudioType.ItemThrow);
 
             Debug.Log("unzooming");
             if (isZoomed)

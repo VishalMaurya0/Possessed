@@ -49,6 +49,7 @@ public class ItemPickup : NetworkBehaviour
     
     public void RequestPickup()
     {
+        AudioManager.PlaySound(AudioType.ItemPickup);
                 PickupItemServerRpc();
     }
 

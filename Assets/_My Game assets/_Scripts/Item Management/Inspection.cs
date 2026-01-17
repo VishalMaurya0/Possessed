@@ -77,6 +77,7 @@ public class Inspection : NetworkBehaviour
     {
         if (!isInspecting && (transform.position - GameManager.Instance.ownerPlayer.transform.position).sqrMagnitude < range)
         {
+            AudioManager.PlaySound(AudioType.ItemInspect);
             // ============CASE 1: Client is NOT owner (Standard Client Logic)
             if (GetComponent<NetworkObject>().OwnerClientId != NetworkManager.Singleton.LocalClientId && GetComponent<NetworkObject>().OwnerClientId == NetworkManager.ServerClientId)
             {
@@ -96,6 +97,7 @@ public class Inspection : NetworkBehaviour
     {
         if (id != NetworkManager.Singleton.LocalClientId)
             return;
+
         StartInspection();
     }
 
@@ -150,6 +152,8 @@ public class Inspection : NetworkBehaviour
     public void EndInspection()
     {
         isInspecting = false;
+
+        AudioManager.PlaySound(AudioType.ItemDrop);
 
         ItemHolding.isInspecting = false;
         Debug.Log("unzooming");

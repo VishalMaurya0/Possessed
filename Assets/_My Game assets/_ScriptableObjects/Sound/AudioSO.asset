@@ -42,12 +42,14 @@ MonoBehaviour:
     mixer: {fileID: 0}
   - Name: ItemThrow
     Type: 2
-    audioClips: []
+    audioClips:
+    - {fileID: 8300000, guid: fb6bbb6b1b8619f4f8dac748cb465cf3, type: 3}
     volume: 1
     mixer: {fileID: 0}
   - Name: ItemInspect
     Type: 3
-    audioClips: []
+    audioClips:
+    - {fileID: 8300000, guid: 1be211d67169e19439c1f09a9aca0a05, type: 3}
     volume: 1
     mixer: {fileID: 0}
   - Name: ItemCraft
@@ -57,7 +59,8 @@ MonoBehaviour:
     mixer: {fileID: 0}
   - Name: ItemDrop
     Type: 5
-    audioClips: []
+    audioClips:
+    - {fileID: 8300000, guid: fb6bbb6b1b8619f4f8dac748cb465cf3, type: 3}
     volume: 1
     mixer: {fileID: 0}
   - Name: Q
@@ -104,5 +107,10 @@ MonoBehaviour:
     Type: 13
     audioClips:
     - {fileID: 8300000, guid: 0759fe75c1c751e44be5f603ebd67dfb, type: 3}
+    volume: 1
+    mixer: {fileID: 0}
+  - Name: UnClick
+    Type: 14
+    audioClips: []
     volume: 1
     mixer: {fileID: 0}
