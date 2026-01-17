@@ -23,6 +23,16 @@ public class SafePointArea : NetworkBehaviour
     public TMP_Text helpText;
     public VisualEffect vfxGraph;
 
+    [Header("Audio")]
+    public AudioSource source;
+    public AudioClip charging;
+    public float slowPitch;
+    public AudioClip disCharging;
+    public float fastPitch;
+    public AudioClip normal;
+    public float volume = 1;
+
+
     [Header("Colors")]
     [ColorUsage(true, true)] public Color depletionColor;
     [ColorUsage(true, true)] public Color healingColor;
@@ -147,9 +157,11 @@ public class SafePointArea : NetworkBehaviour
         switch (state)
         {
             case ZoneState.Depleting:
+                PlaySound(State.Discharging);
                 vfxGraph.SetVector4("GroundColor", depletionColor);
                 vfxGraph.SetFloat("Amount", 1);
                 helpText.text = $"Depleting at {noOfPlayers}X rate";
+
                 if (lastVisualState == ZoneState.BrokenHealing)
                 {
                     vfxGraph.Reinit();
@@ -157,6 +169,7 @@ public class SafePointArea : NetworkBehaviour
                 break;
 
             case ZoneState.BrokenHealing:
+                PlaySound(State.Charging);
                 vfxGraph.SetVector4("GroundColor", healingColor);
                 vfxGraph.SetFloat("Amount", 0);
                 vfxGraph.Reinit();
@@ -165,6 +178,7 @@ public class SafePointArea : NetworkBehaviour
                 break;
 
             case ZoneState.FastRegen:
+                PlaySound(State.FastCharging);
                 vfxGraph.SetVector4("GroundColor", XhealingColor);
                 vfxGraph.SetFloat("Amount", 1);
                 helpText.text = "Faster Healing";
@@ -172,6 +186,7 @@ public class SafePointArea : NetworkBehaviour
                 break;
 
             case ZoneState.Idle:
+                PlaySound(State.Normal);
                 vfxGraph.SetVector4("GroundColor", idleColor);
                 vfxGraph.SetFloat("Amount", 1);
                 helpText.text = "Fully Charged";
@@ -198,5 +213,45 @@ public class SafePointArea : NetworkBehaviour
             timerText.text = $"{currentTime:F1} secs Left";
             lastDisplayedTime = currentTime;
         }
+    }
+
+
+    public void PlaySound(State state)
+    {
+        if (state == State.FastCharging)
+        {
+            source.pitch = fastPitch;
+        }else
+        {
+            source.pitch = slowPitch;
+        }
+
+        switch (state)
+        {
+            case State.Normal:
+                source.resource = normal;
+                break;
+            case State.Charging:
+                source.resource = charging;
+                break;
+            case State.FastCharging:
+                source.resource = charging;
+                break;
+            case State.Discharging:
+                source.resource = disCharging;
+                break;
+            default:
+                break;
+        }
+        source.volume = volume;
+        source.Play();
+    }
+
+    public enum State
+    {
+        Normal,
+        Charging,
+        FastCharging,
+        Discharging,
     }
 }
