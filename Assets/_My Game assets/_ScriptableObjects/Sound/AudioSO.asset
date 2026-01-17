@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed7a812072471d7448657c9cb4f2dfca, type: 3}
+  m_Name: AudioSO
+  m_EditorClassIdentifier: 
+  allSounds:
+  - Name: Walk
+    Type: 0
+    audioClips:
+    - {fileID: 8300000, guid: 10bca521c3e9ac04987093505edd83f0, type: 3}
+    - {fileID: 8300000, guid: 431fda09369f4b546ad59ce57e89aa5e, type: 3}
+    - {fileID: 8300000, guid: e28259b9bfe577f43b4422cc7233a483, type: 3}
+    - {fileID: 8300000, guid: dff19cf544a052f4295bdf2a4d3ee88c, type: 3}
+    - {fileID: 8300000, guid: 5d93876e8bcaab0438849e9d7cc775f0, type: 3}
+    - {fileID: 8300000, guid: 56e34096cf6a77644902d23820256ffd, type: 3}
+    - {fileID: 8300000, guid: fa1646ea9cbc0d843ad28ad7eb26409a, type: 3}
+    - {fileID: 8300000, guid: bde64d5c095329748a9f2b94de375d2a, type: 3}
+    volume: 1
+    mixer: {fileID: 7964655001550082873, guid: f5089ba0f52e74d4eaafcdd04075c5d2, type: 2}
+  - Name: ItemPickup
+    Type: 0
+    audioClips: []
+    volume: 1
+    mixer: {fileID: 0}
+  - Name: ItemThrow
+    Type: 0
+    audioClips: []
+    volume: 1
+    mixer: {fileID: 0}
+  - Name: ItemInspect
+    Type: 0
+    audioClips: []
+    volume: 1
+    mixer: {fileID: 0}
+  - Name: ItemCraft
+    Type: 0
+    audioClips: []
+    volume: 1
+    mixer: {fileID: 0}
+  - Name: ItemDrop
+    Type: 0
+    audioClips: []
+    volume: 1
+    mixer: {fileID: 0}
+  - Name: Q
+    Type: 0
+    audioClips: []
+    volume: 1
+    mixer: {fileID: 0}
+  - Name: GhostWalk
+    Type: 0
+    audioClips: []
+    volume: 1
+    mixer: {fileID: 0}
+  - Name: GhostRoar
+    Type: 0
+    audioClips: []
+    volume: 1
+    mixer: {fileID: 0}
+  - Name: RandomNoises
+    Type: 0
+    audioClips: []
+    volume: 1
+    mixer: {fileID: 0}

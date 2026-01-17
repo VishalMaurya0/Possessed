@@ -87474,6 +87474,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerIndicatorColor: {r: 1, g: 1, b: 1, a: 1}
   connectedClientsData: []
+  useRandomSeed: 1
+  seed: 0
 --- !u!4 &1354781516
 Transform:
   m_ObjectHideFlags: 0
@@ -105528,11 +105530,16 @@ MonoBehaviour:
   helpInstructionDisplayTime: 0
   winLoseAnimator: {fileID: 0}
   photoAlbum: {fileID: 0}
+  GhostLookPostProcess: {fileID: 0}
+  isComing: 0
+  currentPower: 0
+  ghostLookPostProcess_duration: 0.4
+  ghostLookPostProcess_timer: 0
+  ghostLookPostProcess_startY: -5
+  ghostLookPostProcess_endY: 1
   PlayButton: {fileID: 1758933382}
   PublicPrivateToggle: {fileID: 1106880489}
   LoadingPanel: {fileID: 219779672}
-  useRandomSeed: 0
-  seed: 0
   playerName_InputFieldA: {fileID: 657654610}
   playerName_InputFieldB: {fileID: 1761749863}
   winText: {fileID: 0}
@@ -135116,7 +135123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6960e84d07fb87f47956e7a81d71c4e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ProtocolType: 0
+  m_ProtocolType: 1
   m_UseWebSockets: 0
   m_UseEncryption: 0
   m_MaxPacketQueueSize: 128
