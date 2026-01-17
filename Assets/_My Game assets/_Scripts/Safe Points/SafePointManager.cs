@@ -27,10 +27,12 @@ public class SafePointManager : NetworkBehaviour {
             if (activatedSafePoints.Value < totalSafePoints)
             {
                 ActivateSafePointServerRpc();
+                AudioManager.PlaySound(AudioType.Correct);
             }else
             {
                 GameManager.Instance.HelpInstructions.text = "All Safe Points Activated";
                 GameManager.Instance.helpInstructionDisplayTime = 3f;
+                AudioManager.PlaySound(AudioType.Wrong);
             }
 
             UpdateVisual();

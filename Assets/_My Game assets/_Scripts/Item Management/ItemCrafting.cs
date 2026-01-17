@@ -58,25 +58,28 @@ public class ItemCrafting : MonoBehaviour
             }
 
             currentItemData = inventory.selectedInventorySlot.itemData;
-            Debug.Log("[ItemCrafting] Right mouse button pressed. Checking craftability...");
+            //Debug.Log("[ItemCrafting] Right mouse button pressed. Checking craftability...");
 
             if (IsItemCraftable(out List<int> ids))
             {
-                Debug.Log($"[ItemCrafting] Item is craftable. Valid Recipe IDs: {string.Join(", ", ids)}");
+                //Debug.Log($"[ItemCrafting] Item is craftable. Valid Recipe IDs: {string.Join(", ", ids)}");
 
                 if (IsOtherItemAvailableInInventory(ids, out int id))
                 {
-                    Debug.Log($"[ItemCrafting] Other item found in inventory for Recipe ID: {id}");
+                    //Debug.Log($"[ItemCrafting] Other item found in inventory for Recipe ID: {id}");
                     finalItemState = CraftItemServerRpc(id, inventory.selectedInventorySlot, itemState2InventorySlot, inventory);
-                    Debug.Log($"[ItemCrafting] Item crafted successfully. Final Item State: {finalItemState.itemType}");
+                    AudioManager.PlaySound(AudioType.Click);
+                    //Debug.Log($"[ItemCrafting] Item crafted successfully. Final Item State: {finalItemState.itemType}");
                 }
                 else
                 {
+                    AudioManager.PlaySound(AudioType.Wrong);
                     Debug.LogWarning("[ItemCrafting] Required secondary item not found in inventory.");
                 }
             }
             else
             {
+                //AudioManager.PlaySound(AudioType.Wrong);
                 Debug.LogWarning("[ItemCrafting] Item is not craftable.");
             }
         }
@@ -132,10 +135,12 @@ public class ItemCrafting : MonoBehaviour
     private bool IsOtherItemAvailableInInventory(List<int> ids, out int id)
     {
         Debug.Log("[ItemCrafting] Checking for secondary item in inventory...");
+        string requiredItem = "";
         foreach (int recipeId in ids)
         {
             var recipe = itemCraftingDataSO.itemStateCraftingRecipes[recipeId];
             ItemType requiredType = recipe.ItemState2.itemType;
+            requiredItem = requiredType.ToString();
             bool isContainer = recipe.ItemState2.isContainer;
             int requiredState = recipe.ItemState2.currentState;
             int requiredAmount = recipe.ItemState2.amount;
@@ -181,6 +186,8 @@ public class ItemCrafting : MonoBehaviour
             }
         }
 
+        GameManager.Instance.HelpInstructions.text = $"{requiredItem} is either not Found or not Enough to Craft";
+        GameManager.Instance.helpInstructionDisplayTime = 3;
         Debug.LogWarning("[ItemCrafting] No valid secondary item found in inventory.");
         itemState2 = null;
         id = -1;
