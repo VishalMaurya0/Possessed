@@ -10,7 +10,7 @@ public class PlayerManager : NetworkBehaviour
         if (IsOwner)
         {
             if (playerVisibleGameobject == null)
-                playerVisibleGameobject = transform.Find("PlayerVisibleGameobject").gameObject;
+                playerVisibleGameobject = transform.Find("BrianJohnson").gameObject;
 
 
             if (playerVisibleGameobject != null)
