@@ -220,6 +220,7 @@ public class PlayerController : NetworkBehaviour
                 if (rb != null)
                 {
                     effectiveSpeed = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z).magnitude;
+                    if (effectiveSpeed/sprintSpeed < 0.4) effectiveSpeed = 0;
                 }
 
                 netAnimSpeed.Value = effectiveSpeed;
