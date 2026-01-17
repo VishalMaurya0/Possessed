@@ -124,10 +124,12 @@ public class ClueGathering : MonoBehaviour
             {
                 GameManager.Instance.lockCurser = false;
                 GameManager.Instance.handlePlayerLookWithMouse = false;
+                AudioManager.PlaySound(AudioType.PanelOpen);
             }else
             {
                 GameManager.Instance.lockCurser = true;
                 GameManager.Instance.handlePlayerLookWithMouse = true;
+                AudioManager.PlaySound(AudioType.PanelClose);
             }
         }
     }

@@ -99,6 +99,7 @@ public class Inventory : NetworkBehaviour
 
     void ScrollUp()
     {
+        AudioManager.PlaySound(AudioType.Q);
         slotNo.Value++;
         if (slotNo.Value >= maxSlots)
         {
@@ -112,6 +113,7 @@ public class Inventory : NetworkBehaviour
 
     void ScrollDown()
     {
+        AudioManager.PlaySound(AudioType.Q);
         slotNo.Value--;
         if (slotNo.Value < 0)
         {

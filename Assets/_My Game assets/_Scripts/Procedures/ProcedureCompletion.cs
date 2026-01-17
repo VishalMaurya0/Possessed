@@ -152,6 +152,7 @@ public class ProcedureCompletion : ProcedureBase
                 {
                     GameManager.Instance.HelpInstructions.text = "No item selected in inventory!";
                     GameManager.Instance.helpInstructionDisplayTime = 3f;
+                    AudioManager.PlaySound(AudioType.Wrong);
                     Debug.LogWarning("No item selected in inventory!");
                     return;
                 }
@@ -165,6 +166,7 @@ public class ProcedureCompletion : ProcedureBase
                         //Debug.Log($"Checking item match for order {currentOrder.Value}...");
                         if (CheckIfItemMatchedWithInventorySlot(totalItemsNeeded.itemNeeded[i], selectedInventorySlot.itemData, inventory, i))
                         {
+                            AudioManager.PlaySound(AudioType.Click);
                             CheckOrderCompletionServerRpc();
                             break;
                         }
@@ -343,6 +345,7 @@ public class ProcedureCompletion : ProcedureBase
     [ClientRpc]
     public void ShowVFXClientRPC()
     {
+        AudioManager.PlaySound(AudioType.Correct);
         procedureBase.Completed(VFXPosition.position);
     }
 }

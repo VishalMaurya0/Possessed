@@ -27,47 +27,82 @@ MonoBehaviour:
     volume: 1
     mixer: {fileID: 7964655001550082873, guid: f5089ba0f52e74d4eaafcdd04075c5d2, type: 2}
   - Name: ItemPickup
-    Type: 0
-    audioClips: []
+    Type: 1
+    audioClips:
+    - {fileID: 8300000, guid: c0b55959beb301d458fc364fc09d8416, type: 3}
+    - {fileID: 8300000, guid: 8890d6233cc7731459a4190d3bb509c7, type: 3}
+    - {fileID: 8300000, guid: de21c43038832f541ad5f6aa290043e4, type: 3}
+    - {fileID: 8300000, guid: 8f37fb888ae96864292c67dcdf4c707d, type: 3}
+    - {fileID: 8300000, guid: f3bf67b1df4400e49806d6c9f9da0b99, type: 3}
+    - {fileID: 8300000, guid: d4b717a0f0bf9bc46a04fa62bbbdd719, type: 3}
+    - {fileID: 8300000, guid: 2f8b68beea7977a43b2c078b3e5d8fc0, type: 3}
+    - {fileID: 8300000, guid: 49a0847b5c3f8dc44addeb704e1cbe7c, type: 3}
+    - {fileID: 8300000, guid: 30094b50b4eac6643b31ecc0146ffc7c, type: 3}
     volume: 1
     mixer: {fileID: 0}
   - Name: ItemThrow
-    Type: 0
+    Type: 2
     audioClips: []
     volume: 1
     mixer: {fileID: 0}
   - Name: ItemInspect
-    Type: 0
+    Type: 3
     audioClips: []
     volume: 1
     mixer: {fileID: 0}
   - Name: ItemCraft
-    Type: 0
+    Type: 4
     audioClips: []
     volume: 1
     mixer: {fileID: 0}
   - Name: ItemDrop
-    Type: 0
+    Type: 5
     audioClips: []
     volume: 1
     mixer: {fileID: 0}
   - Name: Q
-    Type: 0
-    audioClips: []
+    Type: 6
+    audioClips:
+    - {fileID: 8300000, guid: 862571ccd0810c34b9ba58f2dd9f7ef1, type: 3}
     volume: 1
     mixer: {fileID: 0}
   - Name: GhostWalk
-    Type: 0
+    Type: 7
     audioClips: []
     volume: 1
     mixer: {fileID: 0}
   - Name: GhostRoar
-    Type: 0
+    Type: 8
     audioClips: []
     volume: 1
     mixer: {fileID: 0}
-  - Name: RandomNoises
-    Type: 0
-    audioClips: []
+  - Name: Click
+    Type: 9
+    audioClips:
+    - {fileID: 8300000, guid: e935bf9f39e9a3e4e9d22e4ee635e9e5, type: 3}
+    volume: 1
+    mixer: {fileID: 7435635503411598914, guid: f5089ba0f52e74d4eaafcdd04075c5d2, type: 2}
+  - Name: PanelOpen
+    Type: 10
+    audioClips:
+    - {fileID: 8300000, guid: 3b159dd3ea10ec748b6fe52304e57be3, type: 3}
+    volume: 1
+    mixer: {fileID: 7435635503411598914, guid: f5089ba0f52e74d4eaafcdd04075c5d2, type: 2}
+  - Name: PanelClose
+    Type: 11
+    audioClips:
+    - {fileID: 8300000, guid: a1fac8288c3b71441a153628a7f2bb1f, type: 3}
+    volume: 1
+    mixer: {fileID: 7435635503411598914, guid: f5089ba0f52e74d4eaafcdd04075c5d2, type: 2}
+  - Name: Correct
+    Type: 12
+    audioClips:
+    - {fileID: 8300000, guid: a1c175baed23cf844b9fbcd9e9019674, type: 3}
+    volume: 1
+    mixer: {fileID: 0}
+  - Name: Wrong
+    Type: 13
+    audioClips:
+    - {fileID: 8300000, guid: 0759fe75c1c751e44be5f603ebd67dfb, type: 3}
     volume: 1
     mixer: {fileID: 0}

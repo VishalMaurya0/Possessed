@@ -94,6 +94,14 @@ public class UIRelated : MonoBehaviour
     {
         isFullMiniMapShowing = Load;
         MinimapAnim.SetBool("Load", Load);
+
+        if (Load)
+        {
+            AudioManager.PlaySound(AudioType.PanelOpen);
+        }else
+        {
+            AudioManager.PlaySound(AudioType.PanelClose);
+        }
     }
 
     // For After Death Or Win

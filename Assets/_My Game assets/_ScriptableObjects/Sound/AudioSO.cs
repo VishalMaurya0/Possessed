@@ -16,6 +16,7 @@ public class SoundFXList
     public List<AudioClip> audioClips;
     [Range(0, 1)] public float volume;
     public AudioMixerGroup mixer;
+    //
 }
 
 public enum AudioType
@@ -29,6 +30,9 @@ public enum AudioType
     Q,
     GhostWalk,
     GhostRoar,
-    RandomNoises,
-
+    Click,
+    PanelOpen,
+    PanelClose,
+    Correct,
+    Wrong,
 }
