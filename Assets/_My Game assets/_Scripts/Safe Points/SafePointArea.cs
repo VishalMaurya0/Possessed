@@ -31,6 +31,8 @@ public class SafePointArea : NetworkBehaviour
     public float fastPitch;
     public AudioClip normal;
     public float volume = 1;
+    public AudioClip lowBattery;
+    public bool playSound;
 
 
     [Header("Colors")]
@@ -113,6 +115,15 @@ public class SafePointArea : NetworkBehaviour
             lastVisualState = currentSyncedState;
         }
 
+        if (currentSyncedState == ZoneState.Depleting)
+        {
+            if (timer < 5 && playSound)
+            {
+                source.PlayOneShot(lowBattery);
+                playSound = false;
+            }
+        }
+
         UpdateTimerUI();
     }
 
@@ -175,6 +186,8 @@ public class SafePointArea : NetworkBehaviour
                 vfxGraph.Reinit();
                 helpText.text = "Healing";
                 helpText.color = healingColor;
+
+                playSound = true;
                 break;
 
             case ZoneState.FastRegen:
@@ -183,6 +196,8 @@ public class SafePointArea : NetworkBehaviour
                 vfxGraph.SetFloat("Amount", 1);
                 helpText.text = "Faster Healing";
                 helpText.color = XhealingColor;
+                
+                playSound = true;
                 break;
 
             case ZoneState.Idle:
@@ -195,6 +210,8 @@ public class SafePointArea : NetworkBehaviour
                     vfxGraph.Reinit();
                 }
                 helpText.color = idleColor;
+                
+                playSound = true;
                 break;
         }
 
