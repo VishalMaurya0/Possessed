@@ -538,10 +538,10 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 3
-  MaxDistance: 6.94
+  MinDistance: 3.0108495
+  MaxDistance: 4.5
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 2
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -549,23 +549,32 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
+      time: 0.43227667
       value: 1
-      inSlope: 0
-      outSlope: 0
+      inSlope: -2.3142583
+      outSlope: -2.3142583
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.8488673
+      value: 0.09037781
+      inSlope: -1.1340692
+      outSlope: -1.1340692
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.46244973
+      outWeight: 1
     - serializedVersion: 3
       time: 1
       value: 0
-      inSlope: 0
-      outSlope: 0
+      inSlope: -0.43244958
+      outSlope: -0.43244958
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -701,6 +710,9 @@ MonoBehaviour:
   volume: 1
   lowBattery: {fileID: 8300000, guid: 012f6025fd3d8ea4bbd3e6b1e998060b, type: 3}
   playSound: 0
+  normalSnapshot: {fileID: 24500006, guid: f5089ba0f52e74d4eaafcdd04075c5d2, type: 2}
+  safeSnapshot: {fileID: -1317891729410273001, guid: f5089ba0f52e74d4eaafcdd04075c5d2, type: 2}
+  transitionTime: 1
   depletionColor: {r: 3.005709, g: 0.7557787, b: 0.28326052, a: 1}
   healingColor: {r: 3.0566037, g: 2.2534425, b: 0.51210105, a: 1}
   XhealingColor: {r: 1.053499, g: 3.6886053, b: 0.26098615, a: 1}

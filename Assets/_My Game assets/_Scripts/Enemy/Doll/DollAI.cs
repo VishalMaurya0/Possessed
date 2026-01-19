@@ -252,7 +252,7 @@ public class DollAI : NetworkBehaviour
         FearMeter fearMeter = playerInSight.GetComponent<FearMeter>();
         if (fearMeter != null)
         {
-            fearMeter.instantPossess_Trigger = true;
+            fearMeter.dollInstantPossess_Trigger = true;
             Debug.Log("Dead");
         }
 

@@ -257,7 +257,7 @@ AudioSource:
   m_GameObject: {fileID: 1933398748619815838}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 7964655001550082873, guid: f5089ba0f52e74d4eaafcdd04075c5d2, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
@@ -892,7 +892,7 @@ AudioSource:
   m_GameObject: {fileID: 4519072442372296376}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 1413057917595568297, guid: f5089ba0f52e74d4eaafcdd04075c5d2, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 439993d6c4dbd8544b9990dad70fec06, type: 3}
   m_PlayOnAwake: 0
@@ -1050,6 +1050,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fearMeter: {fileID: 2299721788920938010}
+  ghostAI: {fileID: 0}
   minPitch: 0.8
   maxPitch: 1.8
   maxVolume: 1

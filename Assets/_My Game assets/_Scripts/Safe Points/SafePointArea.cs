@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.VFX;
 
 public class SafePointArea : NetworkBehaviour
@@ -33,6 +34,11 @@ public class SafePointArea : NetworkBehaviour
     public float volume = 1;
     public AudioClip lowBattery;
     public bool playSound;
+
+    [Header("Audio Snapshots")]
+    public AudioMixerSnapshot normalSnapshot; // Drag "Original" here
+    public AudioMixerSnapshot safeSnapshot;   // Drag "SafeRoom" here
+    public float transitionTime = 1.0f;       // How long the fade takes
 
 
     [Header("Colors")]
@@ -66,6 +72,9 @@ public class SafePointArea : NetworkBehaviour
             safePlayers.Add(other.gameObject.GetComponent<FearMeter>());
             noOfPlayers++;
         }
+
+        if (safeSnapshot != null)
+            safeSnapshot.TransitionTo(transitionTime);
     }
 
     private void OnTriggerExit(Collider other)
@@ -80,6 +89,9 @@ public class SafePointArea : NetworkBehaviour
             safePlayers.Remove(fearMeter);
             noOfPlayers--;
         }
+
+        if (normalSnapshot != null)
+            normalSnapshot.TransitionTo(transitionTime);
     }
 
     float timer = 0;
@@ -117,7 +129,7 @@ public class SafePointArea : NetworkBehaviour
 
         if (currentSyncedState == ZoneState.Depleting)
         {
-            if (timer < 5 && playSound)
+            if (safepointTimer.Value < 5 && playSound)
             {
                 source.PlayOneShot(lowBattery);
                 playSound = false;
@@ -232,37 +244,53 @@ public class SafePointArea : NetworkBehaviour
         }
     }
 
-
     public void PlaySound(State state)
     {
-        if (state == State.FastCharging)
-        {
-            source.pitch = fastPitch;
-        }else
-        {
-            source.pitch = slowPitch;
-        }
+        AudioClip targetClip = null;
+        float targetPitch = 1f;
 
+        // 1. Determine which Clip and Pitch we WANT
         switch (state)
         {
             case State.Normal:
-                source.resource = normal;
+                targetClip = normal;
+                targetPitch = slowPitch; // Or 1, depending on preference
                 break;
             case State.Charging:
-                source.resource = charging;
+                targetClip = charging;
+                targetPitch = slowPitch;
                 break;
             case State.FastCharging:
-                source.resource = charging;
+                targetClip = charging; // Same clip as Charging!
+                targetPitch = fastPitch;
                 break;
             case State.Discharging:
-                source.resource = disCharging;
-                break;
-            default:
+                targetClip = disCharging;
+                targetPitch = slowPitch; // Or 1
                 break;
         }
+
+        // 2. Assign Volume (Always apply)
         source.volume = volume;
-        source.Play();
+
+        // 3. Smart Transition Logic
+        // If the source is ALREADY playing the correct clip, just shift the pitch (No Stutter)
+        if (source.isPlaying && source.clip == targetClip)
+        {
+            source.pitch = targetPitch;
+            // Ensure looping is ON for continuous states
+            source.loop = true;
+        }
+        else
+        {
+            // It's a new sound, so we swap and play
+            source.clip = targetClip;
+            source.pitch = targetPitch;
+            source.loop = true; // State sounds should usually loop
+            source.Play();
+        }
     }
+
 
     public enum State
     {
