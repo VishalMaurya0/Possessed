@@ -66,9 +66,10 @@ public class EnergyDetector : NetworkBehaviour
                 inventory = GameManager.Instance.ownerPlayer.GetComponent<Inventory>();
 
             if (inventory != null && inventory.selectedInventorySlot.itemData != null && inventory.selectedInventorySlot.itemData.itemType == itemData.itemType)
+            {
                 itemData.isOn = !itemData.isOn;
-
-            AudioManager.PlaySound(AudioType.Click);
+                AudioManager.PlaySound(AudioType.Click);
+            }
         }
 
         if (itemData.isOn)
