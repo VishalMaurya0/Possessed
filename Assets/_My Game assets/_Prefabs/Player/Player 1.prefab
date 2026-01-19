@@ -904,10 +904,10 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 1.3960476
   MaxDistance: 2.08
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 2
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -915,23 +915,32 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
+      time: 0.48076925
       value: 1
-      inSlope: 0
-      outSlope: 0
+      inSlope: -2.0808318
+      outSlope: -2.0808318
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0
+      outWeight: 0
     - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
+      time: 0.8398649
+      value: 0.1040802
+      inSlope: -1.8159145
+      outSlope: -1.8159145
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0
+      outWeight: 0.6614809
+    - serializedVersion: 3
+      time: 0.98361206
+      value: 0
+      inSlope: -0.48096105
+      outSlope: -0.48096105
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -1045,7 +1054,7 @@ MonoBehaviour:
   maxPitch: 1.8
   maxVolume: 1
   ghostLookingIntensityOverride: 0.85
-  dollLookingIntensityOverride: 0.6
+  dollLookingIntensityOverride: 0.4
 --- !u!1 &5245205113773564374
 GameObject:
   m_ObjectHideFlags: 0

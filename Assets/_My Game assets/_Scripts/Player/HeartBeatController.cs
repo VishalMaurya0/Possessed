@@ -7,6 +7,7 @@ public class HeartbeatController : MonoBehaviour
 {
     [Header("References")]
     public FearMeter fearMeter; // Drag your Player/FearMeter here
+    public GhostAI ghostAI;
 
     [Header("Heartbeat Settings")]
     [Range(0f, 3f)] public float minPitch = 0.8f;   // Resting heart rate (approx 60bpm)
@@ -26,6 +27,10 @@ public class HeartbeatController : MonoBehaviour
 
     void Start()
     {
+        if (ghostAI == null)
+        {
+            ghostAI = GameObject.FindAnyObjectByType<GhostAI>();
+        }
         audioSource = GetComponent<AudioSource>();
         lowPassFilter = GetComponent<AudioLowPassFilter>();
         reverbFilter = GetComponent<AudioReverbFilter>();
@@ -38,7 +43,7 @@ public class HeartbeatController : MonoBehaviour
     void Update()
     {
         timer += Time.deltaTime;
-        if (timer > 0.1f)
+        if (timer > 0.2f)
         {
             timer = 0;
         }else
@@ -54,11 +59,11 @@ public class HeartbeatController : MonoBehaviour
         // If the ghost is looking, the fear rate is massive, so we override the intensity.
         float situationalPanic = 0f;
 
-        if (fearMeter.isGhostLooking)
+        if (fearMeter.isGhostLooking && ghostAI.isHunting)
         {
             situationalPanic = ghostLookingIntensityOverride;
         }
-        else if (fearMeter.isLookingDoll || fearMeter.isLookingGhost)
+        else if (fearMeter.isLookingDoll || fearMeter.isLookingGhost || fearMeter.isGhostLooking)
         {
             situationalPanic = dollLookingIntensityOverride;
         }
