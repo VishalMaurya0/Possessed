@@ -26,13 +26,22 @@ public class MirrorCameraRateControl : MonoBehaviour
             mirrorCamera = GameObject.FindWithTag("Ghost").GetComponentInChildren<Camera>();
         }
 
-        if (playerTransform == null && GameManager.Instance.serverStarted)
+        HandleServerStarted();
+
+        GameManager.onServerStarted += HandleServerStarted;
+
+        mirrorCamera.enabled = false; 
+    }
+
+    void HandleServerStarted()
+    {
+        if (playerTransform == null && GameManager.Instance.ownerPlayer != null)
         {
             playerTransform = GameManager.Instance.ownerPlayer.transform;
         }
-        
-        mirrorCamera.enabled = false; 
     }
+
+
 
 
     float distCalcTimer = 0.34768f;

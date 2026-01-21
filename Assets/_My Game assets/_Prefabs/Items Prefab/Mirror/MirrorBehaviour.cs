@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class MirrorBehaviour : MonoBehaviour
 {
-    Camera camera;
+    public Camera camera;
     GameObject player; 
     public GameObject forward; 
     public MeshRenderer mirrorSurface;
