@@ -538,8 +538,8 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 3.0108495
-  MaxDistance: 4.5
+  MinDistance: 3.64106
+  MaxDistance: 10.845127
   Pan2D: 0
   rolloffMode: 2
   BypassEffects: 0
@@ -703,11 +703,11 @@ MonoBehaviour:
   vfxGraph: {fileID: 8817495912452084439}
   source: {fileID: 8370906778436166104}
   charging: {fileID: 8300000, guid: e6d116163dfccc044a194e1e1190a7c4, type: 3}
-  slowPitch: 0.5
+  slowPitch: 1
   disCharging: {fileID: 8300000, guid: 941c439bee5a0274da624df3898577c3, type: 3}
-  fastPitch: 1
+  fastPitch: 1.7
   normal: {fileID: 8300000, guid: a0fc42645d82f8946a53e5413041bc32, type: 3}
-  volume: 1
+  volume: 0.7
   lowBattery: {fileID: 8300000, guid: 012f6025fd3d8ea4bbd3e6b1e998060b, type: 3}
   playSound: 0
   normalSnapshot: {fileID: 24500006, guid: f5089ba0f52e74d4eaafcdd04075c5d2, type: 2}

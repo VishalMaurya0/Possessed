@@ -279,11 +279,12 @@ public class SafePointArea : NetworkBehaviour
         {
             source.pitch = targetPitch;
             // Ensure looping is ON for continuous states
-            source.loop = true;
+            //source.loop = true;
         }
         else
         {
             // It's a new sound, so we swap and play
+        Debug.LogError("csdfghj");
             source.clip = targetClip;
             source.pitch = targetPitch;
             source.loop = true; // State sounds should usually loop
