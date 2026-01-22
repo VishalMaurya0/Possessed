@@ -2,7 +2,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class FearMeter : MonoBehaviour
+public class FearMeter : NetworkBehaviour
 {
     [Header("Unchangable Data from SO")]
     public PlayerDataSO playerDataSO;
@@ -58,7 +58,7 @@ public class FearMeter : MonoBehaviour
         maxMoveDistanceWhenGettingPossessed = playerDataSO.maxFearDistance;
         revivedFear = playerDataSO.revivedFear;
 
-        if (fearBar == null)
+        if (IsOwner && fearBar == null)
         {
             //Debug.LogError("Galat bar");
             fearBar = GameObject.FindWithTag("FearUI").GetComponent<Slider>();

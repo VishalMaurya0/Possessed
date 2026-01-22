@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerDeathManager : NetworkBehaviour
 {
-    public PlayerController playerController;
     public GameObject ashes;
     public GameObject playerCharacter;
     public GameObject playerIndicator;
@@ -12,29 +11,34 @@ public class PlayerDeathManager : NetworkBehaviour
     [Header("Revive Settings")]
     public float reviveTime = 15;
     public float reviveTimer = 0;
-    private bool isInTrigger = false;
-    private NetworkObject targetDownedPlayer = null;
+    public bool isInTrigger = false;
+    public NetworkObject targetDownedPlayer = null;
+    public Animator animator;
 
     [ClientRpc]
     public void DieClientRpc()
     {
-        if (IsOwner)
+        if (IsOwner || IsServer)
         {
             ulong clientId = gameObject.GetComponent<NetworkObject>().OwnerClientId;
             GameManager.Instance.GetClientThroughID(clientId).isAlive = false;
-            GameManager.Instance.handleMovement = false;
+            if (IsOwner)
+                GameManager.Instance.handleMovement = false;
         }
         ServerChangesServerRpc();
         
-        playerIndicator.SetActive(false);
         //playerCharacter.SetActive(false);
         //ashes.SetActive(true);
         // remove noise TODO
 
-        GameManager.Instance.alivePlayers--;
+
         GameManager.Instance.NotifyClientAboutConnectedClientsServerRpc();
 
+
         GameManager.Instance.CheckIfEveryPlayerDied();
+
+        GameManager.Instance.alivePlayers--;
+        playerIndicator.SetActive(false);
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -57,7 +61,7 @@ public class PlayerDeathManager : NetworkBehaviour
             if (reviveTimer >= reviveTime)
             {
                 reviveTimer = 0f;
-                targetDownedPlayer.GetComponent<PlayerDeathManager>().NotifyClientServerRpc();
+                targetDownedPlayer.GetComponent<PlayerDeathManager>().NotifyReviveClientServerRpc();
                 GameManager.Instance.HelpInstructions.text = "";
                 GameManager.Instance.helpInstructionDisplayTime = 0f;
                 targetDownedPlayer = null;
@@ -76,41 +80,41 @@ public class PlayerDeathManager : NetworkBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (!other.CompareTag("Player")) return;
-        if (!IsOwner) return;
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (!other.CompareTag("Player")) return;
+    //    if (!IsOwner) return;
 
-        NetworkObject obj = other.GetComponentInParent<NetworkObject>();
-        if (obj == null) return;
+    //    NetworkObject obj = other.GetComponentInParent<NetworkObject>();
+    //    if (obj == null) return;
 
-        ulong id = obj.OwnerClientId;
-        var data = GameManager.Instance.GetClientThroughID(id);
-        if (data.isAlive) return;
+    //    ulong id = obj.OwnerClientId;
+    //    var data = GameManager.Instance.GetClientThroughID(id);
+    //    if (data.isAlive) return;
 
-        GameManager.Instance.HelpInstructions.text = "Hold R to Revive";
-        GameManager.Instance.helpInstructionDisplayTime = 3f;
-        isInTrigger = true;
-        targetDownedPlayer = obj;
-    }
+    //    GameManager.Instance.HelpInstructions.text = "Hold R to Revive";
+    //    GameManager.Instance.helpInstructionDisplayTime = 3f;
+    //    isInTrigger = true;
+    //    targetDownedPlayer = obj;
+    //}
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (!IsOwner) return;
+    //private void OnTriggerExit(Collider other)
+    //{
+    //    if (!IsOwner) return;
 
-        if (other.CompareTag("Player"))
-        {
-            GameManager.Instance.HelpInstructions.text = "";
-            GameManager.Instance.helpInstructionDisplayTime = 0f;
-            isInTrigger = false;
-            reviveTimer = 0f;
-            targetDownedPlayer = null;
-        }
-    }
+    //    if (other.CompareTag("Player"))
+    //    {
+    //        GameManager.Instance.HelpInstructions.text = "";
+    //        // GameManager.Instance.helpInstructionDisplayTime = 0f;
+    //        isInTrigger = false;
+    //        reviveTimer = 0f;
+    //        targetDownedPlayer = null;
+    //    }
+    //}
 
 
     [ServerRpc(RequireOwnership = false)]
-    private void NotifyClientServerRpc()
+    private void NotifyReviveClientServerRpc()
     {
         ReviveClientRpc();
     }
@@ -118,9 +122,10 @@ public class PlayerDeathManager : NetworkBehaviour
     [ClientRpc]
     private void ReviveClientRpc()
     {
-        if (IsOwner)
+        if (IsOwner){
             GameManager.Instance.handleMovement = true;
-
+        }
+            animator.SetBool("Dead", false);
 
         ulong clientId = gameObject.GetComponent<NetworkObject>().OwnerClientId;
         GameManager.Instance.GetClientThroughID(clientId).isAlive = true;
@@ -129,5 +134,10 @@ public class PlayerDeathManager : NetworkBehaviour
         playerIndicator.SetActive(true);
         playerCharacter.SetActive(true);
         ashes.SetActive(false);
+
+        if (IsServer)
+        {
+            GameManager.Instance.connectedClientsData[(int)clientId].playerGameobject.GetComponent<FearMeter>().revived = true;
+        }
     }
 }

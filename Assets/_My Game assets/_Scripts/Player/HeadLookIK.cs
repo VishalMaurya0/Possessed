@@ -34,7 +34,7 @@ public class HeadLookIK : NetworkBehaviour
     private void Update()
     {
         // Owner updates the sync variable
-        if (IsOwner && targetCamera != null)
+        if (targetCamera != null)
         {
             networkLookPos = targetCamera.position + (targetCamera.forward * 10f);
         }

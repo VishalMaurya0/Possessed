@@ -13,6 +13,7 @@ public class ProcedureCompletion : ProcedureBase
     public GameObject procedurePrefab;
     public triggerProcedurePointScript triggerScript;
     public Animator winLoseAnimator;
+    public GameObject safePointPrefab; 
 
     [Header("Procedure Specific Variables")]
     public Transform VFXPosition;
@@ -347,6 +348,24 @@ public class ProcedureCompletion : ProcedureBase
     {
         AudioManager.PlaySound(AudioType.Correct);
         procedureBase.Completed(VFXPosition.position);
+    }
+
+
+    [ServerRpc(RequireOwnership = false)]
+    public void SpawnSafePointServerRpc(int time)
+    {
+        StartCoroutine(SpawnSafePoint(time));
+    }
+    public IEnumerator SpawnSafePoint(int time)
+    {
+        GameObject obj = Instantiate(safePointPrefab, transform);
+        obj.transform.GetChild(0).gameObject.SetActive(false);
+        obj.transform.GetChild(1).gameObject.SetActive(false);
+        obj.GetComponent<NetworkObject>().Spawn();
+
+        yield return new WaitForSeconds(time);
+
+        Destroy(obj);
     }
 }
     
