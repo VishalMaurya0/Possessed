@@ -19,7 +19,7 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public static void PlaySound(AudioType sound, AudioSource source = null, float volume = 1)
+    public static void PlaySound(AudioType sound, AudioSource source = null, float volume = 1, float pitch = -1)
     {
         var randomClip = FindAudioFX(sound, out SoundFXList soundList);
 
@@ -32,6 +32,11 @@ public class AudioManager : MonoBehaviour
         }
         else
         {
+            instance.audioSource.pitch = 1;
+            if (pitch != -1)
+            {
+                instance.audioSource.pitch = pitch;
+            }
             instance.audioSource.outputAudioMixerGroup = soundList.mixer;
             instance.audioSource.PlayOneShot(randomClip, volume * soundList.volume);
         }

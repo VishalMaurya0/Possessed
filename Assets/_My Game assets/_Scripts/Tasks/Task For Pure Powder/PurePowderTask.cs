@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
@@ -13,14 +14,14 @@ public class PurePowderTask : NetworkBehaviour
     [SerializeField] List<Material> colorCodes = new();
     [SerializeField] List<Material> currentColourCode = new();
     [SerializeField] NetworkVariable <bool> gameSatrted = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-    [SerializeField] int colourToShow;
+    [SerializeField] int noOfColoursToShow;
     [SerializeField] int currentColour = 0;
     [SerializeField] float timeForShowing1Color = 1;
     [SerializeField] List<Material> totalColorMaterials;
     [SerializeField] public Material neutralColourMaterial;
     [SerializeField] Material correctAnsMaterial;
     [SerializeField] Material wrongAnsMaterial;
-    //[SerializeField] NetworkVariable <Material> currentScreenColour = new NetworkVariable<Material>(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    [SerializeField] NetworkVariable <int> currentScreenColour = new NetworkVariable<int>(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     [SerializeField] MeshRenderer ScreenColour;
 
     [Header("Task Settings & References")]
@@ -73,44 +74,75 @@ public class PurePowderTask : NetworkBehaviour
         {
             if (currentColour < colorCodes.Count)
             {
-                //currentScreenColour.Value = colorCodes[currentColour];
                 ScreenColour.material = colorCodes[currentColour];
-                ChangeColourClientRpc();
+
+                //currentScreenColour.Value = FindIndexOfColor(colorCodes[currentColour]);
+                AudioManager.PlaySound(AudioType.SmallPoup, null, 1, 0.7f);
+                //ChangeColourClientRpc();
             }
 
-            if (colourToShow > 0)
+            if (noOfColoursToShow > 0)
             {
                 waitFor1Sec = true;
                 timeUp = false;
                 totalTime = timeForShowing1Color;
                 currentColour++;
             }
-            else if (colourToShow == 0)
+            else if (noOfColoursToShow == 0)
             {
                 //currentScreenColour.Value = neutralColourMaterial;
                 ScreenColour.material = neutralColourMaterial;
-                ChangeColourClientRpc();
+                //ChangeColourClientRpc();
                 showColour = false;
             }
 
 
-            colourToShow--;
+            noOfColoursToShow--;
         }
     }
 
-    [ClientRpc]
-    private void ChangeColourClientRpc()
+    //[ClientRpc]
+    //private void ChangeColourClientRpc()
+    //{
+    //    ScreenColour.material = totalColorMaterials[currentScreenColour.Value];
+    //}
+
+    private void StartIteration() //runs on server
     {
-        //ScreenColour.material = currentScreenColour.Value;
+        int code;
+        if (IsServer)
+        {
+            code = Random.Range(0, totalColorMaterials.Count);
+            StartIterationClientRpc(code);
+        }
+        else
+        {
+            return;
+        }
+
+        Material newColor = totalColorMaterials[code];
+        colorCodes.Add(newColor);
+        iterationLeft--;
+
+        noOfColoursToShow = currentIteration;
+        currentColour = 0;
+        showColour = true;
+        currentIteration++;
+
+        currentColourCode.Clear(); // Important for fresh input
     }
 
-    private void StartIteration()
+    [ClientRpc]
+    private void StartIterationClientRpc(int code)
     {
+        if (IsServer) { return; }
+
+
         iterationLeft--;
-        Material newColor = totalColorMaterials[Random.Range(0, totalColorMaterials.Count)];
+        Material newColor = totalColorMaterials[code];
         colorCodes.Add(newColor);
 
-        colourToShow = currentIteration;
+        noOfColoursToShow = currentIteration;
         currentColour = 0;
         showColour = true;
         currentIteration++;
@@ -137,14 +169,15 @@ public class PurePowderTask : NetworkBehaviour
 
         if (currentColourCode.Count == currentIteration - 1)
         {
-            Correct();
+            StartCoroutine(Correct());
         }
     }
 
-    private void Correct()
+    private IEnumerator Correct()
     {
         if (iterationLeft > 0)
         {
+            yield return new WaitForSeconds(1);
             StartIteration();
         }
         else
@@ -165,6 +198,7 @@ public class PurePowderTask : NetworkBehaviour
 
     private void ShowCorrectVisual()
     {
+        AudioManager.PlaySound(AudioType.Correct);
         animator.SetTrigger("correct");
     }
 
@@ -185,5 +219,16 @@ public class PurePowderTask : NetworkBehaviour
     private void ShowWrongVisual()
     {
         animator.SetTrigger("wrong");
+        AudioManager.PlaySound(AudioType.Wrong);
+    }
+
+
+    int FindIndexOfColor(Material mate)
+    {
+        return currentScreenColour.Value =
+    totalColorMaterials.FindIndex(
+        mat => mat.color == mate.color
+    );
+
     }
 }

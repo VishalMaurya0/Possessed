@@ -38,6 +38,8 @@ public class PurePowderTaskButton : MonoBehaviour
         currentMaterial.material = purePowderTask.neutralColourMaterial;
 
         purePowderTask.AddColour(buttonMaterial);
+
+        AudioManager.PlaySound(AudioType.SmallPoup);
     }
 
 }

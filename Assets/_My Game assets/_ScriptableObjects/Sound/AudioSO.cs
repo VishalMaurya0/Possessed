@@ -38,4 +38,5 @@ public enum AudioType
     Wrong2,
     UnClick,
     Start,
+    SmallPoup,
 }
