@@ -1,3 +1,4 @@
+using System;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -182,6 +183,7 @@ public class CupForCoinTask : NetworkBehaviour
                 }
                 renderar.materials = mats;
             }
+            PlaySoundClientRpc(cupSoundType.reset);
             allInputDisabled____onServerVar = false;
             return;
         }
@@ -189,6 +191,7 @@ public class CupForCoinTask : NetworkBehaviour
 
         if (clickable.Value && !getCoin.Value)
         {
+            PlaySoundClientRpc(cupSoundType.start);
             taskForCoins.cupForCoinTasks.ForEach(task => { task.clickable.Value = false; });
             start.Value = true;
             containsCoin.Value = true;
@@ -204,15 +207,49 @@ public class CupForCoinTask : NetworkBehaviour
 
             if (containsCoin.Value)
             {
+                PlaySoundClientRpc(cupSoundType.Correct);
                 taskForCoins.IncreaseDifficulty();
                 newCoin = Instantiate(coinPrefab, transform.position, transform.rotation, transform);
                 newCoin.GetComponent<NetworkObject>().Spawn();
                 newCoin.GetComponent<Rigidbody>().useGravity = false;
+            }else
+            {
+                PlaySoundClientRpc(cupSoundType.wrong);
             }
             allInputDisabled____onServerVar = false;
             return;
         }
 
         allInputDisabled____onServerVar = false;
+    }
+
+    [ClientRpc]
+    private void PlaySoundClientRpc(cupSoundType type)
+    {
+        switch (type)
+        {
+            case cupSoundType.reset:
+                AudioManager.PlaySound(AudioType.UnClick);
+                break;
+
+            case cupSoundType.Correct:
+                AudioManager.PlaySound(AudioType.Correct);
+                break;
+
+            case cupSoundType.wrong:
+                AudioManager.PlaySound(AudioType.Wrong);
+                break;
+
+            case cupSoundType.start:
+                AudioManager.PlaySound(AudioType.Start);
+                break;
+        }
+    }
+
+    enum cupSoundType{
+        reset,
+        Correct,
+        wrong,
+        start
     }
 }

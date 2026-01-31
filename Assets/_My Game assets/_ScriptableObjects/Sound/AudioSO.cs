@@ -35,5 +35,7 @@ public enum AudioType
     PanelClose,
     Correct,
     Wrong,
+    Wrong2,
     UnClick,
+    Start,
 }
