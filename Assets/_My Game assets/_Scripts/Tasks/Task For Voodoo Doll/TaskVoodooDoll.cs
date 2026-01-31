@@ -41,6 +41,7 @@ public class TaskVoodooDoll : NetworkBehaviour
 
     private void SpawnNewDoll()
     {
+        AudioManager.PlaySound(AudioType.Correct);
         newVoodooDoll = Instantiate(voodooDollPrefab, this.transform.position, Quaternion.identity, this.transform);
         NetworkObject obj = newVoodooDoll.GetComponent<NetworkObject>();
         obj.Spawn();
@@ -49,6 +50,7 @@ public class TaskVoodooDoll : NetworkBehaviour
         {
             script.activated = true;
             script.fire.Play();
+            script.fireSound.Play();
         }
     }
 }

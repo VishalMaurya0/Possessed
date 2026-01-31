@@ -39,4 +39,5 @@ public enum AudioType
     UnClick,
     Start,
     SmallPoup,
+    Done,
 }

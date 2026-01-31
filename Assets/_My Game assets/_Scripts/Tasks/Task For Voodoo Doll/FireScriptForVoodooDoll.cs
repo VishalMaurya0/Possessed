@@ -12,10 +12,12 @@ public class FireScriptForVoodooDoll : NetworkBehaviour
     [SerializeField] Vector3 centerPos = new Vector3 (68, 0, 68);
     public ParticleSystem fire;
     public bool activated = true;
+    public AudioSource fireSound;
 
     void Start()
     {
         taskVoodooDoll__parent = GetComponentInParent<TaskVoodooDoll>();
+        fireSound = GetComponent<AudioSource>();
     }
 
     private void OnTriggerEnter(Collider collision)
@@ -34,6 +36,8 @@ public class FireScriptForVoodooDoll : NetworkBehaviour
             //Debug.Log("Collided with Doll! Starting despawn and respawn process.");
 
             fire.Stop();
+            AudioManager.PlaySound(AudioType.Done);
+            fireSound.Stop();
 
             NetworkObject doll = collision.gameObject.GetComponent<NetworkObject>();
             Vector3 storedPos = collision.transform.position;
