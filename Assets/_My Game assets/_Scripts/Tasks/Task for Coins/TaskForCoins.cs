@@ -306,6 +306,8 @@ public class TaskForCoins : NetworkBehaviour
         for (int i = 0; i < movingGlasses.Count; i++)
         {
             movingGlasses[i].moving = true;
+            movingGlasses[i].CupAudio.currentPlayTime = currentTimeDifficulty;
+            movingGlasses[i].CupAudio.OnDragStart();   /////sound
         }
     }
 
