@@ -14,14 +14,14 @@ public class TaskForCoins : NetworkBehaviour
     [SerializeField] public float MaxGlassNoItCanHandle = 4;
 
     [Header("Restart Time Settings")]
-    public bool restart = false;
+    public bool fullResetAndRestart = false;
     public bool positionReset = false;
 
 
     [Header("Task Settings")]
     [SerializeField] float startingIterationDifficulty = 6;
     [SerializeField] float startingGlassNoDifficulty = 1;
-    [SerializeField] float startingTimeDifficulty = 1;
+    [SerializeField] public float startingTimeDifficulty = 1;
     [SerializeField] bool gameStarted = false;
     [SerializeField] bool endTheGame = false;
     [SerializeField] public int gameEndsAfetrLastIter = 1;
@@ -55,6 +55,7 @@ public class TaskForCoins : NetworkBehaviour
 
     [Header("References")]
     [SerializeField] public List<CupForCoinTask> cupForCoinTasks = new();
+    //[SerializeField] public List<CupAudio> cupAudios = new();
 
     private void Start()
     {
@@ -65,6 +66,7 @@ public class TaskForCoins : NetworkBehaviour
         {
             InitialPos.Add(glassContainer.transform.GetChild(i).localPosition);
             cupForCoinTasks.Add(glassContainer.transform.GetChild(i).GetComponent<CupForCoinTask>());
+            //cupAudios.Add(glassContainer.transform.GetChild(i).GetComponent<CupAudio>());
         }
 
     }
@@ -76,9 +78,9 @@ public class TaskForCoins : NetworkBehaviour
             Move(i);
         }
 
-        if (restart)
+        if (fullResetAndRestart)
         {
-            restart = false;
+            fullResetAndRestart = false;
             ResetGameAndRestart();
         }
 
@@ -132,9 +134,9 @@ public class TaskForCoins : NetworkBehaviour
         endTheGame = false;
         gameEndsAfetrLastIter = 1;
         
-        currentIterationDifficulty = startingIterationDifficulty;
-        currentGlassNoDifficulty = startingGlassNoDifficulty;
-        currentTimeDifficulty = startingTimeDifficulty;
+        //currentIterationDifficulty = startingIterationDifficulty;
+        //currentGlassNoDifficulty = startingGlassNoDifficulty;
+        //currentTimeDifficulty = startingTimeDifficulty;
         movingGlasses.Clear();
         savedMovingGlasses.Clear();
         nextPlaces.Clear();
@@ -161,9 +163,9 @@ public class TaskForCoins : NetworkBehaviour
         endTheGame = false;
         gameEndsAfetrLastIter = 1;
 
-        currentIterationDifficulty = startingIterationDifficulty;
-        currentGlassNoDifficulty = startingGlassNoDifficulty;
-        currentTimeDifficulty = startingTimeDifficulty;
+        //currentIterationDifficulty = startingIterationDifficulty;
+        //currentGlassNoDifficulty = startingGlassNoDifficulty;
+        //currentTimeDifficulty = startingTimeDifficulty;
         movingGlasses.Clear();
         savedMovingGlasses.Clear();
         nextPlaces.Clear();
@@ -229,11 +231,17 @@ public class TaskForCoins : NetworkBehaviour
             {
                 movingGlasses[i].dirOfRoation = (-1) * savedMovingGlasses[i].dirOfRoation;
             }
+            else
+            {
+                //movingGlasses[i].dirOfRoation = UnityEngine.Random.Range(0, 2) * 2 - 1;
+            }
         }
 
         for (int i = 0; i < movingGlasses.Count; i++)
         {
             movingGlasses[i].moving = true;
+            movingGlasses[i].CupAudio.currentPlayTime = currentTimeDifficulty;
+            movingGlasses[i].CupAudio.OnDragStart();   /////sound
         }
     }
 
@@ -302,7 +310,7 @@ public class TaskForCoins : NetworkBehaviour
     }
 
 
-    private void FillMovingGlassesAtStart(int iter)
+    private void FillMovingGlassesAtStart(int iterCap_ForFindingRecursively)
     {
         if (nextPlaces.Count > 0)
         {
@@ -329,10 +337,10 @@ public class TaskForCoins : NetworkBehaviour
             places[randomID].currentGlass = null;
 
         }
-        else if (iter < 400)
+        else if (iterCap_ForFindingRecursively < 400)
         {
-            Debug.LogWarning($"FillMovingGlassesAtStart: Recursing, attempt {iter + 1}");
-            FillMovingGlassesAtStart(iter + 1);
+            Debug.LogWarning($"FillMovingGlassesAtStart: Recursing, attempt {iterCap_ForFindingRecursively + 1}");
+            FillMovingGlassesAtStart(iterCap_ForFindingRecursively + 1);
         }
         else
         {
@@ -379,7 +387,7 @@ public class TaskForCoins : NetworkBehaviour
 
             if (change.magnitude == 0)
             {
-                restart = true;
+                fullResetAndRestart = true;
                 positionReset = true;
                 Debug.LogError($"[LastIteration] ERROR: Not enough empty places to move all glasses. movingGlasses: {movingGlasses.Count}, nextPlaces: {nextPlaces.Count}");
                 return;
@@ -428,6 +436,7 @@ public class TaskForCoins : NetworkBehaviour
 
                 for (int j = 0; j < savedMovingGlasses.Count; j++)
                 {
+                    //savedMovingGlasses[j].CupAudio.OnDragEnd();
                     savedMovingGlasses[j].time = 0;
                     savedMovingGlasses[j].moving = false;
                     savedMovingGlasses[j].previousPosition = savedMovingGlasses[j].currentPosition;
@@ -477,6 +486,7 @@ public class Glass
     public bool hasRunCodeOnce;
     public float time;
     public int dirOfRoation;
+    public CupAudio CupAudio;
 
     public Glass(GameObject glass, int id, Vector3 initialPos, bool wasLastIterWrong)
     {
@@ -487,6 +497,7 @@ public class Glass
         }
         previousPosition = glassG.transform.localPosition;
         currentPosition = glassG.transform.localPosition;
+        CupAudio = glassG.GetComponent<CupAudio>();
         previousID = id;
         currentID = id;
         dirOfRoation = (0 == UnityEngine.Random.Range(0, 2) ? -1 : 1);

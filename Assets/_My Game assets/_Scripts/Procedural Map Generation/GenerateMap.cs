@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -16,6 +17,8 @@ public class GenerateMap : NetworkBehaviour
     public ItemSpawningSettingsSO itemSpawningSettingsSO;
     public TaskManager taskManager;
     public SeededRandom MYRandom;
+
+    public TMP_Text restartMessageText;
 
 
     [Header("Inputs")]
@@ -58,7 +61,7 @@ public class GenerateMap : NetworkBehaviour
         {
             if (GameDataRuntime.Instance != null && !GameDataRuntime.Instance.useRandomSeed)
                 seed.Value = GameDataRuntime.Instance.seed;
-            else
+            else if (seed.Value == 0)
                 seed.Value = (int)System.DateTime.Now.Ticks;
         }
 
@@ -1311,14 +1314,17 @@ public class GenerateMap : NetworkBehaviour
         if (tries >= totalTries)                       /////  TODO still not tested TODO  /////
         {
             RestartTaskGeneration(triess, totalTriess);
-            //Debug.Log("Restarting...");
+            Debug.Log("Restarting...");
         }
     }
     private void RestartTaskGeneration(int tries, int totalTries)
     {
         if (tries >= totalTries)
         {
-            Debug.LogWarning("NOT GENERATED!!!!"); return;
+            Debug.LogError("NOT GENERATED!!!!");
+            restartMessageText.gameObject.SetActive(true);
+            restartMessageText.text = $"Please Start with another seed because Tasks are generated well in the Map.\n Current Seed: {seed.Value}";
+            return;
         }
         //========= All Rooms =========//
         List<Room> allRooms = new(rooms);

@@ -8,6 +8,7 @@ public class CupForCoinTask : NetworkBehaviour
     Animator animator;
     [SerializeField] GameObject coinPrefab;
     [SerializeField] GameObject newCoin;
+    [SerializeField] CupAudio cupAudio;
 
 
     [Header("Cup Settings")]
@@ -36,6 +37,7 @@ public class CupForCoinTask : NetworkBehaviour
 
     private void Start()
     {
+        cupAudio = GetComponent<CupAudio>();
         renderar = GetComponent<MeshRenderer>();
         taskForCoins = GetComponentInParent<TaskForCoins>();
         animator = GetComponent<Animator>();
@@ -61,7 +63,7 @@ public class CupForCoinTask : NetworkBehaviour
             {
                 time.Value = 0;
                 start.Value = false;
-                taskForCoins.restart = true;
+                taskForCoins.fullResetAndRestart = true;
             }
         }
 
@@ -157,6 +159,7 @@ public class CupForCoinTask : NetworkBehaviour
 
         if (!clickable.Value)
         {
+            //////reset
             foreach (var cup in taskForCoins.cupForCoinTasks)
             {
                 cup.clickable.Value = true;
