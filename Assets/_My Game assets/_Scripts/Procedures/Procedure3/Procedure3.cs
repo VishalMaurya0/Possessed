@@ -79,6 +79,9 @@ public class SpecialProcedure : NetworkBehaviour   //+++++++++ THIS PROCEDURE IS
     [ServerRpc(RequireOwnership = false)]
     private void SpawnPinServerRpc()
     {
+        AudioManager.PlaySoundClientRpc(AudioType.Correct);
+
+
         procedureCompleted.Value = true;
         Pin.gameObject.SetActive(true);
 
@@ -103,6 +106,7 @@ public class SpecialProcedure : NetworkBehaviour   //+++++++++ THIS PROCEDURE IS
 
     private void WrongInput()
     {
+        AudioManager.PlaySoundClientRpc(AudioType.Wrong);
         procedureCompletion.totalItemsNeeded.addedAmount[0] = 0;
         procedureCompletion.currentOrder.Value = 0;
         visualsTrigger[0].trigger[0] = false;

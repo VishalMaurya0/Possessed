@@ -40,4 +40,7 @@ public enum AudioType
     Start,
     SmallPoup,
     Done,
+    HorroRiser,
+    MysticalClick,
+    ScreamJumpScare,
 }

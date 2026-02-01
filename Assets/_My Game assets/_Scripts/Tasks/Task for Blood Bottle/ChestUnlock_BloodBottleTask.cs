@@ -47,6 +47,7 @@ public class ChestUnlock_BloodBottleTask : NetworkBehaviour
             currentCode[i] = statues[i].value.Value;
         }
         CheckForCorrectCode();
+        AudioManager.PlaySoundClientRpc(AudioType.SmallPoup);
     }
 
     private void CheckForCorrectCode()
@@ -59,11 +60,8 @@ public class ChestUnlock_BloodBottleTask : NetworkBehaviour
             }
         }
         //TODO TODO Unlock the chest here TODO TODO //
-        Debug.Log
-            
-            
-            
-            ("Chest Unlock");
+        Debug.Log("Chest Unlock");
+        AudioManager.PlaySound(AudioType.Correct);
 
         GameObject spawned = Instantiate(spawnedObject, this.transform.position, Quaternion.identity);
         NetworkObject obj = spawned.GetComponent<NetworkObject>();

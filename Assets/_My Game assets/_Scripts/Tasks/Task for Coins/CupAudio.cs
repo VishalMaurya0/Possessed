@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using Unity.Netcode;
 
 public class CupAudio : MonoBehaviour
 {
@@ -19,8 +20,8 @@ public class CupAudio : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
 
-    // Call this when drag starts
-    public void OnDragStart()
+    [ClientRpc]
+    public void OnDragStartClientRpc()
     {
         if (audioSource.clip == null) return;
 
@@ -36,7 +37,7 @@ public class CupAudio : MonoBehaviour
         if (maxStart <= 0f) return;
 
         audioSource.time = UnityEngine.Random.Range(0f, maxStart);
-        audioSource.pitch = Random.Range(0.95f, 1.05f);
+        audioSource.pitch = Random.Range(0.8f, 1.2f);
         audioSource.Play();
 
         playRoutine = StartCoroutine(StopAfterTime(currentPlayTime));
@@ -44,7 +45,7 @@ public class CupAudio : MonoBehaviour
 
 
     // Call this when drag ends
-    public void OnDragEnd()
+    void OnDragEnd()
     {
         if (playRoutine != null)
         {

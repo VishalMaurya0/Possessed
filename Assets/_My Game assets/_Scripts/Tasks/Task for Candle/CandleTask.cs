@@ -56,7 +56,7 @@ public class CandleTask : NetworkBehaviour
 
     public void StartGame()
     {
-        Debug.LogWarning("hjk");
+        //Debug.LogWarning("hjk");
         gameStarted = true;
         StartCoroutine(StartIteration());
     }
@@ -89,18 +89,22 @@ public class CandleTask : NetworkBehaviour
         {
             activationCode[0].active.Value = true;
         }
+
+        AudioManager.PlaySoundClientRpc(AudioType.SmallPoup, 1, 1.4f);
     }
 
     public void Correct()
     {
         activationCode.RemoveAt(0);
         iterationDone++;
+        AudioManager.PlaySoundClientRpc(AudioType.SmallPoup);
         if (activationCode.Count > 0)
         {
             activationCode[0].active.Value = true;
         }
         else if (currentIteration >= noOfIteration && iterationDone >= noOfIteration)
         {
+            AudioManager.PlaySoundClientRpc(AudioType.Correct);
             gameStarted = false;
             newCandle = Instantiate(candleItemPrefab, transform.position + new Vector3(0, 5, 0),  transform.rotation);
             NetworkObject obj = newCandle.GetComponent<NetworkObject>();
@@ -113,6 +117,8 @@ public class CandleTask : NetworkBehaviour
 
     internal void InCorrect()
     {
+        AudioManager.PlaySoundClientRpc(AudioType.Wrong);
+
         StopAllCoroutines();
         activationCode.Clear();
         currentIteration = 0;

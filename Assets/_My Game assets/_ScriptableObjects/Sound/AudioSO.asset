@@ -76,9 +76,14 @@ MonoBehaviour:
     mixer: {fileID: 0}
   - Name: GhostRoar
     Type: 8
-    audioClips: []
+    audioClips:
+    - {fileID: 8300000, guid: 853caf02b8d3bd74fbea8b72eb8a1244, type: 3}
+    - {fileID: 8300000, guid: d0f3dfe91849a924584f21c9168f301a, type: 3}
+    - {fileID: 8300000, guid: f538082b3ca8a92419e6076e2aa1efd4, type: 3}
+    - {fileID: 8300000, guid: 6603210ef5a586347816858859d95997, type: 3}
+    - {fileID: 8300000, guid: 72f1aaff17cf5e94fa9bdbaa31af7a73, type: 3}
     volume: 1
-    mixer: {fileID: 0}
+    mixer: {fileID: -2588131963919112671, guid: f5089ba0f52e74d4eaafcdd04075c5d2, type: 2}
   - Name: Click
     Type: 9
     audioClips:
@@ -139,3 +144,29 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 45483dff06e277247bb091bf03ca7435, type: 3}
     volume: 1
     mixer: {fileID: 7435635503411598914, guid: f5089ba0f52e74d4eaafcdd04075c5d2, type: 2}
+  - Name: HorroRiser
+    Type: 19
+    audioClips:
+    - {fileID: 8300000, guid: 188bc4911d03ff244959d4b35992d40d, type: 3}
+    - {fileID: 8300000, guid: 819bd45e2e54dab4b8e090aa5f19aad3, type: 3}
+    - {fileID: 8300000, guid: 5bc16cf4136d62c4ea34c68fa0df3ad5, type: 3}
+    - {fileID: 8300000, guid: 1f1795b9e554a794eabe3429053fe8c6, type: 3}
+    - {fileID: 8300000, guid: 9240a9a22fe92114896d4a1c677e7b50, type: 3}
+    - {fileID: 8300000, guid: 1277a7630e1c300499660e308f4f619b, type: 3}
+    - {fileID: 8300000, guid: fa1e257eb461444499ba78ef69887799, type: 3}
+    - {fileID: 8300000, guid: 4ff0049cb52de7145a9c2cba873c9502, type: 3}
+    - {fileID: 8300000, guid: 408012649bbc656438ceb110735f9137, type: 3}
+    volume: 1
+    mixer: {fileID: -4854511883985237579, guid: f5089ba0f52e74d4eaafcdd04075c5d2, type: 2}
+  - Name: MysticalClick
+    Type: 20
+    audioClips:
+    - {fileID: 8300000, guid: 27da20a8dc6faf446ab1b346dd4922eb, type: 3}
+    - {fileID: 8300000, guid: 2af2e15520c942f4c84add00ec2b3d0c, type: 3}
+    volume: 1
+    mixer: {fileID: 6612303129726730165, guid: f5089ba0f52e74d4eaafcdd04075c5d2, type: 2}
+  - Name: ScreamJumpScare
+    Type: 21
+    audioClips: []
+    volume: 1
+    mixer: {fileID: -2588131963919112671, guid: f5089ba0f52e74d4eaafcdd04075c5d2, type: 2}

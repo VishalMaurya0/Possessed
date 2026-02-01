@@ -101,12 +101,18 @@ public class BackgroundMusic : MonoBehaviour
         {
             yield return new WaitForSeconds(Random.Range(stingerRateMin, stingerRateMax));
 
-            bool isScream = Random.value > 0.8f;
+            bool isScream = Random.value > 0.7f;
+            bool isRiser = Random.value > 0.96f;
 
             AudioClip clipToPlay;
             float vol = 1f;
 
-            if (isScream && screamClips.Length > 0)
+            if (isRiser)
+            {
+                AudioManager.PlaySoundClientRpc(AudioType.HorroRiser);
+                continue;
+            }
+            else if (isScream && screamClips.Length > 0)
             {
                 clipToPlay = screamClips[Random.Range(0, screamClips.Length)];
                 vol = 0.8f;

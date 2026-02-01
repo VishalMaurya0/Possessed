@@ -220,6 +220,8 @@ public class ProcedureCompletion : ProcedureBase
             if (!GameManager.Instance.completedProcedure.ContainsValue(procedureDataSO.procedure))
                 GameManager.Instance.completedProcedure.Add(NetworkManager.Singleton.ConnectedClients[rpcParams.Receive.SenderClientId].PlayerObject.gameObject, procedureDataSO.procedure);
             //Debug.Log("All orders completed!");
+
+            AudioManager.PlaySoundClientRpc(AudioType.HorroRiser);
         }
 
         

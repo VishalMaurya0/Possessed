@@ -241,7 +241,7 @@ public class TaskForCoins : NetworkBehaviour
         {
             movingGlasses[i].moving = true;
             movingGlasses[i].CupAudio.currentPlayTime = currentTimeDifficulty;
-            movingGlasses[i].CupAudio.OnDragStart();   /////sound
+            movingGlasses[i].CupAudio.OnDragStartClientRpc();   /////sound
         }
     }
 
@@ -307,7 +307,7 @@ public class TaskForCoins : NetworkBehaviour
         {
             movingGlasses[i].moving = true;
             movingGlasses[i].CupAudio.currentPlayTime = currentTimeDifficulty;
-            movingGlasses[i].CupAudio.OnDragStart();   /////sound
+            movingGlasses[i].CupAudio.OnDragStartClientRpc();   /////sound
         }
     }
 

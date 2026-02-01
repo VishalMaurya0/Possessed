@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -40,6 +41,12 @@ public class AudioManager : MonoBehaviour
             instance.audioSource.outputAudioMixerGroup = soundList.mixer;
             instance.audioSource.PlayOneShot(randomClip, volume * soundList.volume);
         }
+    }
+
+    [ClientRpc]
+    public static void PlaySoundClientRpc(AudioType sound, float volume = 1, float pitch = -1)
+    {
+        PlaySound(sound, null, volume, pitch);
     }
 
     public static AudioClip FindAudioFX(AudioType sound, out SoundFXList soundFX)

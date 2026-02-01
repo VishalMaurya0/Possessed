@@ -12,5 +12,17 @@ public class Procedure2_Ghost : MonoBehaviour
     public void GhostSpannedAndJailed()
     {
         procedure2Visuals.Jailed();
+        
+        //AudioManager.PlaySound(AudioType.GhostRoar);
+    }
+
+    public void JailSound()
+    {
+        AudioManager.PlaySound(AudioType.MysticalClick);
+    }
+    
+    public void GhostRoarSound()
+    {
+        AudioManager.PlaySound(AudioType.GhostRoar);
     }
 }

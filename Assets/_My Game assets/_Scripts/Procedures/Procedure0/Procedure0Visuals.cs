@@ -8,6 +8,7 @@ public class Procedure0Visuals : NetworkBehaviour
     
     public ProcedureCompletion procedureCompletion;
     public List<VisualsTrigger> visualsTrigger;
+    public AudioSource sourceFire;
 
     private void Start()
     {
@@ -36,6 +37,8 @@ public class Procedure0Visuals : NetworkBehaviour
         }
         if (i == 1)
         {
+            sourceFire.Play();
+            sourceFire.pitch = 0.5f;
             transform.GetChild(procedureCompletion.totalItemsNeeded.itemNeeded[i-1].requiredAmount).gameObject.SetActive(true);
         }
     }
