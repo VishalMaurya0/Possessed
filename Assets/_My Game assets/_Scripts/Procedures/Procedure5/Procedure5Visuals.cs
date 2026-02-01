@@ -9,6 +9,7 @@ public class Procedure5Visuals : NetworkBehaviour
     public GameObject blood;
     public GameObject ghost;
     public GameObject fire;
+    public AudioSource fireSource;
 
     [Header("Properties")]
     [ColorUsage(true, true)] public Color fadedColor;
@@ -65,6 +66,8 @@ public class Procedure5Visuals : NetworkBehaviour
         if (i == 3)
         {
             fire.SetActive(true);
+            fireSource.Play();
+            fireSource.pitch = 0.4f;
         }
     }
 }

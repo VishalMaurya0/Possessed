@@ -1027,7 +1027,7 @@ public class GenerateMap : NetworkBehaviour
 
             if (IsServer)
             {
-                procedureLocation.ProcedureCompletion.procedurePrefab.transform.position = pos;
+                procedureLocation.ProcedureCompletion.procedurePrefab.transform.position = new (pos.x, procedureLocation.ProcedureCompletion.procedurePrefab.transform.position.y, pos.z);
                 //TODO Rotation//
             }
         }
