@@ -261,6 +261,8 @@ public class GhostAI : NetworkBehaviour
             if (player.TryGetComponent<FearMeter>(out var fearMeter))
             {
                 fearMeter.instantPossess_Trigger = true;
+                
+                AudioManager.PlaySoundClientRpc(AudioType.ScreamJumpScare);
             }
 
             ChangeState(RoamingState);

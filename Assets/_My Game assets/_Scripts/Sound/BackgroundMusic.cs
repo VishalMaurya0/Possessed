@@ -101,8 +101,9 @@ public class BackgroundMusic : MonoBehaviour
         {
             yield return new WaitForSeconds(Random.Range(stingerRateMin, stingerRateMax));
 
-            bool isScream = Random.value > 0.7f;
-            bool isRiser = Random.value > 0.96f;
+            float random = Random.value;
+            bool isScream = random > 0.7f;
+            bool isRiser = random > 0.985f;
 
             AudioClip clipToPlay;
             float vol = 1f;

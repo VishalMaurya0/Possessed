@@ -144,4 +144,27 @@ public class FireScriptForVoodooDoll : NetworkBehaviour
         }
         return true;
     }
+
+    public bool TeleportDollHidden(NetworkObject doll)
+    {
+        if (!IsServer || doll == null)
+            return false;
+
+        if (FindNavMeshPosition(centerPos, out Vector3 result))
+        {
+            doll.transform.position = result;
+            doll.transform.rotation = Quaternion.identity;
+
+            NavMeshAgent agent = doll.GetComponent<NavMeshAgent>();
+            if (agent != null)
+            {
+                agent.Warp(result);
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
 }

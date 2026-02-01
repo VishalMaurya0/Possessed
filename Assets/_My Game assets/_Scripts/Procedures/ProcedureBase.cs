@@ -10,6 +10,7 @@ public class ProcedureBase : NetworkBehaviour
     public List<ProcedureBase> allProcedures = new();
 
     public GameObject CompletionVFX;
+    public float vfxTime = 2;
     public List<Vector3> position = new();
     public List<Vector3> rotation = new();
 
@@ -39,7 +40,7 @@ public class ProcedureBase : NetworkBehaviour
         // Stop new particles from spawning
         vfx.SetFloat("SpawnRate", 0);
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(vfxTime);
         Destroy(obj);
     }
 

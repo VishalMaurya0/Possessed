@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
@@ -11,6 +12,7 @@ public class DollAI : NetworkBehaviour
     public PlayerDataSO[] playerDataSOs;
     public NavMeshAgent agent;
     public Animator animator;
+    public DollSounds dollSounds;
 
     [Header("Settings")]
     public NetworkVariable<bool> reversed = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
@@ -66,7 +68,7 @@ public class DollAI : NetworkBehaviour
     private void UpdateConnectedPlayers()
     {
         var clients = GameManager.Instance.connectedClientsData;
-
+        
         if (players == null || players.Count != clients.Count)
         {
             players.Clear();
@@ -150,7 +152,9 @@ public class DollAI : NetworkBehaviour
         {
             if (isLookingAtMe)
             {
+                dollSounds.StartSound();
                 currentState = DollState.Chasing;
+                AudioManager.PlaySoundClientRpc(AudioType.DollCrack);
             }
         }
         else
@@ -164,7 +168,9 @@ public class DollAI : NetworkBehaviour
             // If they see me (IsPlayerInSight is true) but AREN'T looking -> Chase.
             else
             {
+                dollSounds.StartSound();
                 currentState = DollState.Chasing;
+                AudioManager.PlaySoundClientRpc(AudioType.DollCrack);
             }
         }
     }
@@ -236,6 +242,7 @@ public class DollAI : NetworkBehaviour
         if (shouldUnfreeze)
         {
             currentState = DollState.Chasing;
+            AudioManager.PlaySoundClientRpc(AudioType.DollCrack);
             agent.isStopped = false;
             animator.speed = 0.6f;
         }
@@ -257,12 +264,21 @@ public class DollAI : NetworkBehaviour
         }
 
         currentState = DollState.Idle;
+        AudioManager.PlaySoundClientRpc(AudioType.DollAttack);
+
+        TeleportDoll();
+    }
+
+    private void TeleportDoll()
+    {
+            TaskVoodooDoll.fireScriptForVoodooDolls[0].TeleportDollHidden(this.GetComponent<NetworkObject>());
     }
 
     IEnumerator FreezeRoutine()
     {
         if (currentState == DollState.Frozen || isFreezing) yield break;
 
+        dollSounds.StopSound();
         isFreezing = true;
 
         if (reactionTimeOfDoll > 0)

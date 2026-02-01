@@ -13,6 +13,7 @@ public class ProcedureCompletion : ProcedureBase
     public GameObject procedurePrefab;
     public triggerProcedurePointScript triggerScript;
     public Animator winLoseAnimator;
+    public GameObject winLoseContinueButton;
     public GameObject safePointPrefab; 
 
     [Header("Procedure Specific Variables")]
@@ -203,6 +204,7 @@ public class ProcedureCompletion : ProcedureBase
         }
 
         ShowVFXClientRPC();
+        SpawnSafePointServerRpc((int)procedureBase.vfxTime);
         currentOrder.Value++;
         //Debug.Log($"Order {currentOrder.Value - 1} completed. Moving to order {currentOrder.Value}.");
 
@@ -295,6 +297,7 @@ public class ProcedureCompletion : ProcedureBase
                 GameManager.Instance.OnWinOrLose(true, false);
             }else
             {
+                winLoseContinueButton.SetActive(true);
                 GameManager.Instance.OnWinOrLose(false, false);
             }
         }

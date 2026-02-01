@@ -10,7 +10,7 @@ public class TaskVoodooDoll : NetworkBehaviour
 
     [SerializeField] int dollsNeeded = 3;
     public int dollsAdded = 0;
-    FireScriptForVoodooDoll[] fireScriptForVoodooDolls = new FireScriptForVoodooDoll[3];
+    public static FireScriptForVoodooDoll[] fireScriptForVoodooDolls = new FireScriptForVoodooDoll[3];
 
     public int dollsInMap = 0;
     public int dollsToSpawnInMap = 17;

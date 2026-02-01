@@ -43,4 +43,6 @@ public enum AudioType
     HorroRiser,
     MysticalClick,
     ScreamJumpScare,
+    DollCrack,
+    DollAttack,
 }

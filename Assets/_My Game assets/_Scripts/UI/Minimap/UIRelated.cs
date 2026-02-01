@@ -20,6 +20,7 @@ public class UIRelated : MonoBehaviour
 
     [Header("Animator References")]
     public Animator MinimapAnim;
+    public Animator WinLosePanelAnimator;
 
     [Header("Values")]
     public bool isFullMiniMapShowing;
@@ -101,6 +102,14 @@ public class UIRelated : MonoBehaviour
         }else
         {
             AudioManager.PlaySound(AudioType.PanelClose);
+        }
+    }
+
+    public void LoadWinLosePanel(bool Load)
+    {
+        if (!Load)
+        {
+            WinLosePanelAnimator.SetTrigger("Deload");
         }
     }
 
