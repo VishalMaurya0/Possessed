@@ -41,19 +41,44 @@ public class TabPanelAnimator : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.J))
         {
-            animator.SetBool("Load", !animator.GetBool("Load"));
-            if (animator.GetBool("Load"))
+            JPress();
+        }
+
+        
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            JPress(true);
+        }
+
+        
+    }
+
+    public void JPress(bool esc = false)
+    {
+        if (esc) 
+        {
+            animator.SetBool("Load", false);
+            
             {
-                GameManager.Instance.lockCurser = false;
-                GameManager.Instance.handlePlayerLookWithMouse = false;
-                AudioManager.PlaySound(AudioType.PanelOpen);
-            }
-            else
-            {
-                GameManager.Instance.lockCurser = true;
-                GameManager.Instance.handlePlayerLookWithMouse = true;
+                //GameManager.Instance.lockCurser = true;
+                //GameManager.Instance.handlePlayerLookWithMouse = true;
                 AudioManager.PlaySound(AudioType.PanelClose);
             }
+
+            return;
+        }
+        animator.SetBool("Load", !animator.GetBool("Load"));
+        if (animator.GetBool("Load"))
+        {
+            GameManager.Instance.lockCurser = false;
+            GameManager.Instance.handlePlayerLookWithMouse = false;
+            AudioManager.PlaySound(AudioType.PanelOpen);
+        }
+        else
+        {
+            GameManager.Instance.lockCurser = true;
+            GameManager.Instance.handlePlayerLookWithMouse = true;
+            AudioManager.PlaySound(AudioType.PanelClose);
         }
     }
 

@@ -18,6 +18,7 @@ public class MenuManager : NetworkBehaviour
     [Header("Animators")]
     public Animator mainMenuAnimator;
     public Animator MultiplayerMenuAnimator;
+    public Animator CreditsAnimator;
     public Animator HostGamePanelAnimator;
     public Animator JoinGamePanelAnimator;
     public Animator LobbyPanelAnimator;
@@ -101,6 +102,7 @@ public class MenuManager : NetworkBehaviour
             LoadMultiplayerMenu(false);
             LoadJoinGamePanel(false);
             LoadLobbyPanel(false);
+            LoadCredits(false);
             setPlayerName.LeaveCurrentSession();
         }
 //#endif
@@ -115,8 +117,13 @@ public class MenuManager : NetworkBehaviour
     {
         MultiplayerMenuAnimator.SetBool("Load", load);
     }
-    
-    
+
+    public void LoadCredits(bool load)
+    {
+        CreditsAnimator.SetBool("Load", load);
+    }
+
+
     public void LoadHostGamePanel(bool load)
     {
         HostGamePanelAnimator.SetBool("Load", load);
