@@ -46,6 +46,7 @@ public class GameManager : NetworkBehaviour
     public List<PhotoData> collectedPhotos = new();
     public float timeInSecElapsed = 0;
     Coroutine HelpInstructionCorotine;
+    public float mouseSensitivity = 2;
 
 
     [Header("Lock And Unlock")]

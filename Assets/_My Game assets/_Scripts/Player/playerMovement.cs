@@ -120,6 +120,8 @@ public class PlayerController : NetworkBehaviour
 
         if (playerData != null) ApplyDataSO();
 
+        lookSensitivity = GameManager.Instance.mouseSensitivity;
+
         //if (IsOwner)
         //{ 
         //    NetworkObject playerNetObj = playerCamera.GetComponent<NetworkObject>();
@@ -160,6 +162,7 @@ public class PlayerController : NetworkBehaviour
     void Update()
     {
         float currentSpeed = 0f;
+
         if (IsOwner)
         {
             HandleCrouch();

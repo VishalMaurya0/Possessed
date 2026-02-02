@@ -21,6 +21,7 @@ public class UIRelated : MonoBehaviour
     [Header("Animator References")]
     public Animator MinimapAnim;
     public Animator WinLosePanelAnimator;
+    public Animator SettingsAnimator;
 
     [Header("Values")]
     public bool isFullMiniMapShowing;
@@ -52,6 +53,11 @@ public class UIRelated : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.Tab) || timeLeftToShowMiniMap <= 0)
         {
             LoadMinimapPanel(false);
+        }
+
+        if (Input.GetKeyUp(KeyCode.Escape))
+        {
+            LoadSettingsPanel(true);
         }
 
         if (isFullMiniMapShowing)
@@ -89,6 +95,31 @@ public class UIRelated : MonoBehaviour
 
 
         FullMapText.text = $"Full Map : {Mathf.Round(fractionTime * 10 * 100f) / 100f}";
+    }
+
+    public void LoadSettingsPanel(bool load)
+    {
+        if (load)
+        {
+            if (!SettingsAnimator.GetBool("Load"))
+            {
+                AudioManager.PlaySound(AudioType.PanelOpen);
+                SettingsAnimator.SetBool("Load", true);
+
+                GameManager.Instance.lockCurser = false;
+                GameManager.Instance.handlePlayerLookWithMouse = false;
+            }
+        }
+        else
+        {
+                AudioManager.PlaySound(AudioType.PanelClose);
+                SettingsAnimator.SetBool("Load", false);
+
+            GameManager.Instance.lockCurser = true;
+            GameManager.Instance.handlePlayerLookWithMouse = true;
+
+        }
+
     }
 
     public void LoadMinimapPanel(bool Load)
