@@ -1436,18 +1436,16 @@ public class GenerateMap : NetworkBehaviour
         int impIndex = GameManager.Instance.selectedProceduresIndex[2];
 
         int[] countsPerProc = new int[8];
-        countsPerProc[impIndex] = maxPhotosOfSelectedProc;
+        countsPerProc[impIndex] = MYRandom.Range(limit + 1, maxPhotosOfSelectedProc);
 
-        int safety = 1000;
-        while (safety --> 0)
+        for (int i = 0; i < countsPerProc.Length; i++)
         {
-            int randIndex = MYRandom.Range(0, 8);
-            if (randIndex != impIndex && countsPerProc[randIndex] < limit)
-            {
-                countsPerProc[randIndex]++;
-                if (countsPerProc[randIndex] >= limit) break;
-            }
+            if (i == impIndex) continue;
+
+            int randVal = MYRandom.Range(0, limit + 1);
+            countsPerProc[i] = randVal;
         }
+
 
         for (int pIndex = 0; pIndex < countsPerProc.Length; pIndex++)
         {

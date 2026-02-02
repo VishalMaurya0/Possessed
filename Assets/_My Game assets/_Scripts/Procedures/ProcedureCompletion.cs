@@ -97,10 +97,10 @@ public class ProcedureCompletion : ProcedureBase
 
     void Update()
     {
-        if (isShuttingDown || NetworkManager.Singleton == null || !NetworkManager.Singleton.IsListening)
-        {
-            return;
-        }
+        //if (isShuttingDown || NetworkManager.Singleton == null || !NetworkManager.Singleton.IsListening)
+        //{
+        //    return;
+        //}
 
         if (temp)
         {
@@ -130,11 +130,13 @@ public class ProcedureCompletion : ProcedureBase
             }
         }
 
+                Debug.Log("in progres...");
         if (triggerScript.inProgress)
         {
+                Debug.Log("in progres...");
             if (triggerScript.inProgress && Input.GetMouseButtonDown(0) && timer.Value <= 0)
             {
-                //Debug.Log("Input detected. Checking inventory...");
+                Debug.Log("Input detected. Checking inventory...");
 
                 if (GameManager.Instance.ownerPlayer == null)
                 {
