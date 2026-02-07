@@ -11,6 +11,7 @@ public class GhostData : ScriptableObject
     public float timeBetweenHuntDuration = 250f;
     public float timeBetweenHuntDurationRange = 100f;
     public float thresholdVelocity = 0.2f;
+    public float viewAngle = 90;
 
 
 

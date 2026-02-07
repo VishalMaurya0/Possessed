@@ -284,7 +284,7 @@ public class SafePointArea : NetworkBehaviour
         else
         {
             // It's a new sound, so we swap and play
-        Debug.LogError("csdfghj");
+        //Debug.LogError("csdfghj");
             source.clip = targetClip;
             source.pitch = targetPitch;
             source.loop = true; // State sounds should usually loop

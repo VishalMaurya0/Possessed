@@ -47,13 +47,15 @@ public class GhostHuntingState : GhostState
 
         baseIgnorance = ghostAI.ghostData.baseIgnorance;
         posChaseIgnorance = ghostAI.ghostData.posChaseIgnorance;
+
+        PlaySoundClientRpc(true);
     }
 
     float checkPlayerVisibilityTimer = 0;
     public override void UpdateState()
     {
         currentGhostHuntSubState.UpdateState();
-        if (checkPlayerVisibilityTimer > 0.5f)
+        if (checkPlayerVisibilityTimer > 0.0f)
         {
             checkPlayerVisibilityTimer = 0;
             if (ghostAI.CheckPlayerVisibility(out KeyValuePair<ulong, GameObject> player) && !sightChasing)
@@ -75,6 +77,7 @@ public class GhostHuntingState : GhostState
         {
             ignoreNoises -= ghostAI.ghostData.noiseForgettingRate * Time.deltaTime;
         }
+
     }
 
 
@@ -82,9 +85,23 @@ public class GhostHuntingState : GhostState
     {
         currentGhostHuntSubState.ExitState();
         ghostAI.isHunting = false;
+
+        PlaySoundClientRpc(false);
     }
+
+    [ClientRpc]
+    private void PlaySoundClientRpc(bool play)
+    {
+        if (play)
+            ghostAI.intenseMusic_hunting.Play();
+        else
+            ghostAI.intenseMusic_hunting.Stop();
+
+    }
+
     public void SetCurrentHuntSubState(GhostState state)
     {
+        ghostAI.ghostDebugText2.text = state.ToString();
         currentGhostHuntSubState?.ExitState();
         currentGhostHuntSubState = state;
         currentGhostHuntSubState?.EnterState();
@@ -328,7 +345,7 @@ public class HuntSightChaseState : GhostState
     }
 
     float timer;
-    float timeToCheckPlayerVisibility = 1f;
+    float timeToCheckPlayerVisibility = 0f; //removed bcoz already added in func
 
     float timerForLoosingSeenPlayer = 0;
     float timeForLoosingSeenPlayer = 0.2f;

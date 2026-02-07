@@ -45,4 +45,5 @@ public enum AudioType
     ScreamJumpScare,
     DollCrack,
     DollAttack,
+    Notefication,
 }

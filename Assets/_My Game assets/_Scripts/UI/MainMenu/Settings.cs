@@ -24,6 +24,9 @@ public class Settings : MonoBehaviour
     public Slider environmentSlider;
     //public Slider uiSlider;
 
+    [Header("seed")]
+    public TMP_Text seedText;
+
     const float MIN_DB = -80f;
 
 
@@ -109,6 +112,12 @@ public class Settings : MonoBehaviour
         //SetupResolutions();
         LoadGraphicsSettings();
         LoadAllAudio();
+    }
+
+
+    private void Start()
+    {
+        seedText.text = $"Seed - {GameManager.Instance.seed}";
     }
 
 

@@ -185,6 +185,7 @@ GameObject:
   - component: {fileID: 1223716669143536621}
   - component: {fileID: 3309939299963303573}
   - component: {fileID: 8706284336120718899}
+  - component: {fileID: 1446272459466953173}
   m_Layer: 11
   m_Name: EMFDetectorDummy
   m_TagString: Untagged
@@ -292,6 +293,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  MatchItemDataToInventory: {fileID: 0}
   nib: {fileID: 5158875642864266091}
   EMFReadings: 
   power: []
@@ -330,6 +332,20 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.14
   m_Center: {x: 0.07, y: 0.22, z: 0.25}
+--- !u!114 &1446272459466953173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5943296780038948765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68d18348ef7fe7440894dd9f768b29d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dsfci: {fileID: 0}
+  currentPlayerID: 0
 --- !u!1 &6919428475708290453
 GameObject:
   m_ObjectHideFlags: 0

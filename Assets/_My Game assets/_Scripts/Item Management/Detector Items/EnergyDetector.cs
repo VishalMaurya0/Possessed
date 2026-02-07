@@ -16,6 +16,7 @@ public class EnergyDetector : NetworkBehaviour
     public int[] energyDetectorReadings;
 
     [Header("References")]
+    public MatchItemDataToInventory MatchItemDataToInventory;
     public ItemPickup itemPickup;
     public ItemData itemData;
     public Inventory inventory;
@@ -33,6 +34,7 @@ public class EnergyDetector : NetworkBehaviour
     {
         StartCoroutine(NextFrame());
         GameManager.onServerStarted += GameManager_onServerStarted;
+        MatchItemDataToInventory = GetComponent<MatchItemDataToInventory>();
     }
 
     private void GameManager_onServerStarted()
@@ -70,6 +72,10 @@ public class EnergyDetector : NetworkBehaviour
                 itemData.isOn = !itemData.isOn;
                 AudioManager.PlaySound(AudioType.Click);
             }
+
+
+            if (MatchItemDataToInventory)
+                MatchItemDataToInventory.UpdateItemData();
         }
 
         if (itemData.isOn)

@@ -167,7 +167,9 @@ MonoBehaviour:
     mixer: {fileID: 6612303129726730165, guid: f5089ba0f52e74d4eaafcdd04075c5d2, type: 2}
   - Name: ScreamJumpScare
     Type: 21
-    audioClips: []
+    audioClips:
+    - {fileID: 8300000, guid: a9e1cb1a253ac984993bab572bd766ae, type: 3}
+    - {fileID: 8300000, guid: f9e4adb3b438b5b499c00a9d951c14b4, type: 3}
     volume: 1
     mixer: {fileID: -2588131963919112671, guid: f5089ba0f52e74d4eaafcdd04075c5d2, type: 2}
   - Name: DollCrack
@@ -182,3 +184,9 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 544165dc70c7c35459b1d68c2302873b, type: 3}
     volume: 1
     mixer: {fileID: 477428136141260673, guid: f5089ba0f52e74d4eaafcdd04075c5d2, type: 2}
+  - Name: Notefication
+    Type: 24
+    audioClips:
+    - {fileID: 8300000, guid: eb76e566b3b51d741afb3a679c32044a, type: 3}
+    volume: 1
+    mixer: {fileID: 7435635503411598914, guid: f5089ba0f52e74d4eaafcdd04075c5d2, type: 2}

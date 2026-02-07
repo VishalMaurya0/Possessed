@@ -14,6 +14,7 @@ public class GhostAI : NetworkBehaviour
     [HideInInspector]public NavMeshAgent navMeshAgent;  //should not reference this directly in inspectors
     public Animator animator;
     public GhostData ghostData;
+    public AudioSource intenseMusic_hunting;
 
     // State flags
     public bool isHunting;
@@ -30,6 +31,9 @@ public class GhostAI : NetworkBehaviour
     private KeyValuePair<ulong, GameObject> _cachedTargetPlayer; // Store the last known target
 
     public TMP_Text text;
+    [Header("Ghost Debug texts")]
+    public TMP_Text ghostDebugText1;
+    public TMP_Text ghostDebugText2;
 
     int visibilityLayerMask; 
     
@@ -108,6 +112,7 @@ public class GhostAI : NetworkBehaviour
 
     public void ChangeState(GhostState newState)
     {
+        ghostDebugText1.text = newState.ToString();
         Currentstate?.ExitState();
         Currentstate = newState;
         Currentstate?.EnterState();
@@ -151,7 +156,8 @@ public class GhostAI : NetworkBehaviour
             if (!clientData.isAlive || clientData.playerGameobject == null) continue;
 
             Vector3 targetPos = clientData.playerGameobject.transform.position;
-            Vector3 toPlayer = targetPos - transform.position;
+            Vector3 eyePos = transform.position + ghostData.eyePosition;
+            Vector3 toPlayer = targetPos - eyePos;
             float distSqr = toPlayer.sqrMagnitude;
             float lookDistSqr = ghostData.ghostLookDistance * ghostData.ghostLookDistance;
 
@@ -166,19 +172,63 @@ public class GhostAI : NetworkBehaviour
             Vector3 lookDir = transform.forward;
             Vector3 targetDirNorm = toPlayer.normalized;
 
-            // Optimization: Dot product is faster than Angle. 
-            // 40 degrees ~ 0.766 dot product. If dot > 0.766, it's within angle.
-            // Using Angle for readability here, but Vector3.Dot is better for raw speed.
-            if (Vector3.Angle(lookDir, targetDirNorm) < 40)
+            Vector3 dir = toPlayer.normalized;
+            Vector3 flatLookDir = new Vector3(transform.forward.x, 0f, transform.forward.z).normalized;
+            Vector3 flatTargetDir = new Vector3(dir.x, 0f, dir.z).normalized;
+
+            float halfFovRad = ghostData.viewAngle * 0.5f * Mathf.Deg2Rad;
+            float cosHalfFov = Mathf.Cos(halfFovRad);
+
+#if UNITY_EDITOR
+            float drawDist = ghostData.ghostLookDistance;
+
+            Quaternion leftRot = Quaternion.AngleAxis(-ghostData.viewAngle * 0.5f, Vector3.up);
+            Quaternion rightRot = Quaternion.AngleAxis(ghostData.viewAngle * 0.5f, Vector3.up);
+
+            Debug.DrawRay(eyePos, leftRot * flatLookDir * drawDist, Color.yellow);
+            Debug.DrawRay(eyePos, rightRot * flatLookDir * drawDist, Color.yellow);
+
+            // Forward direction
+            Debug.DrawRay(eyePos, flatLookDir * drawDist, Color.white);
+#endif
+
+#if UNITY_EDITOR
+            Color rayColor = Color.red;
+#endif
+
+            bool inFOV = Vector3.Dot(flatLookDir, flatTargetDir) > cosHalfFov;
+
+#if UNITY_EDITOR
+            if (inFOV)
+                rayColor = Color.cyan;
+#endif
+
+            /// if player is close dont check the angle
+            float closeRangeSqr = 2.0f * 2.0f; // 2 meters
+
+            if (distSqr < closeRangeSqr)
             {
-                // 3. Raycast Check (Slowest - do this last)
-                if (RaycastCheckIfPlayerIsVisible(targetDirNorm, targetPos, clientData.playerGameobject))
+                inFOV = true;
+            }
+
+
+            if (inFOV)
+            {
+                //Debug.LogError("infov");
+#if UNITY_EDITOR
+                Debug.DrawLine(eyePos, targetPos, rayColor);
+#endif
+
+                if (RaycastCheckIfPlayerIsVisible(dir, targetPos, clientData.playerGameobject))
                 {
-                    // We found a visible player. Is he closer than the previous one we found?
+
                     if (distSqr < minDisSqr)
                     {
                         minDisSqr = distSqr;
-                        bestTarget = new KeyValuePair<ulong, GameObject>(clientData.clientID, clientData.playerGameobject);
+                        bestTarget = new KeyValuePair<ulong, GameObject>(
+                            clientData.clientID,
+                            clientData.playerGameobject
+                        );
                         foundTarget = true;
                     }
                 }
@@ -211,16 +261,18 @@ public class GhostAI : NetworkBehaviour
             if (hit.collider.gameObject == targetObject) return true;
             // If collider is child of player, use: hit.collider.transform.root.gameObject == targetObject
         }
+            Debug.DrawRay(rayOrigin, targetDir * ghostData.ghostLookDistance, Color.blue);
 
         // Check 2: Raycast to slightly adjusted position (eye level)
         // Optimization: Calculate exact target eye position instead of generic calculation if possible
-        Vector3 playerEyePos = targetPos + Vector3.up * 1.6f; // Assuming 1.6m height
+        Vector3 playerEyePos = targetPos + Vector3.up * 0.9f; // Assuming .9m height
         Vector3 dirToEyes = (playerEyePos - rayOrigin).normalized;
 
         if (Physics.Raycast(rayOrigin, dirToEyes, out RaycastHit hit2, ghostData.ghostLookDistance, layerMask, QueryTriggerInteraction.Ignore))
         {
             if (hit2.collider.gameObject == targetObject) return true;
         }
+        Debug.DrawRay(rayOrigin, dirToEyes * ghostData.ghostLookDistance, Color.blue);
 
         return false;
     }

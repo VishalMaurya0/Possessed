@@ -14,15 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ghostLookDistance: 500
   height: 2
-  eyePosition: {x: 0, y: 0.5, z: 0}
-  eyePositionFromGround: {x: 0, y: 4, z: 0}
-  timeBetweenHuntDuration: 250
-  timeBetweenHuntDurationRange: 100
+  eyePosition: {x: 0, y: 2, z: 0}
+  eyePositionFromGround: {x: 0, y: 2, z: 0}
+  timeBetweenHuntDuration: 10
+  timeBetweenHuntDurationRange: 10
   thresholdVelocity: 0.1
+  viewAngle: 90
   showNearPPDuration: 300
   roamingRadius: 10
   endRadius: 10
-  idleDuration: 0.5
+  idleDuration: 0.9
   positionFindingDuration: 60
   playerPosOffsetRadius: 5
   shownPPDurationMin: 0.2

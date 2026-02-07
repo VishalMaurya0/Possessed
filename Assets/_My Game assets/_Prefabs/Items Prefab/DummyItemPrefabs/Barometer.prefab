@@ -654,6 +654,7 @@ GameObject:
   - component: {fileID: 5849846341969615929}
   - component: {fileID: 5403864538930390596}
   - component: {fileID: -8510941383803937728}
+  - component: {fileID: 1228407498205883672}
   m_Layer: 11
   m_Name: Barometer
   m_TagString: Untagged
@@ -770,6 +771,7 @@ MonoBehaviour:
   energySource: []
   maxPowerOfEachDecrement: 2
   barometerReadings: 
+  MatchItemDataToInventory: {fileID: 0}
   itemPickup: {fileID: 0}
   itemData:
     itemType: 0
@@ -805,6 +807,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.055137634, y: 0.43061924, z: 0.082862854}
   m_Center: {x: -0.023311615, y: 0.28469038, z: 0.024524689}
+--- !u!114 &1228407498205883672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7921253054633184620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68d18348ef7fe7440894dd9f768b29d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dsfci: {fileID: 0}
+  currentPlayerID: 0
 --- !u!1 &7955917188376641847
 GameObject:
   m_ObjectHideFlags: 0

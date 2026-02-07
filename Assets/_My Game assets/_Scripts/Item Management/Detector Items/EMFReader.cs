@@ -6,6 +6,7 @@ using UnityEngine;
 public class EMFReader : NetworkBehaviour
 {
     [Header("References")]
+    public MatchItemDataToInventory MatchItemDataToInventory;
     ItemPickup itemPickup;
     Inventory inventory;
     ItemData itemData;
@@ -67,6 +68,8 @@ public class EMFReader : NetworkBehaviour
         StartCoroutine(NextFrame());
         GameManager.onServerStarted += GameManager_onServerStarted;
 
+        MatchItemDataToInventory = GetComponent<MatchItemDataToInventory>();
+
     }
 
     private void GameManager_onServerStarted()
@@ -105,6 +108,9 @@ public class EMFReader : NetworkBehaviour
                 itemData.isOn = !itemData.isOn;
                 AudioManager.PlaySound(AudioType.Click);
             }
+
+            if (MatchItemDataToInventory)
+                MatchItemDataToInventory.UpdateItemData();
         }
 
         if (itemData.isOn)

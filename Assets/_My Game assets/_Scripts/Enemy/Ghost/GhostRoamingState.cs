@@ -43,6 +43,7 @@ public class GhostRoamingState : GhostState
 
     public void SetCurrentRoamSubState(GhostState state)
     {
+        ghostAI.ghostDebugText2.text = state.ToString();
         currentGhostRoamSubState?.ExitState();
         currentGhostRoamSubState = state;
         currentGhostRoamSubState?.EnterState();
@@ -105,7 +106,7 @@ public class RoamWanderingState : GhostState
         }
 
         visibilityCheckTimer += Time.deltaTime;
-        if (visibilityCheckTimer > 0.5f)
+        if (visibilityCheckTimer > 0.0f) ////removed timer bcoz already added in func
         {
             visibilityCheckTimer = 0f;
             if (ghostAI.CheckPlayerVisibility(out KeyValuePair<ulong, GameObject> seenPlayer))
@@ -254,7 +255,8 @@ public class RoamPossessingState : GhostState
     public override void ExitState()
     {
         ghostAI.navMeshAgent.isStopped = false;
-        fearMeter.isGhostLooking = false;
+        if (fearMeter)
+            fearMeter.isGhostLooking = false;
         
         
         ghostAI.animator.SetBool("Possess", false);
@@ -340,19 +342,38 @@ public class RoamChooseSpawnLocationState : GhostState
     private bool AnyPlayerVisible(Vector3 pos)
     {
         Vector3 eyePos = pos + ghostAI.ghostData.eyePositionFromGround;
+
         foreach (var player in GameManager.Instance.connectedClientsData)
         {
-            if (!player.isAlive) continue;
-            if (Physics.Raycast(eyePos, player.playerGameobject.transform.position - eyePos, out RaycastHit hit, (pos - player.playerGameobject.transform.position).sqrMagnitude))
+            if (!player.isAlive || player.playerGameobject == null)
+                continue;
+
+            Vector3 targetPos = player.playerGameobject.transform.position;
+            Vector3 dir = targetPos - eyePos;
+            float dist = dir.magnitude;
+            dir.Normalize();
+
+            Debug.DrawLine(eyePos, targetPos, Color.red);
+
+            if (Physics.Raycast(eyePos, dir, out RaycastHit hit, dist))
             {
+                Debug.DrawLine(eyePos, hit.point, Color.yellow);
+
                 if (hit.collider.gameObject == player.playerGameobject)
                 {
+                    Debug.DrawLine(eyePos, targetPos, Color.green);
                     return true;
                 }
             }
+            else
+            {
+                Debug.DrawRay(eyePos, dir * dist, Color.blue);
+            }
         }
+
         return false;
     }
+
 }
 
 

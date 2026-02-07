@@ -65,6 +65,8 @@ public class GenerateMap : NetworkBehaviour
                 seed.Value = (int)System.DateTime.Now.Ticks;
         }
 
+        GameManager.Instance.seed = seed.Value;
+
         typeOfRooms = proceduralMapDataSO.typeOfRooms;
         generateAgain = false;
         mapVisualTemp = GetComponent<MapVisualTemp>();

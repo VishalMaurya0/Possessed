@@ -47,6 +47,7 @@ public class GameManager : NetworkBehaviour
     public float timeInSecElapsed = 0;
     Coroutine HelpInstructionCorotine;
     public float mouseSensitivity = 2;
+    public int seed;
 
 
     [Header("Lock And Unlock")]
@@ -183,10 +184,10 @@ public class GameManager : NetworkBehaviour
     private void Update()
     {
         timeInSecElapsed += Time.deltaTime;
-        if (Input.GetKeyUp(KeyCode.Escape))
-        {
-            lockCurser = !lockCurser;
-        }
+        //if (Input.GetKeyUp(KeyCode.Escape))
+        //{
+        //    lockCurser = !lockCurser;
+        //}
         if (gameStarted && ownerPlayer == null)
         {
             gameEnd = true;
@@ -194,7 +195,11 @@ public class GameManager : NetworkBehaviour
 
         if (HelpInstructions != null && helpInstructionDisplayTime > 0)
         {
-            HelpInstructions.gameObject.SetActive(true);
+            if (!HelpInstructions.gameObject.activeSelf)
+            {
+                AudioManager.PlaySound(AudioType.Notefication);
+                HelpInstructions.gameObject.SetActive(true);
+            }
             helpInstructionDisplayTime -= Time.deltaTime;
         }else if (HelpInstructions != null && helpInstructionDisplayTime <= 0)
         {
@@ -234,8 +239,8 @@ public class GameManager : NetworkBehaviour
 
         // No one is alive
 
-        winLoseAnimator.SetTrigger("Won");  // activate the winLose Panel
         GameManager.Instance.OnWinOrLose(false, true);
+        winLoseAnimator.SetTrigger("Won");  // activate the winLose Panel
     }
 
     public bool CheckForCorrectProcedures()

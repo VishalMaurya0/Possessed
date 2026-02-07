@@ -46,7 +46,7 @@ public class CandleDepletion : MonoBehaviour
                     isBurning = false;
                 }
                 ItemData.photoId = (int)timer;
-                Debug.LogError(ItemData.photoId);
+                //Debug.LogError(ItemData.photoId);
             }
         }
 

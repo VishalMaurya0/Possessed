@@ -16,6 +16,7 @@ public class Barometer : NetworkBehaviour
     public int[] barometerReadings;
 
     [Header("References")]
+    public MatchItemDataToInventory MatchItemDataToInventory;
     public ItemPickup itemPickup;
     public ItemData itemData;
     public Inventory inventory;
@@ -31,6 +32,7 @@ public class Barometer : NetworkBehaviour
     {
         StartCoroutine(NextFrame());
         GameManager.onServerStarted += GameManager_onServerStarted;
+        MatchItemDataToInventory = GetComponent<MatchItemDataToInventory>();
     }
 
     private void GameManager_onServerStarted()
@@ -70,6 +72,8 @@ public class Barometer : NetworkBehaviour
                 AudioManager.PlaySound(AudioType.Click);
             }
 
+            if (MatchItemDataToInventory)
+                MatchItemDataToInventory.UpdateItemData();
         }
 
         if (itemData.isOn)

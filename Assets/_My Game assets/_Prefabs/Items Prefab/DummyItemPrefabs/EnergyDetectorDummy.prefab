@@ -272,6 +272,7 @@ GameObject:
   - component: {fileID: 5699891469130011811}
   - component: {fileID: 4994719202018554259}
   - component: {fileID: 1035432598578008973}
+  - component: {fileID: -70442686262325948}
   m_Layer: 11
   m_Name: EnergyDetectorDummy
   m_TagString: Untagged
@@ -386,6 +387,7 @@ MonoBehaviour:
   energySource: []
   maxPower: 50
   energyDetectorReadings: 
+  MatchItemDataToInventory: {fileID: 0}
   itemPickup: {fileID: 0}
   itemData:
     itemType: 0
@@ -447,6 +449,20 @@ MonoBehaviour:
   dsfci: {fileID: 0}
   inspection: {fileID: 0}
   networkObject: {fileID: 0}
+--- !u!114 &-70442686262325948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2199426314418571336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68d18348ef7fe7440894dd9f768b29d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dsfci: {fileID: 0}
+  currentPlayerID: 0
 --- !u!1 &2565893543381987453
 GameObject:
   m_ObjectHideFlags: 0
