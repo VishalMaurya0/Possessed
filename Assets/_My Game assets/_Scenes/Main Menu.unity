@@ -99071,6 +99071,22 @@ PrefabInstance:
       propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6405931082658710283, guid: 40b710d9f1d8f0b41b442de4a1db8f63, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 857620165}
+    - target: {fileID: 6405931082658710283, guid: 40b710d9f1d8f0b41b442de4a1db8f63, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LoadSettings
+      objectReference: {fileID: 0}
+    - target: {fileID: 6405931082658710283, guid: 40b710d9f1d8f0b41b442de4a1db8f63, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MenuManager, GameAssemblyDef
+      objectReference: {fileID: 0}
+    - target: {fileID: 6405931082658710283, guid: 40b710d9f1d8f0b41b442de4a1db8f63, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6463507325113958309, guid: 40b710d9f1d8f0b41b442de4a1db8f63, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
