@@ -56,7 +56,11 @@ public class EMFReader : NetworkBehaviour
         isFlickering = false;
     }
 
-
+    private void Awake()
+    {
+        GameManager.onServerStarted += GameManager_onServerStarted;
+        
+    }
 
     private void Start()
     {
@@ -66,7 +70,7 @@ public class EMFReader : NetworkBehaviour
         }
 
         StartCoroutine(NextFrame());
-        GameManager.onServerStarted += GameManager_onServerStarted;
+        inventory = GameManager.Instance.ownerPlayer.GetComponent<Inventory>();
 
         MatchItemDataToInventory = GetComponent<MatchItemDataToInventory>();
 
@@ -97,6 +101,12 @@ public class EMFReader : NetworkBehaviour
 
     private void Update()
     {
+        if (inventory == null)
+        {
+            inventory = GameManager.Instance.ownerPlayer.GetComponent<Inventory>();
+        }
+
+
         if (itemData == null) return;
         if (Input.GetMouseButtonUp(1))
         {

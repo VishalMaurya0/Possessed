@@ -27,6 +27,10 @@ public class CandleTask : NetworkBehaviour
     private void Start()
     {
         NetworkManager.Singleton.OnServerStarted += SpawnCandle;
+        if (NetworkManager.Singleton.IsServer)
+        {
+            SpawnCandle();
+        }
     }
 
     private void SpawnCandle()

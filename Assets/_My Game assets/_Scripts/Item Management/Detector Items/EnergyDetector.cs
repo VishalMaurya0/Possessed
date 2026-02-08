@@ -30,11 +30,16 @@ public class EnergyDetector : NetworkBehaviour
     [ColorUsage(true, true)] public Color midEffectColor;
     [ColorUsage(true, true)] public Color fullEffectColor;
 
+    private void Awake()
+    {
+        GameManager.onServerStarted += GameManager_onServerStarted;
+    }
+
     private void Start()
     {
         StartCoroutine(NextFrame());
-        GameManager.onServerStarted += GameManager_onServerStarted;
         MatchItemDataToInventory = GetComponent<MatchItemDataToInventory>();
+        inventory = GameManager.Instance.ownerPlayer.GetComponent<Inventory>();
     }
 
     private void GameManager_onServerStarted()
@@ -61,6 +66,11 @@ public class EnergyDetector : NetworkBehaviour
 
     private void Update()
     {
+        if (inventory == null)
+        {
+            inventory = GameManager.Instance.ownerPlayer.GetComponent<Inventory>();
+        }
+
 
         if (Input.GetMouseButtonUp(1) && itemPickup.dsfci)
         {

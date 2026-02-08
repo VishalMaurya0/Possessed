@@ -10,11 +10,16 @@ public class SelectingThreeProcedures : NetworkBehaviour
     public GameObject EnergyTriggerPrefab;
 
     bool notifyClients;
+    bool runonce = true;
 
 
     void Start()
     {
         NetworkManager.Singleton.OnServerStarted += Singleton_OnServerStarted;
+        if (NetworkManager.Singleton.IsServer)
+        {
+            Singleton_OnServerStarted();
+        }
         threeProcedureIndex = CheckReadings(totalReadings);
         threeProcedureIndex[2] = SelectThirdProcedure(threeProcedureIndex[0], threeProcedureIndex[1]);
         if (IsServer)
@@ -25,19 +30,23 @@ public class SelectingThreeProcedures : NetworkBehaviour
 
     private void Singleton_OnServerStarted()
     {
-        if (notifyClients)
+        if (runonce)
         {
-            if (IsServer)
+            runonce = false;
+            if (notifyClients)
             {
-                GameManager.Instance.selectedProceduresIndex = threeProcedureIndex;
-                NotifyClientsAboutSelectedProceduresClientRpc(threeProcedureIndex);
-                notifyClients = false;
+                if (IsServer)
+                {
+                    GameManager.Instance.selectedProceduresIndex = threeProcedureIndex;
+                    NotifyClientsAboutSelectedProceduresClientRpc(threeProcedureIndex);
+                    notifyClients = false;
+                }
             }
+
+
+            SetReadingsInProccedures();
+            StartCoroutine(SpawnEnergiesAroundProcedures());
         }
-
-
-        SetReadingsInProccedures();
-        StartCoroutine(SpawnEnergiesAroundProcedures());
     }
 
     private void SetReadingsInProccedures()

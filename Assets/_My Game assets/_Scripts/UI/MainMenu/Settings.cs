@@ -27,6 +27,7 @@ public class Settings : MonoBehaviour
     [Header("seed")]
     public TMP_Text seedText;
     int seed;
+    int toRunForLongTime = 100000;
 
     const float MIN_DB = -80f;
 
@@ -124,8 +125,9 @@ public class Settings : MonoBehaviour
 
     private void Update()
     {
-        if (seed == 0)
+        if (toRunForLongTime > 0)
         {
+            toRunForLongTime--;
             seedText.text = $"Seed - {GameManager.Instance.seed}";
             seed = GameManager.Instance.seed;
         }

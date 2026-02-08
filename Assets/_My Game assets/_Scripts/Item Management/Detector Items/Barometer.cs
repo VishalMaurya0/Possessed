@@ -31,8 +31,14 @@ public class Barometer : NetworkBehaviour
     private void Start()
     {
         StartCoroutine(NextFrame());
-        GameManager.onServerStarted += GameManager_onServerStarted;
         MatchItemDataToInventory = GetComponent<MatchItemDataToInventory>();
+        inventory = GameManager.Instance.ownerPlayer.GetComponent<Inventory>();
+    }
+
+    private void Awake()
+    {
+        
+        GameManager.onServerStarted += GameManager_onServerStarted;
     }
 
     private void GameManager_onServerStarted()
@@ -60,6 +66,11 @@ public class Barometer : NetworkBehaviour
     private float textUpdateInterval = 0.1f;
     private void Update()
     {
+        if (inventory == null)
+        {
+            inventory = GameManager.Instance.ownerPlayer.GetComponent<Inventory>();
+        }
+
         textUpdateInterval -= Time.deltaTime;
         if (Input.GetMouseButtonUp(1))
         {

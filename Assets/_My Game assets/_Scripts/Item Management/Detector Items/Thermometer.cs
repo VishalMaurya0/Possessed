@@ -27,10 +27,16 @@ public class Thermometer : NetworkBehaviour
     public float minPressureScale;
     public float maxPressureScale;
 
+    private void Awake()
+    {
+        GameManager.onServerStarted += GameManager_onServerStarted;
+        
+    }
+
     private void Start()
     {
         StartCoroutine(NextFrame());
-        GameManager.onServerStarted += GameManager_onServerStarted;
+        inventory = GameManager.Instance.ownerPlayer.GetComponent<Inventory>();
     }
 
     private void GameManager_onServerStarted()
@@ -58,6 +64,11 @@ public class Thermometer : NetworkBehaviour
     private float textUpdateInterval = 0.1f;
     private void Update()
     {
+        if (inventory == null)
+        {
+            inventory = GameManager.Instance.ownerPlayer.GetComponent<Inventory>();
+        }
+
         textUpdateInterval -= Time.deltaTime;
 
         if (canvas != null)
