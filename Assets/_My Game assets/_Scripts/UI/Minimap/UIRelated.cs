@@ -57,7 +57,10 @@ public class UIRelated : MonoBehaviour
 
         if (Input.GetKeyUp(KeyCode.Escape))
         {
-            LoadSettingsPanel(true);
+            if (SettingsAnimator.GetBool("Load"))
+                LoadSettingsPanel(false);
+            else 
+                LoadSettingsPanel(true);
         }
 
         if (isFullMiniMapShowing)

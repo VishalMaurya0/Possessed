@@ -53,7 +53,7 @@ public class SafePointManager : NetworkBehaviour {
             activatedSafePoints.Value += 1;
             ulong id = serverRpcParams.Receive.SenderClientId;
             Vector3 pos = GameManager.Instance.GetClientThroughID(id).playerGameobject.transform.position;
-            //pos.y = 0f;
+            pos.y = 0f;
             GameObject obj = Instantiate(safePointPefab, pos, Quaternion.identity);
             obj.GetComponent<NetworkObject>().Spawn();
             safePointAreas.Add(obj.GetComponentInChildren<SafePointArea>());

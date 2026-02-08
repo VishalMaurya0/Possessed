@@ -16,12 +16,12 @@ MonoBehaviour:
   height: 2
   eyePosition: {x: 0, y: 2, z: 0}
   eyePositionFromGround: {x: 0, y: 2, z: 0}
-  timeBetweenHuntDuration: 10
-  timeBetweenHuntDurationRange: 10
+  timeBetweenHuntDuration: 400
+  timeBetweenHuntDurationRange: 100
   thresholdVelocity: 0.1
   viewAngle: 90
   showNearPPDuration: 300
-  roamingRadius: 10
+  roamingRadius: 50
   endRadius: 10
   idleDuration: 0.9
   positionFindingDuration: 60
@@ -30,14 +30,14 @@ MonoBehaviour:
   shownPPDurationMax: 2
   spawnRadiusNearPP: 0
   spawnCooldownDuration: 5
-  spawnRadiusAfterCaught: 100
+  spawnRadiusAfterCaught: 500
   startingHuntDuration: 60
   timeAfterWhichHuntHuntDurDoubles: 1200
   proceduresAfterWhichHuntHuntDurDoubles: 2
   baseIgnorance: 10
   posChaseIgnorance: 20
-  noiseForgettingRate: 1
-  huntRoamingRadius: 10
-  huntEndRadius: 5
+  noiseForgettingRate: 0.2
+  huntRoamingRadius: 50
+  huntEndRadius: 10
   timeAfterWhichGhostStartWalkingToCentre: 120
   maxNoiseClamp: 200

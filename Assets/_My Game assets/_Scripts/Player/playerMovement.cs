@@ -41,6 +41,7 @@ public class PlayerController : NetworkBehaviour
     public Vector3 standingCenter = new Vector3(0, 0.9f, 0);
     public float camCrouchHeight = 0;
     public float camNormalHeight = 1f;
+    public LayerMask crouchLayerMask;
 
     [Header("Torch Settings")]
     public Light torchLight;
@@ -270,7 +271,7 @@ public class PlayerController : NetworkBehaviour
         Vector3 origin = transform.position;
         float distance = standingHeight + 0.1f; // A bit of buffer
 
-        bool hitCeiling = Physics.SphereCast(origin, playerCollider.radius, Vector3.up, out RaycastHit hit, distance);
+        bool hitCeiling = Physics.SphereCast(origin, playerCollider.radius, Vector3.up, out RaycastHit hit, distance, crouchLayerMask);
 
         return hitCeiling;
     }
@@ -296,8 +297,10 @@ public class PlayerController : NetworkBehaviour
         {
             isCrouching = true;
         }
-        else if (Input.GetKeyUp(crouchKey))
+        
+        if (Input.GetKeyUp(crouchKey))
         {
+            Debug.LogError("disabling");
             if (!CheckCeiling())
             {
                 isCrouching = false;

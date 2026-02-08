@@ -26,6 +26,7 @@ public class Settings : MonoBehaviour
 
     [Header("seed")]
     public TMP_Text seedText;
+    int seed;
 
     const float MIN_DB = -80f;
 
@@ -91,8 +92,9 @@ public class Settings : MonoBehaviour
     [Header("Graphics")]
     public TMP_Dropdown resolutionDropdown;
     public TMP_Dropdown qualityDropdown;
-    public Toggle fullscreenToggle;
-    public Toggle vSyncToggle;
+    //public Toggle fullscreenToggle;
+    //public Toggle vSyncToggle;
+    public Slider gammaSlider;
 
     [Header("Gameplay")]
     public Slider mouseSensitivitySlider;
@@ -108,16 +110,25 @@ public class Settings : MonoBehaviour
 
     void Awake()
     {
-        LoadGameplaySettings();
+        //LoadGameplaySettings();
         //SetupResolutions();
-        LoadGraphicsSettings();
-        LoadAllAudio();
+        //LoadGraphicsSettings();
+        //LoadAllAudio();
     }
 
 
     private void Start()
     {
-        seedText.text = $"Seed - {GameManager.Instance.seed}";
+            seed = GameManager.Instance.seed;
+    }
+
+    private void Update()
+    {
+        if (seed == 0)
+        {
+            seedText.text = $"Seed - {GameManager.Instance.seed}";
+            seed = GameManager.Instance.seed;
+        }
     }
 
 
@@ -172,10 +183,19 @@ public class Settings : MonoBehaviour
         PlayerPrefs.SetInt("Quality", index);
     }
 
+    public void SetGamma(float index)
+    {
+        GameManager.Instance.gammaValue = index;
+        GameManager.Instance.SetSettings();
+
+        
+        //PlayerPrefs.SetInt("Gamma", index);
+    }
+
     void LoadGraphicsSettings()
     {
-        fullscreenToggle.isOn = PlayerPrefs.GetInt("Fullscreen", 1) == 1;
-        vSyncToggle.isOn = PlayerPrefs.GetInt("VSync", 1) == 1;
+        //fullscreenToggle.isOn = PlayerPrefs.GetInt("Fullscreen", 1) == 1;
+        //vSyncToggle.isOn = PlayerPrefs.GetInt("VSync", 1) == 1;
 
         qualityDropdown.value = PlayerPrefs.GetInt("Quality", QualitySettings.GetQualityLevel());
 

@@ -331,7 +331,7 @@ public class RoamChooseSpawnLocationState : GhostState
         Vector3 randomPosition = Random.insideUnitSphere * ghostAI.ghostData.spawnRadiusAfterCaught;
         randomPosition += ghostAI.transform.position;
 
-        if (NavMesh.SamplePosition(randomPosition, out NavMeshHit hit, ghostAI.ghostData.endRadius, NavMesh.AllAreas))
+        if (NavMesh.SamplePosition(randomPosition, out NavMeshHit hit, ghostAI.ghostData.spawnRadiusAfterCaught, NavMesh.AllAreas))
         {
             if (!AnyPlayerVisible(hit.position))
                 return hit.position;

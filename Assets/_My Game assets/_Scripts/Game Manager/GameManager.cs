@@ -10,6 +10,9 @@ using Unity.Services.Authentication;
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
+
 
 public class GameManager : NetworkBehaviour
 {
@@ -47,7 +50,12 @@ public class GameManager : NetworkBehaviour
     public float timeInSecElapsed = 0;
     Coroutine HelpInstructionCorotine;
     public float mouseSensitivity = 2;
+
+
+    [Header("Settings")]
     public int seed;
+    public float gammaValue;
+    public bool dabbaQuality;
 
 
     [Header("Lock And Unlock")]
@@ -65,6 +73,7 @@ public class GameManager : NetworkBehaviour
     public float helpInstructionDisplayTime = 0f;
     public Animator winLoseAnimator;
     public PhotoAlbum photoAlbum;
+    public Volume globalVolume;
 
     [Header("Ghost look Post Process")]
     public GameObject GhostLookPostProcess;
@@ -130,8 +139,19 @@ public class GameManager : NetworkBehaviour
             PublicPrivateToggle.interactable = false;
         }
 
+        SetSettings();
     }
 
+    public void SetSettings()
+    {
+        if (globalVolume == null || globalVolume.profile == null)
+            return;
+
+        if (globalVolume.profile.TryGet(out ColorAdjustments colorAdjustments))
+        {
+            colorAdjustments.postExposure.Override(gammaValue);
+        }
+    }
 
     private void OnClientConnected(ulong obj)
     {
@@ -183,6 +203,22 @@ public class GameManager : NetworkBehaviour
 
     private void Update()
     {
+        ///for testing
+        if (Input.GetKeyUp(KeyCode.Backslash) && Input.GetKey(KeyCode.Delete))
+        {
+            ownerPlayer.GetComponent<FearMeter>().SAFE = true;
+            helpInstructionDisplayTime = 3;
+            HelpInstructions.text = "GOD MODE Enabled";
+        }
+        
+        if (Input.GetKeyUp(KeyCode.Backspace) && Input.GetKey(KeyCode.Delete))
+        {
+            ownerPlayer.GetComponent<FearMeter>().SAFE = false;
+            helpInstructionDisplayTime = 3;
+            HelpInstructions.text = "GOD MODE Disabled";
+        }
+
+
         timeInSecElapsed += Time.deltaTime;
         //if (Input.GetKeyUp(KeyCode.Escape))
         //{

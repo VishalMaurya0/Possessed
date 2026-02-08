@@ -206,6 +206,8 @@ public class DollAI : NetworkBehaviour
             }
         }
 
+        IsPlayerInSight();
+
         // 2. Update Pathfinding
         if (playerInSight != null)
         {
@@ -243,6 +245,7 @@ public class DollAI : NetworkBehaviour
         {
             currentState = DollState.Chasing;
             AudioManager.PlaySoundClientRpc(AudioType.DollCrack);
+            dollSounds.StartSound();
             agent.isStopped = false;
             animator.speed = 0.6f;
         }
