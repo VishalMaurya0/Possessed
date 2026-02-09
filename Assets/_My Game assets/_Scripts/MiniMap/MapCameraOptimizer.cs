@@ -12,9 +12,14 @@ public class MapCameraOptimizer : MonoBehaviour
 
     [Tooltip("If greater than 0, the map will update every X seconds. If 0, it renders ONCE and stops.")]
     public float refreshInterval = 0f; // Set to 0.5f or 1.0f for a refreshing mini-map
+    public float badRefreshInterval = 2f; // Set to 0.5f or 1.0f for a refreshing mini-map
 
     private void Start()
     {
+        if (GameManager.Instance.dabbaQuality)
+        {
+            refreshInterval = badRefreshInterval;
+        }
         // if (mapCamera == null) mapCamera = GetComponent<Camera>();
 
         // IMPORTANT: Disable the camera component. 
@@ -41,6 +46,12 @@ public class MapCameraOptimizer : MonoBehaviour
             {
                 yield return wait;
                 RenderMap();
+
+                if (GameManager.Instance.dabbaQuality && refreshInterval != badRefreshInterval)
+                {
+                    refreshInterval = badRefreshInterval;
+                    wait = new WaitForSeconds(refreshInterval);
+                }
             }
         }
     }

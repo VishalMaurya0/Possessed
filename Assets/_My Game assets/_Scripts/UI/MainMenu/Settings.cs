@@ -183,6 +183,12 @@ public class Settings : MonoBehaviour
     {
         QualitySettings.SetQualityLevel(index);
         PlayerPrefs.SetInt("Quality", index);
+            GameManager.Instance.dabbaQuality = false;
+
+        if (index == 3)
+        {
+            GameManager.Instance.dabbaQuality = true;
+        }
     }
 
     public void SetGamma(float index)

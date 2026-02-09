@@ -1,41 +1,64 @@
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class DisableVFXWhenNotLookedAt : MonoBehaviour
 {
     public Camera playerCamera;
-    public float maxDistance = 100f;
-    public LayerMask lookLayer;
+    public float activeDistance = 15f;
+    [Range(0f, 1f)]
+    public float viewDotThreshold = 0.6f;
+    public VisualEffect vfx;
 
+    private bool isVisible;
 
-    private bool isVisible = false;
+    void Awake()
+    {
+        if (!vfx)
+            vfx = GetComponent<VisualEffect>();
+    }
 
     void Update()
     {
-        if (playerCamera == null)
+        if (!playerCamera)
         {
             playerCamera = GameManager.Instance.playerCamera;
             return;
         }
 
-        Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
-        RaycastHit hit;
+        Vector3 toTarget = transform.position - playerCamera.transform.position;
+        float sqrDist = toTarget.sqrMagnitude;
 
-        if (Physics.Raycast(ray, out hit, maxDistance, lookLayer))
+        // Distance check
+        if (sqrDist > activeDistance * activeDistance)
         {
-            if (hit.transform == transform)
-            {
-                if (!isVisible)
-                {
-                    gameObject.SetActive(true);
-                    isVisible = true;
-                }
-                return;
-            }
+            Disable();
+            return;
         }
 
+        // Angle check
+        toTarget.Normalize();
+        float dot = Vector3.Dot(playerCamera.transform.forward, toTarget);
+
+        if (dot > viewDotThreshold)
+            Enable();
+        else
+            Disable();
+    }
+
+    void Enable()
+    {
+        if (!isVisible)
+        {
+            vfx.Play();
+            isVisible = true;
+        }
+    }
+
+    void Disable()
+    {
         if (isVisible)
         {
-            gameObject.SetActive(false);
+            vfx.Stop();
             isVisible = false;
         }
     }
