@@ -55,7 +55,6 @@ public class TaskForCoins : NetworkBehaviour
 
     [Header("References")]
     [SerializeField] public List<CupForCoinTask> cupForCoinTasks = new();
-    //[SerializeField] public List<CupAudio> cupAudios = new();
 
     private void Start()
     {
@@ -66,7 +65,6 @@ public class TaskForCoins : NetworkBehaviour
         {
             InitialPos.Add(glassContainer.transform.GetChild(i).localPosition);
             cupForCoinTasks.Add(glassContainer.transform.GetChild(i).GetComponent<CupForCoinTask>());
-            //cupAudios.Add(glassContainer.transform.GetChild(i).GetComponent<CupAudio>());
         }
 
     }
@@ -133,10 +131,10 @@ public class TaskForCoins : NetworkBehaviour
         gameStarted = false;
         endTheGame = false;
         gameEndsAfetrLastIter = 1;
-        
-        //currentIterationDifficulty = startingIterationDifficulty;
-        //currentGlassNoDifficulty = startingGlassNoDifficulty;
-        //currentTimeDifficulty = startingTimeDifficulty;
+
+        currentIterationDifficulty = startingIterationDifficulty;
+        currentGlassNoDifficulty = startingGlassNoDifficulty;
+        currentTimeDifficulty = startingTimeDifficulty;
         movingGlasses.Clear();
         savedMovingGlasses.Clear();
         nextPlaces.Clear();
@@ -163,9 +161,9 @@ public class TaskForCoins : NetworkBehaviour
         endTheGame = false;
         gameEndsAfetrLastIter = 1;
 
-        //currentIterationDifficulty = startingIterationDifficulty;
-        //currentGlassNoDifficulty = startingGlassNoDifficulty;
-        //currentTimeDifficulty = startingTimeDifficulty;
+        currentIterationDifficulty = startingIterationDifficulty;
+        currentGlassNoDifficulty = startingGlassNoDifficulty;
+        currentTimeDifficulty = startingTimeDifficulty;
         movingGlasses.Clear();
         savedMovingGlasses.Clear();
         nextPlaces.Clear();
