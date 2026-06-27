@@ -171,15 +171,15 @@ Tasks randomly spawn around the map. Completing them rewards you with items need
 | System | Status | Notes |
 |:--|:--:|:--|
 | Multiplayer | ✅ Done | Netcode + Matchmaker integrated |
-| Ghost AI | ⚙️ In Progress | State machine + possession logic |
-| Doll AI | ⚙️ In Progress | Normal and Reversed doll behaviour |
-| Fear Meter | ⚙️ In Progress | Progressive visual/control effects |
-| Safe Point | ⚙️ In Progress | Active with recharge system |
-| Clue System | ⚙️ In Progress | Grid-based instrument/ritual readings |
-| Ritual System | 🔜 Planned | Effect combination + validation logic |
-| Possession Maze | 🔜 Planned | Design phase |
-| Collectibles | ⚙️ In Progress | Ouija Board, Mirror, Box |
-| Editor Tools | ⚙️ In Progress | Custom Grid Level Builder |
+| Ghost AI | ✅ Done | State machine + possession logic |
+| Doll AI | ✅ Done | Normal and Reversed doll behaviour |
+| Fear Meter | ✅ Done | Progressive visual/control effects |
+| Safe Point | ✅ Done | Active with recharge system |
+| Clue System | ✅ Done | Grid-based instrument/ritual readings |
+| Ritual System | ✅ Done | Effect combination + validation logic |
+| Possession Maze | ✅ Done | Design phase |
+| Collectibles | ✅ Done | Ouija Board, Mirror, Box |
+| Editor Tools | ✅ Done | Custom Grid Level Builder |
 | Tasks | ✅ Done | Coins, Pure Powder, Candle tasks implemented |
 
 📜 [Game Design Document (GDD)](https://docs.google.com/document/d/1nJwiVVwhEpSuE3gG2uOO_GpviitgWdjF0BvVNUAQcPY/edit?usp=sharing)
@@ -187,6 +187,46 @@ Tasks randomly spawn around the map. Completing them rewards you with items need
 
 ---
 
+## 🗺️ Procedural Map Generation
+ 
+Every match generates a unique map from scratch using a multi-pass pipeline, all configured through **ScriptableObjects**.
+ 
+### Phase 1 — Grid Initialization
+- The world is defined as an **N×N cell grid**.
+- Multiple **rooms of varied dimensions** are placed across the grid, each with one gate (door) and 2–3 windows.
+- Rooms are assigned a **type** (e.g. Science Lab, Living Room, Kids Room) which drives all subsequent content placement.
+### Phase 2 — Maze Generation
+- Starting from the **center 3×3 cells**, paths expand outward in four cardinal directions.
+- Path carving **avoids cutting through rooms** while guaranteeing at least one navigable entry into every room.
+- The result is an organic maze that connects all rooms without isolating any.
+### Phase 3 — Ritual & Enemy Placement
+- Before any props are placed, all **8 ritual sites** are distributed across rooms to ensure they're reachable.
+- **Ghosts and dolls** are then spawned at designated positions within the generated layout.
+### Phase 4 — Room Population
+Each room is populated in two layers:
+ 
+**Props (Environment Dressing)**
+Every prop is classified into a spatial category:
+| Category | Placement Rule |
+|:--|:--|
+| **Center Props** | Placed in the open floor area of the room |
+| **Wall-Sided Props** | Placed flush against walls |
+| **Corner Props** | Placed in room corners |
+ 
+Multiple variants exist per prop type — the system selects randomly within category to avoid repetition. Room type (Science, Living, Kids, etc.) determines *which* prop sets are eligible.
+ 
+**Game Items (Collectibles & Ritual Materials)**
+- Each item has a defined set of **placeable areas** (specific surfaces, shelves, floors).
+- Items are spawned only within their valid placement zones per room.
+### Data Architecture
+The entire pipeline is driven by **ScriptableObjects**:
+- Room type definitions (prop sets, item pools, spawn weights)
+- Prop spatial classifications and variant lists
+- Item placement area schemas
+- Ritual and enemy spawn configurations
+This makes the system fully designer-editable — new room types, props, or items can be added without touching generation code.
+ 
+---
 ## 🧩 Technical Stack
 
 | Layer | Technology |
